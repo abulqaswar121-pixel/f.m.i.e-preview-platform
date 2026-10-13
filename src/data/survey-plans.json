@@ -1,0 +1,95 @@
+[
+  {
+    "id": "plan-free",
+    "name": "Free",
+    "tier": "free",
+    "price": 0,
+    "currency": "GBP",
+    "billingPeriod": "one_off",
+    "questionLimit": 10,
+    "responseLimit": 100,
+    "surveyLimit": 2,
+    "seatsIncluded": 1,
+    "features": [
+      "Up to 10 questions per survey",
+      "Up to 100 responses per survey",
+      "Two live surveys at any time",
+      "Single-choice, multi-choice, rating and short-text questions",
+      "Public survey URL with F.M.I.E branding",
+      "Standard response analytics in the dashboard",
+      "Anonymous response option",
+      "Editorial moderation before publication"
+    ],
+    "exclusions": [
+      "No Likert or long-text question types",
+      "No conditional logic or branching",
+      "No data export",
+      "No custom branding or white-labelling",
+      "No audience recruitment support"
+    ],
+    "highlighted": false,
+    "adminConfigurable": true
+  },
+  {
+    "id": "plan-premium",
+    "name": "Premium",
+    "tier": "premium",
+    "price": 149,
+    "currency": "GBP",
+    "billingPeriod": "one_off",
+    "questionLimit": null,
+    "responseLimit": 5000,
+    "surveyLimit": null,
+    "seatsIncluded": 3,
+    "features": [
+      "Unlimited questions per survey",
+      "Up to 5,000 responses per survey",
+      "Unlimited live surveys",
+      "All question types including Likert scales and long text",
+      "Conditional logic and branching with a visual logic map",
+      "CSV and spreadsheet export with a documented methodology note",
+      "Completion rate, drop-off point and segment filters",
+      "Custom branding, logo and colour treatment",
+      "Extended survey duration up to twelve months",
+      "Priority editorial moderation within two working days",
+      "Discount codes and payment receipts"
+    ],
+    "exclusions": [
+      "No multi-seat team management beyond three seats",
+      "No consolidated billing history or purchase orders",
+      "No dedicated research consultant"
+    ],
+    "highlighted": true,
+    "adminConfigurable": true
+  },
+  {
+    "id": "plan-corporate",
+    "name": "Corporate",
+    "tier": "corporate",
+    "price": 2900,
+    "currency": "GBP",
+    "billingPeriod": "annual",
+    "questionLimit": null,
+    "responseLimit": null,
+    "surveyLimit": null,
+    "seatsIncluded": 15,
+    "features": [
+      "Everything in Premium",
+      "Unlimited responses and unlimited surveys",
+      "Fifteen named seats with role-based access",
+      "Consolidated billing history, invoices and purchase orders",
+      "Branded survey environments per business unit",
+      "Cross-survey reporting and trend comparison",
+      "Named research consultant and quarterly methodology review",
+      "Documented sampling and weighting methodology where commissioned",
+      "Data retention and deletion controls aligned to a written schedule",
+      "Optional audience recruitment, quoted separately and subject to operational capacity"
+    ],
+    "exclusions": [
+      "Audience recruitment is quoted separately and is never guaranteed",
+      "Statistical representativeness requires a documented probability sample and is not conferred by the plan"
+    ],
+    "highlighted": false,
+    "adminConfigurable": true
+  }
+]

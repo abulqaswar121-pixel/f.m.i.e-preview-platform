@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="F.M.I.E editorial artwork">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F4F9"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.55"/>
+  <rect x="180" y="150" width="840" height="34" fill="#0A2E68"/>
+  <rect x="210" y="184" width="780" height="18" fill="#C5A869"/>
+  <rect x="220" y="210" width="42" height="290" fill="#14428B" opacity="0.55"/>
+  <rect x="214" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="214" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="336" y="210" width="42" height="290" fill="#14428B" opacity="0.7000000000000001"/>
+  <rect x="330" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="330" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="452" y="210" width="42" height="290" fill="#14428B" opacity="0.8500000000000001"/>
+  <rect x="446" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="446" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="568" y="210" width="42" height="290" fill="#14428B" opacity="0.55"/>
+  <rect x="562" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="562" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="684" y="210" width="42" height="290" fill="#14428B" opacity="0.7000000000000001"/>
+  <rect x="678" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="678" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="800" y="210" width="42" height="290" fill="#14428B" opacity="0.8500000000000001"/>
+  <rect x="794" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="794" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="916" y="210" width="42" height="290" fill="#14428B" opacity="0.55"/>
+  <rect x="910" y="204" width="54" height="12" fill="#0A2E68"/>
+  <rect x="910" y="494" width="54" height="12" fill="#0A2E68"/>
+  <rect x="180" y="510" width="840" height="26" fill="#0A2E68"/>
+  <path d="M120 570 H1080" stroke="#334155" stroke-width="2" opacity="0.4"/>
+  <circle cx="600" cy="345" r="58" fill="none" stroke="#C5A869" stroke-width="6"/>
+  <path d="M600 300 V345 L636 366" stroke="#C5A869" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <g transform="translate(56 566)" opacity="0.9">
+    <g fill="#0A2E68" transform="scale(0.34)">
+      <path d="M16 12h9v72H10v-5h6z"/>
+      <path d="M16 12h74v14h-5V21H16z"/>
+      <path d="M16 44h30v8H16z"/>
+      <path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/>
+    </g>
+    <rect x="0" y="42" width="132" height="3" fill="#C5A869"/>
+    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>

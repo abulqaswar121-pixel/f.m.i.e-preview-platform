@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components -- vendored shadcn/ui primitive: the
+   variants helper is part of its public API and must stay beside the component. */
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";

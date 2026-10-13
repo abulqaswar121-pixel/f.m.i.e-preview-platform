@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-label="F.M.I.E Signature Oxford Navy Polo">
+  <defs>
+    <linearGradient id="studio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F4F9"/>
+    </linearGradient>
+    <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14428B"/>
+      <stop offset="55%" stop-color="#0A2E68"/>
+      <stop offset="100%" stop-color="#071E43"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#studio)"/>
+  <circle cx="450" cy="420" r="300" fill="#0A2E68" opacity="0.05"/>
+  <path d="M0 760 H900" stroke="#E2E8F0" stroke-width="2"/>
+  <ellipse cx="450" cy="768" rx="240" ry="22" fill="#0A2E68" opacity="0.08"/>
+  <path d="M300 250 L380 210 L450 250 L520 210 L600 250 L660 320 L620 350 L620 700 L280 700 L280 350 L240 320 Z" fill="url(#cloth)"/>
+  <path d="M380 210 L450 250 L520 210 L500 190 L450 214 L400 190 Z" fill="#071E43"/>
+  <rect x="436" y="250" width="28" height="120" fill="#071E43" opacity="0.75"/>
+  <circle cx="450" cy="278" r="7" fill="#E4D6B4"/>
+  <circle cx="450" cy="312" r="7" fill="#E4D6B4"/>
+  <circle cx="450" cy="346" r="7" fill="#E4D6B4"/>
+  <path d="M280 350 L240 320 L280 300 Z" fill="#071E43" opacity="0.5"/>
+  <path d="M620 350 L660 320 L620 300 Z" fill="#071E43" opacity="0.5"/>
+  <path d="M280 660 H620" stroke="#071E43" stroke-width="6" opacity="0.5"/>
+  <g transform="translate(330 300) scale(0.62)" fill="#C5A869"><path d="M16 12h9v72H10v-5h6z"/><path d="M16 12h74v14h-5V21H16z"/><path d="M16 44h30v8H16z"/><path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/></g>
+
+  <g transform="translate(60 60)">
+    <g fill="#0A2E68" transform="scale(0.3)"><path d="M16 12h9v72H10v-5h6z"/><path d="M16 12h74v14h-5V21H16z"/><path d="M16 44h30v8H16z"/><path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/></g>
+    <rect x="0" y="38" width="112" height="3" fill="#C5A869"/>
+    <text x="0" y="66" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="5" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "svc-autobiography",
+    "slug": "autobiography-executive-profile-writing",
+    "title": "Autobiography & Executive Profile Writing",
+    "tagline": "Founder memoirs, executive biographies and corporate histories, written to publication standard.",
+    "description": "A structured ghostwriting and editorial engagement that turns a founder's or executive's working life into a manuscript that can actually be published. The desk conducts recorded interviews, builds a documented chronology, verifies dates and claims against primary sources, and drafts in the subject's own register rather than a generic corporate voice. Corporate histories and editorial interview manuscripts follow the same method, with the addition of an internal review stage for legal and board sign-off.",
+    "targetAudience": "Founders preparing an exit or legacy record, executives moving into non-executive and public roles, family businesses documenting three or more generations, and organisations commissioning a corporate history for an anniversary or listing.",
+    "deliverables": [
+      "Publication-ready manuscript of 45,000–70,000 words (or a 12,000-word executive profile, by scope)",
+      "Full interview transcripts, time-coded and indexed by chapter",
+      "Verified chronology of dates, roles, transactions and named third parties",
+      "Portrait and cover art direction brief, including shot list and styling notes",
+      "Two structured revision rounds with tracked changes",
+      "End matter: acknowledgements, source notes and an index of named organisations",
+      "Formats supplied: print-ready PDF, EPUB and editable manuscript file"
+    ],
+    "processSteps": [
+      {
+        "step": 1,
+        "title": "Enquiry & Confidentiality Framework",
+        "description": "A 30-minute scoping call, a written summary of scope, and a mutual non-disclosure agreement before any material is shared. No manuscript work begins until both are signed.",
+        "duration": "Week 1"
+      },
+      {
+        "step": 2,
+        "title": "Consultation, Brief & Source Collection",
+        "description": "Four to eight recorded interview sessions, a document request list, and collection of photographs, correspondence and corporate records. A verified chronology is produced and signed off by the subject before drafting.",
+        "duration": "Weeks 2–4"
+      },
+      {
+        "step": 3,
+        "title": "Drafting & Editorial Review",
+        "description": "Chapter-by-chapter drafting against an agreed structure, with a senior editorial read for narrative arc, factual accuracy and disclosure risk. Named third parties are checked for defamation and confidentiality exposure.",
+        "duration": "Weeks 5–9"
+      },
+      {
+        "step": 4,
+        "title": "Revision, Delivery & Publication Support",
+        "description": "Two revision rounds, copy-edit, typesetting hand-off, cover and portrait art direction, and an optional publication route assessment covering self-publishing, hybrid and traditional submission.",
+        "duration": "Weeks 10–12"
+      }
+    ],
+    "timeline": "6–12 weeks, depending on interview availability and manuscript length.",
+    "pricingNote": "Scoped per engagement after the consultation. Executive profiles from £3,800; full memoirs and corporate histories are quoted on word count, interview volume and research depth. A 40% deposit is invoiced at contract acceptance, with the balance on delivery of the final manuscript.",
+    "disclosure": "F.M.I.E writes as a commissioned service. Authorship credit, ghostwriting disclosure and any publishing arrangement are agreed in writing before drafting begins. F.M.I.E does not sell publication deals, agent representation or bestseller placement.",
+    "engagementTypes": ["Founder memoir", "Executive biography", "Corporate history", "Editorial interview manuscript", "Non-executive profile"]
+  },
+  {
+    "id": "svc-digital-marketing",
+    "slug": "digital-marketing-contracting",
+    "title": "Digital Marketing Contracting",
+    "tagline": "Positioning, technical SEO, thought-leadership content and managed paid media under one retained contract.",
+    "description": "A retained marketing engagement for organisations that need senior-level direction without a full in-house team. The desk starts with market positioning and a documented competitive read, then builds the technical and content foundations that make paid media efficient. Campaigns are managed against a written plan with monthly reporting that separates activity from outcome, and every claim made in client-facing material is checked for evidence before publication.",
+    "targetAudience": "Scale-ups between seed and Series C, professional services firms, industrial and logistics groups entering new territories, and communications teams that need interim senior capacity.",
+    "deliverables": [
+      "Written market positioning and messaging framework with proof points",
+      "Technical SEO audit and a prioritised remediation backlog",
+      "Twelve-month marketing roadmap with quarterly milestones and owners",
+      "Managed multi-channel campaigns across search, social and email",
+      "Thought-leadership content programme: features, briefings and executive bylines",
+      "Monthly performance reporting separating spend, activity and outcome",
+      "Quarterly strategy review with a board-ready summary"
+    ],
+    "processSteps": [
+      {
+        "step": 1,
+        "title": "Discovery & Positioning",
+        "description": "Stakeholder interviews, competitive and category analysis, audience definition, and a written positioning statement with evidence for every claim. Includes access and analytics setup.",
+        "duration": "Weeks 1–3"
+      },
+      {
+        "step": 2,
+        "title": "Technical & Content Foundation",
+        "description": "Technical SEO remediation, site structure and internal linking, content architecture, editorial calendar and a brand voice guide so in-house teams can publish without the desk.",
+        "duration": "Weeks 4–6"
+      },
+      {
+        "step": 3,
+        "title": "Campaign Execution",
+        "description": "Paid search and social management, email lifecycle builds, syndicated thought leadership, and landing page testing. Budgets are reported weekly against an agreed cost envelope.",
+        "duration": "Ongoing monthly"
+      },
+      {
+        "step": 4,
+        "title": "Reporting, Optimisation & Handover",
+        "description": "Monthly performance pack, quarterly strategy review, and a documented handover of accounts, assets and playbooks if the engagement ends or moves in-house.",
+        "duration": "Monthly and quarterly"
+      }
+    ],
+    "timeline": "Retained monthly engagement. Minimum initial term of three months; foundation phase completes in six weeks.",
+    "pricingNote": "Retained monthly from £2,400 depending on channel mix and media budget under management. Media spend is invoiced at cost and is never marked up by F.M.I.E. Paid media management is quoted separately from the retainer where budgets exceed £25,000 per month.",
+    "disclosure": "Where F.M.I.E places client material on its own commercial desks, that placement is labelled as paid content and is reported separately from earned or organic performance. Organic ranking, advertising platform approval and audience response are never guaranteed.",
+    "engagementTypes": ["Monthly retainer", "Fractional marketing lead", "Campaign project", "Technical SEO remediation", "Interim team capacity"]
+  },
+  {
+    "id": "svc-pitching",
+    "slug": "pitching-and-representation",
+    "title": "Pitching & Representation",
+    "tagline": "Investor-ready decks, executive presentation coaching and logged strategic introductions.",
+    "description": "Preparation for the moment an organisation asks for money, a contract or a partnership. The desk rebuilds the narrative around the decision the audience has to make, pressure-tests every number in the deck against its source, and rehearses the presenting team until the delivery is steady under questioning. Introductions are made only where a genuine commercial or editorial fit exists, and each contact is logged with its outcome so the client can see exactly what was attempted.",
+    "targetAudience": "Founders raising a priced round, executives bidding for public or enterprise contracts, and organisations seeking strategic partnerships, distribution or non-executive appointments.",
+    "deliverables": [
+      "Investor-ready presentation deck with a documented source for every figure",
+      "Executive one-pager and a 90-second verbal positioning statement",
+      "Narrative architecture: problem, evidence, mechanism, ask, risk",
+      "Two recorded rehearsal sessions with written feedback on delivery and Q&A handling",
+      "Objection and due-diligence question bank with prepared responses",
+      "Media and partnership outreach log recording every contact and its outcome",
+      "Post-pitch debrief note after each live presentation"
+    ],
+    "processSteps": [
+      {
+        "step": 1,
+        "title": "Positioning & Evidence Review",
+        "description": "Assessment of the existing narrative, verification of every quantitative claim against a primary source, and identification of the two or three points that must survive the pitch.",
+        "duration": "Week 1"
+      },
+      {
+        "step": 2,
+        "title": "Deck & Materials Build",
+        "description": "Reconstruction of the deck, one-pager and appendix pack to a consistent house standard, with a source note attached to each slide for due diligence.",
+        "duration": "Weeks 2–3"
+      },
+      {
+        "step": 3,
+        "title": "Coaching & Rehearsal",
+        "description": "Two recorded rehearsals, objection handling drills, and delivery coaching for the presenting team. Written feedback is issued after each session.",
+        "duration": "Weeks 4–5"
+      },
+      {
+        "step": 4,
+        "title": "Introductions & Debrief",
+        "description": "Targeted introductions where a documented fit exists, an outreach log maintained throughout, and a debrief note after each live pitch covering what landed and what did not.",
+        "duration": "Week 6 and ongoing"
+      }
+    ],
+    "timeline": "3–6 weeks for the preparation engagement. Introductions continue for the agreed window after delivery.",
+    "complianceWarning": "This service does not guarantee capital investment, funding success, or guaranteed media placement. F.M.I.E is not an authorised person for the purposes of the Financial Services and Markets Act 2000 and does not arrange, advise on, or receive commission for investments. Introductions are made as editorial and commercial facilitation only.",
+    "pricingNote": "Preparation engagement from £4,200, quoted on deck complexity and rehearsal volume. Introduction windows are priced separately and are never contingent on a successful outcome.",
+    "disclosure": "F.M.I.E receives no success fee, carry, equity or commission from any introduction. Every outreach attempt is logged with its date, recipient category and outcome, and that log is available to the client in full.",
+    "engagementTypes": ["Fundraise preparation", "Contract bid support", "Partnership introduction", "Presentation coaching", "Board appointment pack"]
+  },
+  {
+    "id": "svc-wikipedia-advisory",
+    "slug": "wikipedia-research-editorial-advisory",
+    "title": "Wikipedia Research, Editorial Advisory & Policy-Compliant Contribution Support",
+    "tagline": "Independent source verification, neutral point of view review and disclosed talk-page submission.",
+    "description": "An advisory engagement for organisations and individuals that are the subject of, or candidates for, Wikipedia coverage. The desk assesses notability against published criteria, verifies that every supporting source is independent and reliable, reviews existing articles for neutral point of view and sourcing problems, and prepares disclosed edit proposals for submission through talk pages and formal request processes. All paid contributions are declared in line with Wikimedia policy, and the desk does not edit articles where a conflict of interest would breach those rules.",
+    "targetAudience": "Companies and executives assessing whether independent sourcing supports coverage, subject teams correcting factual errors in existing articles, communications leads preparing for a notability dispute, and researchers needing a documented source audit.",
+    "deliverables": [
+      "Notability assessment against the relevant published Wikipedia criteria, with the reasoning documented",
+      "Independent source audit: each source classified as reliable, independent, primary or promotional",
+      "Neutral point of view review of any existing article, with specific line-level findings",
+      "Draft disclosed edit proposals prepared for talk-page submission",
+      "Talk-page submission text and a record of every declaration made",
+      "A written plain-language brief on what the subject team can and cannot legitimately do",
+      "Guidance on responding to deletion discussions or dispute notices, if they arise"
+    ],
+    "processSteps": [
+      {
+        "step": 1,
+        "title": "Notability & Source Assessment",
+        "description": "A documented review of independent coverage against published criteria, with a clear yes, no or borderline finding and the reasoning behind it. Clients are told when the honest answer is that coverage is not supported.",
+        "duration": "Week 1"
+      },
+      {
+        "step": 2,
+        "title": "Article Review & Neutral Point of View Analysis",
+        "description": "Line-level review of any existing article for sourcing, tone, weight and promotional language, produced as a findings note rather than a rewrite.",
+        "duration": "Week 2"
+      },
+      {
+        "step": 3,
+        "title": "Disclosed Edit Preparation",
+        "description": "Preparation of edit proposals with citations, drafted to house neutral style and accompanied by the required paid-contribution disclosure on the editor's user page and in the edit summary.",
+        "duration": "Weeks 2–3"
+      },
+      {
+        "step": 4,
+        "title": "Talk-Page Submission & Outcome Record",
+        "description": "Submission through talk pages, edit request templates or formal noticeboards as the policy requires, followed by a written record of the outcome. Volunteer editor decisions are final and are reported as they stand.",
+        "duration": "Weeks 3–4"
+      }
+    ],
+    "timeline": "2–4 weeks for assessment and preparation. Volunteer editor response times are outside F.M.I.E's control.",
+    "complianceWarning": "F.M.I.E strictly adheres to the Wikimedia Foundation Terms of Use and paid-contribution disclosure policies. We do not guarantee article creation, retention, or survival, and we do not engage in unauthorized promotional editing.",
+    "pricingNote": "Assessment and source audit from £1,600. Preparation and disclosed submission from £2,900. Fees cover advisory and preparation work only; no part of any fee is paid to a Wikipedia editor, administrator or third party.",
+    "disclosure": "F.M.I.E is not affiliated with, endorsed by, or acting on behalf of the Wikimedia Foundation or any Wikipedia project. Every paid contribution made under this engagement is disclosed on the editing account's user page and in the relevant edit summaries, as required by the Wikimedia Foundation Terms of Use.",
+    "engagementTypes": ["Notability assessment", "Independent source audit", "Article review", "Disclosed edit preparation", "Dispute guidance"]
+  }
+]

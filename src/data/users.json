@@ -1,0 +1,73 @@
+[
+  {
+    "id": "user-visitor",
+    "name": "Guest Reader",
+    "email": "visitor@fmie.co.uk",
+    "role": "visitor",
+    "avatarUrl": "/art/avatars/guest.svg",
+    "jobTitle": "Public Reader",
+    "location": "Not disclosed",
+    "joinedAt": "2026-10-13T08:00:00.000Z",
+    "notificationPreferences": {
+      "editorialDigest": true,
+      "surveyActivity": false,
+      "pressReleaseUpdates": false,
+      "orderAndInvoice": false,
+      "commercialOffers": false
+    }
+  },
+  {
+    "id": "user-survey-creator",
+    "name": "Amara Okafor",
+    "email": "amara.okafor@innotrend.co.uk",
+    "role": "survey_creator",
+    "organization": "InnoTrend Analytics",
+    "avatarUrl": "/art/avatars/amara-okafor.svg",
+    "jobTitle": "Head of Research Operations",
+    "location": "London, United Kingdom",
+    "joinedAt": "2025-03-11T09:30:00.000Z",
+    "notificationPreferences": {
+      "editorialDigest": true,
+      "surveyActivity": true,
+      "pressReleaseUpdates": false,
+      "orderAndInvoice": true,
+      "commercialOffers": false
+    }
+  },
+  {
+    "id": "user-corporate-pr",
+    "name": "Marcus Vance",
+    "email": "marcus.vance@vancetech.com",
+    "role": "premium_customer",
+    "organization": "Vance Dynamics",
+    "avatarUrl": "/art/avatars/marcus-vance.svg",
+    "jobTitle": "Group Communications Director",
+    "location": "Manchester, United Kingdom",
+    "joinedAt": "2024-11-04T14:15:00.000Z",
+    "notificationPreferences": {
+      "editorialDigest": true,
+      "surveyActivity": false,
+      "pressReleaseUpdates": true,
+      "orderAndInvoice": true,
+      "commercialOffers": true
+    }
+  },
+  {
+    "id": "user-administrator",
+    "name": "Eleanor Whitcombe",
+    "email": "admin@fmie.co.uk",
+    "role": "administrator",
+    "organization": "F.M.I.E Editorial Board",
+    "avatarUrl": "/art/avatars/eleanor-whitcombe.svg",
+    "jobTitle": "Managing Editor & Platform Administrator",
+    "location": "London, United Kingdom",
+    "joinedAt": "2023-01-16T08:45:00.000Z",
+    "notificationPreferences": {
+      "editorialDigest": true,
+      "surveyActivity": true,
+      "pressReleaseUpdates": true,
+      "orderAndInvoice": true,
+      "commercialOffers": false
+    }
+  }
+]

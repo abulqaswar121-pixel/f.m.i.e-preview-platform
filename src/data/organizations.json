@@ -1,0 +1,245 @@
+[
+  {
+    "id": "org-innotrend",
+    "name": "InnoTrend Analytics",
+    "planId": "plan-premium",
+    "sector": "Professional Services",
+    "country": "United Kingdom",
+    "logoMark": "IT",
+    "brandColour": "#0A2E68",
+    "seatsUsed": 3,
+    "seatsIncluded": 3,
+    "teamMembers": [
+      {
+        "id": "tm-innotrend-1",
+        "name": "Amara Okafor",
+        "email": "amara.okafor@innotrend.co.uk",
+        "role": "owner",
+        "joinedAt": "2025-03-11T09:30:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-innotrend-2",
+        "name": "Tobias Lindqvist",
+        "email": "tobias.lindqvist@innotrend.co.uk",
+        "role": "researcher",
+        "joinedAt": "2025-06-02T08:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-innotrend-3",
+        "name": "Nadia Rahim",
+        "email": "nadia.rahim@innotrend.co.uk",
+        "role": "billing",
+        "joinedAt": "2026-01-19T10:45:00.000Z",
+        "status": "active"
+      }
+    ],
+    "invoices": [
+      {
+        "id": "inv-innotrend-3",
+        "reference": "FMIE-INV-2026-0964",
+        "issuedAt": "2026-09-02T09:00:00.000Z",
+        "description": "Premium survey plan — 2026 Pan-African Digital Payment Adoption",
+        "amount": 149,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Corporate card"
+      },
+      {
+        "id": "inv-innotrend-2",
+        "reference": "FMIE-INV-2026-0611",
+        "issuedAt": "2026-06-14T09:00:00.000Z",
+        "description": "Premium survey plan — Founder Access to Early-Stage Capital",
+        "amount": 149,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Corporate card"
+      },
+      {
+        "id": "inv-innotrend-1",
+        "reference": "FMIE-INV-2025-1188",
+        "issuedAt": "2025-11-08T09:00:00.000Z",
+        "description": "Premium survey plan — Small Business Adoption of Automated Bookkeeping Tools",
+        "amount": 149,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Bank transfer (BACS)"
+      },
+      {
+        "id": "inv-innotrend-4",
+        "reference": "FMIE-INV-2026-1042",
+        "issuedAt": "2026-10-08T09:00:00.000Z",
+        "description": "Additional analyst seat — Q4 research programme",
+        "amount": 320,
+        "currency": "GBP",
+        "status": "due",
+        "method": "Bank transfer (BACS)"
+      }
+    ]
+  },
+  {
+    "id": "org-meridian",
+    "name": "Meridian Health Research",
+    "planId": "plan-corporate",
+    "sector": "Healthcare & Life Sciences",
+    "country": "United Kingdom",
+    "logoMark": "MH",
+    "brandColour": "#0B5F6B",
+    "seatsUsed": 9,
+    "seatsIncluded": 15,
+    "teamMembers": [
+      {
+        "id": "tm-meridian-1",
+        "name": "Dr. Helen Ashworth",
+        "email": "helen.ashworth@meridianhealth.example",
+        "role": "owner",
+        "joinedAt": "2024-04-08T09:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-meridian-2",
+        "name": "Peter Nkemelu",
+        "email": "peter.nkemelu@meridianhealth.example",
+        "role": "administrator",
+        "joinedAt": "2024-09-16T09:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-meridian-3",
+        "name": "Clara Boateng",
+        "email": "clara.boateng@meridianhealth.example",
+        "role": "researcher",
+        "joinedAt": "2025-02-03T09:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-meridian-4",
+        "name": "Ishaan Mehta",
+        "email": "ishaan.mehta@meridianhealth.example",
+        "role": "researcher",
+        "joinedAt": "2025-08-21T09:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-meridian-5",
+        "name": "Fiona Gallagher",
+        "email": "fiona.gallagher@meridianhealth.example",
+        "role": "billing",
+        "joinedAt": "2026-03-10T09:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-meridian-6",
+        "name": "Samuel Adeyemi",
+        "email": "samuel.adeyemi@meridianhealth.example",
+        "role": "researcher",
+        "joinedAt": "2026-09-28T09:00:00.000Z",
+        "status": "invited"
+      }
+    ],
+    "invoices": [
+      {
+        "id": "inv-meridian-3",
+        "reference": "FMIE-INV-2026-0803",
+        "issuedAt": "2026-08-01T09:00:00.000Z",
+        "description": "Corporate research plan — annual subscription, fifteen seats",
+        "amount": 2900,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Purchase order"
+      },
+      {
+        "id": "inv-meridian-2",
+        "reference": "FMIE-INV-2026-0455",
+        "issuedAt": "2026-04-01T09:00:00.000Z",
+        "description": "Commissioned sampling methodology review — Patient Experience programme",
+        "amount": 4600,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Purchase order"
+      },
+      {
+        "id": "inv-meridian-1",
+        "reference": "FMIE-INV-2025-1402",
+        "issuedAt": "2025-12-01T09:00:00.000Z",
+        "description": "Corporate research plan — annual subscription, ten seats",
+        "amount": 2400,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Purchase order"
+      },
+      {
+        "id": "inv-meridian-4",
+        "reference": "FMIE-INV-2026-1077",
+        "issuedAt": "2026-11-01T09:00:00.000Z",
+        "description": "Corporate research plan — annual renewal, fifteen seats",
+        "amount": 2900,
+        "currency": "GBP",
+        "status": "scheduled",
+        "method": "Purchase order"
+      }
+    ]
+  },
+  {
+    "id": "org-vance",
+    "name": "Vance Dynamics",
+    "planId": "plan-premium",
+    "sector": "Logistics & Transport",
+    "country": "United Kingdom",
+    "logoMark": "VD",
+    "brandColour": "#14428B",
+    "seatsUsed": 2,
+    "seatsIncluded": 3,
+    "teamMembers": [
+      {
+        "id": "tm-vance-1",
+        "name": "Marcus Vance",
+        "email": "marcus.vance@vancetech.com",
+        "role": "owner",
+        "joinedAt": "2024-11-04T14:15:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "tm-vance-2",
+        "name": "Grace Okonjo",
+        "email": "grace.okonjo@vancetech.com",
+        "role": "viewer",
+        "joinedAt": "2026-02-17T11:00:00.000Z",
+        "status": "active"
+      }
+    ],
+    "invoices": [
+      {
+        "id": "inv-vance-2",
+        "reference": "FMIE-INV-2026-0912",
+        "issuedAt": "2026-09-26T08:30:00.000Z",
+        "description": "Press release campaign FMIE-PR-2026-104 — Tier 2 with proofread, multimedia and extended report",
+        "amount": 2440,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Bank transfer (BACS)"
+      },
+      {
+        "id": "inv-vance-1",
+        "reference": "FMIE-INV-2026-0288",
+        "issuedAt": "2026-03-11T09:00:00.000Z",
+        "description": "Executive profile writing — Group Communications Director briefing pack",
+        "amount": 3800,
+        "currency": "GBP",
+        "status": "paid",
+        "method": "Bank transfer (BACS)"
+      },
+      {
+        "id": "inv-vance-3",
+        "reference": "FMIE-INV-2026-1091",
+        "issuedAt": "2026-10-12T09:00:00.000Z",
+        "description": "F.M.I.E merchandise — branded fleet team apparel order",
+        "amount": 612,
+        "currency": "GBP",
+        "status": "due",
+        "method": "Corporate card"
+      }
+    ]
+  }
+]

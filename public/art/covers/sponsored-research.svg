@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="F.M.I.E editorial artwork">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8F9FA"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.55"/>
+  <rect x="250" y="140" width="470" height="380" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="3"/>
+  <rect x="290" y="190" width="390" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="222" width="310" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="254" width="230" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="286" width="390" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="318" width="310" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="350" width="230" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="382" width="390" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="414" width="310" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="290" y="446" width="230" height="9" rx="4" fill="#334155" opacity="0.2"/>
+  <rect x="250" y="140" width="470" height="40" rx="6" fill="#C5A869"/>
+  <g transform="translate(800 330)">
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#0A2E68" stroke-width="10"/>
+    <path d="M92 92 L190 190" stroke="#0A2E68" stroke-width="26" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="130" fill="#14428B" opacity="0.12"/>
+  </g>
+  <path d="M120 570 H1080" stroke="#C5A869" stroke-width="6"/>
+
+  <g transform="translate(56 566)" opacity="0.9">
+    <g fill="#0A2E68" transform="scale(0.34)">
+      <path d="M16 12h9v72H10v-5h6z"/>
+      <path d="M16 12h74v14h-5V21H16z"/>
+      <path d="M16 44h30v8H16z"/>
+      <path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/>
+    </g>
+    <rect x="0" y="42" width="132" height="3" fill="#C5A869"/>
+    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>

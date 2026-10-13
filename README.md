@@ -1,114 +1,114 @@
 # F.M.I.E Preview Platform
 
-I need you to act as a technical planner and architect. Do NOT build anything, scaffold, or write application code. Your job is to study everything I attach and give me a plan, ending with one complete, ready-to-paste prompt for a separate tool called Arena, which will do 100% of the actual building (design, pages, and a simulated backend).
+**F.M.I.E Means Business** — `fmie.co.uk`
 
+> Connecting Ideas, Insights & Global Opportunities.
 
+A complete, clickable **demonstration preview** of the F.M.I.E platform: international business
+media, an independent survey marketplace, press-release booking and distribution, executive
+professional services, and branded commerce — running on a simulated backend with no live
+database, payments, email or file storage.
 
-PROJECT
+---
 
-F.M.I.E ("F.M.I.E Means Business"), domain fmie.co.uk. A global business media, survey, press-release booking, professional services and merchandise platform. The full client brief is attached (F_M_I_E_Prompt.docx). Read all of it.
+## What this build is
 
+Everything looks and behaves like the real product, but every record is sample data held in
+`src/data/*.json` and persisted to your browser's `localStorage`. Sign-in accepts any
+valid-looking email and lands on a pre-filled dashboard; four one-click demo personas
+(Guest reader, Survey Creator, Corporate account, Administrator) switch permissions,
+navigation and dashboard contents instantly, without a page reload.
 
+Nothing here is published journalism, live market data, a real transaction or a real individual.
+The footer carries that notice on every page.
 
-WHAT THIS BUILD IS
+## Running it
 
-A PREVIEW for the client to approve, not the production platform. Everything must look and feel real and be fully clickable, but nothing reads from or writes to a real database, and no real payments, emails or file uploads happen. All data is hardcoded sample data kept in clearly separated data files so it can be swapped for a real backend later without rebuilding the UI. Sign up and sign in accept any valid-looking input and land on a pre-filled dashboard. Add one-click demo presets: Individual member, Survey Creator, Corporate account, and Administrator.
-
-
-
-PRIORITY
-
-The client says the survey platform matters most, because professionals and corporates will be giving F.M.I.E survey contracts. Build the survey platform in the greatest depth, and the other modules at a lighter but still convincing level.
-
-
-
-SURVEY PLATFORM (deepest)
-
-- Survey explore page: categories, search, filters, free vs premium badges, sample surveys across the categories in the brief
-
-- Survey creator: multi-step builder with title, objective, audience, question types (single choice, multiple choice, rating, Likert, short and long text), conditional logic shown in the UI, live preview, save draft, schedule and close dates, anonymous option, consent notice
-
-- Taking a survey: a clean respondent flow with progress and a thank-you screen
-
-- Results dashboard: total responses, completion rate, per-question charts, filters, date range, export buttons (demo only), and a short note that results are not representative of a population unless a proper sampling method is used
-
-- Plans and pricing: Free vs Premium vs Corporate, shown as configurable by admin
-
-- Corporate account view: team members, billing history, branded surveys
-
-- Admin: survey moderation queue and plan configuration
-
-
-
-OTHER MODULES (lighter)
-
-- Home: hero ("Where Global Business, Ideas & Opportunities Meet"), featured news, survey spotlight, services, newsletter signup, merchandise showcase
-
-- News and Insights: article list, category pages, article page with author, date, reading time, related stories, and clear labels for Editorial, Sponsored and Press Release content
-
-- Global Press Releases: service tiers, booking form, and a request tracker showing the statuses in the brief (Draft through Completed)
-
-- Professional Services: three service pages (autobiography and executive profile writing, digital marketing, pitching and representation) with deliverables, process, timeline and an enquiry form
-
-- Shop: products, product page, cart and a mock checkout
-
-- User dashboard and Admin panel with the sections listed in the brief
-
-- About, Contact, and policy pages (privacy, terms, editorial, advertising)
-
-
-
-CONTENT RULES TAKEN FROM THE CLIENT'S OWN BRIEF
-
-- Never promise guaranteed publication in any named outlet, and never use real outlet names or logos (Forbes, BBC, Bloomberg, Punch and similar) or imply endorsement or affiliation
-
-- Never present survey results as statistically representative
-
-- Label all sample articles, reviews, statistics, prices and people as sample, with a visible "Demonstration preview" note in the footer
-
-- Keep paid and promotional content clearly separated from editorial content
-
-- The existing site at fmie.co.uk makes guaranteed-placement claims. Do not copy its wording
-
-
-
-DESIGN DIRECTION
-
-Premium, international, trustworthy, light-first business-media feel, with an original identity that does not copy any publisher. Propose a colour palette and typography. If I attach a logo, use it. If not, create a simple placeholder wordmark and tell me.
-
-
-
-WHAT I NEED FROM YOU
-
-1. The best architecture for a hardcoded preview, including how to structure mock data and the mock auth so a real backend can replace them later
-
-2. The exact list of pages and flows for this preview, in priority order
-
-3. Risks or scope problems you see, and what you would cut or simplify
-
-4. A complete Arena prompt as the last part of your answer, in one code block, which includes: tech and folder structure, the mock data entities and sample records, the demo personas, a page-by-page specification, and an acceptance checklist
-
-
-
-The Arena prompt must require: tests and build pass; all contact details and brand settings in one config file; no placeholder or example email addresses, no Lorem ipsum, and no personal notes left in the repo or README.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/76c0595e-687c-43a5-a45c-006c26ab6e95).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+npm install --legacy-peer-deps   # plain `npm install` hits an npm 10 arborist peer-resolution bug
+npm run dev                      # Vite on http://localhost:8080 (bound to 0.0.0.0)
+npm run lint                     # eslint + prettier — zero errors, zero warnings
+npx tsc --noEmit                 # strict TypeScript, clean
+npm run test                     # route-tree smoke test
+npm run build                    # production SSR build via nitro
 ```
+
+## Architecture
+
+```
+src/
+  config/site.ts          single source of truth: brand, contacts, nav, taxonomies,
+                          PR tiers/statuses/add-ons, compliance copy, commerce, legal,
+                          formatters. No email address or price is hardcoded in a component.
+  types/index.ts          every domain type (articles, surveys, press releases, orders, …)
+  data/*.json + index.ts  seed records; index.ts is the only JSON import point and casts
+                          seeds to the domain types, plus deterministic response samples
+  services/api.ts         the simulated backend. Namespaced async functions
+                          (api.articles.list(), api.surveys.create(), api.pressReleases.updateStatus(), …)
+                          over a versioned localStorage store with seed fallback, artificial
+                          latency, an SSR-safe useSyncExternalStore hook and resetDemoData()
+  hooks/                  useAuth.ts, useCart.ts, useAsync.ts (useAsyncResource, useDebouncedValue)
+  lib/                    rich-text parser, tone helpers, utils
+  components/             brand/, common/, layout/, press/, shop/, surveys/, providers/, ui/
+  pages/                  page-level components (plain React, not routes)
+  routes/                 TanStack Start file-based routing. `_site.tsx` is a pathless layout
+                          wrapping AppLayout; `_site/*` files are thin route definitions that
+                          render the matching page component and set head() metadata
+  scripts/                generate-artwork.mjs — regenerates every brand SVG in public/art/
+```
+
+**API boundary rule:** UI code never touches `localStorage` or seed JSON directly. Components and
+pages call the async service functions in `src/services/api.ts`, so a real backend can replace the
+simulated one without touching a single component.
+
+**Routing rule:** routes live only in `src/routes/` (file-based). `src/pages/` holds plain
+components that those route files import; `src/routeTree.gen.ts` is generated and never hand-edited.
+
+## Modules
+
+| Module | Routes | Depth |
+| --- | --- | --- |
+| News & Insights | `/news`, `/news/$slug` | 11-article archive across the editorial desks, named authors with credentials, disclosure tags, corrections, sharing, related reading |
+| Survey marketplace | `/surveys`, `/surveys/create`, `/surveys/plans`, `/surveys/$id` | **Deepest module.** Seven question types incl. Likert and long text, conditional logic, live preview, draft saving, scheduling, consent notice, moderation, admin-configurable plans, response capture, analytics with date range / segment / country filters, completion rate, mean duration, CSV export, corporate team + billing views |
+| Press releases | `/press-releases`, `/press-releases/book`, `/press-releases/$id` | Three tiers, five add-ons, twelve-state workflow with a dated event log, four-step booking wizard, quotations, simulated payment, completion dossier, administrator-verified channel catalogue |
+| Professional services | `/services`, `/services/$slug` | Four engagements with workflows, deliverables, timelines, consultation booking and enquiry routing |
+| Commerce | `/shop`, `/shop/$slug`, `/checkout` | Six product lines with variants and stock levels, basket with promo codes, shipping methods, simulated payment, invoices, admin fulfilment states |
+| Account & admin | `/dashboard`, `/admin`, `/signin`, `/register` | Member dashboard (overview / surveys / press / orders / account) and an admin panel (moderation queue, plan configuration, campaign oversight, channel verification, commerce, audience) |
+| Standards | `/about`, `/contact`, `/editorial-policy`, `/privacy`, `/terms`, `/advertising`, `/survey-ethics` | Mission, values, editorial team, desk routing, disclosure taxonomy, corrections, privacy, terms, rate card, ethics checklist |
+
+## Design system
+
+Editorial serif display type (Playfair Display) over a neo-grotesque body face (Inter), on a
+light-first palette: brand navy `#0A2E68`, navy dark `#071E43`, navy light `#14428B`, gold
+`#C5A869`, cream `#F8F9FA`, slate `#334155`, charcoal `#0F172A`, border `#E2E8F0`. Tailwind v4
+tokens live in `src/styles.css` (`font-display`, `font-sans`, `.fmie-container`, `.fmie-prose`,
+`.fmie-dropcap`, `.fmie-ticker-track`, reduced-motion handling). The logo — a serif **F** whose top
+arm brackets an overlapping capital **M**, with punctuated capitals `F.M.I.E` beneath — is drawn as
+SVG in `src/components/brand/Logo.tsx` and `public/art/logo*.svg`.
+
+All imagery is original brand SVG artwork generated by `scripts/generate-artwork.mjs`
+(covers, products, avatars, hero, logo). No stock photography, no AI-generated photos,
+no external image CDNs.
+
+## Compliance rules baked into the product
+
+- No guaranteed placement in any named third-party publication, ever. Owned media, partner
+  distribution, syndication and earned media are described and priced separately, and earned
+  media is never sold or invoiced.
+- No real outlets are named, and no affiliation with or endorsement by any publisher,
+  broadcaster or newswire is implied.
+- Independent editorial and paid promotional content are produced separately and labelled at the
+  point of publication (`Independent Editorial`, `Sponsored Research`, `Partner Dispatch`).
+- Survey results are self-selected and are never presented as population-representative; export is
+  demo-only and carries the limitation.
+- Free / Premium / Corporate plan limits are administrator-configurable at runtime, not hardcoded.
+- Distribution channels carry an admin-controlled status, region, pricing and verification record;
+  unverified channels are shown for transparency but excluded from quotations.
+- Wikipedia advisory work follows paid-contribution disclosure and never promises article
+  creation, retention or approval.
+
+## Demonstration-preview limits
+
+No real database, authentication, payment processing, email delivery or file uploads. Orders,
+bookings, surveys and messages are recorded locally so the full lifecycle can be exercised, and
+the administrator panel can reset everything to the shipped sample set at any time.

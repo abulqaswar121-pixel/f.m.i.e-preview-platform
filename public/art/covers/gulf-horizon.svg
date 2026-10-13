@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="F.M.I.E editorial artwork">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFDF7"/>
+      <stop offset="100%" stop-color="#F4F1E8"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.55"/>
+  <circle cx="600" cy="330" r="150" fill="#C5A869" opacity="0.85"/>
+  <path d="M0 400 C 240 330 420 470 640 400 C 860 330 1020 450 1200 390 V675 H0 Z" fill="#0A2E68" opacity="0.9"/>
+  <path d="M0 470 C 260 410 460 520 700 470 C 900 428 1040 500 1200 460 V675 H0 Z" fill="#071E43" opacity="0.9"/>
+  <path d="M120 300 h120" stroke="#14428B" stroke-width="4" opacity="0.25"/>
+  <path d="M340 288 h120" stroke="#14428B" stroke-width="4" opacity="0.35"/>
+  <path d="M560 276 h120" stroke="#14428B" stroke-width="4" opacity="0.45"/>
+  <path d="M780 264 h120" stroke="#14428B" stroke-width="4" opacity="0.55"/>
+  <path d="M1000 252 h120" stroke="#14428B" stroke-width="4" opacity="0.65"/>
+  <rect x="150" y="180" width="14" height="180" fill="#14428B" opacity="0.35"/>
+  <rect x="1030" y="150" width="14" height="210" fill="#14428B" opacity="0.35"/>
+
+  <g transform="translate(56 566)" opacity="0.9">
+    <g fill="#0A2E68" transform="scale(0.34)">
+      <path d="M16 12h9v72H10v-5h6z"/>
+      <path d="M16 12h74v14h-5V21H16z"/>
+      <path d="M16 44h30v8H16z"/>
+      <path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/>
+    </g>
+    <rect x="0" y="42" width="132" height="3" fill="#C5A869"/>
+    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>

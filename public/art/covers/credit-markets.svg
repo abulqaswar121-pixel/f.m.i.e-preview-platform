@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="F.M.I.E editorial artwork">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F8F9FA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.55"/>
+  <path d="M120 140 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 220 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 300 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 380 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 460 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 540 H1100" stroke="#334155" stroke-opacity="0.12" stroke-width="1"/>
+  <path d="M120 470 C 340 430 520 300 760 280 C 900 268 1000 210 1100 170" stroke="#0A2E68" stroke-width="7" fill="none"/>
+  <path d="M120 500 C 320 500 460 460 620 470 C 780 480 900 520 1100 430" stroke="#C5A869" stroke-width="7" fill="none" stroke-dasharray="22 14"/>
+  <circle cx="760" cy="280" r="13" fill="#0A2E68"/>
+  <circle cx="620" cy="470" r="13" fill="#C5A869"/>
+  <rect x="140" y="150" width="230" height="8" fill="#0A2E68" opacity="0.35"/>
+  <rect x="140" y="170" width="150" height="8" fill="#0A2E68" opacity="0.2"/>
+
+  <g transform="translate(56 566)" opacity="0.9">
+    <g fill="#0A2E68" transform="scale(0.34)">
+      <path d="M16 12h9v72H10v-5h6z"/>
+      <path d="M16 12h74v14h-5V21H16z"/>
+      <path d="M16 44h30v8H16z"/>
+      <path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/>
+    </g>
+    <rect x="0" y="42" width="132" height="3" fill="#C5A869"/>
+    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>

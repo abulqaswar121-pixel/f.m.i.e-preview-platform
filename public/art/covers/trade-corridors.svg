@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="F.M.I.E editorial artwork">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8F9FA"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.55"/>
+  <path d="M100 190 H1120" stroke="#0A2E68" stroke-width="3" stroke-opacity="0.4" fill="none"/>
+  <circle cx="180" cy="190" r="16" fill="#C5A869"/>
+  <circle cx="180" cy="190" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="420" cy="190" r="9" fill="#14428B"/>
+  <circle cx="660" cy="190" r="16" fill="#C5A869"/>
+  <circle cx="660" cy="190" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="900" cy="190" r="9" fill="#14428B"/>
+  <circle cx="1080" cy="190" r="16" fill="#C5A869"/>
+  <circle cx="1080" cy="190" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <path d="M100 300 H1120" stroke="#0A2E68" stroke-width="6" stroke-opacity="0.85" fill="none"/>
+  <circle cx="140" cy="300" r="16" fill="#C5A869"/>
+  <circle cx="140" cy="300" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="380" cy="300" r="9" fill="#14428B"/>
+  <circle cx="620" cy="300" r="16" fill="#C5A869"/>
+  <circle cx="620" cy="300" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="860" cy="300" r="9" fill="#14428B"/>
+  <circle cx="1120" cy="300" r="16" fill="#C5A869"/>
+  <circle cx="1120" cy="300" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <path d="M100 410 H1120" stroke="#0A2E68" stroke-width="3" stroke-opacity="0.4" fill="none"/>
+  <circle cx="220" cy="410" r="16" fill="#C5A869"/>
+  <circle cx="220" cy="410" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="460" cy="410" r="9" fill="#14428B"/>
+  <circle cx="700" cy="410" r="16" fill="#C5A869"/>
+  <circle cx="700" cy="410" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <circle cx="940" cy="410" r="9" fill="#14428B"/>
+  <circle cx="1100" cy="410" r="16" fill="#C5A869"/>
+  <circle cx="1100" cy="410" r="26" fill="none" stroke="#0A2E68" stroke-opacity="0.18" stroke-width="2"/>
+  <path d="M420 190 C 520 120 700 120 860 300" stroke="#C5A869" stroke-width="4" fill="none" stroke-dasharray="14 10"/>
+  <rect x="820" y="120" width="300" height="180" fill="#0A2E68" opacity="0.06"/>
+
+  <g transform="translate(56 566)" opacity="0.9">
+    <g fill="#0A2E68" transform="scale(0.34)">
+      <path d="M16 12h9v72H10v-5h6z"/>
+      <path d="M16 12h74v14h-5V21H16z"/>
+      <path d="M16 44h30v8H16z"/>
+      <path d="M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z"/>
+    </g>
+    <rect x="0" y="42" width="132" height="3" fill="#C5A869"/>
+    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#334155">F.M.I.E</text>
+  </g>
+</svg>
