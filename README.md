@@ -29,7 +29,7 @@ npm install --legacy-peer-deps   # plain `npm install` hits an npm 10 arborist p
 npm run dev                      # Vite on http://localhost:8080 (bound to 0.0.0.0)
 npm run lint                     # eslint + prettier — zero errors, zero warnings
 npx tsc --noEmit                 # strict TypeScript, clean
-npm run test                     # route-tree smoke test
+npm run test                     # route-tree + service-layer (13 assertions suites) tests
 npm run build                    # production SSR build via nitro
 ```
 
