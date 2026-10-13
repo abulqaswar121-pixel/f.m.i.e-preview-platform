@@ -8,7 +8,7 @@ import { EmptyState, KeyedList, PageHeader } from "@/components/common/Primitive
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { budgetBands, countries } from "@/config/site";
+import { budgetBands, contactEmail, countries } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { api } from "@/services/api";
@@ -122,7 +122,7 @@ export function ServiceDetailPage() {
     await api.services.submitEnquiry({ ...enquiry, serviceId: data.id });
     setSent("enquiry");
     toast.success("Enquiry received", {
-      description: "Routed to services@fmie.co.uk with your reference.",
+      description: `Routed to ${contactEmail.services} with your reference.`,
     });
   };
 

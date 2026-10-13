@@ -7,7 +7,7 @@ import { Badge } from "@/components/common/Badge";
 import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { DisclosureBadge, SectionHeading } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
-import { contactEmail, formatDate } from "@/config/site";
+import { contactEmail, formatDate, site } from "@/config/site";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { RichText } from "@/components/common/RichText";
 import { api } from "@/services/api";
@@ -55,7 +55,7 @@ export function ArticleDetailPage() {
   const isCommercial = data.contentType === "press_release" || data.contentType === "sponsored";
 
   const share = (network: "copy" | "email" | "x" | "linkedin") => {
-    const url = canonical || `https://fmie.co.uk/news/${data.slug}`;
+    const url = canonical || `${site.url}/news/${data.slug}`;
     const subject = encodeURIComponent(data.title);
     if (network === "copy") {
       void navigator.clipboard?.writeText(url).then(() => toast.success("Link copied"));
