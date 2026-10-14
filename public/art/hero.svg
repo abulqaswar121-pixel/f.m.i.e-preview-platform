@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-label="F.M.I.E global connectivity artwork">
+  <defs>
+    <linearGradient id="heroSky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071E43"/>
+      <stop offset="60%" stop-color="#0A2E68"/>
+      <stop offset="100%" stop-color="#14428B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="720" fill="url(#heroSky)"/>
+  <circle cx="980" cy="300" r="260" fill="#14428B" opacity="0.18"/>
+  <circle cx="980" cy="300" r="180" fill="#0A2E68" opacity="0.22"/>
+  <circle cx="980" cy="300" r="96" fill="#C5A869" opacity="0.9"/>
+  <path d="M980 300 L1280.0 300.0" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="1280.0" cy="300.0" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L1192.1 512.1" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="1192.1" cy="512.1" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L980.0 600.0" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="980.0" cy="600.0" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L767.9 512.1" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="767.9" cy="512.1" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L680.0 300.0" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="680.0" cy="300.0" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L767.9 87.9" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="767.9" cy="87.9" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L980.0 0.0" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="980.0" cy="0.0" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <path d="M980 300 L1192.1 87.9" stroke="#C5A869" stroke-width="2" opacity="0.45"/>
+  <circle cx="1192.1" cy="87.9" r="10" fill="#F8F9FA" stroke="#C5A869" stroke-width="3"/>
+  <ellipse cx="980" cy="300" rx="140" ry="60" fill="none" stroke="#F8F9FA" stroke-opacity="0.22" stroke-width="2"/>
+  <ellipse cx="980" cy="300" rx="200" ry="86" fill="none" stroke="#F8F9FA" stroke-opacity="0.22" stroke-width="2"/>
+  <ellipse cx="980" cy="300" rx="260" ry="112" fill="none" stroke="#F8F9FA" stroke-opacity="0.22" stroke-width="2"/>
+  <ellipse cx="980" cy="300" rx="320" ry="138" fill="none" stroke="#F8F9FA" stroke-opacity="0.22" stroke-width="2"/>
+  <ellipse cx="980" cy="300" rx="380" ry="164" fill="none" stroke="#F8F9FA" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M0 620 C 240 560 480 660 760 600 C 980 552 1180 610 1440 570" stroke="#C5A869" stroke-width="4" fill="none" opacity="0.6"/>
+
+</svg>

@@ -1,0 +1,120 @@
+[
+  {
+    "id": "ch-owned-commercial-desk",
+    "label": "F.M.I.E Commercial Dispatch Desk",
+    "type": "owned_media",
+    "region": "Global (English)",
+    "audience": "Registered readers of the F.M.I.E platform, newsletter subscribers and indexed search traffic",
+    "status": "verified",
+    "verifiedOn": "2026-01-08T00:00:00.000Z",
+    "indicativePrice": 0,
+    "currency": "GBP",
+    "administratorNote": "Owned channel. Placement confirmed on payment and always labelled as paid content. Included in every tier."
+  },
+  {
+    "id": "ch-owned-emerging-markets",
+    "label": "F.M.I.E Emerging Markets Commercial Desk",
+    "type": "owned_media",
+    "region": "Africa, Gulf and South Asia",
+    "audience": "Regional business readers and development sector subscribers",
+    "status": "verified",
+    "verifiedOn": "2026-01-08T00:00:00.000Z",
+    "indicativePrice": 0,
+    "currency": "GBP",
+    "administratorNote": "Owned channel. Regional edition of the commercial desk with local-language summary support."
+  },
+  {
+    "id": "ch-partner-uk-business",
+    "label": "UK Business Partner Desk",
+    "type": "partner_distribution",
+    "region": "United Kingdom",
+    "audience": "Business and finance readership under a written content arrangement",
+    "status": "verified",
+    "verifiedOn": "2026-06-30T00:00:00.000Z",
+    "indicativePrice": 480,
+    "currency": "GBP",
+    "administratorNote": "Current written arrangement in force. Renewal due 2026-12-31. Placement is transmitted, not editorially commissioned by the partner."
+  },
+  {
+    "id": "ch-partner-europe-life-sciences",
+    "label": "Europe Life Sciences Partner Desk",
+    "type": "partner_distribution",
+    "region": "DACH, Benelux, France, Nordics",
+    "audience": "Healthcare and life sciences professional readership",
+    "status": "verified",
+    "verifiedOn": "2026-05-14T00:00:00.000Z",
+    "indicativePrice": 620,
+    "currency": "GBP",
+    "administratorNote": "Written arrangement verified May 2026. Requires a pre-approval status disclosure for any clinical product claim."
+  },
+  {
+    "id": "ch-partner-logistics-network",
+    "label": "European Logistics Partner Network",
+    "type": "partner_distribution",
+    "region": "United Kingdom, DACH, Benelux",
+    "audience": "Freight, haulage and supply chain operators",
+    "status": "verified",
+    "verifiedOn": "2026-08-02T00:00:00.000Z",
+    "indicativePrice": 540,
+    "currency": "GBP",
+    "administratorNote": "Arrangement confirmed August 2026. Accepts fleet, infrastructure and route announcements only."
+  },
+  {
+    "id": "ch-partner-east-africa",
+    "label": "East Africa Business Partner Desk",
+    "type": "partner_distribution",
+    "region": "East Africa",
+    "audience": "Regional business readership and trade associations",
+    "status": "pending_verification",
+    "indicativePrice": 390,
+    "currency": "GBP",
+    "administratorNote": "Renewal documentation outstanding since 2026-09-15. Must not be quoted to clients as a confirmed channel until verification is re-recorded."
+  },
+  {
+    "id": "ch-syndication-international-wire",
+    "label": "International Syndication Wire",
+    "type": "syndication_wire",
+    "region": "Global",
+    "audience": "Subscribing newsrooms and content platforms",
+    "status": "verified",
+    "verifiedOn": "2026-03-20T00:00:00.000Z",
+    "indicativePrice": 980,
+    "currency": "GBP",
+    "administratorNote": "Transmission is confirmed and logged. Pickup by any individual subscribing newsroom is never guaranteed and must never be sold as such."
+  },
+  {
+    "id": "ch-syndication-north-america",
+    "label": "North American Syndication Wire",
+    "type": "syndication_wire",
+    "region": "North America",
+    "audience": "Subscribing business newsrooms",
+    "status": "verified",
+    "verifiedOn": "2026-03-20T00:00:00.000Z",
+    "indicativePrice": 1240,
+    "currency": "GBP",
+    "administratorNote": "Tier 1 only. Requires US-compliant commercial disclosure wording in the release footer."
+  },
+  {
+    "id": "ch-regional-uk-desk",
+    "label": "UK Regional Desk Outreach",
+    "type": "regional_desk",
+    "region": "United Kingdom — regional",
+    "audience": "Regional business and industry journalists",
+    "status": "verified",
+    "verifiedOn": "2026-07-11T00:00:00.000Z",
+    "indicativePrice": 310,
+    "currency": "GBP",
+    "administratorNote": "Earned-media pitching. Every contact and outcome is logged. Coverage is not sold, not invoiced and not guaranteed."
+  },
+  {
+    "id": "ch-regional-gulf-desk",
+    "label": "Gulf Regional Desk Outreach",
+    "type": "regional_desk",
+    "region": "Gulf Cooperation Council",
+    "audience": "Regional energy, finance and diversification journalists",
+    "status": "suspended",
+    "indicativePrice": 460,
+    "currency": "GBP",
+    "administratorNote": "Suspended 2026-09-01 pending review of local accreditation requirements. Unavailable for booking; excluded from all quotes until reinstated."
+  }
+]

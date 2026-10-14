@@ -9,50 +9,603 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteAboutRouteImport } from './routes/_site/about'
+import { Route as SiteAdminRouteImport } from './routes/_site/admin'
+import { Route as SiteAdvertisingRouteImport } from './routes/_site/advertising'
+import { Route as SiteCheckoutRouteImport } from './routes/_site/checkout'
+import { Route as SiteContactRouteImport } from './routes/_site/contact'
+import { Route as SiteDashboardRouteImport } from './routes/_site/dashboard'
+import { Route as SiteEditorialPolicyRouteImport } from './routes/_site/editorial-policy'
+import { Route as SitePrivacyRouteImport } from './routes/_site/privacy'
+import { Route as SiteRegisterRouteImport } from './routes/_site/register'
+import { Route as SiteSigninRouteImport } from './routes/_site/signin'
+import { Route as SiteSurveyEthicsRouteImport } from './routes/_site/survey-ethics'
+import { Route as SiteTermsRouteImport } from './routes/_site/terms'
+import { Route as SiteNewsIndexRouteImport } from './routes/_site/news/index'
+import { Route as SiteNewsSlugRouteImport } from './routes/_site/news/$slug'
+import { Route as SitePressReleasesIndexRouteImport } from './routes/_site/press-releases/index'
+import { Route as SitePressReleasesIdRouteImport } from './routes/_site/press-releases/$id'
+import { Route as SitePressReleasesBookRouteImport } from './routes/_site/press-releases/book'
+import { Route as SiteServicesIndexRouteImport } from './routes/_site/services/index'
+import { Route as SiteServicesSlugRouteImport } from './routes/_site/services/$slug'
+import { Route as SiteShopIndexRouteImport } from './routes/_site/shop/index'
+import { Route as SiteShopSlugRouteImport } from './routes/_site/shop/$slug'
+import { Route as SiteSurveysIndexRouteImport } from './routes/_site/surveys/index'
+import { Route as SiteSurveysIdRouteImport } from './routes/_site/surveys/$id'
+import { Route as SiteSurveysCreateRouteImport } from './routes/_site/surveys/create'
+import { Route as SiteSurveysPlansRouteImport } from './routes/_site/surveys/plans'
 
-const IndexRoute = IndexRouteImport.update({
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAdminRoute = SiteAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAdvertisingRoute = SiteAdvertisingRouteImport.update({
+  id: '/advertising',
+  path: '/advertising',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCheckoutRoute = SiteCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteContactRoute = SiteContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteDashboardRoute = SiteDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteEditorialPolicyRoute = SiteEditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePrivacyRoute = SitePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteRegisterRoute = SiteRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSigninRoute = SiteSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSurveyEthicsRoute = SiteSurveyEthicsRouteImport.update({
+  id: '/survey-ethics',
+  path: '/survey-ethics',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTermsRoute = SiteTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteNewsIndexRoute = SiteNewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteNewsSlugRoute = SiteNewsSlugRouteImport.update({
+  id: '/news/$slug',
+  path: '/news/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePressReleasesIndexRoute = SitePressReleasesIndexRouteImport.update({
+  id: '/press-releases/',
+  path: '/press-releases/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePressReleasesIdRoute = SitePressReleasesIdRouteImport.update({
+  id: '/press-releases/$id',
+  path: '/press-releases/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePressReleasesBookRoute = SitePressReleasesBookRouteImport.update({
+  id: '/press-releases/book',
+  path: '/press-releases/book',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteServicesIndexRoute = SiteServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteServicesSlugRoute = SiteServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteShopIndexRoute = SiteShopIndexRouteImport.update({
+  id: '/shop/',
+  path: '/shop/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteShopSlugRoute = SiteShopSlugRouteImport.update({
+  id: '/shop/$slug',
+  path: '/shop/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSurveysIndexRoute = SiteSurveysIndexRouteImport.update({
+  id: '/surveys/',
+  path: '/surveys/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSurveysIdRoute = SiteSurveysIdRouteImport.update({
+  id: '/surveys/$id',
+  path: '/surveys/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSurveysCreateRoute = SiteSurveysCreateRouteImport.update({
+  id: '/surveys/create',
+  path: '/surveys/create',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSurveysPlansRoute = SiteSurveysPlansRouteImport.update({
+  id: '/surveys/plans',
+  path: '/surveys/plans',
+  getParentRoute: () => SiteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
+  '/about': typeof SiteAboutRoute
+  '/admin': typeof SiteAdminRoute
+  '/advertising': typeof SiteAdvertisingRoute
+  '/checkout': typeof SiteCheckoutRoute
+  '/contact': typeof SiteContactRoute
+  '/dashboard': typeof SiteDashboardRoute
+  '/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/privacy': typeof SitePrivacyRoute
+  '/register': typeof SiteRegisterRoute
+  '/signin': typeof SiteSigninRoute
+  '/survey-ethics': typeof SiteSurveyEthicsRoute
+  '/terms': typeof SiteTermsRoute
+  '/news/$slug': typeof SiteNewsSlugRoute
+  '/press-releases/$id': typeof SitePressReleasesIdRoute
+  '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/services/$slug': typeof SiteServicesSlugRoute
+  '/shop/$slug': typeof SiteShopSlugRoute
+  '/surveys/$id': typeof SiteSurveysIdRoute
+  '/surveys/create': typeof SiteSurveysCreateRoute
+  '/surveys/plans': typeof SiteSurveysPlansRoute
+  '/news/': typeof SiteNewsIndexRoute
+  '/press-releases/': typeof SitePressReleasesIndexRoute
+  '/services/': typeof SiteServicesIndexRoute
+  '/shop/': typeof SiteShopIndexRoute
+  '/surveys/': typeof SiteSurveysIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/about': typeof SiteAboutRoute
+  '/admin': typeof SiteAdminRoute
+  '/advertising': typeof SiteAdvertisingRoute
+  '/checkout': typeof SiteCheckoutRoute
+  '/contact': typeof SiteContactRoute
+  '/dashboard': typeof SiteDashboardRoute
+  '/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/privacy': typeof SitePrivacyRoute
+  '/register': typeof SiteRegisterRoute
+  '/signin': typeof SiteSigninRoute
+  '/survey-ethics': typeof SiteSurveyEthicsRoute
+  '/terms': typeof SiteTermsRoute
+  '/': typeof SiteIndexRoute
+  '/news/$slug': typeof SiteNewsSlugRoute
+  '/press-releases/$id': typeof SitePressReleasesIdRoute
+  '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/services/$slug': typeof SiteServicesSlugRoute
+  '/shop/$slug': typeof SiteShopSlugRoute
+  '/surveys/$id': typeof SiteSurveysIdRoute
+  '/surveys/create': typeof SiteSurveysCreateRoute
+  '/surveys/plans': typeof SiteSurveysPlansRoute
+  '/news': typeof SiteNewsIndexRoute
+  '/press-releases': typeof SitePressReleasesIndexRoute
+  '/services': typeof SiteServicesIndexRoute
+  '/shop': typeof SiteShopIndexRoute
+  '/surveys': typeof SiteSurveysIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/_site/about': typeof SiteAboutRoute
+  '/_site/admin': typeof SiteAdminRoute
+  '/_site/advertising': typeof SiteAdvertisingRoute
+  '/_site/checkout': typeof SiteCheckoutRoute
+  '/_site/contact': typeof SiteContactRoute
+  '/_site/dashboard': typeof SiteDashboardRoute
+  '/_site/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/_site/privacy': typeof SitePrivacyRoute
+  '/_site/register': typeof SiteRegisterRoute
+  '/_site/signin': typeof SiteSigninRoute
+  '/_site/survey-ethics': typeof SiteSurveyEthicsRoute
+  '/_site/terms': typeof SiteTermsRoute
+  '/_site/': typeof SiteIndexRoute
+  '/_site/news/$slug': typeof SiteNewsSlugRoute
+  '/_site/press-releases/$id': typeof SitePressReleasesIdRoute
+  '/_site/press-releases/book': typeof SitePressReleasesBookRoute
+  '/_site/services/$slug': typeof SiteServicesSlugRoute
+  '/_site/shop/$slug': typeof SiteShopSlugRoute
+  '/_site/surveys/$id': typeof SiteSurveysIdRoute
+  '/_site/surveys/create': typeof SiteSurveysCreateRoute
+  '/_site/surveys/plans': typeof SiteSurveysPlansRoute
+  '/_site/news/': typeof SiteNewsIndexRoute
+  '/_site/press-releases/': typeof SitePressReleasesIndexRoute
+  '/_site/services/': typeof SiteServicesIndexRoute
+  '/_site/shop/': typeof SiteShopIndexRoute
+  '/_site/surveys/': typeof SiteSurveysIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/advertising'
+    | '/checkout'
+    | '/contact'
+    | '/dashboard'
+    | '/editorial-policy'
+    | '/privacy'
+    | '/register'
+    | '/signin'
+    | '/survey-ethics'
+    | '/terms'
+    | '/news/$slug'
+    | '/press-releases/$id'
+    | '/press-releases/book'
+    | '/services/$slug'
+    | '/shop/$slug'
+    | '/surveys/$id'
+    | '/surveys/create'
+    | '/surveys/plans'
+    | '/news/'
+    | '/press-releases/'
+    | '/services/'
+    | '/shop/'
+    | '/surveys/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/about'
+    | '/admin'
+    | '/advertising'
+    | '/checkout'
+    | '/contact'
+    | '/dashboard'
+    | '/editorial-policy'
+    | '/privacy'
+    | '/register'
+    | '/signin'
+    | '/survey-ethics'
+    | '/terms'
+    | '/'
+    | '/news/$slug'
+    | '/press-releases/$id'
+    | '/press-releases/book'
+    | '/services/$slug'
+    | '/shop/$slug'
+    | '/surveys/$id'
+    | '/surveys/create'
+    | '/surveys/plans'
+    | '/news'
+    | '/press-releases'
+    | '/services'
+    | '/shop'
+    | '/surveys'
+  id:
+    | '__root__'
+    | '/_site'
+    | '/_site/about'
+    | '/_site/admin'
+    | '/_site/advertising'
+    | '/_site/checkout'
+    | '/_site/contact'
+    | '/_site/dashboard'
+    | '/_site/editorial-policy'
+    | '/_site/privacy'
+    | '/_site/register'
+    | '/_site/signin'
+    | '/_site/survey-ethics'
+    | '/_site/terms'
+    | '/_site/'
+    | '/_site/news/$slug'
+    | '/_site/press-releases/$id'
+    | '/_site/press-releases/book'
+    | '/_site/services/$slug'
+    | '/_site/shop/$slug'
+    | '/_site/surveys/$id'
+    | '/_site/surveys/create'
+    | '/_site/surveys/plans'
+    | '/_site/news/'
+    | '/_site/press-releases/'
+    | '/_site/services/'
+    | '/_site/shop/'
+    | '/_site/surveys/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  SiteRoute: typeof SiteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/about': {
+      id: '/_site/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/admin': {
+      id: '/_site/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof SiteAdminRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/advertising': {
+      id: '/_site/advertising'
+      path: '/advertising'
+      fullPath: '/advertising'
+      preLoaderRoute: typeof SiteAdvertisingRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/checkout': {
+      id: '/_site/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof SiteCheckoutRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/contact': {
+      id: '/_site/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/dashboard': {
+      id: '/_site/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof SiteDashboardRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/editorial-policy': {
+      id: '/_site/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof SiteEditorialPolicyRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/privacy': {
+      id: '/_site/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof SitePrivacyRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/register': {
+      id: '/_site/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof SiteRegisterRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/signin': {
+      id: '/_site/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SiteSigninRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/survey-ethics': {
+      id: '/_site/survey-ethics'
+      path: '/survey-ethics'
+      fullPath: '/survey-ethics'
+      preLoaderRoute: typeof SiteSurveyEthicsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/terms': {
+      id: '/_site/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof SiteTermsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/news/': {
+      id: '/_site/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof SiteNewsIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/news/$slug': {
+      id: '/_site/news/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof SiteNewsSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/press-releases/': {
+      id: '/_site/press-releases/'
+      path: '/press-releases'
+      fullPath: '/press-releases/'
+      preLoaderRoute: typeof SitePressReleasesIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/press-releases/$id': {
+      id: '/_site/press-releases/$id'
+      path: '/press-releases/$id'
+      fullPath: '/press-releases/$id'
+      preLoaderRoute: typeof SitePressReleasesIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/press-releases/book': {
+      id: '/_site/press-releases/book'
+      path: '/press-releases/book'
+      fullPath: '/press-releases/book'
+      preLoaderRoute: typeof SitePressReleasesBookRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/services/': {
+      id: '/_site/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof SiteServicesIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/services/$slug': {
+      id: '/_site/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof SiteServicesSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/shop/': {
+      id: '/_site/shop/'
+      path: '/shop'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof SiteShopIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/shop/$slug': {
+      id: '/_site/shop/$slug'
+      path: '/shop/$slug'
+      fullPath: '/shop/$slug'
+      preLoaderRoute: typeof SiteShopSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/surveys/': {
+      id: '/_site/surveys/'
+      path: '/surveys'
+      fullPath: '/surveys/'
+      preLoaderRoute: typeof SiteSurveysIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/surveys/$id': {
+      id: '/_site/surveys/$id'
+      path: '/surveys/$id'
+      fullPath: '/surveys/$id'
+      preLoaderRoute: typeof SiteSurveysIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/surveys/create': {
+      id: '/_site/surveys/create'
+      path: '/surveys/create'
+      fullPath: '/surveys/create'
+      preLoaderRoute: typeof SiteSurveysCreateRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/surveys/plans': {
+      id: '/_site/surveys/plans'
+      path: '/surveys/plans'
+      fullPath: '/surveys/plans'
+      preLoaderRoute: typeof SiteSurveysPlansRouteImport
+      parentRoute: typeof SiteRoute
     }
   }
 }
 
+interface SiteRouteChildren {
+  SiteAboutRoute: typeof SiteAboutRoute
+  SiteAdminRoute: typeof SiteAdminRoute
+  SiteAdvertisingRoute: typeof SiteAdvertisingRoute
+  SiteCheckoutRoute: typeof SiteCheckoutRoute
+  SiteContactRoute: typeof SiteContactRoute
+  SiteDashboardRoute: typeof SiteDashboardRoute
+  SiteEditorialPolicyRoute: typeof SiteEditorialPolicyRoute
+  SitePrivacyRoute: typeof SitePrivacyRoute
+  SiteRegisterRoute: typeof SiteRegisterRoute
+  SiteSigninRoute: typeof SiteSigninRoute
+  SiteSurveyEthicsRoute: typeof SiteSurveyEthicsRoute
+  SiteTermsRoute: typeof SiteTermsRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+  SiteNewsSlugRoute: typeof SiteNewsSlugRoute
+  SitePressReleasesIdRoute: typeof SitePressReleasesIdRoute
+  SitePressReleasesBookRoute: typeof SitePressReleasesBookRoute
+  SiteServicesSlugRoute: typeof SiteServicesSlugRoute
+  SiteShopSlugRoute: typeof SiteShopSlugRoute
+  SiteSurveysIdRoute: typeof SiteSurveysIdRoute
+  SiteSurveysCreateRoute: typeof SiteSurveysCreateRoute
+  SiteSurveysPlansRoute: typeof SiteSurveysPlansRoute
+  SiteNewsIndexRoute: typeof SiteNewsIndexRoute
+  SitePressReleasesIndexRoute: typeof SitePressReleasesIndexRoute
+  SiteServicesIndexRoute: typeof SiteServicesIndexRoute
+  SiteShopIndexRoute: typeof SiteShopIndexRoute
+  SiteSurveysIndexRoute: typeof SiteSurveysIndexRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteAboutRoute: SiteAboutRoute,
+  SiteAdminRoute: SiteAdminRoute,
+  SiteAdvertisingRoute: SiteAdvertisingRoute,
+  SiteCheckoutRoute: SiteCheckoutRoute,
+  SiteContactRoute: SiteContactRoute,
+  SiteDashboardRoute: SiteDashboardRoute,
+  SiteEditorialPolicyRoute: SiteEditorialPolicyRoute,
+  SitePrivacyRoute: SitePrivacyRoute,
+  SiteRegisterRoute: SiteRegisterRoute,
+  SiteSigninRoute: SiteSigninRoute,
+  SiteSurveyEthicsRoute: SiteSurveyEthicsRoute,
+  SiteTermsRoute: SiteTermsRoute,
+  SiteIndexRoute: SiteIndexRoute,
+  SiteNewsSlugRoute: SiteNewsSlugRoute,
+  SitePressReleasesIdRoute: SitePressReleasesIdRoute,
+  SitePressReleasesBookRoute: SitePressReleasesBookRoute,
+  SiteServicesSlugRoute: SiteServicesSlugRoute,
+  SiteShopSlugRoute: SiteShopSlugRoute,
+  SiteSurveysIdRoute: SiteSurveysIdRoute,
+  SiteSurveysCreateRoute: SiteSurveysCreateRoute,
+  SiteSurveysPlansRoute: SiteSurveysPlansRoute,
+  SiteNewsIndexRoute: SiteNewsIndexRoute,
+  SitePressReleasesIndexRoute: SitePressReleasesIndexRoute,
+  SiteServicesIndexRoute: SiteServicesIndexRoute,
+  SiteShopIndexRoute: SiteShopIndexRoute,
+  SiteSurveysIndexRoute: SiteSurveysIndexRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  SiteRoute: SiteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

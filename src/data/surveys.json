@@ -1,0 +1,1270 @@
+[
+  {
+    "id": "srv-pan-african-payments",
+    "title": "2026 Pan-African Digital Payment Adoption",
+    "slug": "2026-pan-african-digital-payment-adoption",
+    "category": "Finance & Investment",
+    "objective": "Establish how businesses and households across six African markets actually use digital payment rails, which interoperability failures cost them money, and what would make them move a larger share of volume onto cross-border instruments.",
+    "audience": "Finance leads, treasury managers and owners of businesses transacting in Nigeria, Ghana, Kenya, Rwanda, Egypt and South Africa, plus households that send or receive cross-border payments.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Amara Okafor",
+    "organizationId": "org-innotrend",
+    "tier": "premium",
+    "planId": "plan-premium",
+    "status": "active",
+    "responseCount": 842,
+    "responseLimit": 1000,
+    "openingDate": "2026-08-01T00:00:00.000Z",
+    "closingDate": "2026-11-30T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": true,
+    "consentNotice": "Your responses are anonymous and will be reported only in aggregate. No payment account details, card numbers or personally identifying information are requested or should be entered. Participation is voluntary and you may stop at any point without giving a reason.",
+    "estimatedMinutes": 7,
+    "incentive": "Participants may request the summary findings report on completion.",
+    "tags": ["payments", "fintech", "cross-border", "treasury", "Africa"],
+    "createdAt": "2026-07-18T09:00:00.000Z",
+    "updatedAt": "2026-10-11T16:40:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Which market do you primarily transact in?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Nigeria", "Ghana", "Kenya", "Rwanda", "Egypt", "South Africa", "Other"],
+        "helpText": "Select the market where the majority of your transaction volume occurs."
+      },
+      {
+        "id": "q2",
+        "prompt": "Which of these payment instruments does your organisation use at least monthly?",
+        "type": "multi_choice",
+        "required": true,
+        "options": [
+          "Mobile money wallet",
+          "Bank transfer / RTGS",
+          "Instant payment scheme",
+          "Card acquiring (in person)",
+          "Card-not-present / online gateway",
+          "USSD-based payment",
+          "Stablecoin or digital asset rail",
+          "Cash"
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "Roughly what share of your monthly transaction volume is cross-border?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["None", "Under 5%", "5–20%", "21–50%", "More than 50%"]
+      },
+      {
+        "id": "q4",
+        "prompt": "How long does a typical cross-border payment take to settle for you?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Same day", "1–2 working days", "3–5 working days", "More than 5 working days", "It varies too much to state"],
+        "logic": {
+          "questionId": "q3",
+          "operator": "not_equals",
+          "value": "None",
+          "description": "Shown only to respondents who reported cross-border volume in question 3."
+        }
+      },
+      {
+        "id": "q5",
+        "prompt": "Rate the reliability of the payment rails you depend on most.",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "helpText": "Statement: 'The payment rails I depend on most settle when the provider says they will.'",
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q6",
+        "prompt": "On a scale of 1 to 10, how much does payment failure or delay cost your organisation each month?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "Negligible cost", "right": "Severe cost" }
+      },
+      {
+        "id": "q7",
+        "prompt": "What single change would move the most volume onto a cross-border digital instrument?",
+        "type": "short_text",
+        "required": false,
+        "helpText": "One sentence is enough. Please do not include account numbers or personal details."
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Nigeria", "value": 31, "count": 261 },
+          { "label": "Ghana", "value": 12, "count": 101 },
+          { "label": "Kenya", "value": 22, "count": 185 },
+          { "label": "Rwanda", "value": 7, "count": 59 },
+          { "label": "Egypt", "value": 14, "count": 118 },
+          { "label": "South Africa", "value": 11, "count": 93 },
+          { "label": "Other", "value": 3, "count": 25 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Mobile money wallet", "value": 74, "count": 623 },
+          { "label": "Bank transfer / RTGS", "value": 61, "count": 514 },
+          { "label": "Instant payment scheme", "value": 48, "count": 404 },
+          { "label": "Card acquiring (in person)", "value": 33, "count": 278 },
+          { "label": "Card-not-present / online gateway", "value": 29, "count": 244 },
+          { "label": "USSD-based payment", "value": 41, "count": 345 },
+          { "label": "Stablecoin or digital asset rail", "value": 17, "count": 143 },
+          { "label": "Cash", "value": 26, "count": 219 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "None", "value": 18, "count": 152 },
+          { "label": "Under 5%", "value": 24, "count": 202 },
+          { "label": "5–20%", "value": 31, "count": 261 },
+          { "label": "21–50%", "value": 19, "count": 160 },
+          { "label": "More than 50%", "value": 8, "count": 67 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Same day", "value": 14, "count": 97 },
+          { "label": "1–2 working days", "value": 33, "count": 228 },
+          { "label": "3–5 working days", "value": 29, "count": 200 },
+          { "label": "More than 5 working days", "value": 12, "count": 83 },
+          { "label": "It varies too much to state", "value": 12, "count": 82 }
+        ]
+      },
+      {
+        "questionId": "q5",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 11, "count": 93 },
+          { "label": "Disagree", "value": 21, "count": 177 },
+          { "label": "Neutral", "value": 28, "count": 236 },
+          { "label": "Agree", "value": 27, "count": 227 },
+          { "label": "Strongly agree", "value": 13, "count": 109 }
+        ],
+        "mean": 3.21
+      },
+      { "questionId": "q6", "buckets": [], "mean": 6.4 },
+      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 486 }] }
+    ]
+  },
+  {
+    "id": "srv-remote-board-engagement",
+    "title": "Remote Executive Work Practices & Board Engagement",
+    "slug": "remote-executive-work-practices-board-engagement",
+    "category": "Employee / Organisation Surveys",
+    "objective": "Understand how executive teams and boards have adapted their meeting practice to hybrid and remote working, and whether the change has affected the quality of scrutiny, dissent and decision records.",
+    "audience": "Board members, company secretaries, executives and senior governance professionals at organisations with a hybrid or fully remote meeting practice.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Amara Okafor",
+    "tier": "free",
+    "planId": "plan-free",
+    "status": "active",
+    "responseCount": 89,
+    "responseLimit": 100,
+    "openingDate": "2026-09-01T00:00:00.000Z",
+    "closingDate": "2026-10-31T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": false,
+    "consentNotice": "Responses are anonymous. Please do not name your organisation, colleagues or any identifiable matter under discussion. Aggregate results only will be published.",
+    "estimatedMinutes": 5,
+    "tags": ["governance", "boards", "hybrid working", "organisational practice"],
+    "createdAt": "2026-08-22T10:15:00.000Z",
+    "updatedAt": "2026-10-10T09:05:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What is your primary role in relation to the board?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Executive director", "Non-executive director", "Chair", "Company secretary or governance lead", "Senior management attendee", "Other"]
+      },
+      {
+        "id": "q2",
+        "prompt": "How are board meetings currently held?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Fully in person", "Predominantly in person with remote option", "Fully remote", "Alternating in person and remote", "No fixed pattern"]
+      },
+      {
+        "id": "q3",
+        "prompt": "Which practices has your board adopted since moving to hybrid working?",
+        "type": "multi_choice",
+        "required": false,
+        "options": [
+          "Papers circulated further in advance",
+          "Shorter meetings with more frequent sessions",
+          "Pre-recorded briefings from management",
+          "Written dissent recorded in the minutes",
+          "Private sessions excluding management",
+          "Formal technology and confidentiality protocol"
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "Has the willingness of non-executives to challenge management changed?",
+        "type": "likert",
+        "required": true,
+        "options": ["Much less willing", "Slightly less willing", "No change", "Slightly more willing", "Much more willing"],
+        "scaleLabels": { "left": "Much less willing", "right": "Much more willing" }
+      },
+      {
+        "id": "q5",
+        "prompt": "On a scale of 1 to 10, how confident are you that your minutes accurately record the substance of discussion?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "Not confident", "right": "Fully confident" }
+      },
+      {
+        "id": "q6",
+        "prompt": "What has been lost in the move away from fully in-person meetings?",
+        "type": "long_text",
+        "required": false,
+        "helpText": "A short paragraph is welcome. Do not include names or identifiable matters."
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Executive director", "value": 24, "count": 21 },
+          { "label": "Non-executive director", "value": 29, "count": 26 },
+          { "label": "Chair", "value": 11, "count": 10 },
+          { "label": "Company secretary or governance lead", "value": 19, "count": 17 },
+          { "label": "Senior management attendee", "value": 12, "count": 11 },
+          { "label": "Other", "value": 5, "count": 4 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Fully in person", "value": 16, "count": 14 },
+          { "label": "Predominantly in person with remote option", "value": 42, "count": 37 },
+          { "label": "Fully remote", "value": 9, "count": 8 },
+          { "label": "Alternating in person and remote", "value": 25, "count": 22 },
+          { "label": "No fixed pattern", "value": 8, "count": 8 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Papers circulated further in advance", "value": 63, "count": 56 },
+          { "label": "Shorter meetings with more frequent sessions", "value": 38, "count": 34 },
+          { "label": "Pre-recorded briefings from management", "value": 27, "count": 24 },
+          { "label": "Written dissent recorded in the minutes", "value": 19, "count": 17 },
+          { "label": "Private sessions excluding management", "value": 47, "count": 42 },
+          { "label": "Formal technology and confidentiality protocol", "value": 34, "count": 30 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Much less willing", "value": 8, "count": 7 },
+          { "label": "Slightly less willing", "value": 24, "count": 21 },
+          { "label": "No change", "value": 39, "count": 35 },
+          { "label": "Slightly more willing", "value": 21, "count": 19 },
+          { "label": "Much more willing", "value": 8, "count": 7 }
+        ],
+        "mean": 2.96
+      },
+      { "questionId": "q5", "buckets": [], "mean": 7.1 },
+      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 52 }] }
+    ]
+  },
+  {
+    "id": "srv-sustainable-packaging",
+    "title": "Consumer Sentiments on Sustainable Packaging in Fast-Moving Goods",
+    "slug": "consumer-sentiments-sustainable-packaging-fast-moving-goods",
+    "category": "Consumer Behaviour",
+    "objective": "Test whether stated willingness to pay for sustainable packaging survives contact with a realistic price differential, and identify which packaging claims consumers actually trust.",
+    "audience": "Adult consumers who purchase fast-moving consumer goods at least weekly, across the United Kingdom, Ireland and three continental European markets.",
+    "creatorId": "user-administrator",
+    "creatorName": "F.M.I.E Research Desk",
+    "tier": "premium",
+    "planId": "plan-premium",
+    "status": "pending_moderation",
+    "responseCount": 0,
+    "responseLimit": 2500,
+    "openingDate": "2026-10-20T00:00:00.000Z",
+    "closingDate": "2027-01-31T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": false,
+    "consentNotice": "Your responses will be used for aggregated market research reporting only. No personal data is sold or shared with third parties. You may withdraw by contacting the research desk before the closing date.",
+    "estimatedMinutes": 6,
+    "tags": ["consumer behaviour", "sustainability", "packaging", "FMCG", "pricing"],
+    "createdAt": "2026-10-09T14:20:00.000Z",
+    "updatedAt": "2026-10-11T08:10:00.000Z",
+    "moderationNote": "Awaiting editorial review: question 6 asks respondents to estimate a household income band, which the moderation desk has flagged as sensitive. Recommend making it optional and adding an explicit 'prefer not to say' option before approval.",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "How often do you check packaging material or disposal instructions before buying a product?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Always", "Often", "Sometimes", "Rarely", "Never"]
+      },
+      {
+        "id": "q2",
+        "prompt": "Which packaging claims do you trust?",
+        "type": "multi_choice",
+        "required": true,
+        "options": [
+          "A named certification mark",
+          "A retailer's own sustainability label",
+          "A manufacturer's on-pack claim",
+          "A recycling instruction with a local authority reference",
+          "None of these"
+        ],
+        "helpText": "Select all that apply."
+      },
+      {
+        "id": "q3",
+        "prompt": "You are choosing between two equivalent products. The more sustainably packaged option costs 15% more. What do you do?",
+        "type": "single_choice",
+        "required": true,
+        "options": [
+          "Buy the sustainable option",
+          "Buy the cheaper option",
+          "Depends on the product category",
+          "Look for a third option"
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "For which categories would you pay the 15% premium?",
+        "type": "multi_choice",
+        "required": false,
+        "options": ["Food and drink", "Household cleaning", "Personal care", "Baby products", "Pet products", "None"],
+        "logic": {
+          "questionId": "q3",
+          "operator": "contains",
+          "value": "Depends on the product category",
+          "description": "Shown only to respondents who said the premium depends on category in question 3."
+        }
+      },
+      {
+        "id": "q5",
+        "prompt": "'I would change brand over packaging alone.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q6",
+        "prompt": "Which household income band does your purchase fall into?",
+        "type": "single_choice",
+        "required": false,
+        "options": ["Under £25,000", "£25,000–£50,000", "£50,000–£80,000", "Over £80,000", "Prefer not to say"],
+        "helpText": "Optional. Used only for aggregate segmentation."
+      }
+    ]
+  },
+  {
+    "id": "srv-automated-bookkeeping",
+    "title": "Small Business Adoption of Automated Bookkeeping Tools",
+    "slug": "small-business-adoption-automated-bookkeeping-tools",
+    "category": "Business & Market Research",
+    "objective": "Measure how small and micro businesses adopt automated bookkeeping, what stops adoption, and whether adoption has changed the relationship between the owner and their accountant.",
+    "audience": "Owners, finance managers and accountants serving businesses with fewer than fifty employees.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Amara Okafor",
+    "organizationId": "org-innotrend",
+    "tier": "free",
+    "planId": "plan-free",
+    "status": "active",
+    "responseCount": 316,
+    "responseLimit": 100,
+    "openingDate": "2026-07-15T00:00:00.000Z",
+    "closingDate": "2026-12-15T23:59:59.000Z",
+    "isAnonymous": false,
+    "isBranded": true,
+    "consentNotice": "Responses may be attributed to your organisation in aggregate sector reporting. Individual answers will not be published or sold. Contact the research desk to withdraw.",
+    "estimatedMinutes": 4,
+    "tags": ["SME", "bookkeeping", "accounting software", "adoption"],
+    "createdAt": "2026-07-02T11:00:00.000Z",
+    "updatedAt": "2026-10-08T15:30:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "How many people does your organisation employ?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Just me", "2–9", "10–24", "25–49"]
+      },
+      {
+        "id": "q2",
+        "prompt": "How are your books currently maintained?",
+        "type": "single_choice",
+        "required": true,
+        "options": [
+          "Spreadsheet maintained in-house",
+          "Accounting software maintained in-house",
+          "Accounting software maintained by an external accountant",
+          "Fully outsourced to an accountant or bookkeeper",
+          "Paper records"
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "Which of these have you automated in the last twelve months?",
+        "type": "multi_choice",
+        "required": false,
+        "options": [
+          "Bank feed reconciliation",
+          "Invoice issuing",
+          "Expense capture",
+          "Payroll",
+          "VAT or sales tax return preparation",
+          "None"
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What was the main barrier to automating further?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Cost", "Time to set up", "Trust in the output", "Staff capability", "No barrier — we are fully automated", "Not applicable"],
+        "logic": {
+          "questionId": "q2",
+          "operator": "not_equals",
+          "value": "Paper records",
+          "description": "Hidden for organisations still on paper records, who are routed to question 5."
+        }
+      },
+      {
+        "id": "q5",
+        "prompt": "On a scale of 1 to 10, how much has automation changed the frequency of your conversations with your accountant?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "No change", "right": "Transformed" }
+      },
+      {
+        "id": "q6",
+        "prompt": "Describe one task you still do manually that you would automate if you could.",
+        "type": "short_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Just me", "value": 27, "count": 85 },
+          { "label": "2–9", "value": 41, "count": 130 },
+          { "label": "10–24", "value": 21, "count": 66 },
+          { "label": "25–49", "value": 11, "count": 35 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Spreadsheet maintained in-house", "value": 22, "count": 70 },
+          { "label": "Accounting software maintained in-house", "value": 34, "count": 107 },
+          { "label": "Accounting software maintained by an external accountant", "value": 25, "count": 79 },
+          { "label": "Fully outsourced to an accountant or bookkeeper", "value": 15, "count": 47 },
+          { "label": "Paper records", "value": 4, "count": 13 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Bank feed reconciliation", "value": 58, "count": 183 },
+          { "label": "Invoice issuing", "value": 44, "count": 139 },
+          { "label": "Expense capture", "value": 31, "count": 98 },
+          { "label": "Payroll", "value": 26, "count": 82 },
+          { "label": "VAT or sales tax return preparation", "value": 19, "count": 60 },
+          { "label": "None", "value": 17, "count": 54 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Cost", "value": 29, "count": 88 },
+          { "label": "Time to set up", "value": 22, "count": 67 },
+          { "label": "Trust in the output", "value": 18, "count": 55 },
+          { "label": "Staff capability", "value": 14, "count": 43 },
+          { "label": "No barrier — we are fully automated", "value": 12, "count": 37 },
+          { "label": "Not applicable", "value": 5, "count": 15 }
+        ]
+      },
+      { "questionId": "q5", "buckets": [], "mean": 5.8 },
+      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 141 }] }
+    ]
+  },
+  {
+    "id": "srv-digital-learning-access",
+    "title": "Secondary School Digital Learning Access in Urban Households",
+    "slug": "secondary-school-digital-learning-access-urban-households",
+    "category": "Education",
+    "objective": "Document the practical barriers to digital learning in urban secondary school households: device availability, connectivity quality, shared access and the effect on homework completion.",
+    "audience": "Parents and carers of secondary school pupils, and teaching staff working in urban secondary schools.",
+    "creatorId": "user-administrator",
+    "creatorName": "F.M.I.E Research Desk",
+    "tier": "free",
+    "planId": "plan-free",
+    "status": "active",
+    "responseCount": 574,
+    "responseLimit": 100,
+    "openingDate": "2026-09-08T00:00:00.000Z",
+    "closingDate": "2026-12-08T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": false,
+    "consentNotice": "This survey does not collect information about any identifiable child. Please do not include pupil names, school names or any detail that could identify a specific pupil or household.",
+    "estimatedMinutes": 6,
+    "tags": ["education", "digital access", "households", "inequality"],
+    "createdAt": "2026-08-30T09:40:00.000Z",
+    "updatedAt": "2026-10-09T12:00:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Are you responding as a parent or carer, or as teaching staff?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Parent or carer", "Teaching staff", "Both"]
+      },
+      {
+        "id": "q2",
+        "prompt": "How many devices suitable for schoolwork are available in the household?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["None", "One", "Two", "Three", "Four or more"],
+        "logic": {
+          "questionId": "q1",
+          "operator": "contains",
+          "value": "Parent or carer",
+          "description": "Household questions are shown only to parents and carers."
+        }
+      },
+      {
+        "id": "q3",
+        "prompt": "How often does a pupil have to wait for access to a shared device to complete work?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Never", "Rarely", "Weekly", "Most days", "Every day"],
+        "logic": {
+          "questionId": "q2",
+          "operator": "not_equals",
+          "value": "None",
+          "description": "Shown where at least one device is available."
+        }
+      },
+      {
+        "id": "q4",
+        "prompt": "'Home connectivity is reliable enough for video lessons and submission deadlines.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q5",
+        "prompt": "On a scale of 1 to 10, how much does device access affect homework completion in your experience?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "No effect", "right": "Decisive effect" }
+      },
+      {
+        "id": "q6",
+        "prompt": "What single support would most improve the situation?",
+        "type": "long_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Parent or carer", "value": 68, "count": 390 },
+          { "label": "Teaching staff", "value": 24, "count": 138 },
+          { "label": "Both", "value": 8, "count": 46 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "None", "value": 4, "count": 17 },
+          { "label": "One", "value": 23, "count": 101 },
+          { "label": "Two", "value": 36, "count": 158 },
+          { "label": "Three", "value": 25, "count": 110 },
+          { "label": "Four or more", "value": 12, "count": 53 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Never", "value": 21, "count": 90 },
+          { "label": "Rarely", "value": 27, "count": 116 },
+          { "label": "Weekly", "value": 26, "count": 112 },
+          { "label": "Most days", "value": 18, "count": 77 },
+          { "label": "Every day", "value": 8, "count": 34 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 9, "count": 39 },
+          { "label": "Disagree", "value": 18, "count": 77 },
+          { "label": "Neutral", "value": 24, "count": 103 },
+          { "label": "Agree", "value": 33, "count": 142 },
+          { "label": "Strongly agree", "value": 16, "count": 69 }
+        ],
+        "mean": 3.42
+      },
+      { "questionId": "q5", "buckets": [], "mean": 6.9 },
+      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 288 }] }
+    ]
+  },
+  {
+    "id": "srv-remote-gp-consultations",
+    "title": "Patient Experience of Remote GP Consultations",
+    "slug": "patient-experience-remote-gp-consultations",
+    "category": "Healthcare Research",
+    "objective": "Assess patient experience of remote primary care consultations across access, continuity, privacy and the willingness to raise a sensitive concern remotely.",
+    "audience": "Adults who have had at least one remote consultation with a general practice in the last twenty-four months.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Meridian Health Research",
+    "organizationId": "org-meridian",
+    "tier": "premium",
+    "planId": "plan-premium",
+    "status": "active",
+    "responseCount": 1284,
+    "responseLimit": 3000,
+    "openingDate": "2026-06-01T00:00:00.000Z",
+    "closingDate": "2026-12-01T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": true,
+    "consentNotice": "This survey asks about your experience of healthcare, not about your clinical condition. Do not include your name, NHS or patient number, medication details or the name of your practice. Responses are anonymous and reported in aggregate only. This survey is not a route to clinical advice or urgent care.",
+    "estimatedMinutes": 8,
+    "tags": ["healthcare", "primary care", "patient experience", "telehealth"],
+    "createdAt": "2026-05-14T08:00:00.000Z",
+    "updatedAt": "2026-10-11T10:45:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Which format was your most recent remote consultation?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Telephone", "Video", "Secure messaging or chat", "Online form with a clinician response", "A combination"]
+      },
+      {
+        "id": "q2",
+        "prompt": "How long did you wait between requesting and receiving the consultation?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Same day", "1–2 days", "3–7 days", "More than a week", "I cannot recall"]
+      },
+      {
+        "id": "q3",
+        "prompt": "Were you in a private place where you could speak freely?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Yes, entirely private", "Partly private", "No", "Prefer not to say"]
+      },
+      {
+        "id": "q4",
+        "prompt": "Would you raise a sensitive health concern in a remote consultation?",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "helpText": "Statement: 'I would raise a sensitive health concern remotely as readily as in person.'",
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q5",
+        "prompt": "Did you see the same clinician as in a previous consultation?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Yes, the same clinician", "No, a different clinician", "I do not know", "This was my first consultation"],
+        "logic": {
+          "questionId": "q2",
+          "operator": "is_answered",
+          "value": "",
+          "description": "Continuity question shown to all respondents who completed the access questions."
+        }
+      },
+      {
+        "id": "q6",
+        "prompt": "On a scale of 1 to 10, how confident were you in the clinician's assessment without a physical examination?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "Not confident", "right": "Fully confident" }
+      },
+      {
+        "id": "q7",
+        "prompt": "What would make a remote consultation work better for you?",
+        "type": "long_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Telephone", "value": 54, "count": 693 },
+          { "label": "Video", "value": 21, "count": 270 },
+          { "label": "Secure messaging or chat", "value": 11, "count": 141 },
+          { "label": "Online form with a clinician response", "value": 9, "count": 116 },
+          { "label": "A combination", "value": 5, "count": 64 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Same day", "value": 22, "count": 282 },
+          { "label": "1–2 days", "value": 31, "count": 398 },
+          { "label": "3–7 days", "value": 26, "count": 334 },
+          { "label": "More than a week", "value": 15, "count": 193 },
+          { "label": "I cannot recall", "value": 6, "count": 77 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Yes, entirely private", "value": 58, "count": 745 },
+          { "label": "Partly private", "value": 24, "count": 308 },
+          { "label": "No", "value": 12, "count": 154 },
+          { "label": "Prefer not to say", "value": 6, "count": 77 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 17, "count": 218 },
+          { "label": "Disagree", "value": 22, "count": 282 },
+          { "label": "Neutral", "value": 25, "count": 321 },
+          { "label": "Agree", "value": 24, "count": 308 },
+          { "label": "Strongly agree", "value": 12, "count": 155 }
+        ],
+        "mean": 2.92
+      },
+      {
+        "questionId": "q5",
+        "buckets": [
+          { "label": "Yes, the same clinician", "value": 29, "count": 372 },
+          { "label": "No, a different clinician", "value": 41, "count": 527 },
+          { "label": "I do not know", "value": 12, "count": 154 },
+          { "label": "This was my first consultation", "value": 18, "count": 231 }
+        ]
+      },
+      { "questionId": "q6", "buckets": [], "mean": 6.2 },
+      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 704 }] }
+    ]
+  },
+  {
+    "id": "srv-congestion-charging",
+    "title": "Public Attitudes to Urban Congestion Charging",
+    "slug": "public-attitudes-urban-congestion-charging",
+    "category": "Public Opinion",
+    "objective": "Measure public attitudes to road user charging in cities, including the conditions under which respondents say they would support a scheme and the distributional concerns they raise.",
+    "audience": "Adults living or working in urban areas with a population above 250,000.",
+    "creatorId": "user-administrator",
+    "creatorName": "F.M.I.E Research Desk",
+    "tier": "free",
+    "planId": "plan-free",
+    "status": "active",
+    "responseCount": 908,
+    "responseLimit": 100,
+    "openingDate": "2026-08-12T00:00:00.000Z",
+    "closingDate": "2026-11-12T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": false,
+    "consentNotice": "Responses are anonymous and reported in aggregate. Political affiliation is not collected. Do not include any personal or identifying information.",
+    "estimatedMinutes": 5,
+    "tags": ["public opinion", "transport", "urban policy", "road user charging"],
+    "createdAt": "2026-08-01T13:20:00.000Z",
+    "updatedAt": "2026-10-07T17:10:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "How do you usually travel to work or your main daily activity?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Car as driver", "Car as passenger", "Public transport", "Cycle or walk", "Motorcycle or scooter", "I do not travel regularly"]
+      },
+      {
+        "id": "q2",
+        "prompt": "Would you support a congestion charge in your city?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Yes", "No", "Only under specific conditions", "Do not know"]
+      },
+      {
+        "id": "q3",
+        "prompt": "Under which conditions would you support a scheme?",
+        "type": "multi_choice",
+        "required": false,
+        "options": [
+          "Revenue ring-fenced for public transport",
+          "Exemptions for disabled users and essential workers",
+          "A daily cap on total charges",
+          "Improved alternatives before the charge starts",
+          "A public vote on the scheme",
+          "No conditions would make me support it"
+        ],
+        "logic": {
+          "questionId": "q2",
+          "operator": "not_equals",
+          "value": "No",
+          "description": "Condition questions are hidden from respondents who answered 'No' in question 2."
+        }
+      },
+      {
+        "id": "q4",
+        "prompt": "'A congestion charge falls disproportionately on people with the least choice.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q5",
+        "prompt": "On a scale of 1 to 10, how much do you trust your city authority to spend the revenue as promised?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "No trust", "right": "Full trust" }
+      },
+      {
+        "id": "q6",
+        "prompt": "What would change your mind about road user charging?",
+        "type": "short_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Car as driver", "value": 43, "count": 390 },
+          { "label": "Car as passenger", "value": 9, "count": 82 },
+          { "label": "Public transport", "value": 27, "count": 245 },
+          { "label": "Cycle or walk", "value": 12, "count": 109 },
+          { "label": "Motorcycle or scooter", "value": 4, "count": 36 },
+          { "label": "I do not travel regularly", "value": 5, "count": 46 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Yes", "value": 23, "count": 209 },
+          { "label": "No", "value": 38, "count": 345 },
+          { "label": "Only under specific conditions", "value": 31, "count": 281 },
+          { "label": "Do not know", "value": 8, "count": 73 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Revenue ring-fenced for public transport", "value": 67, "count": 372 },
+          { "label": "Exemptions for disabled users and essential workers", "value": 71, "count": 394 },
+          { "label": "A daily cap on total charges", "value": 44, "count": 244 },
+          { "label": "Improved alternatives before the charge starts", "value": 78, "count": 433 },
+          { "label": "A public vote on the scheme", "value": 52, "count": 289 },
+          { "label": "No conditions would make me support it", "value": 14, "count": 78 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 8, "count": 73 },
+          { "label": "Disagree", "value": 14, "count": 127 },
+          { "label": "Neutral", "value": 21, "count": 191 },
+          { "label": "Agree", "value": 32, "count": 291 },
+          { "label": "Strongly agree", "value": 25, "count": 227 }
+        ],
+        "mean": 3.72
+      },
+      { "questionId": "q5", "buckets": [], "mean": 3.4 },
+      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 402 }] }
+    ]
+  },
+  {
+    "id": "srv-founder-capital-access",
+    "title": "Founder Access to Early-Stage Capital Outside Major Hubs",
+    "slug": "founder-access-early-stage-capital-outside-major-hubs",
+    "category": "Entrepreneurship",
+    "objective": "Test whether geography still determines access to early-stage capital, and identify which non-equity instruments founders outside major hubs actually use to reach their first revenue milestones.",
+    "audience": "Founders and early employees of companies under five years old with fewer than twenty-five staff, based outside London, Paris, Berlin, New York and San Francisco.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Amara Okafor",
+    "tier": "premium",
+    "planId": "plan-premium",
+    "status": "active",
+    "responseCount": 231,
+    "responseLimit": 500,
+    "openingDate": "2026-09-15T00:00:00.000Z",
+    "closingDate": "2027-01-15T23:59:59.000Z",
+    "isAnonymous": false,
+    "isBranded": true,
+    "consentNotice": "Company-level responses may be used in aggregate regional reporting. Individual financial terms, investor names and non-public valuations will not be published. You may request a copy of the aggregate findings on completion.",
+    "estimatedMinutes": 9,
+    "tags": ["venture capital", "founders", "regional economy", "SME finance"],
+    "createdAt": "2026-09-02T10:00:00.000Z",
+    "updatedAt": "2026-10-10T14:25:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "How old is your company?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Pre-launch", "Under 1 year", "1–2 years", "3–5 years"]
+      },
+      {
+        "id": "q2",
+        "prompt": "Which sources have you actually drawn capital from?",
+        "type": "multi_choice",
+        "required": true,
+        "options": [
+          "Personal savings",
+          "Friends and family",
+          "Angel investors",
+          "Venture fund",
+          "Government or development grant",
+          "Revenue-based finance",
+          "Bank loan or overdraft",
+          "Crowdfunding",
+          "None yet"
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "How many investor meetings did you hold before your last successful raise?",
+        "type": "single_choice",
+        "required": false,
+        "options": ["No successful raise yet", "1–10", "11–30", "31–60", "More than 60"]
+      },
+      {
+        "id": "q4",
+        "prompt": "How much did travel to investor meetings cost you, in time and money?",
+        "type": "single_choice",
+        "required": false,
+        "options": ["Nothing — all remote", "Under £2,000", "£2,000–£10,000", "Over £10,000", "Prefer not to say"]
+      },
+      {
+        "id": "q5",
+        "prompt": "'Being outside a major hub has materially slowed my access to capital.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q6",
+        "prompt": "On a scale of 1 to 10, how well does the available non-equity finance match your needs?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "Not at all", "right": "Perfectly" }
+      },
+      {
+        "id": "q7",
+        "prompt": "What one change to the regional finance landscape would help most?",
+        "type": "long_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "Pre-launch", "value": 14, "count": 32 },
+          { "label": "Under 1 year", "value": 26, "count": 60 },
+          { "label": "1–2 years", "value": 33, "count": 76 },
+          { "label": "3–5 years", "value": 27, "count": 63 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "Personal savings", "value": 78, "count": 180 },
+          { "label": "Friends and family", "value": 46, "count": 106 },
+          { "label": "Angel investors", "value": 31, "count": 72 },
+          { "label": "Venture fund", "value": 17, "count": 39 },
+          { "label": "Government or development grant", "value": 38, "count": 88 },
+          { "label": "Revenue-based finance", "value": 14, "count": 32 },
+          { "label": "Bank loan or overdraft", "value": 22, "count": 51 },
+          { "label": "Crowdfunding", "value": 9, "count": 21 },
+          { "label": "None yet", "value": 12, "count": 28 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "No successful raise yet", "value": 34, "count": 79 },
+          { "label": "1–10", "value": 22, "count": 51 },
+          { "label": "11–30", "value": 25, "count": 58 },
+          { "label": "31–60", "value": 12, "count": 28 },
+          { "label": "More than 60", "value": 7, "count": 15 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Nothing — all remote", "value": 28, "count": 65 },
+          { "label": "Under £2,000", "value": 26, "count": 60 },
+          { "label": "£2,000–£10,000", "value": 27, "count": 62 },
+          { "label": "Over £10,000", "value": 11, "count": 25 },
+          { "label": "Prefer not to say", "value": 8, "count": 19 }
+        ]
+      },
+      {
+        "questionId": "q5",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 7, "count": 16 },
+          { "label": "Disagree", "value": 12, "count": 28 },
+          { "label": "Neutral", "value": 19, "count": 44 },
+          { "label": "Agree", "value": 34, "count": 79 },
+          { "label": "Strongly agree", "value": 28, "count": 64 }
+        ],
+        "mean": 3.69
+      },
+      { "questionId": "q6", "buckets": [], "mean": 4.1 },
+      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 138 }] }
+    ]
+  },
+  {
+    "id": "srv-b2b-onboarding",
+    "title": "Enterprise Buyer Expectations of B2B Software Onboarding",
+    "slug": "enterprise-buyer-expectations-b2b-software-onboarding",
+    "category": "Product Feedback",
+    "objective": "Establish what enterprise buyers expect during the first ninety days after purchase, which onboarding failures most often trigger a non-renewal conversation, and what evidence buyers want to see before renewal.",
+    "audience": "Procurement leads, IT buyers and operational sponsors who have signed or managed a business software purchase above £25,000 annual contract value.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Meridian Health Research",
+    "organizationId": "org-meridian",
+    "tier": "premium",
+    "planId": "plan-premium",
+    "status": "closed",
+    "responseCount": 468,
+    "responseLimit": 500,
+    "openingDate": "2026-03-01T00:00:00.000Z",
+    "closingDate": "2026-07-31T23:59:59.000Z",
+    "isAnonymous": false,
+    "isBranded": true,
+    "consentNotice": "Responses are used for aggregate product research. Do not disclose confidential contract terms, vendor names under non-disclosure, or any information you are not authorised to share.",
+    "estimatedMinutes": 10,
+    "tags": ["B2B software", "onboarding", "procurement", "product feedback", "renewals"],
+    "createdAt": "2026-02-11T09:30:00.000Z",
+    "updatedAt": "2026-08-02T11:00:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What was the annual contract value of your most recent software purchase?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["£25,000–£100,000", "£100,000–£500,000", "£500,000–£1m", "Over £1m"]
+      },
+      {
+        "id": "q2",
+        "prompt": "Which of these did the vendor deliver in the first ninety days?",
+        "type": "multi_choice",
+        "required": true,
+        "options": [
+          "A named implementation lead",
+          "A written success plan with dates",
+          "Integration with at least one existing system",
+          "Administrator training",
+          "End-user training",
+          "A documented adoption measurement method",
+          "None of these"
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "How long did it take to reach the first measurable business outcome?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Under 30 days", "30–90 days", "3–6 months", "6–12 months", "Not yet achieved"]
+      },
+      {
+        "id": "q4",
+        "prompt": "What triggered a non-renewal conversation at your organisation?",
+        "type": "multi_choice",
+        "required": false,
+        "options": [
+          "Low adoption",
+          "Missing integration",
+          "Support response times",
+          "Price increase at renewal",
+          "Champion left the organisation",
+          "No non-renewal conversation occurred"
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "'The vendor's onboarding matched what was promised in the sales process.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q6",
+        "prompt": "On a scale of 1 to 10, how much evidence of value did you have before the renewal decision?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "Almost none", "right": "Comprehensive" }
+      },
+      {
+        "id": "q7",
+        "prompt": "What would you require in an onboarding plan that vendors rarely offer?",
+        "type": "long_text",
+        "required": false
+      }
+    ],
+    "distribution": [
+      {
+        "questionId": "q1",
+        "buckets": [
+          { "label": "£25,000–£100,000", "value": 46, "count": 215 },
+          { "label": "£100,000–£500,000", "value": 33, "count": 154 },
+          { "label": "£500,000–£1m", "value": 14, "count": 66 },
+          { "label": "Over £1m", "value": 7, "count": 33 }
+        ]
+      },
+      {
+        "questionId": "q2",
+        "buckets": [
+          { "label": "A named implementation lead", "value": 72, "count": 337 },
+          { "label": "A written success plan with dates", "value": 49, "count": 229 },
+          { "label": "Integration with at least one existing system", "value": 58, "count": 271 },
+          { "label": "Administrator training", "value": 64, "count": 300 },
+          { "label": "End-user training", "value": 41, "count": 192 },
+          { "label": "A documented adoption measurement method", "value": 23, "count": 108 },
+          { "label": "None of these", "value": 6, "count": 28 }
+        ]
+      },
+      {
+        "questionId": "q3",
+        "buckets": [
+          { "label": "Under 30 days", "value": 11, "count": 51 },
+          { "label": "30–90 days", "value": 29, "count": 136 },
+          { "label": "3–6 months", "value": 32, "count": 150 },
+          { "label": "6–12 months", "value": 19, "count": 89 },
+          { "label": "Not yet achieved", "value": 9, "count": 42 }
+        ]
+      },
+      {
+        "questionId": "q4",
+        "buckets": [
+          { "label": "Low adoption", "value": 54, "count": 253 },
+          { "label": "Missing integration", "value": 37, "count": 173 },
+          { "label": "Support response times", "value": 28, "count": 131 },
+          { "label": "Price increase at renewal", "value": 42, "count": 197 },
+          { "label": "Champion left the organisation", "value": 31, "count": 145 },
+          { "label": "No non-renewal conversation occurred", "value": 26, "count": 122 }
+        ]
+      },
+      {
+        "questionId": "q5",
+        "buckets": [
+          { "label": "Strongly disagree", "value": 13, "count": 61 },
+          { "label": "Disagree", "value": 21, "count": 98 },
+          { "label": "Neutral", "value": 27, "count": 126 },
+          { "label": "Agree", "value": 28, "count": 131 },
+          { "label": "Strongly agree", "value": 11, "count": 52 }
+        ],
+        "mean": 3.16
+      },
+      { "questionId": "q6", "buckets": [], "mean": 4.8 },
+      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 244 }] }
+    ]
+  },
+  {
+    "id": "srv-cloud-cost-predictability",
+    "title": "Cloud Migration Cost Predictability in Mid-Market Firms",
+    "slug": "cloud-migration-cost-predictability-mid-market-firms",
+    "category": "Technology",
+    "objective": "Quantify the gap between forecast and actual infrastructure cost after migration among mid-market firms, and identify which governance practices correlate with a smaller gap.",
+    "audience": "Technology leaders, finance business partners and operations directors at organisations with 50–1,000 employees that completed a major infrastructure migration in the last three years.",
+    "creatorId": "user-survey-creator",
+    "creatorName": "Amara Okafor",
+    "organizationId": "org-innotrend",
+    "tier": "free",
+    "planId": "plan-free",
+    "status": "draft",
+    "responseCount": 0,
+    "responseLimit": 100,
+    "openingDate": "2026-11-01T00:00:00.000Z",
+    "closingDate": "2027-02-01T23:59:59.000Z",
+    "isAnonymous": true,
+    "isBranded": false,
+    "consentNotice": "Responses are anonymous. Do not disclose your employer's contract terms, vendor pricing or any information subject to a non-disclosure agreement. Aggregate reporting only.",
+    "estimatedMinutes": 6,
+    "tags": ["cloud", "FinOps", "cost management", "mid-market", "migration"],
+    "createdAt": "2026-10-06T16:00:00.000Z",
+    "updatedAt": "2026-10-12T09:20:00.000Z",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "When did your organisation complete its most significant infrastructure migration?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Within the last 12 months", "12–24 months ago", "24–36 months ago"]
+      },
+      {
+        "id": "q2",
+        "prompt": "How did actual monthly infrastructure cost compare with the pre-migration forecast in the first year?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["More than 25% below forecast", "Up to 25% below", "Within 5% of forecast", "Up to 25% above", "More than 25% above", "We did not produce a forecast"]
+      },
+      {
+        "id": "q3",
+        "prompt": "Which cost governance practices were in place by month six?",
+        "type": "multi_choice",
+        "required": true,
+        "options": [
+          "Tagging policy enforced at provisioning",
+          "Budget alerts with a named owner",
+          "Monthly cost review with finance present",
+          "Reserved or committed use discounts",
+          "Automated shutdown of non-production environments",
+          "None of these"
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "Who owns the infrastructure budget after migration?",
+        "type": "single_choice",
+        "required": true,
+        "options": ["Technology function", "Finance function", "Jointly owned", "Unclear or contested"]
+      },
+      {
+        "id": "q5",
+        "prompt": "'We can explain a month-on-month cost movement within five working days.'",
+        "type": "likert",
+        "required": true,
+        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+      },
+      {
+        "id": "q6",
+        "prompt": "On a scale of 1 to 10, how much of your post-migration cost was avoidable waste?",
+        "type": "rating",
+        "required": true,
+        "ratingMax": 10,
+        "scaleLabels": { "left": "None", "right": "Most of it" }
+      },
+      {
+        "id": "q7",
+        "prompt": "What would you do differently, in one sentence?",
+        "type": "short_text",
+        "required": false
+      }
+    ]
+  }
+]
