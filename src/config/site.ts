@@ -140,6 +140,56 @@ export interface NavChild {
   description: string;
 }
 
+export interface PositioningPillar {
+  title: string;
+  blurb: string;
+  to: string;
+}
+
+/**
+ * Positioning adopted from the client's live site (extracted 2026-10-14).
+ *
+ * The live homepage also carried guaranteed-placement wording, named
+ * third-party publishers and unsubstantiated reach figures; those are
+ * deliberately NOT reproduced here. Every line below is either the client's
+ * own claim-free copy or a compliant rewrite — see
+ * docs/fmie-live-site-review.md for the full adoption record.
+ */
+export const livePositioning: {
+  heroLine: string;
+  bandTitle: string;
+  bandBody: string;
+  photoCredit: string;
+  pillars: PositioningPillar[];
+} = {
+  heroLine: "Unlock Your Story. Amplify Your Impact.",
+  bandTitle: "Feature Local. Impact Global.",
+  bandBody:
+    "Campaigns are planned around owned F.M.I.E channels and administrator-verified distribution partners, each with a documented workflow and an honest quotation. Placement in a named third-party publication is never promised, sold or implied.",
+  photoCredit:
+    "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
+  pillars: [
+    {
+      title: "PR and Media Placement",
+      blurb:
+        "Structured press-release booking through owned and verified channels, with dated workflows, tiered quotations and no guaranteed pickup.",
+      to: "/press-releases",
+    },
+    {
+      title: "Paid Surveys Platform",
+      blurb:
+        "An independent survey marketplace where panellists take part voluntarily and every result is published with its limitations.",
+      to: "/surveys",
+    },
+    {
+      title: "Pitching and Representation",
+      blurb:
+        "Executive representation and advisory engagements with documented scopes; we prepare and present, never promise outcomes.",
+      to: "/services",
+    },
+  ],
+};
+
 export const mainNavigation: NavItem[] = [
   { label: "Home", to: "/" },
   {

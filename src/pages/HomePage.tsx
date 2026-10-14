@@ -15,10 +15,12 @@ import {
   contactEmail,
   formatDate,
   formatCurrency,
+  livePositioning,
   newsCategories,
   prTiers,
   site,
 } from "@/config/site";
+import { SiteLink } from "@/components/common/SiteLink";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { api } from "@/services/api";
 
@@ -52,8 +54,11 @@ export function HomePage() {
           <div>
             <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
             <h1 className="mt-4 max-w-2xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-              Where Global Business, Ideas &amp; Opportunities Meet.
+              {livePositioning.heroLine}
             </h1>
+            <p className="mt-3 max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
+              Where Global Business, Ideas &amp; Opportunities Meet.
+            </p>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
               Discover verified business intelligence, participate in independent research, amplify
               corporate visibility, and connect with international markets.
@@ -144,6 +149,51 @@ export function HomePage() {
             <p className="mt-4 border-t border-white/15 pt-3 text-[11px] leading-relaxed text-white/60">
               {compliance.noAffiliation}
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Positioning band — copy adopted from the client's live site, claims rewritten */}
+      <section className="border-y border-brand-border bg-brand-cream py-14 sm:py-20">
+        <div className="fmie-container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <figure className="overflow-hidden rounded-xl border border-brand-border bg-white">
+            <img
+              src="/media/newsroom-portrait.webp"
+              alt="An interviewee speaking to a camera crew outdoors."
+              className="h-72 w-full object-cover sm:h-96"
+            />
+            <figcaption className="px-4 py-3 text-[11px] leading-relaxed text-brand-slate">
+              {livePositioning.photoCredit}
+            </figcaption>
+          </figure>
+          <div>
+            <Eyebrow>Our services</Eyebrow>
+            <h2 className="mt-3 font-display text-3xl font-bold text-brand-charcoal sm:text-4xl">
+              {livePositioning.bandTitle}
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand-slate sm:text-base">
+              {livePositioning.bandBody}
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {livePositioning.pillars.map((pillar) => (
+                <SiteLink
+                  key={pillar.title}
+                  to={pillar.to}
+                  className="group rounded-lg border border-brand-border bg-white p-5 transition-colors hover:border-brand-gold"
+                >
+                  <span className="font-display text-lg font-semibold text-brand-navy">
+                    {pillar.title}
+                  </span>
+                  <span className="mt-2 block text-xs leading-relaxed text-brand-slate">
+                    {pillar.blurb}
+                  </span>
+                  <span className="mt-3 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-gold-dark">
+                    Explore
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </SiteLink>
+              ))}
+            </div>
           </div>
         </div>
       </section>
