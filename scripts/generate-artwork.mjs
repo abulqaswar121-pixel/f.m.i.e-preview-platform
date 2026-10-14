@@ -9,13 +9,12 @@
  * The artwork is deterministic: the same inputs always produce the same files.
  */
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const artDir = join(repoRoot, "public", "art");
-const assetsDir = join(repoRoot, "src", "assets");
 
 const PALETTE = {
   navy: "#0A2E68",
@@ -42,19 +41,25 @@ function write(relativePath, contents) {
 /* ---------------------------------------------------------------- */
 
 /**
- * The official F.M.I.E mark: a serif F whose top arm turns down to bracket an
- * overlapping capital M, with the punctuated wordmark F.M.I.E beneath.
+ * The official F.M.I.E monogram: a serif F whose top arm turns down to bracket
+ * an overlapping capital M. The shapes come from the client-supplied asset at
+ * `public/art/logo-source.jpg`; tight transparent cut-outs in each brand ink
+ * sit beside it (`logo-monogram-{navy,gold,goldsoft,cream}.png`) and are
+ * embedded into the artwork as data URIs so the SVGs stay self-contained.
  */
-const MONOGRAM_PATHS = [
-  // F — stem with base serif
-  "M16 12h9v72H10v-5h6z",
-  // F — top arm, turning down at the end to bracket the M
-  "M16 12h74v14h-5V21H16z",
-  // F — middle arm
-  "M16 44h30v8H16z",
-  // M — overlapping capital, sitting inside the bracket of the F arm
-  "M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z",
-];
+const MONOGRAM_FILES = {
+  navy: "logo-monogram-navy.png",
+  gold: "logo-monogram-gold.png",
+  goldSoft: "logo-monogram-goldsoft.png",
+  cream: "logo-monogram-cream.png",
+};
+const MONOGRAM_ASPECT = 1.0279; // width / height of the cut-out
+
+function monogramMark(ink, x, y, height, opacity = 1) {
+  const bytes = readFileSync(join(artDir, MONOGRAM_FILES[ink]));
+  const width = Math.round(height * MONOGRAM_ASPECT);
+  return `  <image x="${x}" y="${y}" width="${width}" height="${Math.round(height)}" opacity="${opacity}" href="data:image/png;base64,${bytes.toString("base64")}"/>\n`;
+}
 
 /* The F.M.I.E logo is the client-supplied asset at public/art/logo-source.jpg;
  * transparent lockups beside it are derived from it — this script only
@@ -82,10 +87,7 @@ function coverFrame(inner, { background = PALETTE.paper, tint = PALETTE.cream } 
   <rect width="${COVER_W}" height="${COVER_H}" fill="url(#grid)" opacity="0.55"/>
 ${inner}
   <g transform="translate(56 566)" opacity="0.9">
-    <g fill="${PALETTE.navy}" transform="scale(0.34)">
-${MONOGRAM_PATHS.map((d) => `      <path d="${d}"/>`).join("\n")}
-    </g>
-    <rect x="0" y="42" width="132" height="3" fill="${PALETTE.gold}"/>
+${monogramMark("navy", 0, 0, 33)}    <rect x="0" y="42" width="132" height="3" fill="${PALETTE.gold}"/>
     <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="${PALETTE.slate}">F.M.I.E</text>
   </g>
 </svg>
@@ -320,8 +322,7 @@ function productFrame(inner, label) {
   <ellipse cx="450" cy="768" rx="240" ry="22" fill="${PALETTE.navy}" opacity="0.08"/>
 ${inner}
   <g transform="translate(60 60)">
-    <g fill="${PALETTE.navy}" transform="scale(0.3)">${MONOGRAM_PATHS.map((d) => `<path d="${d}"/>`).join("")}</g>
-    <rect x="0" y="38" width="112" height="3" fill="${PALETTE.gold}"/>
+${monogramMark("navy", 0, 0, 29)}    <rect x="0" y="38" width="112" height="3" fill="${PALETTE.gold}"/>
     <text x="0" y="66" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="5" fill="${PALETTE.slate}">F.M.I.E</text>
   </g>
 </svg>
@@ -330,7 +331,9 @@ ${inner}
 
 /** Small stitched monogram used on apparel and leather goods. */
 function stitchedMonogram(x, y, scale = 0.5, colour = PALETTE.gold) {
-  return `  <g transform="translate(${x} ${y}) scale(${scale})" fill="${colour}">${MONOGRAM_PATHS.map((d) => `<path d="${d}"/>`).join("")}</g>\n`;
+  const ink =
+    colour === PALETTE.goldSoft ? "goldSoft" : colour === PALETTE.cream ? "cream" : "gold";
+  return monogramMark(ink, x, y, 96 * scale);
 }
 
 function productPolo() {
