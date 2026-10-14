@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
  * redrawing it:
  *
  *   logo-on-{dark,light}.png            stacked lockup, cream or navy ink
- *   logo-horizontal-on-{dark,light}.png monogram + wordmark side by side
+ *   logo-lockup-{ink}.png               stacked lockup in brand inks (artwork)
+ *   logo-monogram-{ink}.png             monogram only (stitched goods)
  *   logo-square.png                     512px square on brand navy (OG/apple)
  *
  * `tone="light"` places cream ink on dark navy surfaces; `tone="dark"` places
