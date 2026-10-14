@@ -160,6 +160,9 @@ export const livePositioning: {
   bandTitle: string;
   bandBody: string;
   photoCredit: string;
+  /** Lines the homepage hero types out, wipes back and retypes in a loop. */
+  heroRotatingLines: string[];
+  heroCredit: string;
   pillars: PositioningPillar[];
 } = {
   heroLine: "Unlock Your Story. Amplify Your Impact.",
@@ -168,6 +171,13 @@ export const livePositioning: {
     "Campaigns are planned around owned F.M.I.E channels and administrator-verified distribution partners, each with a documented workflow and an honest quotation. Placement in a named third-party publication is never promised, sold or implied.",
   photoCredit:
     "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
+  heroRotatingLines: [
+    "Unlock Your Story. Amplify Your Impact.",
+    "Feature Local. Impact Global.",
+    "Connecting Ideas, Insights & Global Opportunities.",
+  ],
+  heroCredit:
+    "Background: sample stock photography supplied with the client's former site, labelled for demonstration only.",
   pillars: [
     {
       title: "PR and Media Placement",

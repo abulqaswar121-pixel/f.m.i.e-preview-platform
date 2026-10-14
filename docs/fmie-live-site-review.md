@@ -70,3 +70,38 @@ and reach claims rewritten, named publishers removed, third-party marks
 (broadcaster mic, show name, theme credit) not reproduced, and the metadata
 quirks noted as not applicable. Nothing from SECTION 8 appears verbatim
 anywhere in the preview.
+
+## 9. Client-directed revisions (2026-10-14, follow-up instruction)
+
+The client asked that the preview visibly carry the former site's own photography
+("I want the client to see everything in that their former one here"), a typed
+hero headline, and a footer that does not repeat on app-like surfaces. Applied as
+follows, with the master brief's compliance rules still governing:
+
+- **Article covers (news section):** all 11 `featuredImage` values now point at
+  crops of the former site's own stock photography under `public/media/`
+  (`cover-interview*.webp`, `cover-rig.webp`, `cover-field-*.webp`,
+  `newsroom-portrait.webp`) instead of generated SVG illustration. Every crop of
+  IMG-012 excludes the broadcast mic flag, the camera body marking and the event
+  wristband verified in section 3, so no third-party trademark ships. Each article
+  keeps a visible `imageCredit` caption: "Sample stock photography supplied with
+  the client's former site — demonstration only."
+- **IMG-017..020 (woman on stage) remain REJECTED:** the subject is a globally
+  recognisable performer; shipping her likeness on a business-news demo would
+  imply endorsement/affiliation, which the client's own master brief forbids.
+  This is the single former-site asset deliberately not mirrored, and the reason
+  is recorded here for the client conversation.
+- **IMG-021..024 (field portrait) now USED** as labelled sample stock per the
+  client's explicit instruction (earlier "hold pending consent" lifted by the
+  client directing their use); crops carry the same sample-stock credit.
+- **Hero:** background is now `public/media/hero-field.webp` (former-site stock,
+  navy gradient overlay for contrast) with a small on-image credit line, and the
+  headline types out, holds, wipes back and retypes the next line in a loop
+  (`livePositioning.heroRotatingLines` in `src/config/site.ts`, rendered by
+  `src/components/ui/Typewriter.tsx`, static under `prefers-reduced-motion`,
+  screen readers get the first line via `sr-only`).
+- **Footer:** omitted on task-focused surfaces — `/signin`, `/register`,
+  `/dashboard`, `/admin`, `/checkout` (and their children) — via
+  `FOOTERLESS_PREFIXES` in `src/components/layout/AppLayout.tsx`; public
+  editorial, market, commerce-browse and legal pages keep it, including the
+  demonstration-preview notice.

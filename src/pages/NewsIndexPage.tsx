@@ -143,26 +143,45 @@ export function NewsIndexPage() {
               {rest.map((article) => (
                 <li
                   key={article.id}
-                  className="rounded-lg border border-brand-border bg-white p-5 shadow-sm"
+                  className="flex gap-4 rounded-lg border border-brand-border bg-white p-5 shadow-sm"
                 >
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge tone="cream">{article.category}</Badge>
-                    {article.disclosureTag ? <DisclosureBadge tag={article.disclosureTag} /> : null}
-                    {article.isEditorialChoice ? <Badge tone="gold">Editor's choice</Badge> : null}
+                  <Link
+                    to="/news/$slug"
+                    params={{ slug: article.slug }}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="shrink-0 self-start"
+                  >
+                    <img
+                      src={article.featuredImage}
+                      alt=""
+                      className="h-16 w-24 rounded-md object-cover"
+                    />
+                  </Link>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge tone="cream">{article.category}</Badge>
+                      {article.disclosureTag ? (
+                        <DisclosureBadge tag={article.disclosureTag} />
+                      ) : null}
+                      {article.isEditorialChoice ? (
+                        <Badge tone="gold">Editor's choice</Badge>
+                      ) : null}
+                    </div>
+                    <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-brand-charcoal">
+                      <Link
+                        to="/news/$slug"
+                        params={{ slug: article.slug }}
+                        className="hover:text-brand-navy"
+                      >
+                        {article.title}
+                      </Link>
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm text-brand-slate">{article.subtitle}</p>
+                    <p className="mt-3 text-xs text-brand-slate">
+                      {article.author.name} · {formatDate(article.publishedAt)} · {article.readTime}
+                    </p>
                   </div>
-                  <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-brand-charcoal">
-                    <Link
-                      to="/news/$slug"
-                      params={{ slug: article.slug }}
-                      className="hover:text-brand-navy"
-                    >
-                      {article.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-brand-slate">{article.subtitle}</p>
-                  <p className="mt-3 text-xs text-brand-slate">
-                    {article.author.name} · {formatDate(article.publishedAt)} · {article.readTime}
-                  </p>
                 </li>
               ))}
             </ul>

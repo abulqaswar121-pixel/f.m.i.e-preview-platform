@@ -3,6 +3,7 @@ import { ArrowRight, BarChart3, Globe2, Megaphone, PenLine, ShieldCheck } from "
 
 import { DisclosureBadge } from "@/components/common/Primitives";
 import { SectionHeading } from "@/components/common/Primitives";
+import { Typewriter } from "@/components/ui/Typewriter";
 import { Eyebrow } from "@/components/common/Primitives";
 import { NewsletterForm } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/shop/ProductCard";
@@ -45,16 +46,23 @@ export function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-navy-dark text-white">
         <img
-          src="/art/hero.svg"
+          src="/media/hero-field.webp"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-70"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-navy-dark via-brand-navy-dark/88 to-brand-navy/55"
         />
         <div className="fmie-container relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <div>
             <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
-            <h1 className="mt-4 max-w-2xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-              {livePositioning.heroLine}
+            <h1 className="mt-4 min-h-[2.16em] max-w-2xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
+              <span className="sr-only">{livePositioning.heroRotatingLines[0]}</span>
+              <span aria-hidden="true">
+                <Typewriter phrases={livePositioning.heroRotatingLines} />
+              </span>
             </h1>
             <p className="mt-3 max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
               Where Global Business, Ideas &amp; Opportunities Meet.
@@ -150,6 +158,9 @@ export function HomePage() {
               {compliance.noAffiliation}
             </p>
           </div>
+          <p className="pointer-events-none absolute bottom-2 right-3 text-[10px] text-white/45">
+            {livePositioning.heroCredit}
+          </p>
         </div>
       </section>
 
