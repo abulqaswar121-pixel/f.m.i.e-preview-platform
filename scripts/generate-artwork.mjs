@@ -4,7 +4,7 @@
  * Every image on the platform is an original vector composition built from the
  * brand palette — no stock photography, no third-party marks, no external
  * network requests. Run `node scripts/generate-artwork.mjs` to regenerate
- * `public/art/**` and `src/assets/logo.svg`.
+ * `public/art/**`.
  *
  * The artwork is deterministic: the same inputs always produce the same files.
  */
@@ -56,18 +56,9 @@ const MONOGRAM_PATHS = [
   "M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z",
 ];
 
-function logoSvg({ width = 240, height = 168, fill = PALETTE.navy } = {}) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 240 168" role="img" aria-label="F.M.I.E">
-  <g fill="${fill}">
-    <g transform="translate(60 4) scale(1.2)">
-${MONOGRAM_PATHS.map((d) => `      <path d="${d}"/>`).join("\n")}
-    </g>
-    <rect x="60" y="122" width="120" height="2" fill="${PALETTE.gold}"/>
-    <text x="120" y="158" text-anchor="middle" font-family="Playfair Display, Merriweather, Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" letter-spacing="3">${"F.M.I.E"}</text>
-  </g>
-</svg>
-`;
-}
+/* The F.M.I.E logo is the client-supplied asset at public/art/logo-source.jpg;
+ * transparent lockups beside it are derived from it — this script only
+ * regenerates the sample artwork (covers, products, avatars, hero).      */
 
 /* ---------------------------------------------------------------- */
 /* Cover compositions (1200 x 675)                                   */
@@ -555,9 +546,5 @@ for (const [name, [label, options]] of Object.entries(avatars)) {
 }
 
 write("hero.svg", heroSvg());
-write("logo.svg", logoSvg({ fill: PALETTE.navy }));
-write("logo-mark.svg", logoSvg({ width: 120, height: 104, fill: PALETTE.navy }));
-write("src/assets/logo.svg", logoSvg({ fill: PALETTE.navy }));
-written += 3;
 
 console.log(`Generated ${written} F.M.I.E artwork files.`);
