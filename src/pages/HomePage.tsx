@@ -46,7 +46,7 @@ export function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-navy-dark text-white">
         <img
-          src="/media/hero-field.webp"
+          src="/media/hero-original.webp"
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
