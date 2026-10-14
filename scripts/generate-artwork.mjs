@@ -54,6 +54,20 @@ const MONOGRAM_FILES = {
   cream: "logo-monogram-cream.png",
 };
 const MONOGRAM_ASPECT = 1.0279; // width / height of the cut-out
+const LOCKUP_FILES = {
+  navy: "logo-lockup-navy.png",
+  gold: "logo-lockup-gold.png",
+  goldSoft: "logo-lockup-goldsoft.png",
+  cream: "logo-lockup-cream.png",
+};
+const LOCKUP_ASPECT = 1.437; // width / height of the stacked lockup cut-out
+
+/** The full stacked lockup (monogram + F.M.I.E wordmark) in a brand ink. */
+function lockupMark(ink, x, y, height, opacity = 1) {
+  const bytes = readFileSync(join(artDir, LOCKUP_FILES[ink]));
+  const width = Math.round(height * LOCKUP_ASPECT);
+  return `  <image x="${x}" y="${y}" width="${width}" height="${Math.round(height)}" opacity="${opacity}" href="data:image/png;base64,${bytes.toString("base64")}"/>\n`;
+}
 
 function monogramMark(ink, x, y, height, opacity = 1) {
   const bytes = readFileSync(join(artDir, MONOGRAM_FILES[ink]));
@@ -87,9 +101,7 @@ function coverFrame(inner, { background = PALETTE.paper, tint = PALETTE.cream } 
   <rect width="${COVER_W}" height="${COVER_H}" fill="url(#grid)" opacity="0.55"/>
 ${inner}
   <g transform="translate(56 566)" opacity="0.9">
-${monogramMark("navy", 0, 0, 33)}    <rect x="0" y="42" width="132" height="3" fill="${PALETTE.gold}"/>
-    <text x="0" y="72" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="${PALETTE.slate}">F.M.I.E</text>
-  </g>
+${lockupMark("navy", 0, 0, 46)}  </g>
 </svg>
 `;
 }
@@ -322,9 +334,7 @@ function productFrame(inner, label) {
   <ellipse cx="450" cy="768" rx="240" ry="22" fill="${PALETTE.navy}" opacity="0.08"/>
 ${inner}
   <g transform="translate(60 60)">
-${monogramMark("navy", 0, 0, 29)}    <rect x="0" y="38" width="112" height="3" fill="${PALETTE.gold}"/>
-    <text x="0" y="66" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="5" fill="${PALETTE.slate}">F.M.I.E</text>
-  </g>
+${lockupMark("navy", 0, 0, 42)}  </g>
 </svg>
 `;
 }

@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
  */
 
 const STACKED = { width: 664, height: 464 } as const;
-const HORIZONTAL = { width: 1264, height: 249 } as const;
+const HORIZONTAL = { width: 895, height: 251 } as const;
 
 interface LogoProps {
   className?: string;
@@ -47,8 +47,8 @@ export function Logo({
   const sizeClass =
     variant === "horizontal"
       ? compact
-        ? "h-8 w-auto sm:h-9"
-        : "h-10 w-auto sm:h-12"
+        ? "h-10 w-auto sm:h-11"
+        : "h-12 w-auto sm:h-14"
       : compact
         ? "h-14 w-auto"
         : "h-20 w-auto";
