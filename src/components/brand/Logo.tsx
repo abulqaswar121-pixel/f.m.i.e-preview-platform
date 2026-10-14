@@ -39,7 +39,7 @@ export function Logo({
 }: LogoProps) {
   const suffix = tone === "light" ? "dark" : "light";
   const taglineClass = tone === "light" ? "text-brand-gold" : "text-brand-gold-dark";
-  const sizeClass = compact ? "h-12 w-auto sm:h-14" : "h-16 w-auto sm:h-20";
+  const sizeClass = compact ? "h-9 w-auto sm:h-10" : "h-16 w-auto sm:h-20";
 
   return (
     <span className={cn("inline-flex flex-col items-center", className)}>
@@ -51,7 +51,10 @@ export function Logo({
         className={cn(sizeClass, "select-none object-contain")}
         draggable={false}
       />
-      <span className="mt-2 h-[2px] w-full bg-brand-gold" aria-hidden="true" />
+      <span
+        className={cn(compact ? "mt-1" : "mt-2", "h-[2px] w-full bg-brand-gold")}
+        aria-hidden="true"
+      />
       {showTagline ? (
         <span
           className={cn("mt-2 text-[10px] font-semibold uppercase tracking-[0.24em]", taglineClass)}
