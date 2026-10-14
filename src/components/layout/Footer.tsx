@@ -167,7 +167,7 @@ export function Footer() {
     <footer className="bg-brand-navy-dark text-white">
       <div className="fmie-container grid gap-10 py-14 lg:grid-cols-[1.15fr_2fr_1.15fr]">
         <div>
-          <Logo variant="stacked" tone="light" compact showTagline />
+          <Logo tone="light" compact showTagline />
           <p className="mt-5 text-sm leading-relaxed text-white/70">{site.description}</p>
           <address className="mt-5 space-y-2 text-xs not-italic text-white/70">
             <p className="flex items-start gap-2">

@@ -241,7 +241,7 @@ export function Header() {
       {/* Main bar */}
       <div className="fmie-container flex h-16 items-center justify-between gap-4">
         <Link to="/" className="shrink-0" aria-label="F.M.I.E home">
-          <Logo variant="horizontal" compact />
+          <Logo compact />
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-1 xl:flex">
@@ -342,7 +342,7 @@ export function Header() {
               className="w-[86vw] max-w-sm overflow-y-auto border-brand-border bg-white p-0"
             >
               <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
-                <Logo variant="horizontal" compact />
+                <Logo compact />
                 <Button
                   variant="ghost"
                   size="icon"
