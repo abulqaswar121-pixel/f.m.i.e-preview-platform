@@ -1,48 +1,30 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The official F.M.I.E mark, as SVG.
+ * The official F.M.I.E mark.
  *
- * 1. A top monogram: a serif F whose top horizontal arm turns down to bracket
- *    an overlapping capital M.
- * 2. Bold, punctuated serif capitals F.M.I.E beneath.
+ * The brand asset is the client-supplied artwork committed at
+ * `public/art/logo-source.jpg` (monogram: a serif F whose top arm brackets an
+ * overlapping capital M, above the punctuated serif capitals F.M.I.E). The
+ * transparent lockups used here are derived from that asset without
+ * redrawing it:
  *
- * Renders in the current colour, so it appears white on dark navy surfaces and
- * navy on light surfaces.
+ *   logo-on-{dark,light}.png            stacked lockup, cream or navy ink
+ *   logo-horizontal-on-{dark,light}.png monogram + wordmark side by side
+ *   logo-square.png                     512px square on brand navy (OG/apple)
+ *
+ * `tone="light"` places cream ink on dark navy surfaces; `tone="dark"` places
+ * navy ink on light surfaces.
  */
 
-export const MONOGRAM_PATHS = [
-  // F — stem with base serif
-  "M16 12h9v72H10v-5h6z",
-  // F — top arm, turning down at the end to bracket the M
-  "M16 12h74v14h-5V21H16z",
-  // F — middle arm
-  "M16 44h30v8H16z",
-  // M — overlapping capital, sitting inside the bracket of the F arm
-  "M48 84V26h9l12 34 12-34h9v58h-9V44L70 78h-2L57 44v40z",
-] as const;
-
-export function Monogram({ className, title }: { className?: string; title?: string }) {
-  return (
-    <svg
-      viewBox="0 0 106 96"
-      className={cn("h-10 w-11", className)}
-      role="img"
-      aria-label={title ?? "F.M.I.E monogram"}
-      fill="currentColor"
-    >
-      {MONOGRAM_PATHS.map((path) => (
-        <path key={path} d={path} />
-      ))}
-    </svg>
-  );
-}
+const STACKED = { width: 664, height: 464 } as const;
+const HORIZONTAL = { width: 1264, height: 249 } as const;
 
 interface LogoProps {
   className?: string;
   /** `stacked` places the wordmark under the monogram; `horizontal` beside it. */
   variant?: "stacked" | "horizontal";
-  /** `light` renders white on dark; `dark` renders navy on light. */
+  /** `light` renders cream on dark; `dark` renders navy on light. */
   tone?: "light" | "dark";
   showTagline?: boolean;
   compact?: boolean;
@@ -55,52 +37,44 @@ export function Logo({
   showTagline = false,
   compact = false,
 }: LogoProps) {
-  const toneClass = tone === "light" ? "text-white" : "text-brand-navy";
+  const suffix = tone === "light" ? "dark" : "light";
+  const src =
+    variant === "horizontal"
+      ? `/art/logo-horizontal-on-${suffix}.png`
+      : `/art/logo-on-${suffix}.png`;
+  const intrinsic = variant === "horizontal" ? HORIZONTAL : STACKED;
   const taglineClass = tone === "light" ? "text-brand-gold" : "text-brand-gold-dark";
-
-  if (variant === "horizontal") {
-    return (
-      <span className={cn("flex items-center gap-3", toneClass, className)}>
-        <Monogram className={compact ? "h-8 w-9" : "h-11 w-12"} />
-        <span className="flex flex-col leading-none">
-          <span
-            className={cn(
-              "font-display font-bold tracking-[0.14em]",
-              compact ? "text-xl" : "text-2xl",
-            )}
-          >
-            F.M.I.E
-          </span>
-          {showTagline ? (
-            <span
-              className={cn(
-                "mt-1 text-[10px] font-semibold uppercase tracking-[0.22em]",
-                taglineClass,
-              )}
-            >
-              F.M.I.E Means Business
-            </span>
-          ) : null}
-        </span>
-      </span>
-    );
-  }
+  const sizeClass =
+    variant === "horizontal"
+      ? compact
+        ? "h-8 w-auto sm:h-9"
+        : "h-10 w-auto sm:h-12"
+      : compact
+        ? "h-14 w-auto"
+        : "h-20 w-auto";
 
   return (
-    <span className={cn("inline-flex flex-col items-center", toneClass, className)}>
-      <Monogram className={compact ? "h-9 w-10" : "h-14 w-[3.9rem]"} />
-      <span className="mt-1 h-[2px] w-full bg-brand-gold" aria-hidden="true" />
-      <span
-        className={cn(
-          "mt-2 font-display font-bold tracking-[0.16em]",
-          compact ? "text-lg" : "text-3xl",
-        )}
-      >
-        F.M.I.E
-      </span>
+    <span
+      className={cn(
+        "inline-flex flex-col items-start",
+        variant === "stacked" && "items-center",
+        className,
+      )}
+    >
+      <img
+        src={src}
+        alt="F.M.I.E — F.M.I.E Means Business"
+        width={intrinsic.width}
+        height={intrinsic.height}
+        className={cn(sizeClass, "select-none object-contain")}
+        draggable={false}
+      />
+      {variant === "stacked" ? (
+        <span className="mt-2 h-[2px] w-full bg-brand-gold" aria-hidden="true" />
+      ) : null}
       {showTagline ? (
         <span
-          className={cn("mt-1 text-[10px] font-semibold uppercase tracking-[0.24em]", taglineClass)}
+          className={cn("mt-2 text-[10px] font-semibold uppercase tracking-[0.24em]", taglineClass)}
         >
           F.M.I.E Means Business
         </span>
