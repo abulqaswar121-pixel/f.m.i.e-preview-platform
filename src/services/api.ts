@@ -1,6 +1,12 @@
 import { useSyncExternalStore } from "react";
 
-import { marketIndicesSeed, prAddOns, prStatuses } from "@/config/site";
+import {
+  marketIndicesSeed,
+  prAddOns,
+  prStatuses,
+  surveyEconomyDefaults,
+  surveyPointPacks,
+} from "@/config/site";
 import {
   deepClone,
   seedArticles,
@@ -18,6 +24,13 @@ import {
 import { clearCartStorage } from "@/hooks/useCart";
 import type {
   Article,
+  CashWallet,
+  DailyPoll,
+  KitRequest,
+  PayoutRequest,
+  PlatformSettings,
+  PointsWallet,
+  WalletTransaction,
   Author,
   CartItem,
   ContactDepartment,
@@ -67,7 +80,7 @@ import type {
  */
 
 const STORAGE_KEY = "fmie.platform.database.v1";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const LATENCY_MS = 70;
 
 function isBrowser(): boolean {
@@ -105,6 +118,37 @@ function createSeedDatabase(): Database {
       },
     ],
     contactMessages: [],
+    transactions: [],
+    payouts: [
+      {
+        id: "pay-seed-1",
+        userId: "user-earner",
+        earnerName: "Chidera Umeh",
+        bankName: "Guaranty Trust Bank",
+        accountNumber: "0123456789",
+        accountName: "Chidera Umeh",
+        amountNaira: 4000,
+        status: "pending",
+        requestedAt: new Date(Date.now() - 86_400_000).toISOString(),
+      },
+    ],
+    polls: [
+      {
+        id: "poll-daily",
+        question: "Which desk should lead this week's member brief?",
+        options: [
+          { id: "opt-markets", label: "Global Markets", votes: 132 },
+          { id: "opt-energy", label: "Energy & Oil", votes: 97 },
+          { id: "opt-tech", label: "Tech & AI", votes: 154 },
+          { id: "opt-trade", label: "African Trade", votes: 88 },
+        ],
+        closesAt: new Date(Date.now() + 86_400_000).toISOString(),
+      },
+    ],
+    pollVotes: {},
+    pollLastOption: {},
+    kitRequests: [],
+    settings: { ...surveyEconomyDefaults },
     sessionUserId: null,
     updatedAt: new Date().toISOString(),
   };
@@ -288,6 +332,8 @@ export interface SurveyFilter {
 }
 
 export interface CreateSurveyInput {
+  /** Cash reward paid to each respondent on submission (₦). */
+  rewardNaira?: number;
   title: string;
   category: SurveyCategory;
   objective: string;
@@ -490,6 +536,76 @@ export function visibleQuestions(
   return survey.questions.filter((question) => evaluateLogic(survey, question, answers));
 }
 
+/** Locks the researcher's points for respondent payouts up front (escrow). */
+function lockEscrow(surveyId: string): void {
+  const survey = database.surveys.find((candidate) => candidate.id === surveyId);
+  if (!survey || survey.escrowPoints > 0) return;
+  const required = (survey.responseLimit - survey.responseCount) * survey.rewardPoints;
+  if (required <= 0) return;
+  const creator = database.users.find((user) => user.id === survey.creatorId);
+  const wallet: PointsWallet = creator?.pointsWallet ?? { balance: 0, purchasedNaira: 0 };
+  const locked = Math.min(wallet.balance, required);
+  database = {
+    ...database,
+    users: database.users.map((user) =>
+      user.id === survey.creatorId
+        ? { ...user, pointsWallet: { ...wallet, balance: wallet.balance - locked } }
+        : user,
+    ),
+    surveys: database.surveys.map((candidate) =>
+      candidate.id === surveyId ? { ...candidate, escrowPoints: locked } : candidate,
+    ),
+    transactions: [
+      {
+        id: nextId("txn"),
+        userId: survey.creatorId,
+        kind: "escrow_lock" as const,
+        naira: 0,
+        points: -locked,
+        note: `Escrow locked for “${survey.title}” (${locked} pts)`,
+        createdAt: nowIso(),
+      },
+      ...database.transactions,
+    ],
+  };
+}
+
+/** Returns unused escrow points when a survey closes before its quota. */
+function refundEscrow(surveyId: string): void {
+  const survey = database.surveys.find((candidate) => candidate.id === surveyId);
+  if (!survey || survey.escrowPoints <= 0) return;
+  const refund = survey.escrowPoints;
+  database = {
+    ...database,
+    users: database.users.map((user) =>
+      user.id === survey.creatorId
+        ? {
+            ...user,
+            pointsWallet: {
+              balance: (user.pointsWallet?.balance ?? 0) + refund,
+              purchasedNaira: user.pointsWallet?.purchasedNaira ?? 0,
+            },
+          }
+        : user,
+    ),
+    surveys: database.surveys.map((candidate) =>
+      candidate.id === surveyId ? { ...candidate, escrowPoints: 0 } : candidate,
+    ),
+    transactions: [
+      {
+        id: nextId("txn"),
+        userId: survey.creatorId,
+        kind: "escrow_refund" as const,
+        naira: 0,
+        points: refund,
+        note: `Unused escrow returned for “${survey.title}” (${refund} pts)`,
+        createdAt: nowIso(),
+      },
+      ...database.transactions,
+    ],
+  };
+}
+
 const surveys = {
   async list(filter: SurveyFilter = {}): Promise<Survey[]> {
     await delay();
@@ -582,6 +698,12 @@ const surveys = {
       planId: input.planId,
       status: input.submitForModeration ? "pending_moderation" : "draft",
       responseCount: 0,
+      rewardNaira: input.rewardNaira ?? 400,
+      rewardPoints: Math.max(
+        1,
+        Math.ceil((input.rewardNaira ?? 400) / database.settings.pointToNaira),
+      ),
+      escrowPoints: 0,
       responseLimit,
       openingDate: input.openingDate,
       closingDate: input.closingDate,
@@ -595,6 +717,7 @@ const surveys = {
       updatedAt: nowIso(),
     };
     database = { ...database, surveys: [survey, ...database.surveys] };
+    if (input.submitForModeration) lockEscrow(survey.id);
     commit();
     return survey;
   },
@@ -621,7 +744,16 @@ const surveys = {
     status: SurveyStatus,
     moderationNote?: string,
   ): Promise<Survey | undefined> {
-    return surveys.update(id, { status, ...(moderationNote ? { moderationNote } : {}) });
+    const before = database.surveys.find((candidate) => candidate.id === id);
+    const updated = await surveys.update(id, {
+      status,
+      ...(moderationNote ? { moderationNote } : {}),
+    });
+    if (!before || !updated) return updated;
+    if (status === "active" && before.status !== "active") lockEscrow(id);
+    if (status === "closed" && before.status !== "closed") refundEscrow(id);
+    commit();
+    return updated;
   },
 
   async submitResponse(
@@ -660,7 +792,54 @@ const surveys = {
         : candidate,
     );
 
-    database = { ...database, surveyResponses: nextResponses, surveys: nextSurveys };
+    const released = Math.min(survey.rewardPoints, survey.escrowPoints);
+    const finalSurveys = nextSurveys.map((candidate) =>
+      candidate.id === surveyId
+        ? { ...candidate, escrowPoints: survey.escrowPoints - released }
+        : candidate,
+    );
+
+    const respondentId = database.sessionUserId;
+    const respondent = database.users.find((user) => user.id === respondentId);
+    const reward = survey.rewardNaira;
+    const nextUsers =
+      respondent?.role === "earner"
+        ? database.users.map((user) =>
+            user.id === respondentId
+              ? {
+                  ...user,
+                  cashWallet: {
+                    availableNaira: (user.cashWallet?.availableNaira ?? 0) + reward,
+                    totalEarnedNaira: (user.cashWallet?.totalEarnedNaira ?? 0) + reward,
+                    completedSurveys: (user.cashWallet?.completedSurveys ?? 0) + 1,
+                  },
+                }
+              : user,
+          )
+        : database.users;
+
+    const rewardTxn: WalletTransaction[] =
+      respondent?.role === "earner"
+        ? [
+            {
+              id: nextId("txn"),
+              userId: respondentId!,
+              kind: "survey_reward" as const,
+              naira: reward,
+              points: 0,
+              note: `Reward for completing “${survey.title}”`,
+              createdAt: nowIso(),
+            },
+          ]
+        : [];
+
+    database = {
+      ...database,
+      users: nextUsers,
+      surveyResponses: nextResponses,
+      surveys: finalSurveys,
+      transactions: [...rewardTxn, ...database.transactions],
+    };
     commit();
     return response;
   },
@@ -1661,8 +1840,238 @@ const admin = {
 /* Public API boundary                                                 */
 /* ------------------------------------------------------------------ */
 
+/* ================================================================== */
+/* Wallets, payouts, polls, kit requests and platform settings        */
+/* ================================================================== */
+
+const wallets = {
+  async summary(userId: string): Promise<{
+    cash: CashWallet;
+    points: PointsWallet;
+    transactions: WalletTransaction[];
+  }> {
+    await delay();
+    const user = database.users.find((candidate) => candidate.id === userId);
+    return {
+      cash: user?.cashWallet ?? { availableNaira: 0, totalEarnedNaira: 0, completedSurveys: 0 },
+      points: user?.pointsWallet ?? { balance: 0, purchasedNaira: 0 },
+      transactions: database.transactions.filter((txn) => txn.userId === userId),
+    };
+  },
+
+  /** Simulated Paystack checkout: points land in the researcher wallet instantly. */
+  async purchasePoints(userId: string, packId: string): Promise<PointsWallet> {
+    await delay();
+    const pack = surveyPointPacks.find((candidate) => candidate.id === packId);
+    if (!pack) throw new Error("Unknown point pack.");
+    const user = database.users.find((candidate) => candidate.id === userId);
+    if (!user) throw new Error("Sign in to purchase survey points.");
+    const wallet: PointsWallet = user.pointsWallet ?? { balance: 0, purchasedNaira: 0 };
+    const next: PointsWallet = {
+      balance: wallet.balance + pack.points,
+      purchasedNaira: wallet.purchasedNaira + pack.naira,
+    };
+    database = {
+      ...database,
+      users: database.users.map((candidate) =>
+        candidate.id === userId ? { ...candidate, pointsWallet: next } : candidate,
+      ),
+      transactions: [
+        {
+          id: nextId("txn"),
+          userId,
+          kind: "points_purchase" as const,
+          naira: -pack.naira,
+          points: pack.points,
+          note: `Paystack (simulated): ₦${pack.naira.toLocaleString()} for ${pack.points} points`,
+          createdAt: nowIso(),
+        },
+        ...database.transactions,
+      ],
+    };
+    commit();
+    return next;
+  },
+
+  async withdraw(
+    userId: string,
+    details: { bankName: string; accountNumber: string; accountName: string; amountNaira: number },
+  ): Promise<PayoutRequest> {
+    await delay();
+    const user = database.users.find((candidate) => candidate.id === userId);
+    if (!user) throw new Error("Sign in to withdraw earnings.");
+    const available = user.cashWallet?.availableNaira ?? 0;
+    const min = database.settings.minWithdrawalNaira;
+    if (details.amountNaira < min) {
+      throw new Error(`Minimum withdrawal is ₦${min.toLocaleString()}.`);
+    }
+    if (details.amountNaira > available) {
+      throw new Error("Amount exceeds your available balance.");
+    }
+    const payout: PayoutRequest = {
+      id: nextId("pay"),
+      userId,
+      earnerName: details.accountName,
+      bankName: details.bankName,
+      accountNumber: details.accountNumber,
+      accountName: details.accountName,
+      amountNaira: details.amountNaira,
+      status: "pending",
+      requestedAt: nowIso(),
+    };
+    database = {
+      ...database,
+      users: database.users.map((candidate) =>
+        candidate.id === userId
+          ? {
+              ...candidate,
+              cashWallet: {
+                availableNaira: available - details.amountNaira,
+                totalEarnedNaira: candidate.cashWallet?.totalEarnedNaira ?? 0,
+                completedSurveys: candidate.cashWallet?.completedSurveys ?? 0,
+              },
+            }
+          : candidate,
+      ),
+      payouts: [payout, ...database.payouts],
+      transactions: [
+        {
+          id: nextId("txn"),
+          userId,
+          kind: "withdrawal" as const,
+          naira: -details.amountNaira,
+          points: 0,
+          note: `Withdrawal to ${details.bankName} •••${details.accountNumber.slice(-4)}`,
+          createdAt: nowIso(),
+        },
+        ...database.transactions,
+      ],
+    };
+    commit();
+    return payout;
+  },
+};
+
+const payouts = {
+  async list(): Promise<PayoutRequest[]> {
+    await delay();
+    return database.payouts;
+  },
+
+  async markPaid(id: string): Promise<PayoutRequest | undefined> {
+    await delay();
+    const payout = database.payouts.find((candidate) => candidate.id === id);
+    if (!payout) return undefined;
+    const paid = { ...payout, status: "paid" as const, paidAt: nowIso() };
+    database = {
+      ...database,
+      payouts: database.payouts.map((candidate) => (candidate.id === id ? paid : candidate)),
+    };
+    commit();
+    return paid;
+  },
+};
+
+const polls = {
+  async today(): Promise<{
+    poll: DailyPoll;
+    votedOptionId: string | undefined;
+    hasVoted: boolean;
+  }> {
+    await delay();
+    const poll = database.polls[0]!;
+    const userId = database.sessionUserId;
+    const hasVoted = !!userId && (database.pollVotes[poll.id] ?? []).includes(userId);
+    return {
+      poll,
+      hasVoted,
+      votedOptionId: userId ? database.pollLastOption[userId] : undefined,
+    };
+  },
+
+  async vote(pollId: string, optionId: string, userId: string): Promise<DailyPoll> {
+    await delay();
+    const already = (database.pollVotes[pollId] ?? []).includes(userId);
+    if (already) throw new Error("You have already voted in today's poll.");
+    database = {
+      ...database,
+      polls: database.polls.map((poll) =>
+        poll.id === pollId
+          ? {
+              ...poll,
+              options: poll.options.map((option) =>
+                option.id === optionId ? { ...option, votes: option.votes + 1 } : option,
+              ),
+            }
+          : poll,
+      ),
+      pollVotes: {
+        ...database.pollVotes,
+        [pollId]: [...(database.pollVotes[pollId] ?? []), userId],
+      },
+      pollLastOption: { ...(database.pollLastOption ?? {}), [userId]: optionId },
+    };
+    commit();
+    return database.polls[0]!;
+  },
+};
+
+const kits = {
+  async list(): Promise<KitRequest[]> {
+    await delay();
+    return database.kitRequests;
+  },
+
+  async submit(input: Omit<KitRequest, "id" | "status" | "createdAt">): Promise<KitRequest> {
+    await delay();
+    const request: KitRequest = {
+      ...input,
+      id: nextId("kit"),
+      status: "requested",
+      createdAt: nowIso(),
+    };
+    database = { ...database, kitRequests: [request, ...database.kitRequests] };
+    commit();
+    return request;
+  },
+
+  async quote(id: string, quoteNaira: number, quoteNote: string): Promise<KitRequest | undefined> {
+    await delay();
+    const request = database.kitRequests.find((candidate) => candidate.id === id);
+    if (!request) return undefined;
+    const quoted = { ...request, status: "quoted" as const, quoteNaira, quoteNote };
+    database = {
+      ...database,
+      kitRequests: database.kitRequests.map((candidate) =>
+        candidate.id === id ? quoted : candidate,
+      ),
+    };
+    commit();
+    return quoted;
+  },
+};
+
+const settings = {
+  async get(): Promise<PlatformSettings> {
+    await delay();
+    return database.settings;
+  },
+
+  async update(patch: Partial<PlatformSettings>): Promise<PlatformSettings> {
+    await delay();
+    database = { ...database, settings: { ...database.settings, ...patch } };
+    commit();
+    return database.settings;
+  },
+};
+
 export const api = {
   articles,
+  wallets,
+  payouts,
+  polls,
+  kits,
+  settings,
   surveys,
   pressReleases,
   services,

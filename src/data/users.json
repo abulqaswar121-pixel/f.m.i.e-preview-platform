@@ -1,9 +1,9 @@
 [
   {
-    "id": "user-visitor",
-    "name": "Guest Reader",
+    "id": "user-earner",
+    "name": "Chidera Umeh",
     "email": "visitor@fmie.co.uk",
-    "role": "visitor",
+    "role": "earner",
     "avatarUrl": "/art/avatars/guest.svg",
     "jobTitle": "Public Reader",
     "location": "Not disclosed",
@@ -14,6 +14,12 @@
       "pressReleaseUpdates": false,
       "orderAndInvoice": false,
       "commercialOffers": false
+    },
+    "title": "Survey Respondent, Lagos",
+    "cashWallet": {
+      "availableNaira": 6500,
+      "totalEarnedNaira": 18500,
+      "completedSurveys": 14
     }
   },
   {
@@ -32,6 +38,11 @@
       "pressReleaseUpdates": false,
       "orderAndInvoice": true,
       "commercialOffers": false
+    },
+    "title": "Research Lead, InnoTrend Insights",
+    "pointsWallet": {
+      "balance": 450,
+      "purchasedNaira": 25000
     }
   },
   {
@@ -50,7 +61,8 @@
       "pressReleaseUpdates": true,
       "orderAndInvoice": true,
       "commercialOffers": true
-    }
+    },
+    "title": "Communications Director, Vance & Co"
   },
   {
     "id": "user-administrator",
@@ -68,6 +80,7 @@
       "pressReleaseUpdates": true,
       "orderAndInvoice": true,
       "commercialOffers": false
-    }
+    },
+    "title": "F.M.I.E Operations Super Admin"
   }
 ]

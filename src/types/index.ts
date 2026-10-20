@@ -51,6 +51,7 @@ export type PRStatus =
 export type PRTier = "tier_3_emerging" | "tier_2_business" | "tier_1_premium";
 
 export type UserRole =
+  | "earner"
   | "visitor"
   | "registered_user"
   | "survey_creator"
@@ -74,11 +75,90 @@ export type ContentType =
 /* People & accounts                                                   */
 /* ------------------------------------------------------------------ */
 
+export interface CashWallet {
+  availableNaira: number;
+  totalEarnedNaira: number;
+  completedSurveys: number;
+}
+
+export interface PointsWallet {
+  balance: number;
+  purchasedNaira: number;
+}
+
+export interface WalletTransaction {
+  id: string;
+  userId: string;
+  kind: "survey_reward" | "withdrawal" | "points_purchase" | "escrow_lock" | "escrow_refund";
+  naira: number;
+  points: number;
+  note: string;
+  createdAt: string;
+}
+
+export interface PayoutRequest {
+  id: string;
+  userId: string;
+  earnerName: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
+  amountNaira: number;
+  status: "pending" | "paid";
+  requestedAt: string;
+  paidAt?: string;
+}
+
+export interface DailyPollOption {
+  id: string;
+  label: string;
+  votes: number;
+}
+
+export interface DailyPoll {
+  id: string;
+  question: string;
+  options: DailyPollOption[];
+  closesAt: string;
+}
+
+export interface KitRosterRow {
+  name: string;
+  number: string;
+  size: "S" | "M" | "L" | "XL" | "XXL";
+}
+
+export interface KitRequest {
+  id: string;
+  clubName: string;
+  sport: "Football" | "Basketball" | "Corporate";
+  crestFileName?: string;
+  primaryColor: string;
+  secondaryColor: string;
+  roster: KitRosterRow[];
+  quantity: number;
+  deliveryDate: string;
+  deliveryAddress: string;
+  notes: string;
+  status: "requested" | "quoted";
+  quoteNaira?: number;
+  quoteNote?: string;
+  createdAt: string;
+}
+
+export interface PlatformSettings {
+  pointToNaira: number;
+  minWithdrawalNaira: number;
+  heroVideoUrl: string;
+}
+
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  cashWallet?: CashWallet;
+  pointsWallet?: PointsWallet;
   organization?: string | undefined;
   avatarUrl: string;
   jobTitle?: string | undefined;
@@ -228,6 +308,12 @@ export interface Survey {
   isBranded: boolean;
   consentNotice: string;
   estimatedMinutes: number;
+  /** Cash reward credited to an earner's wallet per completed response (₦). */
+  rewardNaira: number;
+  /** Points locked per response in the researcher's escrow. */
+  rewardPoints: number;
+  /** Points currently held in escrow for outstanding respondent payouts. */
+  escrowPoints: number;
   incentive?: string | undefined;
   tags: string[];
   questions: SurveyQuestion[];
@@ -511,6 +597,13 @@ export interface Database {
   orders: Order[];
   newsletterSubscriptions: NewsletterSubscription[];
   contactMessages: ContactMessage[];
+  transactions: WalletTransaction[];
+  payouts: PayoutRequest[];
+  polls: DailyPoll[];
+  pollVotes: Record<string, string[]>;
+  pollLastOption: Record<string, string>;
+  kitRequests: KitRequest[];
+  settings: PlatformSettings;
   sessionUserId: string | null;
   updatedAt: string;
 }

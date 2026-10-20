@@ -4,6 +4,8 @@ import { ArrowRight, BarChart3, Globe2, Megaphone, PenLine, ShieldCheck } from "
 import { DisclosureBadge } from "@/components/common/Primitives";
 import { SectionHeading } from "@/components/common/Primitives";
 import { Typewriter } from "@/components/ui/Typewriter";
+import { HeroMedia } from "@/components/common/HeroMedia";
+import { DailyPoll } from "@/components/surveys/DailyPoll";
 import { Eyebrow } from "@/components/common/Primitives";
 import { NewsletterForm } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/shop/ProductCard";
@@ -45,12 +47,7 @@ export function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-navy-dark text-white">
-        <img
-          src="/media/hero-original.webp"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-        />
+        <HeroMedia />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-navy-dark via-brand-navy-dark/88 to-brand-navy/55"
@@ -58,14 +55,11 @@ export function HomePage() {
         <div className="fmie-container relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <div>
             <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
-            <h1 className="mt-4 min-h-[2.16em] max-w-2xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-              <span className="sr-only">{livePositioning.heroRotatingLines[0]}</span>
-              <span aria-hidden="true">
-                <Typewriter phrases={livePositioning.heroRotatingLines} />
-              </span>
+            <h1 className="mt-4 max-w-2xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
+              Where Global Business, Ideas &amp; Opportunities Meet
             </h1>
-            <p className="mt-3 max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
-              Where Global Business, Ideas &amp; Opportunities Meet.
+            <p className="mt-3 min-h-[1.6em] max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
+              <Typewriter phrases={livePositioning.heroRotatingLines} />
             </p>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
               Discover verified business intelligence, participate in independent research, amplify
@@ -77,7 +71,7 @@ export function HomePage() {
                 size="lg"
                 className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
               >
-                <Link to="/news">Explore News &amp; Insights</Link>
+                <Link to="/surveys">Earn Answering Surveys</Link>
               </Button>
               <Button
                 asChild
@@ -85,15 +79,7 @@ export function HomePage() {
                 variant="outline"
                 className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
-                <Link to="/surveys/create">Create a Survey</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white"
-              >
-                <Link to="/press-releases/book">Book a Press Release</Link>
+                <Link to="/press-releases/book">Book Press Distribution</Link>
               </Button>
             </div>
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-6 text-center sm:text-left">
@@ -204,6 +190,43 @@ export function HomePage() {
                   </span>
                 </SiteLink>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick daily poll + two-sided survey spotlight */}
+      <section className="border-b border-brand-border bg-white">
+        <div className="fmie-container grid gap-8 py-12 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
+          <DailyPoll />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col rounded-lg border border-brand-border bg-brand-cream p-6">
+              <p className="fmie-eyebrow">For Researchers</p>
+              <h3 className="mt-2 font-display text-xl font-bold text-brand-charcoal">
+                Guaranteed High-Quality Survey Data
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-brand-slate">
+                Fund a quota, lock respondent rewards in escrow and read a live results dashboard
+                with demographic filters and CSV export.
+              </p>
+              <Button asChild className="mt-4 bg-brand-navy text-white hover:bg-brand-navy-dark">
+                <Link to="/surveys/create">Launch research</Link>
+              </Button>
+            </div>
+            <div className="flex flex-col rounded-lg border border-brand-border bg-brand-navy p-6 text-white">
+              <p className="fmie-eyebrow text-brand-gold">For Public</p>
+              <h3 className="mt-2 font-display text-xl font-bold">Earn Cash Rewards Per Survey</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/80">
+                Answer live surveys in minutes, watch ₦ rewards land in your wallet instantly and
+                withdraw from ₦2,000 to any Nigerian bank account.
+              </p>
+              <Button
+                asChild
+                variant="outline"
+                className="mt-4 border-brand-gold bg-transparent text-brand-gold hover:bg-brand-gold hover:text-brand-navy-dark"
+              >
+                <Link to="/surveys">Start earning</Link>
+              </Button>
             </div>
           </div>
         </div>

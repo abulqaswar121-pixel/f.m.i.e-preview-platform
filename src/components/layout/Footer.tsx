@@ -11,6 +11,8 @@ import {
   contactRoutes,
   footerNavigation,
   headquarters,
+  westAfricaDesk,
+  demoBadgeDisclaimer,
   legal,
   newsletterFrequencies,
   newsletterPreferences,
@@ -173,6 +175,7 @@ export function Footer() {
             <p className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-gold" />
               <span>{headquarters.addressOneLine}</span>
+              <span>{westAfricaDesk.addressOneLine}</span>
             </p>
             <p className="flex items-center gap-2">
               <Phone className="h-3.5 w-3.5 text-brand-gold" />
@@ -236,7 +239,7 @@ export function Footer() {
               "rounded-md border border-brand-gold/40 bg-brand-gold/10 px-4 py-3 text-[11px] leading-relaxed text-white/85",
             )}
           >
-            <span className="font-semibold text-brand-gold">Demonstration preview. </span>
+            <span className="font-semibold text-brand-gold">{demoBadgeDisclaimer}. </span>
             {site.previewNotice}
           </p>
           <ul className="space-y-1.5">

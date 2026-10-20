@@ -16,6 +16,8 @@ import { Logo } from "@/components/brand/Logo";
 import { Modal } from "@/components/common/Modal";
 import { MarketTicker } from "@/components/layout/MarketTicker";
 import { PersonaSwitcher } from "@/components/layout/PersonaSwitcher";
+import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
+import { SocialIconLinks } from "@/components/layout/SocialIconLinks";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { contactRoutes, mainNavigation, site } from "@/config/site";
@@ -230,6 +232,7 @@ export function Header() {
                 {route.email}
               </a>
             ))}
+            <SocialIconLinks className="items-center gap-3" iconClassName="h-3.5 w-3.5" />
             <span className="text-white/50">|</span>
             <span className="tracking-[0.08em]">{site.domain}</span>
           </div>
@@ -322,6 +325,8 @@ export function Header() {
             ) : null}
           </Button>
           <div className="hidden md:block">
+            <WalletChip />
+            <NotificationBell />
             <PersonaSwitcher />
           </div>
           <Button
@@ -402,6 +407,8 @@ export function Header() {
                 </div>
                 <div className="mt-4 border-t border-brand-border pt-4">
                   <p className="fmie-eyebrow mb-2">Signed in as</p>
+                  <WalletChip />
+                  <NotificationBell />
                   <PersonaSwitcher />
                 </div>
                 <div className="mt-4 space-y-1 border-t border-brand-border pt-4 text-xs text-brand-slate">

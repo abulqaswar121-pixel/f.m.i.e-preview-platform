@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const personas = useMemo(
     () =>
-      ["user-visitor", "user-survey-creator", "user-corporate-pr", "user-administrator"]
+      ["user-earner", "user-survey-creator", "user-corporate-pr", "user-administrator"]
         .map((id) => database.users.find((candidate) => candidate.id === id))
         .filter((candidate): candidate is User => candidate !== undefined),
     [database.users],

@@ -23,6 +23,7 @@ import { Route as SiteRegisterRouteImport } from './routes/_site/register'
 import { Route as SiteSigninRouteImport } from './routes/_site/signin'
 import { Route as SiteSurveyEthicsRouteImport } from './routes/_site/survey-ethics'
 import { Route as SiteTermsRouteImport } from './routes/_site/terms'
+import { Route as SiteWalletRouteImport } from './routes/_site/wallet'
 import { Route as SiteNewsIndexRouteImport } from './routes/_site/news/index'
 import { Route as SiteNewsSlugRouteImport } from './routes/_site/news/$slug'
 import { Route as SitePressReleasesIndexRouteImport } from './routes/_site/press-releases/index'
@@ -106,6 +107,11 @@ const SiteTermsRoute = SiteTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteWalletRoute = SiteWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteNewsIndexRoute = SiteNewsIndexRouteImport.update({
   id: '/news/',
   path: '/news/',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
+  '/wallet': typeof SiteWalletRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
+  '/wallet': typeof SiteWalletRoute
   '/': typeof SiteIndexRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
@@ -243,6 +251,7 @@ export interface FileRoutesById {
   '/_site/signin': typeof SiteSigninRoute
   '/_site/survey-ethics': typeof SiteSurveyEthicsRoute
   '/_site/terms': typeof SiteTermsRoute
+  '/_site/wallet': typeof SiteWalletRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/news/$slug': typeof SiteNewsSlugRoute
   '/_site/press-releases/$id': typeof SitePressReleasesIdRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/wallet'
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
@@ -301,6 +311,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/wallet'
     | '/'
     | '/news/$slug'
     | '/press-releases/$id'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/_site/signin'
     | '/_site/survey-ethics'
     | '/_site/terms'
+    | '/_site/wallet'
     | '/_site/'
     | '/_site/news/$slug'
     | '/_site/press-releases/$id'
@@ -450,6 +462,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTermsRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/wallet': {
+      id: '/_site/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof SiteWalletRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/news/': {
       id: '/_site/news/'
       path: '/news'
@@ -557,6 +576,7 @@ interface SiteRouteChildren {
   SiteSigninRoute: typeof SiteSigninRoute
   SiteSurveyEthicsRoute: typeof SiteSurveyEthicsRoute
   SiteTermsRoute: typeof SiteTermsRoute
+  SiteWalletRoute: typeof SiteWalletRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteNewsSlugRoute: typeof SiteNewsSlugRoute
   SitePressReleasesIdRoute: typeof SitePressReleasesIdRoute
@@ -586,6 +606,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteSigninRoute: SiteSigninRoute,
   SiteSurveyEthicsRoute: SiteSurveyEthicsRoute,
   SiteTermsRoute: SiteTermsRoute,
+  SiteWalletRoute: SiteWalletRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteNewsSlugRoute: SiteNewsSlugRoute,
   SitePressReleasesIdRoute: SitePressReleasesIdRoute,

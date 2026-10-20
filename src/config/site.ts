@@ -44,6 +44,15 @@ export const headquarters = {
   mapUrl: "https://www.google.com/maps/search/?api=1&query=124+City+Road+London+EC1V+2NX",
 } as const;
 
+export const westAfricaDesk = {
+  label: "West Africa Desk",
+  lines: ["Victoria Island", "Lagos", "Nigeria"],
+  addressOneLine: "Victoria Island, Lagos, Nigeria",
+  hours: "Monday to Friday, 09:00–18:00 WAT",
+} as const;
+
+export const offices = [headquarters, westAfricaDesk] as const;
+
 export interface ContactRoute {
   id: ContactDepartment;
   label: string;
@@ -107,15 +116,37 @@ export const contactEmail = {
   general: "contact@fmie.co.uk",
   editorial: "editorial@fmie.co.uk",
   press: "press@fmie.co.uk",
+  surveys: "survey@fmie.co.uk",
   services: "services@fmie.co.uk",
   privacy: "contact@fmie.co.uk",
   abuse: "editorial@fmie.co.uk",
 } as const;
 
 export const socialLinks = [
-  { id: "linkedin", label: "LinkedIn", handle: "F.M.I.E", url: "https://www.linkedin.com/" },
-  { id: "x", label: "X", handle: "@fmiebusiness", url: "https://x.com/" },
-  { id: "youtube", label: "YouTube", handle: "F.M.I.E Business", url: "https://www.youtube.com/" },
+  {
+    id: "instagram",
+    label: "Instagram",
+    handle: "@hague_digital",
+    url: "https://www.instagram.com/hague_digital?stkn=cDRveGtjdW0yY25i",
+  },
+  {
+    id: "facebook",
+    label: "Facebook",
+    handle: "F.M.I.E",
+    url: "https://www.facebook.com/profile.php?id=100085736047647",
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    handle: "The Hague Digital Company",
+    url: "https://www.linkedin.com/company/the-hague-digital-company",
+  },
+  {
+    id: "tiktok",
+    label: "TikTok",
+    handle: "@haguecoofficial",
+    url: "https://www.tiktok.com/@haguecoofficial?lang=en",
+  },
 ] as const;
 
 /* ------------------------------------------------------------------ */
@@ -420,24 +451,59 @@ export const surveyCategories: SurveyCategory[] = [
 ];
 
 export const roleLabels: Record<UserRole, string> = {
+  earner: "Survey Earner",
   visitor: "Public Reader",
   registered_user: "Registered Member",
-  survey_creator: "Survey Creator",
-  premium_customer: "Premium Client",
+  survey_creator: "Researcher",
+  premium_customer: "PR Client",
   corporate_account: "Corporate Account",
   contributor: "Contributor",
-  administrator: "Administrator & Managing Editor",
+  administrator: "Super Admin",
 };
 
 export const roleDescriptions: Record<UserRole, string> = {
+  earner: "Answer live surveys for cash rewards and withdraw earnings to a bank account.",
   visitor: "Read-only access to public journalism, surveys and the shop.",
   registered_user: "Saved reading list, survey participation and order history.",
-  survey_creator: "Build surveys, manage live research and review analytics.",
-  premium_customer: "Track press release campaigns, quotes and invoices.",
+  survey_creator: "Buy survey points, launch research and read live results dashboards.",
+  premium_customer: "Book press distribution, track the pipeline and manage releases.",
   corporate_account: "Multi-seat research account with billing history and branded surveys.",
   contributor: "Submit pitches, drafts and interview requests to the editorial desk.",
-  administrator: "Approve surveys, advance press releases and moderate commerce.",
+  administrator:
+    "Full control: surveys, payouts, press releases, kit quotes, homepage video and platform settings.",
 };
+
+/* ------------------------------------------------------------------ */
+/* Survey economy (defaults; the live values are admin-configurable)   */
+/* ------------------------------------------------------------------ */
+
+export interface SurveyPointPack {
+  id: string;
+  naira: number;
+  points: number;
+  blurb: string;
+}
+
+export const surveyPointPacks: SurveyPointPack[] = [
+  { id: "pack-50", naira: 5000, points: 50, blurb: "Starter block for a single pilot survey." },
+  { id: "pack-250", naira: 20000, points: 250, blurb: "Most popular — funds a full quota run." },
+  {
+    id: "pack-1000",
+    naira: 75000,
+    points: 1000,
+    blurb: "Programme pricing for continuous research.",
+  },
+];
+
+export const surveyEconomyDefaults = {
+  pointToNaira: 100,
+  minWithdrawalNaira: 2000,
+  heroVideoUrl: "",
+} as const;
+
+/** Exact disclaimer line required on the demonstration preview. */
+export const demoBadgeDisclaimer =
+  "F.M.I.E Demonstration Preview — Sample Editorial & Media Services";
 
 /* ------------------------------------------------------------------ */
 /* Press release tiers & workflow                                      */
@@ -850,6 +916,14 @@ export const newsletterPreferences = [
 export const newsletterFrequencies = ["Daily", "Weekly", "Fortnightly"] as const;
 
 export const marketIndicesSeed: MarketIndex[] = [
+  { symbol: "USD/NGN", name: "US Dollar / Naira", value: 1545.0, change: 6.5, changePercent: 0.42 },
+  {
+    symbol: "GBP/NGN",
+    name: "Pound Sterling / Naira",
+    value: 2065.0,
+    change: -4.25,
+    changePercent: -0.21,
+  },
   { symbol: "FTSE 100", name: "FTSE 100", value: 8412.66, change: 24.18, changePercent: 0.29 },
   { symbol: "S&P 500", name: "S&P 500", value: 6188.4, change: -12.75, changePercent: -0.21 },
   {
