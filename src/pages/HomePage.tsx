@@ -35,6 +35,11 @@ export function HomePage() {
     <div>
       {/* 1 — Film banner */}
       <section className="relative overflow-hidden bg-brand-navy-dark text-white">
+        <div aria-hidden="true" className="fmie-orb -left-24 top-8 h-72 w-72 bg-brand-gold/35" />
+        <div
+          aria-hidden="true"
+          className="fmie-orb -right-20 bottom-0 h-80 w-80 bg-brand-navy-light/50"
+        />
         <HeroMedia />
         <div
           aria-hidden="true"
@@ -118,7 +123,7 @@ export function HomePage() {
         <div className="fmie-container grid gap-6 py-10 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
           <DailyPoll />
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex flex-col rounded-lg border border-brand-border bg-brand-cream p-6">
+            <div className="flex flex-col rounded-2xl border border-brand-border bg-brand-cream p-6 shadow-lg shadow-brand-navy/10 transition-transform duration-300 hover:-translate-y-1">
               <p className="fmie-eyebrow">For Researchers</p>
               <h3 className="mt-2 font-display text-xl font-bold text-brand-charcoal">
                 Guaranteed High-Quality Survey Data
@@ -131,7 +136,7 @@ export function HomePage() {
                 <Link to="/surveys/create">Launch research</Link>
               </Button>
             </div>
-            <div className="flex flex-col rounded-lg border border-brand-border bg-brand-navy p-6 text-white">
+            <div className="flex flex-col rounded-2xl border border-brand-gold/40 bg-gradient-to-br from-brand-navy to-brand-navy-dark p-6 text-white shadow-xl shadow-brand-navy/30 transition-transform duration-300 hover:-translate-y-1">
               <p className="fmie-eyebrow text-brand-gold">For Public</p>
               <h3 className="mt-2 font-display text-xl font-bold">Earn Cash Rewards Per Survey</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-white/80">
@@ -161,7 +166,7 @@ export function HomePage() {
           />
           <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
             {lead ? (
-              <article className="overflow-hidden rounded-lg border border-brand-border bg-white shadow-sm">
+              <article className="fmie-card overflow-hidden">
                 <Link to="/news/$slug" params={{ slug: lead.slug }} className="block">
                   <img
                     src={lead.featuredImage}
@@ -192,7 +197,7 @@ export function HomePage() {
                 </div>
               </article>
             ) : null}
-            <ul className="divide-y divide-brand-border rounded-lg border border-brand-border bg-white shadow-sm">
+            <ul className="fmie-card divide-y divide-brand-border overflow-hidden">
               {rest.map((article) => (
                 <li key={article.id}>
                   <Link
@@ -237,7 +242,7 @@ export function HomePage() {
               {releases.map((release) => (
                 <li
                   key={release.id}
-                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3"
+                  className="fmie-glass-dark flex flex-wrap items-center justify-between gap-2 rounded-2xl px-4 py-3 transition-transform duration-300 hover:-translate-y-0.5"
                 >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold">{release.title}</p>
@@ -258,7 +263,7 @@ export function HomePage() {
               <Link to="/press-releases/book">Book distribution</Link>
             </Button>
           </div>
-          <div className="flex flex-col justify-between rounded-lg border border-brand-gold/40 bg-brand-gold/10 p-6">
+          <div className="fmie-glass-dark flex flex-col justify-between rounded-3xl p-6 shadow-2xl shadow-brand-navy-dark/40 transition-transform duration-300 hover:-translate-y-1">
             <div>
               <Shirt className="h-6 w-6 text-brand-gold" />
               <h2 className="mt-3 font-display text-2xl font-bold">Custom Kits & Jerseys</h2>

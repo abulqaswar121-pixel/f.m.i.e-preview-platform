@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-brand-border bg-white shadow-sm transition-shadow hover:shadow-md">
+    <article className="fmie-card group flex h-full flex-col overflow-hidden">
       <Link
         to="/shop/$slug"
         params={{ slug: product.slug }}

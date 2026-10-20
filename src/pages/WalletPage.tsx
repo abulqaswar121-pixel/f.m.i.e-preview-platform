@@ -106,7 +106,7 @@ export function WalletPage() {
         ) : null}
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-lg border border-brand-border bg-white p-5 shadow-sm">
+          <div className="fmie-card p-5">
             <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">
               Available balance
             </p>

@@ -267,6 +267,56 @@
     }
   }
 
+  /* ---- brand-modern surfaces ---- */
+  .fmie-glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  .fmie-glass-dark {
+    background: rgba(7, 30, 67, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(197, 168, 105, 0.35);
+  }
+
+  .fmie-card {
+    border-radius: 1.1rem;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.06),
+      0 14px 34px -14px rgba(10, 46, 104, 0.2);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .fmie-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(197, 168, 105, 0.55);
+    box-shadow:
+      0 2px 4px rgba(15, 23, 42, 0.08),
+      0 24px 48px -18px rgba(10, 46, 104, 0.32);
+  }
+
+  .fmie-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    pointer-events: none;
+  }
+
+  .fmie-gradient-text {
+    background: linear-gradient(92deg, #c5a869 0%, #e8d9b0 45%, #c5a869 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
   .fmie-eyebrow {
     font-family: var(--font-sans-stack);
     font-size: 0.6875rem;

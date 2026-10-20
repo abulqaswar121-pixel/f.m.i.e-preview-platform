@@ -52,7 +52,7 @@ export function DailyPoll() {
   const total = poll.options.reduce((sum, option) => sum + option.votes, 0);
 
   return (
-    <div className="rounded-lg border border-brand-border bg-white p-6 shadow-sm">
+    <div className="fmie-card p-6">
       <div className="flex items-center justify-between gap-3">
         <p className="fmie-eyebrow">Quick daily poll</p>
         <Badge tone="gold">
