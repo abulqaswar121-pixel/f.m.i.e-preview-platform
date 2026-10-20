@@ -17,8 +17,8 @@ export function SurveyCreatePage() {
             Survey creation needs an account
           </h1>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-brand-slate">
-            You are browsing as {roleLabel.toLowerCase()}. Sign in with any valid email, or switch
-            to the Survey Creator persona from the header, to open the interactive builder.
+            You are browsing as {roleLabel.toLowerCase()}. Sign in or create a free account
+            to open the survey builder.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-light">
