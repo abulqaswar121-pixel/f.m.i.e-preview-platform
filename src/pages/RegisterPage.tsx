@@ -1,59 +1,57 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Building2, UserPlus } from "lucide-react";
+import { Building2, MailCheck, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/common/Badge";
+import { OrDivider, SocialSignInButtons } from "@/components/auth/SocialSignInButtons";
 import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
-import { countries, industries, roleLabels, site } from "@/config/site";
+import { countries, industries } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
-import { api } from "@/services/api";
+import { supabase } from "@/integrations/supabase/client";
 
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-navy focus:outline-none";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const MIN_PASSWORD = 8;
+
 const INTENTS = [
   {
+    id: "earn",
+    label: "Answer surveys and earn",
+    detail: "Get paid for completed surveys and withdraw to your bank account.",
+  },
+  {
     id: "research",
-    label: "Publish surveys and read research",
-    detail: "Free and premium research plans, analytics filters and demo-only export.",
+    label: "Run surveys and read results",
+    detail: "Build surveys, reach respondents and follow live results.",
   },
   {
     id: "communications",
-    label: "Book press releases and distribution",
-    detail: "Three tiers, quotations, workflow tracking and completion dossiers.",
-  },
-  {
-    id: "services",
-    label: "Commission executive services",
-    detail:
-      "Profile writing, marketing contracts, pitching advisory and Wikipedia policy guidance.",
+    label: "Book press releases",
+    detail: "Write and polish your story first, then pay and track publication.",
   },
   {
     id: "commerce",
-    label: "Order branded merchandise",
-    detail: "Apparel, stationery and accessories with invoicing and purchase-order billing.",
+    label: "Team kits and merchandise",
+    detail: "Request custom kits for your club or company and order merchandise.",
   },
 ] as const;
 
+type Intent = (typeof INTENTS)[number]["id"];
+
 export function RegisterPage() {
   const navigate = useNavigate();
-  const { signIn, user } = useAuth();
-  const [intent, setIntent] = useState<(typeof INTENTS)[number]["id"]>("research");
+  const { user } = useAuth();
+  const [intent, setIntent] = useState<Intent>("earn");
   const [working, setWorking] = useState(false);
-  const [form, setForm] = useState<{
-    name: string;
-    email: string;
-    organization: string;
-    jobTitle: string;
-    country: string;
-    industry: string;
-    consent: boolean;
-    commercial: boolean;
-  }>({
+  const [sentTo, setSentTo] = useState<string | null>(null);
+  const [form, setForm] = useState({
     name: "",
     email: "",
+    password: "",
+    confirm: "",
     organization: "",
     jobTitle: "",
     country: countries[0] ?? "United Kingdom",
@@ -62,50 +60,106 @@ export function RegisterPage() {
     commercial: false,
   });
 
+  // A member who is already signed in (or finishes Google / Lovable sign-in here) goes to the dashboard.
+  useEffect(() => {
+    if (user) void navigate({ to: "/dashboard", replace: true });
+  }, [user, navigate]);
+
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (form.name.trim().length < 2) {
       toast.error("Enter your full name.");
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) {
-      toast.error("Enter a valid-looking email address.", {
-        description: "This preview accepts any correctly formatted address — nothing is verified.",
-      });
+    if (!EMAIL_PATTERN.test(form.email.trim())) {
+      toast.error("Enter a valid email address.");
+      return;
+    }
+    if (form.password.length < MIN_PASSWORD) {
+      toast.error(`Your password needs at least ${MIN_PASSWORD} characters.`);
+      return;
+    }
+    if (form.password !== form.confirm) {
+      toast.error("The two passwords don't match.");
       return;
     }
     if (!form.consent) {
-      toast.error("Confirm the demonstration-preview terms to create an account.");
+      toast.error("Please agree to the Terms of Use and Privacy Policy.");
       return;
     }
 
     setWorking(true);
-    const account = await signIn(form.email, form.name);
-    await api.users.updateProfile(account.id, {
-      jobTitle: form.jobTitle.trim() || roleLabels[account.role],
-      location: form.country,
-      organization: form.organization.trim() || undefined,
-      notificationPreferences: {
-        editorialDigest: true,
-        surveyActivity: true,
-        pressReleaseUpdates: intent === "communications",
-        orderAndInvoice: intent === "commerce",
-        commercialOffers: form.commercial,
+    const email = form.email.trim();
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: form.password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          name: form.name.trim(),
+          organization: form.organization.trim(),
+          jobTitle: form.jobTitle.trim(),
+          country: form.country,
+          industry: form.industry,
+          preferences: {
+            joinedFor: intent,
+            notifications: {
+              editorialDigest: true,
+              surveyActivity: true,
+              pressReleaseUpdates: true,
+              orderAndInvoice: true,
+              commercialOffers: form.commercial,
+            },
+          },
+        },
       },
     });
     setWorking(false);
-    toast.success(`Welcome to F.M.I.E, ${account.name.split(" ")[0] ?? account.name}`, {
-      description: "Your dashboard is pre-filled with sample surveys, campaigns and orders.",
-    });
-    void navigate({ to: "/dashboard" });
+
+    if (error) {
+      const text = error.message.toLowerCase();
+      toast.error(
+        text.includes("already")
+          ? "An account with this email already exists. Please sign in instead."
+          : text.includes("password")
+            ? "Please choose a stronger password."
+            : "We couldn't create your account. Please try again.",
+      );
+      return;
+    }
+    if (!data.session) {
+      setSentTo(email);
+      return;
+    }
+    toast.success(`Welcome to F.M.I.E, ${form.name.trim().split(" ")[0]}`);
   };
+
+  if (sentTo) {
+    return (
+      <div className="fmie-container py-16">
+        <div className="mx-auto max-w-lg rounded-lg border border-brand-border bg-white p-8 text-center">
+          <MailCheck className="mx-auto h-10 w-10 text-brand-navy" />
+          <h1 className="mt-3 font-display text-2xl font-semibold text-brand-charcoal">
+            Confirm your email
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-brand-slate">
+            We've sent a confirmation link to <strong>{sentTo}</strong>. Click it to finish creating
+            your account, then sign in.
+          </p>
+          <Button asChild className="mt-6 bg-brand-navy text-white hover:bg-brand-navy-light">
+            <Link to="/signin">Go to sign in</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
       <PageHeader
         eyebrow="Create an account"
         title="Join the F.M.I.E platform"
-        description="One account across research, distribution, services and commerce. Registration is simulated: nothing is verified, no email is sent and no data leaves your browser."
+        description="One account across surveys, your wallet, press releases, services and the shop."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Register" }]}
       />
 
@@ -115,27 +169,31 @@ export function RegisterPage() {
           className="rounded-lg border border-brand-border bg-white p-6 sm:p-8"
         >
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-brand-charcoal">
-            <UserPlus className="h-5 w-5 text-brand-navy" /> Your details
+            <UserPlus className="h-5 w-5 text-brand-navy" /> Create your account
           </h2>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className="mt-5">
+            <SocialSignInButtons />
+          </div>
+          <OrDivider />
+
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-xs font-semibold text-brand-slate">
               Full name *
               <input
                 className={`${inputClass} mt-1`}
-                placeholder="Amara Okafor"
                 value={form.name}
                 onChange={(event) => setForm({ ...form, name: event.target.value })}
                 autoComplete="name"
+                maxLength={120}
                 required
               />
             </label>
             <label className="block text-xs font-semibold text-brand-slate">
-              Work email *
+              Email *
               <input
                 className={`${inputClass} mt-1`}
                 type="email"
-                placeholder="you@company.com"
                 value={form.email}
                 onChange={(event) => setForm({ ...form, email: event.target.value })}
                 autoComplete="email"
@@ -143,21 +201,44 @@ export function RegisterPage() {
               />
             </label>
             <label className="block text-xs font-semibold text-brand-slate">
+              Password * <span className="font-normal">(at least {MIN_PASSWORD} characters)</span>
+              <input
+                className={`${inputClass} mt-1`}
+                type="password"
+                value={form.password}
+                onChange={(event) => setForm({ ...form, password: event.target.value })}
+                autoComplete="new-password"
+                minLength={MIN_PASSWORD}
+                required
+              />
+            </label>
+            <label className="block text-xs font-semibold text-brand-slate">
+              Confirm password *
+              <input
+                className={`${inputClass} mt-1`}
+                type="password"
+                value={form.confirm}
+                onChange={(event) => setForm({ ...form, confirm: event.target.value })}
+                autoComplete="new-password"
+                required
+              />
+            </label>
+            <label className="block text-xs font-semibold text-brand-slate">
               Organisation
               <input
                 className={`${inputClass} mt-1`}
-                placeholder="InnoTrend Analytics"
                 value={form.organization}
                 onChange={(event) => setForm({ ...form, organization: event.target.value })}
+                maxLength={160}
               />
             </label>
             <label className="block text-xs font-semibold text-brand-slate">
               Job title
               <input
                 className={`${inputClass} mt-1`}
-                placeholder="Head of Research"
                 value={form.jobTitle}
                 onChange={(event) => setForm({ ...form, jobTitle: event.target.value })}
+                maxLength={120}
               />
             </label>
             <label className="block text-xs font-semibold text-brand-slate">
@@ -192,7 +273,7 @@ export function RegisterPage() {
 
           <fieldset className="mt-6">
             <legend className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-slate">
-              Primary reason for joining
+              Main reason for joining
             </legend>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {INTENTS.map((option) => (
@@ -232,8 +313,17 @@ export function RegisterPage() {
                 checked={form.consent}
                 onChange={(event) => setForm({ ...form, consent: event.target.checked })}
               />
-              I understand this is a demonstration preview: no real account, payment, email or
-              publication results from anything I submit here. {site.previewNotice}
+              <span>
+                I agree to the{" "}
+                <Link to="/terms" className="font-semibold text-brand-navy hover:underline">
+                  Terms of Use
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy" className="font-semibold text-brand-navy hover:underline">
+                  Privacy Policy
+                </Link>
+                .
+              </span>
             </label>
             <label className="flex items-start gap-2 text-xs leading-relaxed text-brand-slate">
               <input
@@ -242,8 +332,7 @@ export function RegisterPage() {
                 checked={form.commercial}
                 onChange={(event) => setForm({ ...form, commercial: event.target.checked })}
               />
-              Send me commercial and event notifications (optional — editorial and research
-              notifications are on by default).
+              Send me offers and event news (optional).
             </label>
           </div>
 
@@ -269,9 +358,8 @@ export function RegisterPage() {
               <Building2 className="h-4 w-4 text-brand-navy" /> Corporate accounts
             </h2>
             <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-              Corporate plans add team seats, billing history, purchase-order commerce and branded
-              survey experiences. Plans are configured by an administrator rather than hardcoded, so
-              limits can change without a release.
+              Corporate plans add team seats, billing history and branded surveys. Create your
+              account first, then our team can upgrade it for your organisation.
             </p>
             <div className="mt-4">
               <Button asChild variant="outline" size="sm">
@@ -279,31 +367,6 @@ export function RegisterPage() {
               </Button>
             </div>
           </div>
-
-          <div className="rounded-lg border border-brand-border bg-white p-6">
-            <h3 className="font-display text-base font-semibold text-brand-charcoal">
-              Prefer to explore first?
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-              Switch to a demonstration persona from the header at any time. Each preset loads a
-              complete account with sample surveys, campaigns and orders.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <Badge tone="cream">{roleLabels.survey_creator}</Badge>
-              <Badge tone="cream">{roleLabels.premium_customer}</Badge>
-              <Badge tone="gold">{roleLabels.administrator}</Badge>
-            </div>
-            <Button asChild variant="ghost" size="sm" className="mt-4">
-              <Link to="/signin">Use a demo preset</Link>
-            </Button>
-          </div>
-
-          {user ? (
-            <p className="rounded-md bg-brand-cream px-4 py-3 text-[11px] leading-relaxed text-brand-slate">
-              You are currently signed in as {user.name} ({roleLabels[user.role]}). Creating another
-              account will switch your session.
-            </p>
-          ) : null}
         </aside>
       </div>
     </div>
