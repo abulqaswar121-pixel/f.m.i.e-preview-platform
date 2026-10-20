@@ -15,7 +15,7 @@ import {
 import { Logo } from "@/components/brand/Logo";
 import { Modal } from "@/components/common/Modal";
 import { MarketTicker } from "@/components/layout/MarketTicker";
-import { PersonaSwitcher } from "@/components/layout/PersonaSwitcher";
+import { AccountMenu } from "@/components/layout/AccountMenu";
 import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
 import { SocialIconLinks } from "@/components/layout/SocialIconLinks";
 import { Button } from "@/components/ui/button";
@@ -327,7 +327,7 @@ export function Header() {
           <div className="hidden md:block">
             <WalletChip />
             <NotificationBell />
-            <PersonaSwitcher />
+            <AccountMenu />
           </div>
           <Button
             asChild
@@ -406,10 +406,10 @@ export function Header() {
                   </Button>
                 </div>
                 <div className="mt-4 border-t border-brand-border pt-4">
-                  <p className="fmie-eyebrow mb-2">Signed in as</p>
+                  <p className="fmie-eyebrow mb-2">Your account</p>
                   <WalletChip />
                   <NotificationBell />
-                  <PersonaSwitcher />
+                  <AccountMenu />
                 </div>
                 <div className="mt-4 space-y-1 border-t border-brand-border pt-4 text-xs text-brand-slate">
                   {contactRoutes.map((route) => (
