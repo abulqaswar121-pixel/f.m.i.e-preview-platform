@@ -402,10 +402,15 @@ export interface PressReleaseBooking {
 export type DistributionChannelType =
   "owned_media" | "partner_distribution" | "syndication_wire" | "regional_desk";
 
+export type DistributionChannelGroup = "nigerian-national" | "premium-nigerian" | "international";
+
 export interface DistributionChannel {
   id: string;
   label: string;
+  group: DistributionChannelGroup;
   type: DistributionChannelType;
+  priceNaira?: number | undefined;
+  priceUsd?: number | undefined;
   region: string;
   audience: string;
   status: "verified" | "pending_verification" | "suspended";

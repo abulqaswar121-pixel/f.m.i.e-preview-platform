@@ -29,6 +29,7 @@ import { Route as SiteNewsSlugRouteImport } from './routes/_site/news/$slug'
 import { Route as SitePressReleasesIndexRouteImport } from './routes/_site/press-releases/index'
 import { Route as SitePressReleasesIdRouteImport } from './routes/_site/press-releases/$id'
 import { Route as SitePressReleasesBookRouteImport } from './routes/_site/press-releases/book'
+import { Route as SitePressReleasesTrackerRouteImport } from './routes/_site/press-releases/tracker'
 import { Route as SiteServicesIndexRouteImport } from './routes/_site/services/index'
 import { Route as SiteServicesSlugRouteImport } from './routes/_site/services/$slug'
 import { Route as SiteShopIndexRouteImport } from './routes/_site/shop/index'
@@ -137,6 +138,12 @@ const SitePressReleasesBookRoute = SitePressReleasesBookRouteImport.update({
   path: '/press-releases/book',
   getParentRoute: () => SiteRoute,
 } as any)
+const SitePressReleasesTrackerRoute =
+  SitePressReleasesTrackerRouteImport.update({
+    id: '/press-releases/tracker',
+    path: '/press-releases/tracker',
+    getParentRoute: () => SiteRoute,
+  } as any)
 const SiteServicesIndexRoute = SiteServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -196,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
@@ -225,6 +233,7 @@ export interface FileRoutesByTo {
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
@@ -256,6 +265,7 @@ export interface FileRoutesById {
   '/_site/news/$slug': typeof SiteNewsSlugRoute
   '/_site/press-releases/$id': typeof SitePressReleasesIdRoute
   '/_site/press-releases/book': typeof SitePressReleasesBookRoute
+  '/_site/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/_site/services/$slug': typeof SiteServicesSlugRoute
   '/_site/shop/$slug': typeof SiteShopSlugRoute
   '/_site/surveys/$id': typeof SiteSurveysIdRoute
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
+    | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
     | '/surveys/$id'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
+    | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
     | '/surveys/$id'
@@ -346,6 +358,7 @@ export interface FileRouteTypes {
     | '/_site/news/$slug'
     | '/_site/press-releases/$id'
     | '/_site/press-releases/book'
+    | '/_site/press-releases/tracker'
     | '/_site/services/$slug'
     | '/_site/shop/$slug'
     | '/_site/surveys/$id'
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitePressReleasesBookRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/press-releases/tracker': {
+      id: '/_site/press-releases/tracker'
+      path: '/press-releases/tracker'
+      fullPath: '/press-releases/tracker'
+      preLoaderRoute: typeof SitePressReleasesTrackerRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/services/': {
       id: '/_site/services/'
       path: '/services'
@@ -581,6 +601,7 @@ interface SiteRouteChildren {
   SiteNewsSlugRoute: typeof SiteNewsSlugRoute
   SitePressReleasesIdRoute: typeof SitePressReleasesIdRoute
   SitePressReleasesBookRoute: typeof SitePressReleasesBookRoute
+  SitePressReleasesTrackerRoute: typeof SitePressReleasesTrackerRoute
   SiteServicesSlugRoute: typeof SiteServicesSlugRoute
   SiteShopSlugRoute: typeof SiteShopSlugRoute
   SiteSurveysIdRoute: typeof SiteSurveysIdRoute
@@ -611,6 +632,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteNewsSlugRoute: SiteNewsSlugRoute,
   SitePressReleasesIdRoute: SitePressReleasesIdRoute,
   SitePressReleasesBookRoute: SitePressReleasesBookRoute,
+  SitePressReleasesTrackerRoute: SitePressReleasesTrackerRoute,
   SiteServicesSlugRoute: SiteServicesSlugRoute,
   SiteShopSlugRoute: SiteShopSlugRoute,
   SiteSurveysIdRoute: SiteSurveysIdRoute,

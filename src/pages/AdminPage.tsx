@@ -752,10 +752,13 @@ export function AdminPage() {
                     </Badge>
                   </div>
                   <p className="mt-1 text-xs text-brand-slate">
-                    {channel.type.replace(/_/g, " ")} · {channel.region} ·{" "}
-                    {channel.indicativePrice === 0
-                      ? "included"
-                      : formatCurrency(channel.indicativePrice)}
+                    {channel.region} ·{" "}
+                    {channel.priceNaira != null ? `₦${channel.priceNaira.toLocaleString()}` : ""}
+                    {channel.priceNaira != null && channel.priceUsd != null ? " / " : ""}
+                    {channel.priceUsd != null ? `$${channel.priceUsd.toLocaleString()}` : ""}
+                    {channel.priceNaira == null && channel.priceUsd == null
+                      ? "rate on request"
+                      : ""}
                   </p>
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     {channel.audience}
