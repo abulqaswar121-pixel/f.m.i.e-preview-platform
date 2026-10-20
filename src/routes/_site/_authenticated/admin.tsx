@@ -7,7 +7,7 @@ interface AdminSearch {
   tab?: string | undefined;
 }
 
-export const Route = createFileRoute("/_site/admin")({
+export const Route = createFileRoute("/_site/_authenticated/admin")({
   component: AdminPage,
   validateSearch: (search: Record<string, unknown>): AdminSearch => ({
     tab: typeof search["tab"] === "string" ? search["tab"] : undefined,

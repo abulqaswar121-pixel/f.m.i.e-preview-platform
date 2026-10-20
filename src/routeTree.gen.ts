@@ -20,6 +20,7 @@ import { Route as SiteDashboardRouteImport } from './routes/_site/dashboard'
 import { Route as SiteEditorialPolicyRouteImport } from './routes/_site/editorial-policy'
 import { Route as SitePrivacyRouteImport } from './routes/_site/privacy'
 import { Route as SiteRegisterRouteImport } from './routes/_site/register'
+import { Route as SiteResetPasswordRouteImport } from './routes/_site/reset-password'
 import { Route as SiteSigninRouteImport } from './routes/_site/signin'
 import { Route as SiteSurveyEthicsRouteImport } from './routes/_site/survey-ethics'
 import { Route as SiteTermsRouteImport } from './routes/_site/terms'
@@ -92,6 +93,11 @@ const SitePrivacyRoute = SitePrivacyRouteImport.update({
 const SiteRegisterRoute = SiteRegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteResetPasswordRoute = SiteResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteSigninRoute = SiteSigninRouteImport.update({
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/editorial-policy': typeof SiteEditorialPolicyRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
+  '/reset-password': typeof SiteResetPasswordRoute
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
@@ -232,6 +239,7 @@ export interface FileRoutesByTo {
   '/editorial-policy': typeof SiteEditorialPolicyRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
+  '/reset-password': typeof SiteResetPasswordRoute
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/_site/editorial-policy': typeof SiteEditorialPolicyRoute
   '/_site/privacy': typeof SitePrivacyRoute
   '/_site/register': typeof SiteRegisterRoute
+  '/_site/reset-password': typeof SiteResetPasswordRoute
   '/_site/signin': typeof SiteSigninRoute
   '/_site/survey-ethics': typeof SiteSurveyEthicsRoute
   '/_site/terms': typeof SiteTermsRoute
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | '/editorial-policy'
     | '/privacy'
     | '/register'
+    | '/reset-password'
     | '/signin'
     | '/survey-ethics'
     | '/terms'
@@ -329,6 +339,7 @@ export interface FileRouteTypes {
     | '/editorial-policy'
     | '/privacy'
     | '/register'
+    | '/reset-password'
     | '/signin'
     | '/survey-ethics'
     | '/terms'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/_site/editorial-policy'
     | '/_site/privacy'
     | '/_site/register'
+    | '/_site/reset-password'
     | '/_site/signin'
     | '/_site/survey-ethics'
     | '/_site/terms'
@@ -464,6 +476,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof SiteRegisterRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/reset-password': {
+      id: '/_site/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof SiteResetPasswordRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/signin': {
@@ -612,6 +631,7 @@ interface SiteRouteChildren {
   SiteEditorialPolicyRoute: typeof SiteEditorialPolicyRoute
   SitePrivacyRoute: typeof SitePrivacyRoute
   SiteRegisterRoute: typeof SiteRegisterRoute
+  SiteResetPasswordRoute: typeof SiteResetPasswordRoute
   SiteSigninRoute: typeof SiteSigninRoute
   SiteSurveyEthicsRoute: typeof SiteSurveyEthicsRoute
   SiteTermsRoute: typeof SiteTermsRoute
@@ -644,6 +664,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteEditorialPolicyRoute: SiteEditorialPolicyRoute,
   SitePrivacyRoute: SitePrivacyRoute,
   SiteRegisterRoute: SiteRegisterRoute,
+  SiteResetPasswordRoute: SiteResetPasswordRoute,
   SiteSigninRoute: SiteSigninRoute,
   SiteSurveyEthicsRoute: SiteSurveyEthicsRoute,
   SiteTermsRoute: SiteTermsRoute,
