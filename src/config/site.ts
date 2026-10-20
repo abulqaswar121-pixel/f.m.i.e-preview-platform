@@ -488,7 +488,7 @@ export const teamKitUnitNaira = 25000;
 export const surveyEconomyDefaults = {
   pointToNaira: 100,
   minWithdrawalNaira: 2000,
-  showcaseVideoUrl: "/media/showcase-film.mp4",
+  showcaseVideoUrl: "/media/showcase-film-v3.mp4",
   showcaseAudioUrl: "/media/showcase-voiceover.mp3",
 } as const;
 
