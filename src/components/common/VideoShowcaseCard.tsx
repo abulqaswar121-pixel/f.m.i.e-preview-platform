@@ -18,7 +18,7 @@ function clock(seconds: number): string {
  * a glass control dock sits *below* the media with a custom play/pause button,
  * a slim gold progress rail (click to seek), the timecode and the mute toggle.
  * Media starts muted (browser autoplay rules) and loops; the shipped default
- * source is `public/media/showcase-film-v3.mp4` — a real film whose clean,
+ * source is `public/media/showcase-film-v4.mp4` — a 65-second film whose clean,
  * non-overlapping scenes follow the voice-over line by line. With no video set,
  * the animated brand loop plays as picture with the voice-over underneath.
  */

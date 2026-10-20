@@ -1478,7 +1478,7 @@ function PlatformSettingsPanel() {
               className={`${inputClass} mt-1`}
               value={showcaseAudio}
               onChange={(event) => setShowcaseAudio(event.target.value)}
-              placeholder="/media/showcase-voiceover.mp3"
+              placeholder="/media/showcase-voiceover-60s.mp3"
             />
           </label>
         </div>
