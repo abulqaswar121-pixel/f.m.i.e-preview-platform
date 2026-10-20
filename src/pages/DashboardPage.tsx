@@ -962,8 +962,8 @@ export function DashboardPage() {
                 ) : (
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     This account is an individual membership. Corporate plans add team seats,
-                    billing history and branded survey experiences. Switch to the corporate preset
-                    to see a populated organisation record.
+                    billing history and branded survey experiences. Contact our team to upgrade
+                    your organisation.
                   </p>
                 )}
               </div>

@@ -14,3 +14,5 @@
 - Money is stored in integer minor units and ledger event keys are unique; verified server operations must settle balances and payments atomically.
 - Member uploads use the private `member-files` bucket under `<auth user id>/`; authenticated ownership policies prevent cross-account file access.
 - Run `src/test/backend-foundation.sql` through the database read tool after permission changes; every returned `passed` value must be true.
+- Identity comes only from Cloud auth via `AuthProvider`; pages not yet migrated keep reading the legacy local store, which the provider binds to the signed-in email, so demo personas must not return as a way to change identity or role.
+- Signed-in-only pages live under `src/routes/_site/_authenticated/` (client-only gate redirecting to `/signin?next=`), keeping the shared site layout while blocking visitors.
