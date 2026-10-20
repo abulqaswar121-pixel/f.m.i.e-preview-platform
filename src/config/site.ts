@@ -489,6 +489,8 @@ export const surveyEconomyDefaults = {
   pointToNaira: 100,
   minWithdrawalNaira: 2000,
   heroVideoUrl: "",
+  showcaseVideoUrl: "",
+  showcaseAudioUrl: "",
 } as const;
 
 /** Exact disclaimer line required on the demonstration preview. */

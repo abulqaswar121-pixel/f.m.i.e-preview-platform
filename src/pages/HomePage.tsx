@@ -4,6 +4,7 @@ import { ArrowRight, Shirt } from "lucide-react";
 import { Badge } from "@/components/common/Badge";
 import { DisclosureBadge, Eyebrow, SectionHeading } from "@/components/common/Primitives";
 import { HeroMedia } from "@/components/common/HeroMedia";
+import { VideoShowcaseCard } from "@/components/common/VideoShowcaseCard";
 import { DailyPoll } from "@/components/surveys/DailyPoll";
 import { Typewriter } from "@/components/ui/Typewriter";
 import { Button } from "@/components/ui/button";
@@ -39,43 +40,46 @@ export function HomePage() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-navy-dark via-brand-navy-dark/85 to-brand-navy/45"
         />
-        <div className="fmie-container relative py-16 sm:py-20">
-          <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-            Where Global Business, Ideas &amp; Opportunities Meet
-          </h1>
-          <p className="mt-3 min-h-[1.6em] max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
-            <Typewriter phrases={livePositioning.heroRotatingLines} />
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              asChild
-              size="lg"
-              className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-            >
-              <Link to="/surveys">Earn Answering Surveys</Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white"
-            >
-              <Link to="/press-releases/book">Book Press Distribution</Link>
-            </Button>
+        <div className="fmie-container relative grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
+            <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
+              Where Global Business, Ideas &amp; Opportunities Meet
+            </h1>
+            <p className="mt-3 min-h-[1.6em] max-w-2xl font-display text-lg font-semibold text-brand-gold sm:text-xl">
+              <Typewriter phrases={livePositioning.heroRotatingLines} />
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+              >
+                <Link to="/surveys">Earn Answering Surveys</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white"
+              >
+                <Link to="/press-releases/book">Book Press Distribution</Link>
+              </Button>
+            </div>
+            <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+              {[
+                ["Editorial desks", String(newsCategories.length)],
+                ["Live survey categories", "10"],
+                ["Distribution tiers", "3"],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-baseline gap-2">
+                  <dd className="font-display text-xl font-bold text-brand-gold">{value}</dd>
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-white/60">{label}</dt>
+                </div>
+              ))}
+            </dl>
           </div>
-          <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-            {[
-              ["Editorial desks", String(newsCategories.length)],
-              ["Live survey categories", "10"],
-              ["Distribution tiers", "3"],
-            ].map(([label, value]) => (
-              <div key={label} className="flex items-baseline gap-2">
-                <dd className="font-display text-xl font-bold text-brand-gold">{value}</dd>
-                <dt className="text-[11px] uppercase tracking-[0.14em] text-white/60">{label}</dt>
-              </div>
-            ))}
-          </dl>
+          <VideoShowcaseCard className="w-full lg:justify-self-end lg:max-w-md" />
           <p className="pointer-events-none absolute bottom-2 right-3 text-[10px] text-white/45">
             {livePositioning.heroCredit}
           </p>

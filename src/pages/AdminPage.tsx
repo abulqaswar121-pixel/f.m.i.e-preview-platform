@@ -1444,6 +1444,8 @@ function KitQuoteCard({ requestId }: { requestId: string }) {
 function PlatformSettingsPanel() {
   const database = useDatabase();
   const [videoUrl, setVideoUrl] = useState(database.settings.heroVideoUrl);
+  const [showcaseVideo, setShowcaseVideo] = useState(database.settings.showcaseVideoUrl);
+  const [showcaseAudio, setShowcaseAudio] = useState(database.settings.showcaseAudioUrl);
   const [pointToNaira, setPointToNaira] = useState(String(database.settings.pointToNaira));
   const [minWithdrawal, setMinWithdrawal] = useState(String(database.settings.minWithdrawalNaira));
 
@@ -1509,6 +1511,41 @@ function PlatformSettingsPanel() {
             }
           >
             Save video
+          </Button>
+        </div>
+      </div>
+      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 lg:grid-cols-[1fr_auto]">
+        <div className="space-y-3">
+          <label className="block text-xs font-semibold text-brand-slate">
+            Showcase card video URL (with audio track)
+            <input
+              className={`${inputClass} mt-1`}
+              value={showcaseVideo}
+              onChange={(event) => setShowcaseVideo(event.target.value)}
+              placeholder="https://…/fmie-60s.mp4"
+            />
+          </label>
+          <label className="block text-xs font-semibold text-brand-slate">
+            Showcase voice-over URL (plays under the brand loop when no video is set)
+            <input
+              className={`${inputClass} mt-1`}
+              value={showcaseAudio}
+              onChange={(event) => setShowcaseAudio(event.target.value)}
+              placeholder="/media/showcase-voiceover.mp3"
+            />
+          </label>
+        </div>
+        <div className="flex items-end gap-2">
+          <Button
+            size="sm"
+            className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+            onClick={() =>
+              void api.settings
+                .update({ showcaseVideoUrl: showcaseVideo, showcaseAudioUrl: showcaseAudio })
+                .then(() => toast.success("Showcase card updated."))
+            }
+          >
+            Save showcase
           </Button>
         </div>
       </div>
