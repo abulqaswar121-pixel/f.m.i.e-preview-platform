@@ -47,7 +47,18 @@ export function RegisterPage() {
   const [intent, setIntent] = useState<Intent>("earn");
   const [working, setWorking] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string;
+    email: string;
+    password: string;
+    confirm: string;
+    organization: string;
+    jobTitle: string;
+    country: string;
+    industry: string;
+    consent: boolean;
+    commercial: boolean;
+  }>({
     name: "",
     email: "",
     password: "",

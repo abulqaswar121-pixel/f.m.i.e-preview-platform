@@ -900,7 +900,7 @@ export function SurveyBuilder() {
             <Link to="/signin" className="font-semibold text-brand-navy hover:underline">
               Sign in
             </Link>{" "}
-            or switch persona from the header.
+            with a member account to publish.
           </p>
         </div>
       </aside>

@@ -1008,7 +1008,7 @@ export function DashboardPage() {
                   </h2>
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     Clears local storage and restores every article, survey, campaign, order and
-                    persona to the shipped sample set.
+                    sample account to the shipped sample set.
                   </p>
                   <Button
                     variant="outline"
