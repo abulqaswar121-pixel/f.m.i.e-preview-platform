@@ -63,6 +63,44 @@ PR Client (pr-2026-115 under review, pr-2026-098 completed) · Super Admin.
 ₦100 per point; rewards 4/8/12 pts; escrow lock → release/refund rules in `api.ts`;
 withdrawals minimum ₦2,000.
 
+## Real vs simulated ledger (what "fake" means here, and why it is safe)
+
+This build is a **workflow-accurate demonstration**: every flow behaves the way
+the live product will, but money, accounts and editorial are sample data.
+Nothing in the UI claims otherwise.
+
+| Area | Today | What keeps it honest | What makes it real at go-live |
+|---|---|---|---|
+| Accounts & personas | Simulated roles (Earner / Researcher / PR Client / Admin) | Sign-in page states it is a demo; personas labelled | Real auth + roles |
+| Wallets, points, balances | Simulated ledger in localStorage | Preview notice in footer & legal pages | Postgres/Supabase behind `api.ts` |
+| Payments (Paystack) | Simulated checkout, no card fields | Every checkout says "No real payment is taken in this demonstration preview" | Live Paystack keys + server-side webhooks |
+| Editorial articles | Sample journalism | Disclosure badges (sponsored/sample), author attribution, footer disclaimer | Real copy entered via Admin → Content manager |
+| Outlet catalogue & prices | Real outlet names & prices from the client's rate card | "Partner Distribution" framing, editorial-discretion notice, no guaranteed-placement wording, unverified desks flagged `pending_verification` | Signed agreements per outlet before status flips to verified |
+| Press pipeline stages | Simulated workflow states | Tracker labels each stage; publication always editor's discretion | Backend jobs + real desk integrations |
+| AI assistant & AI drafting | Template/simulated generation | Both labelled "(simulated)" in-UI | LLM API behind the same components |
+| Survey respondents & results | Sample audience | Polls/results carry "Sample audience — not population-representative" | Real panel + methodology page |
+| Brand assets (logo, film, photography, kit shot) | **Real** client assets | — | — |
+
+Rules while in demo mode: never remove the footer disclaimer or the
+"simulated" labels; never present sample results as statistically
+representative; never claim a partnership or placement that is not contracted.
+A vitest compliance test fails the build if unverified channels lose their flag.
+
+## Go-live runbook (order matters)
+
+1. **Auth** — real accounts/roles; keep persona concept as role presets.
+2. **Database** — Postgres/Supabase; only `src/services/api.ts` changes shape.
+3. **Payments** — Paystack live keys, server-side verification webhooks, refunds.
+4. **Email** — transactional (bookings, quotes, corrections, right-of-reply).
+5. **Uploads/CDN** — admin video, article imagery, kit proofs.
+6. **Content import** — client loads real articles, products, prices and
+   services through Admin → Content manager (no developer needed).
+7. **Outlet verification** — flip each contracted desk from
+   `pending_verification` to `verified` in the Content manager.
+8. **SEO/analytics/consent** — per-route meta, sitemap, UK/NG cookie consent.
+9. **Disclaimer review** — the demonstration disclaimer comes off only at
+   legal sign-off; the editorial-discretion and COI notices stay forever.
+
 ## Production swap-ins (the real "finish up" list)
 
 1. **Payments:** replace simulated Paystack in `api.ts` (point packs, PR booking,
