@@ -41,6 +41,7 @@ import { Route as SiteSurveysIndexRouteImport } from './routes/_site/surveys/ind
 import { Route as SiteSurveysIdRouteImport } from './routes/_site/surveys/$id'
 import { Route as SiteSurveysCreateRouteImport } from './routes/_site/surveys/create'
 import { Route as SiteSurveysPlansRouteImport } from './routes/_site/surveys/plans'
+import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
@@ -202,6 +203,12 @@ const SiteSurveysPlansRoute = SiteSurveysPlansRouteImport.update({
   path: '/surveys/plans',
   getParentRoute: () => SiteRoute,
 } as any)
+const ApiPublicPaystackWebhookRoute =
+  ApiPublicPaystackWebhookRouteImport.update({
+    id: '/api/public/paystack-webhook',
+    path: '/api/public/paystack-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
@@ -229,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/news/': typeof SiteNewsIndexRoute
   '/press-releases/': typeof SitePressReleasesIndexRoute
   '/services/': typeof SiteServicesIndexRoute
@@ -261,6 +269,7 @@ export interface FileRoutesByTo {
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/news': typeof SiteNewsIndexRoute
   '/press-releases': typeof SitePressReleasesIndexRoute
   '/services': typeof SiteServicesIndexRoute
@@ -296,6 +305,7 @@ export interface FileRoutesById {
   '/_site/surveys/$id': typeof SiteSurveysIdRoute
   '/_site/surveys/create': typeof SiteSurveysCreateRoute
   '/_site/surveys/plans': typeof SiteSurveysPlansRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/_site/news/': typeof SiteNewsIndexRoute
   '/_site/press-releases/': typeof SitePressReleasesIndexRoute
   '/_site/services/': typeof SiteServicesIndexRoute
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
+    | '/api/public/paystack-webhook'
     | '/news/'
     | '/press-releases/'
     | '/services/'
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
+    | '/api/public/paystack-webhook'
     | '/news'
     | '/press-releases'
     | '/services'
@@ -396,6 +408,7 @@ export interface FileRouteTypes {
     | '/_site/surveys/$id'
     | '/_site/surveys/create'
     | '/_site/surveys/plans'
+    | '/api/public/paystack-webhook'
     | '/_site/news/'
     | '/_site/press-releases/'
     | '/_site/services/'
@@ -405,6 +418,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
+  ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -633,6 +647,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSurveysPlansRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/api/public/paystack-webhook': {
+      id: '/api/public/paystack-webhook'
+      path: '/api/public/paystack-webhook'
+      fullPath: '/api/public/paystack-webhook'
+      preLoaderRoute: typeof ApiPublicPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -720,6 +741,7 @@ const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRoute: SiteRouteWithChildren,
+  ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
