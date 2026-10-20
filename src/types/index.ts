@@ -144,6 +144,13 @@ export interface PlatformSettings {
   showcaseVideoUrl: string;
   /** Voice-over played under the animated brand loop when no video is set. */
   showcaseAudioUrl: string;
+  /** Homepage section ids hidden by the client from the admin content manager. */
+  hiddenSections: string[];
+  /** Global kill-switch for the floating AI assistant. */
+  assistantEnabled: boolean;
+  heroHeadline: string;
+  heroRotatingLines: string[];
+  footerDisclaimer: string;
 }
 
 export interface User {
@@ -228,6 +235,7 @@ export interface Article {
   readTime: string;
   featuredImage: string;
   imageCredit: string;
+  hidden?: boolean;
   content: string;
   tags: string[];
   isFeatured?: boolean | undefined;
@@ -294,6 +302,7 @@ export interface Survey {
   tier: SurveyTier;
   planId: string;
   status: SurveyStatus;
+  hidden?: boolean;
   responseCount: number;
   responseLimit: number;
   openingDate: string;
@@ -350,6 +359,7 @@ export interface SurveyPlan {
 export interface PRTimelineEvent {
   at: string;
   status: PRStatus;
+  hidden?: boolean;
   note: string;
   actor: string;
 }
@@ -374,6 +384,7 @@ export interface PressReleaseBooking {
   websiteUrl: string;
   tier: PRTier;
   status: PRStatus;
+  hidden?: boolean;
   targetAudience: string;
   distributionRegions: string[];
   submittedDate: string;
@@ -408,6 +419,7 @@ export interface DistributionChannel {
   region: string;
   audience: string;
   status: "verified" | "pending_verification" | "suspended";
+  hidden?: boolean;
   verifiedOn?: string | undefined;
   indicativePrice: number;
   currency: string;
@@ -439,6 +451,7 @@ export interface ProfessionalService {
   complianceWarning?: string | undefined;
   disclosure: string;
   engagementTypes: string[];
+  hidden?: boolean;
 }
 
 export interface ServiceEnquiry {
@@ -477,6 +490,7 @@ export interface Product {
   variantLabel: string;
   inStock: boolean;
   stockLevel: number;
+  hidden?: boolean;
   imageUrl: string;
   detail: string[];
   careNotes?: string | undefined;

@@ -9,6 +9,7 @@ import {
   FlaskConical,
   Gauge,
   Megaphone,
+  Newspaper,
   Radio,
   RefreshCw,
   ShieldAlert,
@@ -38,6 +39,7 @@ export type AdminTab =
   | "channels"
   | "payouts"
   | "kits"
+  | "content"
   | "platform"
   | "commerce"
   | "audience";
@@ -50,10 +52,13 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "channels", label: "Distribution channels", icon: Radio },
   { id: "payouts", label: "Bank payouts", icon: Banknote },
   { id: "kits", label: "Kit quote requests", icon: Shirt },
+  { id: "content", label: "Content manager", icon: Newspaper },
   { id: "platform", label: "Homepage video & settings", icon: Clapperboard },
   { id: "commerce", label: "Commerce & orders", icon: Boxes },
   { id: "audience", label: "Audience & enquiries", icon: Users },
 ];
+
+import { ContentManagerPanel } from "@/components/admin/ContentManager";
 
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-navy focus:outline-none";
@@ -904,6 +909,8 @@ export function AdminPage() {
           </section>
         ) : null}
 
+        {tab === "content" ? <ContentManagerPanel /> : null}
+
         {tab === "platform" ? <PlatformSettingsPanel /> : null}
 
         {tab === "commerce" ? (
@@ -1445,6 +1452,11 @@ function PlatformSettingsPanel() {
   const database = useDatabase();
   const [showcaseVideo, setShowcaseVideo] = useState(database.settings.showcaseVideoUrl);
   const [showcaseAudio, setShowcaseAudio] = useState(database.settings.showcaseAudioUrl);
+  const [hiddenSections, setHiddenSections] = useState<string[]>(database.settings.hiddenSections);
+  const [assistantEnabled, setAssistantEnabled] = useState(database.settings.assistantEnabled);
+  const [heroHeadline, setHeroHeadline] = useState(database.settings.heroHeadline);
+  const [heroLines, setHeroLines] = useState(database.settings.heroRotatingLines.join("\n"));
+  const [footerDisclaimer, setFooterDisclaimer] = useState(database.settings.footerDisclaimer);
   const [pointToNaira, setPointToNaira] = useState(String(database.settings.pointToNaira));
   const [minWithdrawal, setMinWithdrawal] = useState(String(database.settings.minWithdrawalNaira));
 
@@ -1495,6 +1507,101 @@ function PlatformSettingsPanel() {
             Save showcase
           </Button>
         </div>
+      </div>
+      <div className="space-y-4 rounded-lg border border-brand-border bg-white p-5">
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Homepage & site visibility
+        </h2>
+        <p className="max-w-3xl text-xs leading-relaxed text-brand-slate">
+          Hide or show whole homepage sections, switch the floating AI assistant on or off
+          site-wide, and edit the hero headline, rotating lines and footer disclaimer — all without
+          a developer. Changes apply instantly across the public site.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {(
+            [
+              ["hero", "Hero banner"],
+              ["positioning", "Positioning strip"],
+              ["poll", "Poll & spotlight"],
+              ["news", "Editorial desk"],
+              ["visibility", "Releases & kits band"],
+            ] as [string, string][]
+          ).map(([id, label]) => {
+            const off = hiddenSections.includes(id);
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() =>
+                  setHiddenSections((prev) =>
+                    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                  )
+                }
+                className={
+                  off
+                    ? "rounded-full border border-brand-border bg-brand-cream px-4 py-1.5 text-xs font-semibold text-brand-slate line-through"
+                    : "rounded-full border border-brand-gold bg-brand-gold/10 px-4 py-1.5 text-xs font-semibold text-brand-navy"
+                }
+              >
+                {off ? "Hidden: " : "Visible: "}
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <label className="flex items-center gap-2 text-xs font-semibold text-brand-charcoal">
+          <input
+            type="checkbox"
+            checked={assistantEnabled}
+            onChange={(e) => setAssistantEnabled(e.target.checked)}
+          />
+          Floating AI assistant enabled site-wide
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Hero headline
+          <input
+            className={`${inputClass} mt-1`}
+            value={heroHeadline}
+            onChange={(e) => setHeroHeadline(e.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Hero rotating lines (one per line)
+          <textarea
+            rows={3}
+            className={`${inputClass} mt-1`}
+            value={heroLines}
+            onChange={(e) => setHeroLines(e.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Footer disclaimer
+          <input
+            className={`${inputClass} mt-1`}
+            value={footerDisclaimer}
+            onChange={(e) => setFooterDisclaimer(e.target.value)}
+          />
+        </label>
+        <Button
+          size="sm"
+          className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+          onClick={() =>
+            void api.settings
+              .update({
+                hiddenSections,
+                assistantEnabled,
+                heroHeadline,
+                heroRotatingLines: heroLines
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter(Boolean),
+                footerDisclaimer,
+              })
+              .then(() => toast.success("Homepage & visibility updated site-wide."))
+          }
+        >
+          Save visibility & copy
+        </Button>
       </div>
       <div>
         <h2 className="font-display text-xl font-semibold text-brand-charcoal">

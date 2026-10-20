@@ -4,6 +4,7 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { AiAssistant } from "@/components/layout/AiAssistant";
+import { useDatabase } from "@/services/api";
 
 /**
  * App-like surfaces (auth, member/admin portals, checkout) keep the focus on the
@@ -32,7 +33,11 @@ export function AppLayout() {
   const matches = (prefixes: string[]) =>
     prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   const showFooter = !matches(FOOTERLESS_PREFIXES);
-  const showAssistant = !matches(ASSISTANTLESS_PREFIXES) && !/^\/surveys\/.+/.test(pathname);
+  const database = useDatabase();
+  const showAssistant =
+    database.settings.assistantEnabled &&
+    !matches(ASSISTANTLESS_PREFIXES) &&
+    !/^\/surveys\/.+/.test(pathname);
 
   return (
     <div className="flex min-h-screen flex-col bg-brand-cream">

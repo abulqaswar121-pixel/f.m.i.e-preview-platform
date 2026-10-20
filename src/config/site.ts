@@ -490,6 +490,11 @@ export const surveyEconomyDefaults = {
   minWithdrawalNaira: 2000,
   showcaseVideoUrl: "/media/showcase-film-v4.mp4",
   showcaseAudioUrl: "/media/showcase-voiceover-60s.mp3",
+  hiddenSections: [] as string[],
+  assistantEnabled: true,
+  heroHeadline: "Where Global Business, Ideas & Opportunities Meet",
+  heroRotatingLines: livePositioning.heroRotatingLines.map((line) => line),
+  footerDisclaimer: "F.M.I.E Demonstration Preview — Sample Editorial & Media Services",
 } as const;
 
 /** Exact disclaimer line required on the demonstration preview. */

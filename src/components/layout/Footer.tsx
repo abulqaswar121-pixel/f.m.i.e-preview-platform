@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 
 import { SiteLink } from "@/components/common/SiteLink";
+import { useDatabase } from "@/services/api";
 import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,7 +13,6 @@ import {
   footerNavigation,
   headquarters,
   westAfricaDesk,
-  demoBadgeDisclaimer,
   legal,
   newsletterFrequencies,
   newsletterPreferences,
@@ -165,6 +165,7 @@ export function NewsletterForm() {
 }
 
 export function Footer() {
+  const database = useDatabase();
   return (
     <footer className="bg-brand-navy-dark text-white">
       <div className="fmie-container grid gap-10 py-14 lg:grid-cols-[1.15fr_2fr_1.15fr]">
@@ -239,7 +240,9 @@ export function Footer() {
               "rounded-md border border-brand-gold/40 bg-brand-gold/10 px-4 py-3 text-[11px] leading-relaxed text-white/85",
             )}
           >
-            <span className="font-semibold text-brand-gold">{demoBadgeDisclaimer}. </span>
+            <span className="font-semibold text-brand-gold">
+              {database.settings.footerDisclaimer}.{" "}
+            </span>
             {site.previewNotice}
           </p>
           <ul className="space-y-1.5">

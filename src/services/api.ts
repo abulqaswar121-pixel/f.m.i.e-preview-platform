@@ -80,7 +80,7 @@ import type {
  */
 
 const STORAGE_KEY = "fmie.platform.database.v1";
-const DB_VERSION = 6;
+const DB_VERSION = 7;
 const LATENCY_MS = 70;
 
 function isBrowser(): boolean {
@@ -316,6 +316,7 @@ function matchesQuery(value: string, query: string): boolean {
 /* ------------------------------------------------------------------ */
 
 export interface ArticleFilter {
+  includeHidden?: boolean;
   query?: string;
   category?: NewsCategory | "All categories";
   contentType?: Article["contentType"];
@@ -323,6 +324,7 @@ export interface ArticleFilter {
 }
 
 export interface SurveyFilter {
+  includeHidden?: boolean;
   query?: string;
   category?: SurveyCategory | "All categories";
   tier?: Survey["tier"] | "all";
@@ -419,6 +421,7 @@ const articles = {
   async list(filter: ArticleFilter = {}): Promise<Article[]> {
     await delay();
     let result = database.articles.filter((article) => {
+      if (!filter.includeHidden && article.hidden) return false;
       if (
         filter.category &&
         filter.category !== "All categories" &&
@@ -610,6 +613,7 @@ const surveys = {
   async list(filter: SurveyFilter = {}): Promise<Survey[]> {
     await delay();
     const result = database.surveys.filter((survey) => {
+      if (!filter.includeHidden && survey.hidden) return false;
       if (
         filter.category &&
         filter.category !== "All categories" &&
@@ -1079,10 +1083,12 @@ const pressReleases = {
       userId?: string;
       tier?: PRTier | "all";
       query?: string;
+      includeHidden?: boolean;
     } = {},
   ): Promise<PressReleaseBooking[]> {
     await delay();
     const result = database.pressReleases.filter((booking) => {
+      if (!filter.includeHidden && booking.hidden) return false;
       if (filter.status && filter.status !== "all" && booking.status !== filter.status)
         return false;
       if (filter.userId && booking.userId !== filter.userId) return false;
@@ -1267,9 +1273,9 @@ const pressReleases = {
     return updated;
   },
 
-  async channels(): Promise<DistributionChannel[]> {
+  async channels(includeHidden = false): Promise<DistributionChannel[]> {
     await delay();
-    return database.distributionChannels;
+    return database.distributionChannels.filter((channel) => includeHidden || !channel.hidden);
   },
 
   async updateChannel(
@@ -1293,9 +1299,9 @@ const pressReleases = {
 /* ------------------------------------------------------------------ */
 
 const services = {
-  async list(): Promise<ProfessionalService[]> {
+  async list(includeHidden = false): Promise<ProfessionalService[]> {
     await delay();
-    return database.services;
+    return database.services.filter((service) => includeHidden || !service.hidden);
   },
 
   async getBySlug(slug: string): Promise<ProfessionalService | undefined> {
@@ -1363,10 +1369,16 @@ const services = {
 
 const products = {
   async list(
-    filter: { category?: ProductCategory | "All products"; query?: string; limit?: number } = {},
+    filter: {
+      category?: ProductCategory | "All products";
+      query?: string;
+      limit?: number;
+      includeHidden?: boolean;
+    } = {},
   ): Promise<Product[]> {
     await delay();
     const result = database.products.filter((product) => {
+      if (!filter.includeHidden && product.hidden) return false;
       if (
         filter.category &&
         filter.category !== "All products" &&
@@ -2051,6 +2063,89 @@ const kits = {
   },
 };
 
+/** Client self-service CRUD: view/edit/delete/hide anything without a developer. */
+const contentAdmin = {
+  async updateArticle(id: string, patch: Partial<Article>): Promise<Article> {
+    await delay();
+    const found = database.articles.find((entry) => entry.id === id);
+    if (!found) throw new Error("Article not found.");
+    const updated = { ...found, ...patch, id };
+    database = { ...database, articles: database.articles.map((e) => (e.id === id ? updated : e)) };
+    commit();
+    return updated;
+  },
+  async removeArticle(id: string): Promise<void> {
+    await delay();
+    database = { ...database, articles: database.articles.filter((e) => e.id !== id) };
+    commit();
+  },
+  async updateSurvey(id: string, patch: Partial<Survey>): Promise<Survey> {
+    await delay();
+    const found = database.surveys.find((entry) => entry.id === id);
+    if (!found) throw new Error("Survey not found.");
+    const updated = { ...found, ...patch, id };
+    database = { ...database, surveys: database.surveys.map((e) => (e.id === id ? updated : e)) };
+    commit();
+    return updated;
+  },
+  async removeSurvey(id: string): Promise<void> {
+    await delay();
+    database = { ...database, surveys: database.surveys.filter((e) => e.id !== id) };
+    commit();
+  },
+  async updateProduct(id: string, patch: Partial<Product>): Promise<Product> {
+    await delay();
+    const found = database.products.find((entry) => entry.id === id);
+    if (!found) throw new Error("Product not found.");
+    const updated = { ...found, ...patch, id };
+    database = { ...database, products: database.products.map((e) => (e.id === id ? updated : e)) };
+    commit();
+    return updated;
+  },
+  async removeProduct(id: string): Promise<void> {
+    await delay();
+    database = { ...database, products: database.products.filter((e) => e.id !== id) };
+    commit();
+  },
+  async updateService(
+    id: string,
+    patch: Partial<ProfessionalService>,
+  ): Promise<ProfessionalService> {
+    await delay();
+    const found = database.services.find((entry) => entry.id === id);
+    if (!found) throw new Error("Service not found.");
+    const updated = { ...found, ...patch, id };
+    database = { ...database, services: database.services.map((e) => (e.id === id ? updated : e)) };
+    commit();
+    return updated;
+  },
+  async removeService(id: string): Promise<void> {
+    await delay();
+    database = { ...database, services: database.services.filter((e) => e.id !== id) };
+    commit();
+  },
+  async updatePressRelease(
+    id: string,
+    patch: Partial<PressReleaseBooking>,
+  ): Promise<PressReleaseBooking> {
+    await delay();
+    const found = database.pressReleases.find((entry) => entry.id === id);
+    if (!found) throw new Error("Booking not found.");
+    const updated = { ...found, ...patch, id };
+    database = {
+      ...database,
+      pressReleases: database.pressReleases.map((e) => (e.id === id ? updated : e)),
+    };
+    commit();
+    return updated;
+  },
+  async removePressRelease(id: string): Promise<void> {
+    await delay();
+    database = { ...database, pressReleases: database.pressReleases.filter((e) => e.id !== id) };
+    commit();
+  },
+};
+
 const settings = {
   async get(): Promise<PlatformSettings> {
     await delay();
@@ -2067,6 +2162,7 @@ const settings = {
 
 export const api = {
   articles,
+  contentAdmin,
   wallets,
   payouts,
   polls,
