@@ -1,7 +1,7 @@
 # Backend foundation
-- [ ] Create protected member profiles and separate account roles.
-- [ ] Create storage for surveys, answers, press releases, orders, kit requests, and wallet records.
-- [ ] Set up private file storage.
+- [x] Create protected member profiles and separate account roles.
+- [x] Create storage for surveys, answers, press releases, orders, kit requests, and wallet records.
+- [x] Set up private file storage.
 - [ ] Verify storage access rules and report what is not yet connected.
 
 # Later priorities (not part of this step)
