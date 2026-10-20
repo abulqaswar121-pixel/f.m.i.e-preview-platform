@@ -140,7 +140,6 @@ export interface KitRequest {
 export interface PlatformSettings {
   pointToNaira: number;
   minWithdrawalNaira: number;
-  heroVideoUrl: string;
   /** Standalone showcase card video (with its own audio track). */
   showcaseVideoUrl: string;
   /** Voice-over played under the animated brand loop when no video is set. */

@@ -52,7 +52,7 @@ export function DailyPoll() {
   const total = poll.options.reduce((sum, option) => sum + option.votes, 0);
 
   return (
-    <div className="fmie-card p-6">
+    <div className="fmie-card flex h-full flex-col p-6">
       <div className="flex items-center justify-between gap-3">
         <p className="fmie-eyebrow">Quick daily poll</p>
         <Badge tone="gold">
@@ -101,7 +101,7 @@ export function DailyPoll() {
         })}
       </ul>
       {message ? <p className="mt-3 text-xs text-brand-slate">{message}</p> : null}
-      <p className="mt-3 text-[11px] text-brand-slate">
+      <p className="mt-auto pt-3 text-[11px] text-brand-slate">
         Live percentages update the moment you vote. Sample audience — not
         population-representative.
       </p>

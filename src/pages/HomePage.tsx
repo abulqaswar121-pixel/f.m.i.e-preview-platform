@@ -8,7 +8,15 @@ import { VideoShowcaseCard } from "@/components/common/VideoShowcaseCard";
 import { DailyPoll } from "@/components/surveys/DailyPoll";
 import { Typewriter } from "@/components/ui/Typewriter";
 import { Button } from "@/components/ui/button";
-import { formatDate, livePositioning, newsCategories, site } from "@/config/site";
+import {
+  contactEmail,
+  formatDate,
+  headquarters,
+  livePositioning,
+  newsCategories,
+  site,
+  westAfricaDesk,
+} from "@/config/site";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { api } from "@/services/api";
 import { SiteLink } from "@/components/common/SiteLink";
@@ -84,7 +92,33 @@ export function HomePage() {
               ))}
             </dl>
           </div>
-          <VideoShowcaseCard className="w-full lg:justify-self-end lg:max-w-md" />
+          <VideoShowcaseCard className="w-full" />
+          <dl className="fmie-glass-dark col-span-full grid gap-x-6 gap-y-4 rounded-2xl px-5 py-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: headquarters.label, value: headquarters.addressOneLine },
+              { label: westAfricaDesk.label, value: westAfricaDesk.addressOneLine },
+              {
+                label: "Survey rewards",
+                value: "Locked in escrow, released via Paystack on completion",
+              },
+              { label: "Press desk", value: contactEmail.press, mailto: contactEmail.press },
+            ].map((cell) => (
+              <div key={cell.label} className="min-w-0">
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-gold">
+                  {cell.label}
+                </dt>
+                <dd className="mt-1 text-xs leading-relaxed text-white/80">
+                  {cell.mailto ? (
+                    <a className="hover:text-brand-gold" href={`mailto:${cell.mailto}`}>
+                      {cell.value}
+                    </a>
+                  ) : (
+                    cell.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
           <p className="pointer-events-none absolute bottom-2 right-3 text-[10px] text-white/45">
             {livePositioning.heroCredit}
           </p>
@@ -197,13 +231,13 @@ export function HomePage() {
                 </div>
               </article>
             ) : null}
-            <ul className="fmie-card divide-y divide-brand-border overflow-hidden">
+            <ul className="fmie-card flex h-full flex-col divide-y divide-brand-border overflow-hidden">
               {rest.map((article) => (
-                <li key={article.id}>
+                <li key={article.id} className="flex-1">
                   <Link
                     to="/news/$slug"
                     params={{ slug: article.slug }}
-                    className="flex gap-3 px-4 py-3 hover:bg-brand-cream"
+                    className="flex h-full items-center gap-3 px-4 py-3 hover:bg-brand-cream"
                   >
                     <img
                       src={article.featuredImage}

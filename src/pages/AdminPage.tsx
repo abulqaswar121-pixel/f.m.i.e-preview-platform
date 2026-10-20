@@ -1443,76 +1443,23 @@ function KitQuoteCard({ requestId }: { requestId: string }) {
 /** Homepage video manager + survey economy settings (admin configurable). */
 function PlatformSettingsPanel() {
   const database = useDatabase();
-  const [videoUrl, setVideoUrl] = useState(database.settings.heroVideoUrl);
   const [showcaseVideo, setShowcaseVideo] = useState(database.settings.showcaseVideoUrl);
   const [showcaseAudio, setShowcaseAudio] = useState(database.settings.showcaseAudioUrl);
   const [pointToNaira, setPointToNaira] = useState(String(database.settings.pointToNaira));
   const [minWithdrawal, setMinWithdrawal] = useState(String(database.settings.minWithdrawalNaira));
 
-  async function uploadVideo(file: File | undefined): Promise<void> {
-    if (!file) return;
-    if (file.size > 4_000_000) {
-      toast.error("Video too large for browser storage — paste a hosted URL instead (max 4 MB).");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const url = String(reader.result);
-      setVideoUrl(url);
-      void api.settings
-        .update({ heroVideoUrl: url })
-        .then(() => toast.success("Homepage video uploaded — the banner now loops it."));
-    };
-    reader.readAsDataURL(file);
-  }
-
   return (
     <section className="space-y-6">
       <div>
         <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-          Homepage video manager
+          Showcase film manager
         </h2>
         <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
-          The looping marketing banner on the homepage plays this video on auto-repeat. Upload a
-          short clip (stored locally, max 4 MB) or paste a hosted URL; clear it to fall back to the
-          brand photo montage.
+          The homepage banner backdrop is a single static brand cover by design — it never moves.
+          All homepage motion lives in the “F.M.I.E in 60 seconds” showcase card: point it at a
+          hosted film (with its voice-over track) or clear the URL to fall back to the brand loop
+          still with audio.
         </p>
-      </div>
-      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 lg:grid-cols-[1fr_auto]">
-        <label className="block text-xs font-semibold text-brand-slate">
-          Video URL (or data URL)
-          <input
-            className={`${inputClass} mt-1`}
-            value={videoUrl.startsWith("data:") ? "(uploaded file)" : videoUrl}
-            onChange={(event) => setVideoUrl(event.target.value)}
-            placeholder="https://…/fmie-brand-loop.mp4"
-          />
-        </label>
-        <div className="flex items-end gap-2">
-          <label className="cursor-pointer rounded-md border border-brand-border px-3 py-2 text-xs font-semibold text-brand-navy hover:border-brand-gold">
-            Upload video
-            <input
-              type="file"
-              accept="video/*"
-              className="hidden"
-              onChange={(event) => void uploadVideo(event.target.files?.[0])}
-            />
-          </label>
-          <Button
-            size="sm"
-            className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-            onClick={() =>
-              void api.settings
-                .update({
-                  heroVideoUrl:
-                    videoUrl === "(uploaded file)" ? database.settings.heroVideoUrl : videoUrl,
-                })
-                .then(() => toast.success("Homepage video updated."))
-            }
-          >
-            Save video
-          </Button>
-        </div>
       </div>
       <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 lg:grid-cols-[1fr_auto]">
         <div className="space-y-3">
