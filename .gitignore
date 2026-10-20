@@ -33,3 +33,4 @@ dist-ssr
 
 # Local npm lockfile (project uses bun.lock)
 package-lock.json
+__pycache__/\n*.pyc
