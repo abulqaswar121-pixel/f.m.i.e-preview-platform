@@ -1,4 +1,4 @@
-import { PRBookingWizard } from "@/components/press/PRBookingWizard";
+import { OutletBookingFlow } from "@/components/press/OutletBookingFlow";
 import { PageHeader } from "@/components/common/Primitives";
 
 export function PRBookingPage() {
@@ -6,8 +6,8 @@ export function PRBookingPage() {
     <div>
       <PageHeader
         eyebrow="Booking wizard"
-        title="Book a press release in four steps"
-        description="Company profile, content brief, tier and add-ons, then agreement to the commercial disclosure terms. A reference number is issued the moment you submit."
+        title="Write your release first, pay when it's ready"
+        description="Draft your article with AI help, choose your partner outlets, settle the simulated checkout, then submit to the press desk. You'll get a reference number straight away."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Global Press Releases", to: "/press-releases" },
@@ -15,7 +15,7 @@ export function PRBookingPage() {
         ]}
       />
       <div className="fmie-container py-10">
-        <PRBookingWizard />
+        <OutletBookingFlow />
       </div>
     </div>
   );

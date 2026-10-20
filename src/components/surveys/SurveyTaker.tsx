@@ -175,6 +175,7 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
   const [index, setIndex] = useState(0);
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitting, setSubmitting] = useState(false);
+  const [humanCheck, setHumanCheck] = useState(false);
   const [segment, setSegment] = useState(SEGMENTS[0] ?? "Consumer");
   const [country, setCountry] = useState<string>(countries[0] ?? "United Kingdom");
   const [startedAt, setStartedAt] = useState<number>(0);
@@ -307,6 +308,10 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
           {survey.incentive ? (
             <p className="mt-3 text-xs text-brand-slate">Incentive: {survey.incentive}</p>
           ) : null}
+          <p className="mt-2 rounded-md border border-brand-gold/60 bg-brand-gold/10 px-3 py-2 text-xs font-semibold text-brand-charcoal">
+            Cash reward: ₦{survey.rewardNaira.toLocaleString("en-NG")} credited to your wallet the
+            moment your submission is recorded.
+          </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button
               className="bg-brand-navy text-white hover:bg-brand-navy-light"
@@ -451,10 +456,22 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
         <Button variant="outline" onClick={back}>
           <ArrowLeft className="h-4 w-4" /> Back
         </Button>
+        {isLast ? (
+          <label className="mb-4 flex items-start gap-3 rounded-md border border-brand-border bg-brand-cream p-3 text-xs font-medium text-brand-charcoal">
+            <input
+              type="checkbox"
+              className="mt-0.5"
+              checked={humanCheck}
+              onChange={(event) => setHumanCheck(event.target.checked)}
+            />
+            Bot check: confirm you are a human respondent. Automated submissions are rejected to
+            protect research quality.
+          </label>
+        ) : null}
         <Button
           className="bg-brand-navy text-white hover:bg-brand-navy-light"
           onClick={next}
-          disabled={submitting}
+          disabled={submitting || (isLast && !humanCheck)}
         >
           {submitting ? "Recording…" : isLast ? "Submit response" : "Next question"}
           {!submitting && !isLast ? <ArrowRight className="h-4 w-4" /> : null}

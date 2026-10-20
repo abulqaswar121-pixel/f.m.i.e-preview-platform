@@ -32,7 +32,7 @@ export const site = {
   companyNumber: "Sample registration — demonstration preview",
   vatNumber: "Sample VAT registration — demonstration preview",
   previewNotice:
-    "Demonstration preview. Every article, survey, statistic, price, reference number, order and person shown on this platform is fictional sample data created to illustrate the design. Nothing here is published journalism, live market data, a real transaction or a real individual.",
+    "Demonstration preview. Every article, survey, price, order and person here is sample data made for this design. Nothing is real journalism, live data or a real transaction.",
 } as const;
 
 export const headquarters = {
@@ -43,6 +43,15 @@ export const headquarters = {
   hours: "Monday to Friday, 09:00–18:00 GMT",
   mapUrl: "https://www.google.com/maps/search/?api=1&query=124+City+Road+London+EC1V+2NX",
 } as const;
+
+export const westAfricaDesk = {
+  label: "West Africa Desk",
+  lines: ["Victoria Island", "Lagos", "Nigeria"],
+  addressOneLine: "Victoria Island, Lagos, Nigeria",
+  hours: "Monday to Friday, 09:00–18:00 WAT",
+} as const;
+
+export const offices = [headquarters, westAfricaDesk] as const;
 
 export interface ContactRoute {
   id: ContactDepartment;
@@ -107,15 +116,37 @@ export const contactEmail = {
   general: "contact@fmie.co.uk",
   editorial: "editorial@fmie.co.uk",
   press: "press@fmie.co.uk",
+  surveys: "survey@fmie.co.uk",
   services: "services@fmie.co.uk",
   privacy: "contact@fmie.co.uk",
   abuse: "editorial@fmie.co.uk",
 } as const;
 
 export const socialLinks = [
-  { id: "linkedin", label: "LinkedIn", handle: "F.M.I.E", url: "https://www.linkedin.com/" },
-  { id: "x", label: "X", handle: "@fmiebusiness", url: "https://x.com/" },
-  { id: "youtube", label: "YouTube", handle: "F.M.I.E Business", url: "https://www.youtube.com/" },
+  {
+    id: "instagram",
+    label: "Instagram",
+    handle: "@hague_digital",
+    url: "https://www.instagram.com/hague_digital?stkn=cDRveGtjdW0yY25i",
+  },
+  {
+    id: "facebook",
+    label: "Facebook",
+    handle: "F.M.I.E",
+    url: "https://www.facebook.com/profile.php?id=100085736047647",
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    handle: "The Hague Digital Company",
+    url: "https://www.linkedin.com/company/the-hague-digital-company",
+  },
+  {
+    id: "tiktok",
+    label: "TikTok",
+    handle: "@haguecoofficial",
+    url: "https://www.tiktok.com/@haguecoofficial?lang=en",
+  },
 ] as const;
 
 /* ------------------------------------------------------------------ */
@@ -168,7 +199,7 @@ export const livePositioning: {
   heroLine: "Unlock Your Story. Amplify Your Impact.",
   bandTitle: "Feature Local. Impact Global.",
   bandBody:
-    "Campaigns are planned around owned F.M.I.E channels and administrator-verified distribution partners, each with a documented workflow and an honest quotation. Placement in a named third-party publication is never promised, sold or implied.",
+    "We plan every campaign on owned F.M.I.E channels and verified partner desks, with a clear workflow and an honest quote. No publication is ever promised — editors always decide.",
   photoCredit:
     "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
   heroRotatingLines: [
@@ -377,33 +408,21 @@ export const footerNavigation: FooterColumn[] = [
 /* ------------------------------------------------------------------ */
 
 export const newsCategories: NewsCategory[] = [
-  "Business & Finance",
-  "Global Economy",
-  "Technology & Innovation",
-  "Entrepreneurship",
-  "Investment & Markets",
-  "Leadership",
-  "Lifestyle & Culture",
-  "Africa & Emerging Markets",
-  "International Affairs",
-  "Opinions & Analysis",
+  "Finance",
+  "Energy & Oil",
+  "Tech & AI",
+  "African Trade",
+  "Policy",
+  "Global Markets",
 ];
 
 export const newsCategoryDescriptions: Record<NewsCategory, string> = {
-  "Business & Finance":
-    "Corporate performance, banking, capital and the balance sheets behind them.",
-  "Global Economy": "Trade policy, macro cycles, supply chains and cross-border investment flows.",
-  "Technology & Innovation":
-    "Enterprise compute, applied research and the industrialisation of new tools.",
-  Entrepreneurship: "Founder playbooks, scaling capital and cross-border company building.",
-  "Investment & Markets": "Asset allocation, private markets, yields and risk pricing.",
-  Leadership: "Governance, board design, executive accountability and organisational culture.",
-  "Lifestyle & Culture": "Work, travel, design and the consumer culture surrounding business life.",
-  "Africa & Emerging Markets":
-    "Frontier-market industrialisation, demographics and regional integration.",
-  "International Affairs": "Diplomacy, sanctions, security and multilateral economic institutions.",
-  "Opinions & Analysis":
-    "Signed columns and long-read interpretation from contributors and desk editors.",
+  Finance: "Banking, capital, corporate performance and the balance sheets behind them.",
+  "Energy & Oil": "Upstream, downstream, transition finance and the economics of power.",
+  "Tech & AI": "Enterprise compute, applied research and the industrialisation of new tools.",
+  "African Trade": "Corridors, cross-border company building and regional integration.",
+  Policy: "Governance, regulation, board design and executive accountability.",
+  "Global Markets": "Allocation, yields, risk pricing and the desks that trade them.",
 };
 
 export const surveyCategories: SurveyCategory[] = [
@@ -420,24 +439,67 @@ export const surveyCategories: SurveyCategory[] = [
 ];
 
 export const roleLabels: Record<UserRole, string> = {
+  earner: "Survey Earner",
   visitor: "Public Reader",
   registered_user: "Registered Member",
-  survey_creator: "Survey Creator",
-  premium_customer: "Premium Client",
+  survey_creator: "Researcher",
+  premium_customer: "PR Client",
   corporate_account: "Corporate Account",
   contributor: "Contributor",
-  administrator: "Administrator & Managing Editor",
+  administrator: "Super Admin",
 };
 
 export const roleDescriptions: Record<UserRole, string> = {
+  earner: "Answer surveys, earn cash, withdraw to your bank.",
   visitor: "Read-only access to public journalism, surveys and the shop.",
   registered_user: "Saved reading list, survey participation and order history.",
-  survey_creator: "Build surveys, manage live research and review analytics.",
-  premium_customer: "Track press release campaigns, quotes and invoices.",
+  survey_creator: "Buy points, launch surveys, read live results.",
+  premium_customer: "Book press coverage and track it live.",
   corporate_account: "Multi-seat research account with billing history and branded surveys.",
   contributor: "Submit pitches, drafts and interview requests to the editorial desk.",
-  administrator: "Approve surveys, advance press releases and moderate commerce.",
+  administrator: "Full control of surveys, payouts, press, kits and settings.",
 };
+
+/* ------------------------------------------------------------------ */
+/* Survey economy (defaults; the live values are admin-configurable)   */
+/* ------------------------------------------------------------------ */
+
+export interface SurveyPointPack {
+  id: string;
+  naira: number;
+  points: number;
+  blurb: string;
+}
+
+export const surveyPointPacks: SurveyPointPack[] = [
+  { id: "pack-50", naira: 5000, points: 50, blurb: "Starter block for a single pilot survey." },
+  { id: "pack-250", naira: 20000, points: 250, blurb: "Most popular — funds a full quota run." },
+  {
+    id: "pack-1000",
+    naira: 75000,
+    points: 1000,
+    blurb: "Programme pricing for continuous research.",
+  },
+];
+
+/** Indicative per-kit price used by the team-kit builder's instant quote. */
+export const teamKitUnitNaira = 25000;
+
+export const surveyEconomyDefaults = {
+  pointToNaira: 100,
+  minWithdrawalNaira: 2000,
+  showcaseVideoUrl: "/media/showcase-film-v4.mp4",
+  showcaseAudioUrl: "/media/showcase-voiceover-60s.mp3",
+  hiddenSections: [] as string[],
+  assistantEnabled: true,
+  heroHeadline: "Where Global Business, Ideas & Opportunities Meet",
+  heroRotatingLines: livePositioning.heroRotatingLines.map((line) => line),
+  footerDisclaimer: "F.M.I.E Demonstration Preview — Sample Editorial & Media Services",
+} as const;
+
+/** Exact disclaimer line required on the demonstration preview. */
+export const demoBadgeDisclaimer =
+  "F.M.I.E Demonstration Preview — Sample Editorial & Media Services";
 
 /* ------------------------------------------------------------------ */
 /* Press release tiers & workflow                                      */
@@ -850,6 +912,14 @@ export const newsletterPreferences = [
 export const newsletterFrequencies = ["Daily", "Weekly", "Fortnightly"] as const;
 
 export const marketIndicesSeed: MarketIndex[] = [
+  { symbol: "USD/NGN", name: "US Dollar / Naira", value: 1545.0, change: 6.5, changePercent: 0.42 },
+  {
+    symbol: "GBP/NGN",
+    name: "Pound Sterling / Naira",
+    value: 2065.0,
+    change: -4.25,
+    changePercent: -0.21,
+  },
   { symbol: "FTSE 100", name: "FTSE 100", value: 8412.66, change: 24.18, changePercent: 0.29 },
   { symbol: "S&P 500", name: "S&P 500", value: 6188.4, change: -12.75, changePercent: -0.21 },
   {

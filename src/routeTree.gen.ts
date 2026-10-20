@@ -23,15 +23,18 @@ import { Route as SiteRegisterRouteImport } from './routes/_site/register'
 import { Route as SiteSigninRouteImport } from './routes/_site/signin'
 import { Route as SiteSurveyEthicsRouteImport } from './routes/_site/survey-ethics'
 import { Route as SiteTermsRouteImport } from './routes/_site/terms'
+import { Route as SiteWalletRouteImport } from './routes/_site/wallet'
 import { Route as SiteNewsIndexRouteImport } from './routes/_site/news/index'
 import { Route as SiteNewsSlugRouteImport } from './routes/_site/news/$slug'
 import { Route as SitePressReleasesIndexRouteImport } from './routes/_site/press-releases/index'
 import { Route as SitePressReleasesIdRouteImport } from './routes/_site/press-releases/$id'
 import { Route as SitePressReleasesBookRouteImport } from './routes/_site/press-releases/book'
+import { Route as SitePressReleasesTrackerRouteImport } from './routes/_site/press-releases/tracker'
 import { Route as SiteServicesIndexRouteImport } from './routes/_site/services/index'
 import { Route as SiteServicesSlugRouteImport } from './routes/_site/services/$slug'
 import { Route as SiteShopIndexRouteImport } from './routes/_site/shop/index'
 import { Route as SiteShopSlugRouteImport } from './routes/_site/shop/$slug'
+import { Route as SiteShopTeamKitsRouteImport } from './routes/_site/shop/team-kits'
 import { Route as SiteSurveysIndexRouteImport } from './routes/_site/surveys/index'
 import { Route as SiteSurveysIdRouteImport } from './routes/_site/surveys/$id'
 import { Route as SiteSurveysCreateRouteImport } from './routes/_site/surveys/create'
@@ -106,6 +109,11 @@ const SiteTermsRoute = SiteTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteWalletRoute = SiteWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteNewsIndexRoute = SiteNewsIndexRouteImport.update({
   id: '/news/',
   path: '/news/',
@@ -131,6 +139,12 @@ const SitePressReleasesBookRoute = SitePressReleasesBookRouteImport.update({
   path: '/press-releases/book',
   getParentRoute: () => SiteRoute,
 } as any)
+const SitePressReleasesTrackerRoute =
+  SitePressReleasesTrackerRouteImport.update({
+    id: '/press-releases/tracker',
+    path: '/press-releases/tracker',
+    getParentRoute: () => SiteRoute,
+  } as any)
 const SiteServicesIndexRoute = SiteServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -149,6 +163,11 @@ const SiteShopIndexRoute = SiteShopIndexRouteImport.update({
 const SiteShopSlugRoute = SiteShopSlugRouteImport.update({
   id: '/shop/$slug',
   path: '/shop/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteShopTeamKitsRoute = SiteShopTeamKitsRouteImport.update({
+  id: '/shop/team-kits',
+  path: '/shop/team-kits',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteSurveysIndexRoute = SiteSurveysIndexRouteImport.update({
@@ -186,11 +205,14 @@ export interface FileRoutesByFullPath {
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
+  '/wallet': typeof SiteWalletRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
+  '/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
@@ -213,12 +235,15 @@ export interface FileRoutesByTo {
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
+  '/wallet': typeof SiteWalletRoute
   '/': typeof SiteIndexRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
+  '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
+  '/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
@@ -243,12 +268,15 @@ export interface FileRoutesById {
   '/_site/signin': typeof SiteSigninRoute
   '/_site/survey-ethics': typeof SiteSurveyEthicsRoute
   '/_site/terms': typeof SiteTermsRoute
+  '/_site/wallet': typeof SiteWalletRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/news/$slug': typeof SiteNewsSlugRoute
   '/_site/press-releases/$id': typeof SitePressReleasesIdRoute
   '/_site/press-releases/book': typeof SitePressReleasesBookRoute
+  '/_site/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/_site/services/$slug': typeof SiteServicesSlugRoute
   '/_site/shop/$slug': typeof SiteShopSlugRoute
+  '/_site/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/_site/surveys/$id': typeof SiteSurveysIdRoute
   '/_site/surveys/create': typeof SiteSurveysCreateRoute
   '/_site/surveys/plans': typeof SiteSurveysPlansRoute
@@ -274,11 +302,14 @@ export interface FileRouteTypes {
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/wallet'
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
+    | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
+    | '/shop/team-kits'
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
@@ -301,12 +332,15 @@ export interface FileRouteTypes {
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/wallet'
     | '/'
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
+    | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
+    | '/shop/team-kits'
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
@@ -330,12 +364,15 @@ export interface FileRouteTypes {
     | '/_site/signin'
     | '/_site/survey-ethics'
     | '/_site/terms'
+    | '/_site/wallet'
     | '/_site/'
     | '/_site/news/$slug'
     | '/_site/press-releases/$id'
     | '/_site/press-releases/book'
+    | '/_site/press-releases/tracker'
     | '/_site/services/$slug'
     | '/_site/shop/$slug'
+    | '/_site/shop/team-kits'
     | '/_site/surveys/$id'
     | '/_site/surveys/create'
     | '/_site/surveys/plans'
@@ -450,6 +487,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTermsRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/wallet': {
+      id: '/_site/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof SiteWalletRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/news/': {
       id: '/_site/news/'
       path: '/news'
@@ -485,6 +529,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitePressReleasesBookRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/press-releases/tracker': {
+      id: '/_site/press-releases/tracker'
+      path: '/press-releases/tracker'
+      fullPath: '/press-releases/tracker'
+      preLoaderRoute: typeof SitePressReleasesTrackerRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/services/': {
       id: '/_site/services/'
       path: '/services'
@@ -511,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/shop/$slug'
       fullPath: '/shop/$slug'
       preLoaderRoute: typeof SiteShopSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/shop/team-kits': {
+      id: '/_site/shop/team-kits'
+      path: '/shop/team-kits'
+      fullPath: '/shop/team-kits'
+      preLoaderRoute: typeof SiteShopTeamKitsRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/surveys/': {
@@ -557,12 +615,15 @@ interface SiteRouteChildren {
   SiteSigninRoute: typeof SiteSigninRoute
   SiteSurveyEthicsRoute: typeof SiteSurveyEthicsRoute
   SiteTermsRoute: typeof SiteTermsRoute
+  SiteWalletRoute: typeof SiteWalletRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteNewsSlugRoute: typeof SiteNewsSlugRoute
   SitePressReleasesIdRoute: typeof SitePressReleasesIdRoute
   SitePressReleasesBookRoute: typeof SitePressReleasesBookRoute
+  SitePressReleasesTrackerRoute: typeof SitePressReleasesTrackerRoute
   SiteServicesSlugRoute: typeof SiteServicesSlugRoute
   SiteShopSlugRoute: typeof SiteShopSlugRoute
+  SiteShopTeamKitsRoute: typeof SiteShopTeamKitsRoute
   SiteSurveysIdRoute: typeof SiteSurveysIdRoute
   SiteSurveysCreateRoute: typeof SiteSurveysCreateRoute
   SiteSurveysPlansRoute: typeof SiteSurveysPlansRoute
@@ -586,12 +647,15 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteSigninRoute: SiteSigninRoute,
   SiteSurveyEthicsRoute: SiteSurveyEthicsRoute,
   SiteTermsRoute: SiteTermsRoute,
+  SiteWalletRoute: SiteWalletRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteNewsSlugRoute: SiteNewsSlugRoute,
   SitePressReleasesIdRoute: SitePressReleasesIdRoute,
   SitePressReleasesBookRoute: SitePressReleasesBookRoute,
+  SitePressReleasesTrackerRoute: SitePressReleasesTrackerRoute,
   SiteServicesSlugRoute: SiteServicesSlugRoute,
   SiteShopSlugRoute: SiteShopSlugRoute,
+  SiteShopTeamKitsRoute: SiteShopTeamKitsRoute,
   SiteSurveysIdRoute: SiteSurveysIdRoute,
   SiteSurveysCreateRoute: SiteSurveysCreateRoute,
   SiteSurveysPlansRoute: SiteSurveysPlansRoute,

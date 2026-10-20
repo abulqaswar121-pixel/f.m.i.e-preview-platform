@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-brand-border bg-white shadow-sm transition-shadow hover:shadow-md">
+    <article className="fmie-card group flex h-full flex-col overflow-hidden">
       <Link
         to="/shop/$slug"
         params={{ slug: product.slug }}
@@ -48,6 +48,11 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-3 flex items-center justify-between">
           <p className="font-display text-lg font-bold text-brand-navy">
             {formatCurrency(product.price)}
+            {product.priceNaira != null ? (
+              <span className="ml-1 text-xs font-medium text-brand-slate">
+                / ₦{product.priceNaira.toLocaleString("en-NG")}
+              </span>
+            ) : null}
           </p>
           <Button
             size="sm"

@@ -11,16 +11,7 @@
 /* ------------------------------------------------------------------ */
 
 export type NewsCategory =
-  | "Business & Finance"
-  | "Global Economy"
-  | "Technology & Innovation"
-  | "Entrepreneurship"
-  | "Investment & Markets"
-  | "Leadership"
-  | "Lifestyle & Culture"
-  | "Africa & Emerging Markets"
-  | "International Affairs"
-  | "Opinions & Analysis";
+  "Finance" | "Energy & Oil" | "Tech & AI" | "African Trade" | "Policy" | "Global Markets";
 
 export type SurveyCategory =
   | "Consumer Behaviour"
@@ -51,6 +42,7 @@ export type PRStatus =
 export type PRTier = "tier_3_emerging" | "tier_2_business" | "tier_1_premium";
 
 export type UserRole =
+  | "earner"
   | "visitor"
   | "registered_user"
   | "survey_creator"
@@ -74,11 +66,100 @@ export type ContentType =
 /* People & accounts                                                   */
 /* ------------------------------------------------------------------ */
 
+export interface CashWallet {
+  availableNaira: number;
+  totalEarnedNaira: number;
+  completedSurveys: number;
+}
+
+export interface PointsWallet {
+  balance: number;
+  purchasedNaira: number;
+}
+
+export interface WalletTransaction {
+  id: string;
+  userId: string;
+  kind: "survey_reward" | "withdrawal" | "points_purchase" | "escrow_lock" | "escrow_refund";
+  naira: number;
+  points: number;
+  note: string;
+  createdAt: string;
+}
+
+export interface PayoutRequest {
+  id: string;
+  userId: string;
+  earnerName: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
+  amountNaira: number;
+  status: "pending" | "paid";
+  requestedAt: string;
+  paidAt?: string;
+}
+
+export interface DailyPollOption {
+  id: string;
+  label: string;
+  votes: number;
+}
+
+export interface DailyPoll {
+  id: string;
+  question: string;
+  options: DailyPollOption[];
+  closesAt: string;
+}
+
+export interface KitRosterRow {
+  name: string;
+  number: string;
+  size: "S" | "M" | "L" | "XL" | "XXL";
+}
+
+export interface KitRequest {
+  id: string;
+  clubName: string;
+  sport: "Football" | "Basketball" | "Corporate";
+  crestFileName?: string;
+  primaryColor: string;
+  secondaryColor: string;
+  roster: KitRosterRow[];
+  quantity: number;
+  deliveryDate: string;
+  deliveryAddress: string;
+  notes: string;
+  status: "requested" | "quoted";
+  quoteNaira?: number;
+  quoteNote?: string;
+  createdAt: string;
+}
+
+export interface PlatformSettings {
+  pointToNaira: number;
+  minWithdrawalNaira: number;
+  /** Standalone showcase card video (with its own audio track). */
+  showcaseVideoUrl: string;
+  /** Voice-over played under the animated brand loop when no video is set. */
+  showcaseAudioUrl: string;
+  /** Homepage section ids hidden by the client from the admin content manager. */
+  hiddenSections: string[];
+  /** Global kill-switch for the floating AI assistant. */
+  assistantEnabled: boolean;
+  heroHeadline: string;
+  heroRotatingLines: string[];
+  footerDisclaimer: string;
+}
+
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  cashWallet?: CashWallet;
+  pointsWallet?: PointsWallet;
   organization?: string | undefined;
   avatarUrl: string;
   jobTitle?: string | undefined;
@@ -154,6 +235,7 @@ export interface Article {
   readTime: string;
   featuredImage: string;
   imageCredit: string;
+  hidden?: boolean;
   content: string;
   tags: string[];
   isFeatured?: boolean | undefined;
@@ -220,6 +302,7 @@ export interface Survey {
   tier: SurveyTier;
   planId: string;
   status: SurveyStatus;
+  hidden?: boolean;
   responseCount: number;
   responseLimit: number;
   openingDate: string;
@@ -228,6 +311,12 @@ export interface Survey {
   isBranded: boolean;
   consentNotice: string;
   estimatedMinutes: number;
+  /** Cash reward credited to an earner's wallet per completed response (₦). */
+  rewardNaira: number;
+  /** Points locked per response in the researcher's escrow. */
+  rewardPoints: number;
+  /** Points currently held in escrow for outstanding respondent payouts. */
+  escrowPoints: number;
   incentive?: string | undefined;
   tags: string[];
   questions: SurveyQuestion[];
@@ -270,6 +359,7 @@ export interface SurveyPlan {
 export interface PRTimelineEvent {
   at: string;
   status: PRStatus;
+  hidden?: boolean;
   note: string;
   actor: string;
 }
@@ -294,6 +384,7 @@ export interface PressReleaseBooking {
   websiteUrl: string;
   tier: PRTier;
   status: PRStatus;
+  hidden?: boolean;
   targetAudience: string;
   distributionRegions: string[];
   submittedDate: string;
@@ -316,13 +407,19 @@ export interface PressReleaseBooking {
 export type DistributionChannelType =
   "owned_media" | "partner_distribution" | "syndication_wire" | "regional_desk";
 
+export type DistributionChannelGroup = "nigerian-national" | "premium-nigerian" | "international";
+
 export interface DistributionChannel {
   id: string;
   label: string;
+  group: DistributionChannelGroup;
   type: DistributionChannelType;
+  priceNaira?: number | undefined;
+  priceUsd?: number | undefined;
   region: string;
   audience: string;
   status: "verified" | "pending_verification" | "suspended";
+  hidden?: boolean;
   verifiedOn?: string | undefined;
   indicativePrice: number;
   currency: string;
@@ -354,6 +451,7 @@ export interface ProfessionalService {
   complianceWarning?: string | undefined;
   disclosure: string;
   engagementTypes: string[];
+  hidden?: boolean;
 }
 
 export interface ServiceEnquiry {
@@ -384,6 +482,7 @@ export interface Product {
   slug: string;
   category: ProductCategory;
   price: number;
+  priceNaira?: number | undefined;
   currency: string;
   description: string;
   material: string;
@@ -391,6 +490,7 @@ export interface Product {
   variantLabel: string;
   inStock: boolean;
   stockLevel: number;
+  hidden?: boolean;
   imageUrl: string;
   detail: string[];
   careNotes?: string | undefined;
@@ -511,6 +611,13 @@ export interface Database {
   orders: Order[];
   newsletterSubscriptions: NewsletterSubscription[];
   contactMessages: ContactMessage[];
+  transactions: WalletTransaction[];
+  payouts: PayoutRequest[];
+  polls: DailyPoll[];
+  pollVotes: Record<string, string[]>;
+  pollLastOption: Record<string, string>;
+  kitRequests: KitRequest[];
+  settings: PlatformSettings;
   sessionUserId: string | null;
   updatedAt: string;
 }

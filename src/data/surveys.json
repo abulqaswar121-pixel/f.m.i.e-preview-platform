@@ -21,7 +21,13 @@
     "consentNotice": "Your responses are anonymous and will be reported only in aggregate. No payment account details, card numbers or personally identifying information are requested or should be entered. Participation is voluntary and you may stop at any point without giving a reason.",
     "estimatedMinutes": 7,
     "incentive": "Participants may request the summary findings report on completion.",
-    "tags": ["payments", "fintech", "cross-border", "treasury", "Africa"],
+    "tags": [
+      "payments",
+      "fintech",
+      "cross-border",
+      "treasury",
+      "Africa"
+    ],
     "createdAt": "2026-07-18T09:00:00.000Z",
     "updatedAt": "2026-10-11T16:40:00.000Z",
     "questions": [
@@ -30,7 +36,15 @@
         "prompt": "Which market do you primarily transact in?",
         "type": "single_choice",
         "required": true,
-        "options": ["Nigeria", "Ghana", "Kenya", "Rwanda", "Egypt", "South Africa", "Other"],
+        "options": [
+          "Nigeria",
+          "Ghana",
+          "Kenya",
+          "Rwanda",
+          "Egypt",
+          "South Africa",
+          "Other"
+        ],
         "helpText": "Select the market where the majority of your transaction volume occurs."
       },
       {
@@ -54,14 +68,26 @@
         "prompt": "Roughly what share of your monthly transaction volume is cross-border?",
         "type": "single_choice",
         "required": true,
-        "options": ["None", "Under 5%", "5–20%", "21–50%", "More than 50%"]
+        "options": [
+          "None",
+          "Under 5%",
+          "5\u201320%",
+          "21\u201350%",
+          "More than 50%"
+        ]
       },
       {
         "id": "q4",
         "prompt": "How long does a typical cross-border payment take to settle for you?",
         "type": "single_choice",
         "required": true,
-        "options": ["Same day", "1–2 working days", "3–5 working days", "More than 5 working days", "It varies too much to state"],
+        "options": [
+          "Same day",
+          "1\u20132 working days",
+          "3\u20135 working days",
+          "More than 5 working days",
+          "It varies too much to state"
+        ],
         "logic": {
           "questionId": "q3",
           "operator": "not_equals",
@@ -74,9 +100,18 @@
         "prompt": "Rate the reliability of the payment rails you depend on most.",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
         "helpText": "Statement: 'The payment rails I depend on most settle when the provider says they will.'",
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q6",
@@ -84,7 +119,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "Negligible cost", "right": "Severe cost" }
+        "scaleLabels": {
+          "left": "Negligible cost",
+          "right": "Severe cost"
+        }
       },
       {
         "id": "q7",
@@ -98,62 +136,198 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Nigeria", "value": 31, "count": 261 },
-          { "label": "Ghana", "value": 12, "count": 101 },
-          { "label": "Kenya", "value": 22, "count": 185 },
-          { "label": "Rwanda", "value": 7, "count": 59 },
-          { "label": "Egypt", "value": 14, "count": 118 },
-          { "label": "South Africa", "value": 11, "count": 93 },
-          { "label": "Other", "value": 3, "count": 25 }
+          {
+            "label": "Nigeria",
+            "value": 31,
+            "count": 261
+          },
+          {
+            "label": "Ghana",
+            "value": 12,
+            "count": 101
+          },
+          {
+            "label": "Kenya",
+            "value": 22,
+            "count": 185
+          },
+          {
+            "label": "Rwanda",
+            "value": 7,
+            "count": 59
+          },
+          {
+            "label": "Egypt",
+            "value": 14,
+            "count": 118
+          },
+          {
+            "label": "South Africa",
+            "value": 11,
+            "count": 93
+          },
+          {
+            "label": "Other",
+            "value": 3,
+            "count": 25
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Mobile money wallet", "value": 74, "count": 623 },
-          { "label": "Bank transfer / RTGS", "value": 61, "count": 514 },
-          { "label": "Instant payment scheme", "value": 48, "count": 404 },
-          { "label": "Card acquiring (in person)", "value": 33, "count": 278 },
-          { "label": "Card-not-present / online gateway", "value": 29, "count": 244 },
-          { "label": "USSD-based payment", "value": 41, "count": 345 },
-          { "label": "Stablecoin or digital asset rail", "value": 17, "count": 143 },
-          { "label": "Cash", "value": 26, "count": 219 }
+          {
+            "label": "Mobile money wallet",
+            "value": 74,
+            "count": 623
+          },
+          {
+            "label": "Bank transfer / RTGS",
+            "value": 61,
+            "count": 514
+          },
+          {
+            "label": "Instant payment scheme",
+            "value": 48,
+            "count": 404
+          },
+          {
+            "label": "Card acquiring (in person)",
+            "value": 33,
+            "count": 278
+          },
+          {
+            "label": "Card-not-present / online gateway",
+            "value": 29,
+            "count": 244
+          },
+          {
+            "label": "USSD-based payment",
+            "value": 41,
+            "count": 345
+          },
+          {
+            "label": "Stablecoin or digital asset rail",
+            "value": 17,
+            "count": 143
+          },
+          {
+            "label": "Cash",
+            "value": 26,
+            "count": 219
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "None", "value": 18, "count": 152 },
-          { "label": "Under 5%", "value": 24, "count": 202 },
-          { "label": "5–20%", "value": 31, "count": 261 },
-          { "label": "21–50%", "value": 19, "count": 160 },
-          { "label": "More than 50%", "value": 8, "count": 67 }
+          {
+            "label": "None",
+            "value": 18,
+            "count": 152
+          },
+          {
+            "label": "Under 5%",
+            "value": 24,
+            "count": 202
+          },
+          {
+            "label": "5\u201320%",
+            "value": 31,
+            "count": 261
+          },
+          {
+            "label": "21\u201350%",
+            "value": 19,
+            "count": 160
+          },
+          {
+            "label": "More than 50%",
+            "value": 8,
+            "count": 67
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Same day", "value": 14, "count": 97 },
-          { "label": "1–2 working days", "value": 33, "count": 228 },
-          { "label": "3–5 working days", "value": 29, "count": 200 },
-          { "label": "More than 5 working days", "value": 12, "count": 83 },
-          { "label": "It varies too much to state", "value": 12, "count": 82 }
+          {
+            "label": "Same day",
+            "value": 14,
+            "count": 97
+          },
+          {
+            "label": "1\u20132 working days",
+            "value": 33,
+            "count": 228
+          },
+          {
+            "label": "3\u20135 working days",
+            "value": 29,
+            "count": 200
+          },
+          {
+            "label": "More than 5 working days",
+            "value": 12,
+            "count": 83
+          },
+          {
+            "label": "It varies too much to state",
+            "value": 12,
+            "count": 82
+          }
         ]
       },
       {
         "questionId": "q5",
         "buckets": [
-          { "label": "Strongly disagree", "value": 11, "count": 93 },
-          { "label": "Disagree", "value": 21, "count": 177 },
-          { "label": "Neutral", "value": 28, "count": 236 },
-          { "label": "Agree", "value": 27, "count": 227 },
-          { "label": "Strongly agree", "value": 13, "count": 109 }
+          {
+            "label": "Strongly disagree",
+            "value": 11,
+            "count": 93
+          },
+          {
+            "label": "Disagree",
+            "value": 21,
+            "count": 177
+          },
+          {
+            "label": "Neutral",
+            "value": 28,
+            "count": 236
+          },
+          {
+            "label": "Agree",
+            "value": 27,
+            "count": 227
+          },
+          {
+            "label": "Strongly agree",
+            "value": 13,
+            "count": 109
+          }
         ],
         "mean": 3.21
       },
-      { "questionId": "q6", "buckets": [], "mean": 6.4 },
-      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 486 }] }
-    ]
+      {
+        "questionId": "q6",
+        "buckets": [],
+        "mean": 6.4
+      },
+      {
+        "questionId": "q7",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 486
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 400,
+    "rewardPoints": 4,
+    "escrowPoints": 632
   },
   {
     "id": "srv-remote-board-engagement",
@@ -175,7 +349,12 @@
     "isBranded": false,
     "consentNotice": "Responses are anonymous. Please do not name your organisation, colleagues or any identifiable matter under discussion. Aggregate results only will be published.",
     "estimatedMinutes": 5,
-    "tags": ["governance", "boards", "hybrid working", "organisational practice"],
+    "tags": [
+      "governance",
+      "boards",
+      "hybrid working",
+      "organisational practice"
+    ],
     "createdAt": "2026-08-22T10:15:00.000Z",
     "updatedAt": "2026-10-10T09:05:00.000Z",
     "questions": [
@@ -184,14 +363,27 @@
         "prompt": "What is your primary role in relation to the board?",
         "type": "single_choice",
         "required": true,
-        "options": ["Executive director", "Non-executive director", "Chair", "Company secretary or governance lead", "Senior management attendee", "Other"]
+        "options": [
+          "Executive director",
+          "Non-executive director",
+          "Chair",
+          "Company secretary or governance lead",
+          "Senior management attendee",
+          "Other"
+        ]
       },
       {
         "id": "q2",
         "prompt": "How are board meetings currently held?",
         "type": "single_choice",
         "required": true,
-        "options": ["Fully in person", "Predominantly in person with remote option", "Fully remote", "Alternating in person and remote", "No fixed pattern"]
+        "options": [
+          "Fully in person",
+          "Predominantly in person with remote option",
+          "Fully remote",
+          "Alternating in person and remote",
+          "No fixed pattern"
+        ]
       },
       {
         "id": "q3",
@@ -212,8 +404,17 @@
         "prompt": "Has the willingness of non-executives to challenge management changed?",
         "type": "likert",
         "required": true,
-        "options": ["Much less willing", "Slightly less willing", "No change", "Slightly more willing", "Much more willing"],
-        "scaleLabels": { "left": "Much less willing", "right": "Much more willing" }
+        "options": [
+          "Much less willing",
+          "Slightly less willing",
+          "No change",
+          "Slightly more willing",
+          "Much more willing"
+        ],
+        "scaleLabels": {
+          "left": "Much less willing",
+          "right": "Much more willing"
+        }
       },
       {
         "id": "q5",
@@ -221,7 +422,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "Not confident", "right": "Fully confident" }
+        "scaleLabels": {
+          "left": "Not confident",
+          "right": "Fully confident"
+        }
       },
       {
         "id": "q6",
@@ -235,49 +439,153 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Executive director", "value": 24, "count": 21 },
-          { "label": "Non-executive director", "value": 29, "count": 26 },
-          { "label": "Chair", "value": 11, "count": 10 },
-          { "label": "Company secretary or governance lead", "value": 19, "count": 17 },
-          { "label": "Senior management attendee", "value": 12, "count": 11 },
-          { "label": "Other", "value": 5, "count": 4 }
+          {
+            "label": "Executive director",
+            "value": 24,
+            "count": 21
+          },
+          {
+            "label": "Non-executive director",
+            "value": 29,
+            "count": 26
+          },
+          {
+            "label": "Chair",
+            "value": 11,
+            "count": 10
+          },
+          {
+            "label": "Company secretary or governance lead",
+            "value": 19,
+            "count": 17
+          },
+          {
+            "label": "Senior management attendee",
+            "value": 12,
+            "count": 11
+          },
+          {
+            "label": "Other",
+            "value": 5,
+            "count": 4
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Fully in person", "value": 16, "count": 14 },
-          { "label": "Predominantly in person with remote option", "value": 42, "count": 37 },
-          { "label": "Fully remote", "value": 9, "count": 8 },
-          { "label": "Alternating in person and remote", "value": 25, "count": 22 },
-          { "label": "No fixed pattern", "value": 8, "count": 8 }
+          {
+            "label": "Fully in person",
+            "value": 16,
+            "count": 14
+          },
+          {
+            "label": "Predominantly in person with remote option",
+            "value": 42,
+            "count": 37
+          },
+          {
+            "label": "Fully remote",
+            "value": 9,
+            "count": 8
+          },
+          {
+            "label": "Alternating in person and remote",
+            "value": 25,
+            "count": 22
+          },
+          {
+            "label": "No fixed pattern",
+            "value": 8,
+            "count": 8
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Papers circulated further in advance", "value": 63, "count": 56 },
-          { "label": "Shorter meetings with more frequent sessions", "value": 38, "count": 34 },
-          { "label": "Pre-recorded briefings from management", "value": 27, "count": 24 },
-          { "label": "Written dissent recorded in the minutes", "value": 19, "count": 17 },
-          { "label": "Private sessions excluding management", "value": 47, "count": 42 },
-          { "label": "Formal technology and confidentiality protocol", "value": 34, "count": 30 }
+          {
+            "label": "Papers circulated further in advance",
+            "value": 63,
+            "count": 56
+          },
+          {
+            "label": "Shorter meetings with more frequent sessions",
+            "value": 38,
+            "count": 34
+          },
+          {
+            "label": "Pre-recorded briefings from management",
+            "value": 27,
+            "count": 24
+          },
+          {
+            "label": "Written dissent recorded in the minutes",
+            "value": 19,
+            "count": 17
+          },
+          {
+            "label": "Private sessions excluding management",
+            "value": 47,
+            "count": 42
+          },
+          {
+            "label": "Formal technology and confidentiality protocol",
+            "value": 34,
+            "count": 30
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Much less willing", "value": 8, "count": 7 },
-          { "label": "Slightly less willing", "value": 24, "count": 21 },
-          { "label": "No change", "value": 39, "count": 35 },
-          { "label": "Slightly more willing", "value": 21, "count": 19 },
-          { "label": "Much more willing", "value": 8, "count": 7 }
+          {
+            "label": "Much less willing",
+            "value": 8,
+            "count": 7
+          },
+          {
+            "label": "Slightly less willing",
+            "value": 24,
+            "count": 21
+          },
+          {
+            "label": "No change",
+            "value": 39,
+            "count": 35
+          },
+          {
+            "label": "Slightly more willing",
+            "value": 21,
+            "count": 19
+          },
+          {
+            "label": "Much more willing",
+            "value": 8,
+            "count": 7
+          }
         ],
         "mean": 2.96
       },
-      { "questionId": "q5", "buckets": [], "mean": 7.1 },
-      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 52 }] }
-    ]
+      {
+        "questionId": "q5",
+        "buckets": [],
+        "mean": 7.1
+      },
+      {
+        "questionId": "q6",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 52
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 750,
+    "rewardPoints": 8,
+    "escrowPoints": 88
   },
   {
     "id": "srv-sustainable-packaging",
@@ -299,7 +607,13 @@
     "isBranded": false,
     "consentNotice": "Your responses will be used for aggregated market research reporting only. No personal data is sold or shared with third parties. You may withdraw by contacting the research desk before the closing date.",
     "estimatedMinutes": 6,
-    "tags": ["consumer behaviour", "sustainability", "packaging", "FMCG", "pricing"],
+    "tags": [
+      "consumer behaviour",
+      "sustainability",
+      "packaging",
+      "FMCG",
+      "pricing"
+    ],
     "createdAt": "2026-10-09T14:20:00.000Z",
     "updatedAt": "2026-10-11T08:10:00.000Z",
     "moderationNote": "Awaiting editorial review: question 6 asks respondents to estimate a household income band, which the moderation desk has flagged as sensitive. Recommend making it optional and adding an explicit 'prefer not to say' option before approval.",
@@ -309,7 +623,13 @@
         "prompt": "How often do you check packaging material or disposal instructions before buying a product?",
         "type": "single_choice",
         "required": true,
-        "options": ["Always", "Often", "Sometimes", "Rarely", "Never"]
+        "options": [
+          "Always",
+          "Often",
+          "Sometimes",
+          "Rarely",
+          "Never"
+        ]
       },
       {
         "id": "q2",
@@ -342,7 +662,14 @@
         "prompt": "For which categories would you pay the 15% premium?",
         "type": "multi_choice",
         "required": false,
-        "options": ["Food and drink", "Household cleaning", "Personal care", "Baby products", "Pet products", "None"],
+        "options": [
+          "Food and drink",
+          "Household cleaning",
+          "Personal care",
+          "Baby products",
+          "Pet products",
+          "None"
+        ],
         "logic": {
           "questionId": "q3",
           "operator": "contains",
@@ -355,18 +682,36 @@
         "prompt": "'I would change brand over packaging alone.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q6",
         "prompt": "Which household income band does your purchase fall into?",
         "type": "single_choice",
         "required": false,
-        "options": ["Under £25,000", "£25,000–£50,000", "£50,000–£80,000", "Over £80,000", "Prefer not to say"],
+        "options": [
+          "Under \u00a325,000",
+          "\u00a325,000\u2013\u00a350,000",
+          "\u00a350,000\u2013\u00a380,000",
+          "Over \u00a380,000",
+          "Prefer not to say"
+        ],
         "helpText": "Optional. Used only for aggregate segmentation."
       }
-    ]
+    ],
+    "rewardNaira": 1200,
+    "rewardPoints": 12,
+    "escrowPoints": 0
   },
   {
     "id": "srv-automated-bookkeeping",
@@ -389,7 +734,12 @@
     "isBranded": true,
     "consentNotice": "Responses may be attributed to your organisation in aggregate sector reporting. Individual answers will not be published or sold. Contact the research desk to withdraw.",
     "estimatedMinutes": 4,
-    "tags": ["SME", "bookkeeping", "accounting software", "adoption"],
+    "tags": [
+      "SME",
+      "bookkeeping",
+      "accounting software",
+      "adoption"
+    ],
     "createdAt": "2026-07-02T11:00:00.000Z",
     "updatedAt": "2026-10-08T15:30:00.000Z",
     "questions": [
@@ -398,7 +748,12 @@
         "prompt": "How many people does your organisation employ?",
         "type": "single_choice",
         "required": true,
-        "options": ["Just me", "2–9", "10–24", "25–49"]
+        "options": [
+          "Just me",
+          "2\u20139",
+          "10\u201324",
+          "25\u201349"
+        ]
       },
       {
         "id": "q2",
@@ -432,7 +787,14 @@
         "prompt": "What was the main barrier to automating further?",
         "type": "single_choice",
         "required": true,
-        "options": ["Cost", "Time to set up", "Trust in the output", "Staff capability", "No barrier — we are fully automated", "Not applicable"],
+        "options": [
+          "Cost",
+          "Time to set up",
+          "Trust in the output",
+          "Staff capability",
+          "No barrier \u2014 we are fully automated",
+          "Not applicable"
+        ],
         "logic": {
           "questionId": "q2",
           "operator": "not_equals",
@@ -446,7 +808,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "No change", "right": "Transformed" }
+        "scaleLabels": {
+          "left": "No change",
+          "right": "Transformed"
+        }
       },
       {
         "id": "q6",
@@ -459,47 +824,147 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Just me", "value": 27, "count": 85 },
-          { "label": "2–9", "value": 41, "count": 130 },
-          { "label": "10–24", "value": 21, "count": 66 },
-          { "label": "25–49", "value": 11, "count": 35 }
+          {
+            "label": "Just me",
+            "value": 27,
+            "count": 85
+          },
+          {
+            "label": "2\u20139",
+            "value": 41,
+            "count": 130
+          },
+          {
+            "label": "10\u201324",
+            "value": 21,
+            "count": 66
+          },
+          {
+            "label": "25\u201349",
+            "value": 11,
+            "count": 35
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Spreadsheet maintained in-house", "value": 22, "count": 70 },
-          { "label": "Accounting software maintained in-house", "value": 34, "count": 107 },
-          { "label": "Accounting software maintained by an external accountant", "value": 25, "count": 79 },
-          { "label": "Fully outsourced to an accountant or bookkeeper", "value": 15, "count": 47 },
-          { "label": "Paper records", "value": 4, "count": 13 }
+          {
+            "label": "Spreadsheet maintained in-house",
+            "value": 22,
+            "count": 70
+          },
+          {
+            "label": "Accounting software maintained in-house",
+            "value": 34,
+            "count": 107
+          },
+          {
+            "label": "Accounting software maintained by an external accountant",
+            "value": 25,
+            "count": 79
+          },
+          {
+            "label": "Fully outsourced to an accountant or bookkeeper",
+            "value": 15,
+            "count": 47
+          },
+          {
+            "label": "Paper records",
+            "value": 4,
+            "count": 13
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Bank feed reconciliation", "value": 58, "count": 183 },
-          { "label": "Invoice issuing", "value": 44, "count": 139 },
-          { "label": "Expense capture", "value": 31, "count": 98 },
-          { "label": "Payroll", "value": 26, "count": 82 },
-          { "label": "VAT or sales tax return preparation", "value": 19, "count": 60 },
-          { "label": "None", "value": 17, "count": 54 }
+          {
+            "label": "Bank feed reconciliation",
+            "value": 58,
+            "count": 183
+          },
+          {
+            "label": "Invoice issuing",
+            "value": 44,
+            "count": 139
+          },
+          {
+            "label": "Expense capture",
+            "value": 31,
+            "count": 98
+          },
+          {
+            "label": "Payroll",
+            "value": 26,
+            "count": 82
+          },
+          {
+            "label": "VAT or sales tax return preparation",
+            "value": 19,
+            "count": 60
+          },
+          {
+            "label": "None",
+            "value": 17,
+            "count": 54
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Cost", "value": 29, "count": 88 },
-          { "label": "Time to set up", "value": 22, "count": 67 },
-          { "label": "Trust in the output", "value": 18, "count": 55 },
-          { "label": "Staff capability", "value": 14, "count": 43 },
-          { "label": "No barrier — we are fully automated", "value": 12, "count": 37 },
-          { "label": "Not applicable", "value": 5, "count": 15 }
+          {
+            "label": "Cost",
+            "value": 29,
+            "count": 88
+          },
+          {
+            "label": "Time to set up",
+            "value": 22,
+            "count": 67
+          },
+          {
+            "label": "Trust in the output",
+            "value": 18,
+            "count": 55
+          },
+          {
+            "label": "Staff capability",
+            "value": 14,
+            "count": 43
+          },
+          {
+            "label": "No barrier \u2014 we are fully automated",
+            "value": 12,
+            "count": 37
+          },
+          {
+            "label": "Not applicable",
+            "value": 5,
+            "count": 15
+          }
         ]
       },
-      { "questionId": "q5", "buckets": [], "mean": 5.8 },
-      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 141 }] }
-    ]
+      {
+        "questionId": "q5",
+        "buckets": [],
+        "mean": 5.8
+      },
+      {
+        "questionId": "q6",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 141
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 400,
+    "rewardPoints": 4,
+    "escrowPoints": -864
   },
   {
     "id": "srv-digital-learning-access",
@@ -521,7 +986,12 @@
     "isBranded": false,
     "consentNotice": "This survey does not collect information about any identifiable child. Please do not include pupil names, school names or any detail that could identify a specific pupil or household.",
     "estimatedMinutes": 6,
-    "tags": ["education", "digital access", "households", "inequality"],
+    "tags": [
+      "education",
+      "digital access",
+      "households",
+      "inequality"
+    ],
     "createdAt": "2026-08-30T09:40:00.000Z",
     "updatedAt": "2026-10-09T12:00:00.000Z",
     "questions": [
@@ -530,14 +1000,24 @@
         "prompt": "Are you responding as a parent or carer, or as teaching staff?",
         "type": "single_choice",
         "required": true,
-        "options": ["Parent or carer", "Teaching staff", "Both"]
+        "options": [
+          "Parent or carer",
+          "Teaching staff",
+          "Both"
+        ]
       },
       {
         "id": "q2",
         "prompt": "How many devices suitable for schoolwork are available in the household?",
         "type": "single_choice",
         "required": true,
-        "options": ["None", "One", "Two", "Three", "Four or more"],
+        "options": [
+          "None",
+          "One",
+          "Two",
+          "Three",
+          "Four or more"
+        ],
         "logic": {
           "questionId": "q1",
           "operator": "contains",
@@ -550,7 +1030,13 @@
         "prompt": "How often does a pupil have to wait for access to a shared device to complete work?",
         "type": "single_choice",
         "required": true,
-        "options": ["Never", "Rarely", "Weekly", "Most days", "Every day"],
+        "options": [
+          "Never",
+          "Rarely",
+          "Weekly",
+          "Most days",
+          "Every day"
+        ],
         "logic": {
           "questionId": "q2",
           "operator": "not_equals",
@@ -563,8 +1049,17 @@
         "prompt": "'Home connectivity is reliable enough for video lessons and submission deadlines.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q5",
@@ -572,7 +1067,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "No effect", "right": "Decisive effect" }
+        "scaleLabels": {
+          "left": "No effect",
+          "right": "Decisive effect"
+        }
       },
       {
         "id": "q6",
@@ -585,45 +1083,133 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Parent or carer", "value": 68, "count": 390 },
-          { "label": "Teaching staff", "value": 24, "count": 138 },
-          { "label": "Both", "value": 8, "count": 46 }
+          {
+            "label": "Parent or carer",
+            "value": 68,
+            "count": 390
+          },
+          {
+            "label": "Teaching staff",
+            "value": 24,
+            "count": 138
+          },
+          {
+            "label": "Both",
+            "value": 8,
+            "count": 46
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "None", "value": 4, "count": 17 },
-          { "label": "One", "value": 23, "count": 101 },
-          { "label": "Two", "value": 36, "count": 158 },
-          { "label": "Three", "value": 25, "count": 110 },
-          { "label": "Four or more", "value": 12, "count": 53 }
+          {
+            "label": "None",
+            "value": 4,
+            "count": 17
+          },
+          {
+            "label": "One",
+            "value": 23,
+            "count": 101
+          },
+          {
+            "label": "Two",
+            "value": 36,
+            "count": 158
+          },
+          {
+            "label": "Three",
+            "value": 25,
+            "count": 110
+          },
+          {
+            "label": "Four or more",
+            "value": 12,
+            "count": 53
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Never", "value": 21, "count": 90 },
-          { "label": "Rarely", "value": 27, "count": 116 },
-          { "label": "Weekly", "value": 26, "count": 112 },
-          { "label": "Most days", "value": 18, "count": 77 },
-          { "label": "Every day", "value": 8, "count": 34 }
+          {
+            "label": "Never",
+            "value": 21,
+            "count": 90
+          },
+          {
+            "label": "Rarely",
+            "value": 27,
+            "count": 116
+          },
+          {
+            "label": "Weekly",
+            "value": 26,
+            "count": 112
+          },
+          {
+            "label": "Most days",
+            "value": 18,
+            "count": 77
+          },
+          {
+            "label": "Every day",
+            "value": 8,
+            "count": 34
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Strongly disagree", "value": 9, "count": 39 },
-          { "label": "Disagree", "value": 18, "count": 77 },
-          { "label": "Neutral", "value": 24, "count": 103 },
-          { "label": "Agree", "value": 33, "count": 142 },
-          { "label": "Strongly agree", "value": 16, "count": 69 }
+          {
+            "label": "Strongly disagree",
+            "value": 9,
+            "count": 39
+          },
+          {
+            "label": "Disagree",
+            "value": 18,
+            "count": 77
+          },
+          {
+            "label": "Neutral",
+            "value": 24,
+            "count": 103
+          },
+          {
+            "label": "Agree",
+            "value": 33,
+            "count": 142
+          },
+          {
+            "label": "Strongly agree",
+            "value": 16,
+            "count": 69
+          }
         ],
         "mean": 3.42
       },
-      { "questionId": "q5", "buckets": [], "mean": 6.9 },
-      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 288 }] }
-    ]
+      {
+        "questionId": "q5",
+        "buckets": [],
+        "mean": 6.9
+      },
+      {
+        "questionId": "q6",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 288
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 750,
+    "rewardPoints": 8,
+    "escrowPoints": -3792
   },
   {
     "id": "srv-remote-gp-consultations",
@@ -646,7 +1232,12 @@
     "isBranded": true,
     "consentNotice": "This survey asks about your experience of healthcare, not about your clinical condition. Do not include your name, NHS or patient number, medication details or the name of your practice. Responses are anonymous and reported in aggregate only. This survey is not a route to clinical advice or urgent care.",
     "estimatedMinutes": 8,
-    "tags": ["healthcare", "primary care", "patient experience", "telehealth"],
+    "tags": [
+      "healthcare",
+      "primary care",
+      "patient experience",
+      "telehealth"
+    ],
     "createdAt": "2026-05-14T08:00:00.000Z",
     "updatedAt": "2026-10-11T10:45:00.000Z",
     "questions": [
@@ -655,37 +1246,68 @@
         "prompt": "Which format was your most recent remote consultation?",
         "type": "single_choice",
         "required": true,
-        "options": ["Telephone", "Video", "Secure messaging or chat", "Online form with a clinician response", "A combination"]
+        "options": [
+          "Telephone",
+          "Video",
+          "Secure messaging or chat",
+          "Online form with a clinician response",
+          "A combination"
+        ]
       },
       {
         "id": "q2",
         "prompt": "How long did you wait between requesting and receiving the consultation?",
         "type": "single_choice",
         "required": true,
-        "options": ["Same day", "1–2 days", "3–7 days", "More than a week", "I cannot recall"]
+        "options": [
+          "Same day",
+          "1\u20132 days",
+          "3\u20137 days",
+          "More than a week",
+          "I cannot recall"
+        ]
       },
       {
         "id": "q3",
         "prompt": "Were you in a private place where you could speak freely?",
         "type": "single_choice",
         "required": true,
-        "options": ["Yes, entirely private", "Partly private", "No", "Prefer not to say"]
+        "options": [
+          "Yes, entirely private",
+          "Partly private",
+          "No",
+          "Prefer not to say"
+        ]
       },
       {
         "id": "q4",
         "prompt": "Would you raise a sensitive health concern in a remote consultation?",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
         "helpText": "Statement: 'I would raise a sensitive health concern remotely as readily as in person.'",
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q5",
         "prompt": "Did you see the same clinician as in a previous consultation?",
         "type": "single_choice",
         "required": true,
-        "options": ["Yes, the same clinician", "No, a different clinician", "I do not know", "This was my first consultation"],
+        "options": [
+          "Yes, the same clinician",
+          "No, a different clinician",
+          "I do not know",
+          "This was my first consultation"
+        ],
         "logic": {
           "questionId": "q2",
           "operator": "is_answered",
@@ -699,7 +1321,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "Not confident", "right": "Fully confident" }
+        "scaleLabels": {
+          "left": "Not confident",
+          "right": "Fully confident"
+        }
       },
       {
         "id": "q7",
@@ -712,55 +1337,163 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Telephone", "value": 54, "count": 693 },
-          { "label": "Video", "value": 21, "count": 270 },
-          { "label": "Secure messaging or chat", "value": 11, "count": 141 },
-          { "label": "Online form with a clinician response", "value": 9, "count": 116 },
-          { "label": "A combination", "value": 5, "count": 64 }
+          {
+            "label": "Telephone",
+            "value": 54,
+            "count": 693
+          },
+          {
+            "label": "Video",
+            "value": 21,
+            "count": 270
+          },
+          {
+            "label": "Secure messaging or chat",
+            "value": 11,
+            "count": 141
+          },
+          {
+            "label": "Online form with a clinician response",
+            "value": 9,
+            "count": 116
+          },
+          {
+            "label": "A combination",
+            "value": 5,
+            "count": 64
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Same day", "value": 22, "count": 282 },
-          { "label": "1–2 days", "value": 31, "count": 398 },
-          { "label": "3–7 days", "value": 26, "count": 334 },
-          { "label": "More than a week", "value": 15, "count": 193 },
-          { "label": "I cannot recall", "value": 6, "count": 77 }
+          {
+            "label": "Same day",
+            "value": 22,
+            "count": 282
+          },
+          {
+            "label": "1\u20132 days",
+            "value": 31,
+            "count": 398
+          },
+          {
+            "label": "3\u20137 days",
+            "value": 26,
+            "count": 334
+          },
+          {
+            "label": "More than a week",
+            "value": 15,
+            "count": 193
+          },
+          {
+            "label": "I cannot recall",
+            "value": 6,
+            "count": 77
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Yes, entirely private", "value": 58, "count": 745 },
-          { "label": "Partly private", "value": 24, "count": 308 },
-          { "label": "No", "value": 12, "count": 154 },
-          { "label": "Prefer not to say", "value": 6, "count": 77 }
+          {
+            "label": "Yes, entirely private",
+            "value": 58,
+            "count": 745
+          },
+          {
+            "label": "Partly private",
+            "value": 24,
+            "count": 308
+          },
+          {
+            "label": "No",
+            "value": 12,
+            "count": 154
+          },
+          {
+            "label": "Prefer not to say",
+            "value": 6,
+            "count": 77
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Strongly disagree", "value": 17, "count": 218 },
-          { "label": "Disagree", "value": 22, "count": 282 },
-          { "label": "Neutral", "value": 25, "count": 321 },
-          { "label": "Agree", "value": 24, "count": 308 },
-          { "label": "Strongly agree", "value": 12, "count": 155 }
+          {
+            "label": "Strongly disagree",
+            "value": 17,
+            "count": 218
+          },
+          {
+            "label": "Disagree",
+            "value": 22,
+            "count": 282
+          },
+          {
+            "label": "Neutral",
+            "value": 25,
+            "count": 321
+          },
+          {
+            "label": "Agree",
+            "value": 24,
+            "count": 308
+          },
+          {
+            "label": "Strongly agree",
+            "value": 12,
+            "count": 155
+          }
         ],
         "mean": 2.92
       },
       {
         "questionId": "q5",
         "buckets": [
-          { "label": "Yes, the same clinician", "value": 29, "count": 372 },
-          { "label": "No, a different clinician", "value": 41, "count": 527 },
-          { "label": "I do not know", "value": 12, "count": 154 },
-          { "label": "This was my first consultation", "value": 18, "count": 231 }
+          {
+            "label": "Yes, the same clinician",
+            "value": 29,
+            "count": 372
+          },
+          {
+            "label": "No, a different clinician",
+            "value": 41,
+            "count": 527
+          },
+          {
+            "label": "I do not know",
+            "value": 12,
+            "count": 154
+          },
+          {
+            "label": "This was my first consultation",
+            "value": 18,
+            "count": 231
+          }
         ]
       },
-      { "questionId": "q6", "buckets": [], "mean": 6.2 },
-      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 704 }] }
-    ]
+      {
+        "questionId": "q6",
+        "buckets": [],
+        "mean": 6.2
+      },
+      {
+        "questionId": "q7",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 704
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 1200,
+    "rewardPoints": 12,
+    "escrowPoints": 20592
   },
   {
     "id": "srv-congestion-charging",
@@ -782,7 +1515,12 @@
     "isBranded": false,
     "consentNotice": "Responses are anonymous and reported in aggregate. Political affiliation is not collected. Do not include any personal or identifying information.",
     "estimatedMinutes": 5,
-    "tags": ["public opinion", "transport", "urban policy", "road user charging"],
+    "tags": [
+      "public opinion",
+      "transport",
+      "urban policy",
+      "road user charging"
+    ],
     "createdAt": "2026-08-01T13:20:00.000Z",
     "updatedAt": "2026-10-07T17:10:00.000Z",
     "questions": [
@@ -791,14 +1529,26 @@
         "prompt": "How do you usually travel to work or your main daily activity?",
         "type": "single_choice",
         "required": true,
-        "options": ["Car as driver", "Car as passenger", "Public transport", "Cycle or walk", "Motorcycle or scooter", "I do not travel regularly"]
+        "options": [
+          "Car as driver",
+          "Car as passenger",
+          "Public transport",
+          "Cycle or walk",
+          "Motorcycle or scooter",
+          "I do not travel regularly"
+        ]
       },
       {
         "id": "q2",
         "prompt": "Would you support a congestion charge in your city?",
         "type": "single_choice",
         "required": true,
-        "options": ["Yes", "No", "Only under specific conditions", "Do not know"]
+        "options": [
+          "Yes",
+          "No",
+          "Only under specific conditions",
+          "Do not know"
+        ]
       },
       {
         "id": "q3",
@@ -825,8 +1575,17 @@
         "prompt": "'A congestion charge falls disproportionately on people with the least choice.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q5",
@@ -834,7 +1593,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "No trust", "right": "Full trust" }
+        "scaleLabels": {
+          "left": "No trust",
+          "right": "Full trust"
+        }
       },
       {
         "id": "q6",
@@ -847,48 +1609,148 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Car as driver", "value": 43, "count": 390 },
-          { "label": "Car as passenger", "value": 9, "count": 82 },
-          { "label": "Public transport", "value": 27, "count": 245 },
-          { "label": "Cycle or walk", "value": 12, "count": 109 },
-          { "label": "Motorcycle or scooter", "value": 4, "count": 36 },
-          { "label": "I do not travel regularly", "value": 5, "count": 46 }
+          {
+            "label": "Car as driver",
+            "value": 43,
+            "count": 390
+          },
+          {
+            "label": "Car as passenger",
+            "value": 9,
+            "count": 82
+          },
+          {
+            "label": "Public transport",
+            "value": 27,
+            "count": 245
+          },
+          {
+            "label": "Cycle or walk",
+            "value": 12,
+            "count": 109
+          },
+          {
+            "label": "Motorcycle or scooter",
+            "value": 4,
+            "count": 36
+          },
+          {
+            "label": "I do not travel regularly",
+            "value": 5,
+            "count": 46
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Yes", "value": 23, "count": 209 },
-          { "label": "No", "value": 38, "count": 345 },
-          { "label": "Only under specific conditions", "value": 31, "count": 281 },
-          { "label": "Do not know", "value": 8, "count": 73 }
+          {
+            "label": "Yes",
+            "value": 23,
+            "count": 209
+          },
+          {
+            "label": "No",
+            "value": 38,
+            "count": 345
+          },
+          {
+            "label": "Only under specific conditions",
+            "value": 31,
+            "count": 281
+          },
+          {
+            "label": "Do not know",
+            "value": 8,
+            "count": 73
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Revenue ring-fenced for public transport", "value": 67, "count": 372 },
-          { "label": "Exemptions for disabled users and essential workers", "value": 71, "count": 394 },
-          { "label": "A daily cap on total charges", "value": 44, "count": 244 },
-          { "label": "Improved alternatives before the charge starts", "value": 78, "count": 433 },
-          { "label": "A public vote on the scheme", "value": 52, "count": 289 },
-          { "label": "No conditions would make me support it", "value": 14, "count": 78 }
+          {
+            "label": "Revenue ring-fenced for public transport",
+            "value": 67,
+            "count": 372
+          },
+          {
+            "label": "Exemptions for disabled users and essential workers",
+            "value": 71,
+            "count": 394
+          },
+          {
+            "label": "A daily cap on total charges",
+            "value": 44,
+            "count": 244
+          },
+          {
+            "label": "Improved alternatives before the charge starts",
+            "value": 78,
+            "count": 433
+          },
+          {
+            "label": "A public vote on the scheme",
+            "value": 52,
+            "count": 289
+          },
+          {
+            "label": "No conditions would make me support it",
+            "value": 14,
+            "count": 78
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Strongly disagree", "value": 8, "count": 73 },
-          { "label": "Disagree", "value": 14, "count": 127 },
-          { "label": "Neutral", "value": 21, "count": 191 },
-          { "label": "Agree", "value": 32, "count": 291 },
-          { "label": "Strongly agree", "value": 25, "count": 227 }
+          {
+            "label": "Strongly disagree",
+            "value": 8,
+            "count": 73
+          },
+          {
+            "label": "Disagree",
+            "value": 14,
+            "count": 127
+          },
+          {
+            "label": "Neutral",
+            "value": 21,
+            "count": 191
+          },
+          {
+            "label": "Agree",
+            "value": 32,
+            "count": 291
+          },
+          {
+            "label": "Strongly agree",
+            "value": 25,
+            "count": 227
+          }
         ],
         "mean": 3.72
       },
-      { "questionId": "q5", "buckets": [], "mean": 3.4 },
-      { "questionId": "q6", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 402 }] }
-    ]
+      {
+        "questionId": "q5",
+        "buckets": [],
+        "mean": 3.4
+      },
+      {
+        "questionId": "q6",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 402
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 400,
+    "rewardPoints": 4,
+    "escrowPoints": -3232
   },
   {
     "id": "srv-founder-capital-access",
@@ -910,7 +1772,12 @@
     "isBranded": true,
     "consentNotice": "Company-level responses may be used in aggregate regional reporting. Individual financial terms, investor names and non-public valuations will not be published. You may request a copy of the aggregate findings on completion.",
     "estimatedMinutes": 9,
-    "tags": ["venture capital", "founders", "regional economy", "SME finance"],
+    "tags": [
+      "venture capital",
+      "founders",
+      "regional economy",
+      "SME finance"
+    ],
     "createdAt": "2026-09-02T10:00:00.000Z",
     "updatedAt": "2026-10-10T14:25:00.000Z",
     "questions": [
@@ -919,7 +1786,12 @@
         "prompt": "How old is your company?",
         "type": "single_choice",
         "required": true,
-        "options": ["Pre-launch", "Under 1 year", "1–2 years", "3–5 years"]
+        "options": [
+          "Pre-launch",
+          "Under 1 year",
+          "1\u20132 years",
+          "3\u20135 years"
+        ]
       },
       {
         "id": "q2",
@@ -943,22 +1815,43 @@
         "prompt": "How many investor meetings did you hold before your last successful raise?",
         "type": "single_choice",
         "required": false,
-        "options": ["No successful raise yet", "1–10", "11–30", "31–60", "More than 60"]
+        "options": [
+          "No successful raise yet",
+          "1\u201310",
+          "11\u201330",
+          "31\u201360",
+          "More than 60"
+        ]
       },
       {
         "id": "q4",
         "prompt": "How much did travel to investor meetings cost you, in time and money?",
         "type": "single_choice",
         "required": false,
-        "options": ["Nothing — all remote", "Under £2,000", "£2,000–£10,000", "Over £10,000", "Prefer not to say"]
+        "options": [
+          "Nothing \u2014 all remote",
+          "Under \u00a32,000",
+          "\u00a32,000\u2013\u00a310,000",
+          "Over \u00a310,000",
+          "Prefer not to say"
+        ]
       },
       {
         "id": "q5",
         "prompt": "'Being outside a major hub has materially slowed my access to capital.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q6",
@@ -966,7 +1859,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "Not at all", "right": "Perfectly" }
+        "scaleLabels": {
+          "left": "Not at all",
+          "right": "Perfectly"
+        }
       },
       {
         "id": "q7",
@@ -979,60 +1875,188 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "Pre-launch", "value": 14, "count": 32 },
-          { "label": "Under 1 year", "value": 26, "count": 60 },
-          { "label": "1–2 years", "value": 33, "count": 76 },
-          { "label": "3–5 years", "value": 27, "count": 63 }
+          {
+            "label": "Pre-launch",
+            "value": 14,
+            "count": 32
+          },
+          {
+            "label": "Under 1 year",
+            "value": 26,
+            "count": 60
+          },
+          {
+            "label": "1\u20132 years",
+            "value": 33,
+            "count": 76
+          },
+          {
+            "label": "3\u20135 years",
+            "value": 27,
+            "count": 63
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "Personal savings", "value": 78, "count": 180 },
-          { "label": "Friends and family", "value": 46, "count": 106 },
-          { "label": "Angel investors", "value": 31, "count": 72 },
-          { "label": "Venture fund", "value": 17, "count": 39 },
-          { "label": "Government or development grant", "value": 38, "count": 88 },
-          { "label": "Revenue-based finance", "value": 14, "count": 32 },
-          { "label": "Bank loan or overdraft", "value": 22, "count": 51 },
-          { "label": "Crowdfunding", "value": 9, "count": 21 },
-          { "label": "None yet", "value": 12, "count": 28 }
+          {
+            "label": "Personal savings",
+            "value": 78,
+            "count": 180
+          },
+          {
+            "label": "Friends and family",
+            "value": 46,
+            "count": 106
+          },
+          {
+            "label": "Angel investors",
+            "value": 31,
+            "count": 72
+          },
+          {
+            "label": "Venture fund",
+            "value": 17,
+            "count": 39
+          },
+          {
+            "label": "Government or development grant",
+            "value": 38,
+            "count": 88
+          },
+          {
+            "label": "Revenue-based finance",
+            "value": 14,
+            "count": 32
+          },
+          {
+            "label": "Bank loan or overdraft",
+            "value": 22,
+            "count": 51
+          },
+          {
+            "label": "Crowdfunding",
+            "value": 9,
+            "count": 21
+          },
+          {
+            "label": "None yet",
+            "value": 12,
+            "count": 28
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "No successful raise yet", "value": 34, "count": 79 },
-          { "label": "1–10", "value": 22, "count": 51 },
-          { "label": "11–30", "value": 25, "count": 58 },
-          { "label": "31–60", "value": 12, "count": 28 },
-          { "label": "More than 60", "value": 7, "count": 15 }
+          {
+            "label": "No successful raise yet",
+            "value": 34,
+            "count": 79
+          },
+          {
+            "label": "1\u201310",
+            "value": 22,
+            "count": 51
+          },
+          {
+            "label": "11\u201330",
+            "value": 25,
+            "count": 58
+          },
+          {
+            "label": "31\u201360",
+            "value": 12,
+            "count": 28
+          },
+          {
+            "label": "More than 60",
+            "value": 7,
+            "count": 15
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Nothing — all remote", "value": 28, "count": 65 },
-          { "label": "Under £2,000", "value": 26, "count": 60 },
-          { "label": "£2,000–£10,000", "value": 27, "count": 62 },
-          { "label": "Over £10,000", "value": 11, "count": 25 },
-          { "label": "Prefer not to say", "value": 8, "count": 19 }
+          {
+            "label": "Nothing \u2014 all remote",
+            "value": 28,
+            "count": 65
+          },
+          {
+            "label": "Under \u00a32,000",
+            "value": 26,
+            "count": 60
+          },
+          {
+            "label": "\u00a32,000\u2013\u00a310,000",
+            "value": 27,
+            "count": 62
+          },
+          {
+            "label": "Over \u00a310,000",
+            "value": 11,
+            "count": 25
+          },
+          {
+            "label": "Prefer not to say",
+            "value": 8,
+            "count": 19
+          }
         ]
       },
       {
         "questionId": "q5",
         "buckets": [
-          { "label": "Strongly disagree", "value": 7, "count": 16 },
-          { "label": "Disagree", "value": 12, "count": 28 },
-          { "label": "Neutral", "value": 19, "count": 44 },
-          { "label": "Agree", "value": 34, "count": 79 },
-          { "label": "Strongly agree", "value": 28, "count": 64 }
+          {
+            "label": "Strongly disagree",
+            "value": 7,
+            "count": 16
+          },
+          {
+            "label": "Disagree",
+            "value": 12,
+            "count": 28
+          },
+          {
+            "label": "Neutral",
+            "value": 19,
+            "count": 44
+          },
+          {
+            "label": "Agree",
+            "value": 34,
+            "count": 79
+          },
+          {
+            "label": "Strongly agree",
+            "value": 28,
+            "count": 64
+          }
         ],
         "mean": 3.69
       },
-      { "questionId": "q6", "buckets": [], "mean": 4.1 },
-      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 138 }] }
-    ]
+      {
+        "questionId": "q6",
+        "buckets": [],
+        "mean": 4.1
+      },
+      {
+        "questionId": "q7",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 138
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 750,
+    "rewardPoints": 8,
+    "escrowPoints": 2152
   },
   {
     "id": "srv-b2b-onboarding",
@@ -1040,7 +2064,7 @@
     "slug": "enterprise-buyer-expectations-b2b-software-onboarding",
     "category": "Product Feedback",
     "objective": "Establish what enterprise buyers expect during the first ninety days after purchase, which onboarding failures most often trigger a non-renewal conversation, and what evidence buyers want to see before renewal.",
-    "audience": "Procurement leads, IT buyers and operational sponsors who have signed or managed a business software purchase above £25,000 annual contract value.",
+    "audience": "Procurement leads, IT buyers and operational sponsors who have signed or managed a business software purchase above \u00a325,000 annual contract value.",
     "creatorId": "user-survey-creator",
     "creatorName": "Meridian Health Research",
     "organizationId": "org-meridian",
@@ -1055,7 +2079,13 @@
     "isBranded": true,
     "consentNotice": "Responses are used for aggregate product research. Do not disclose confidential contract terms, vendor names under non-disclosure, or any information you are not authorised to share.",
     "estimatedMinutes": 10,
-    "tags": ["B2B software", "onboarding", "procurement", "product feedback", "renewals"],
+    "tags": [
+      "B2B software",
+      "onboarding",
+      "procurement",
+      "product feedback",
+      "renewals"
+    ],
     "createdAt": "2026-02-11T09:30:00.000Z",
     "updatedAt": "2026-08-02T11:00:00.000Z",
     "questions": [
@@ -1064,7 +2094,12 @@
         "prompt": "What was the annual contract value of your most recent software purchase?",
         "type": "single_choice",
         "required": true,
-        "options": ["£25,000–£100,000", "£100,000–£500,000", "£500,000–£1m", "Over £1m"]
+        "options": [
+          "\u00a325,000\u2013\u00a3100,000",
+          "\u00a3100,000\u2013\u00a3500,000",
+          "\u00a3500,000\u2013\u00a31m",
+          "Over \u00a31m"
+        ]
       },
       {
         "id": "q2",
@@ -1086,7 +2121,13 @@
         "prompt": "How long did it take to reach the first measurable business outcome?",
         "type": "single_choice",
         "required": true,
-        "options": ["Under 30 days", "30–90 days", "3–6 months", "6–12 months", "Not yet achieved"]
+        "options": [
+          "Under 30 days",
+          "30\u201390 days",
+          "3\u20136 months",
+          "6\u201312 months",
+          "Not yet achieved"
+        ]
       },
       {
         "id": "q4",
@@ -1107,8 +2148,17 @@
         "prompt": "'The vendor's onboarding matched what was promised in the sales process.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q6",
@@ -1116,7 +2166,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "Almost none", "right": "Comprehensive" }
+        "scaleLabels": {
+          "left": "Almost none",
+          "right": "Comprehensive"
+        }
       },
       {
         "id": "q7",
@@ -1129,59 +2182,183 @@
       {
         "questionId": "q1",
         "buckets": [
-          { "label": "£25,000–£100,000", "value": 46, "count": 215 },
-          { "label": "£100,000–£500,000", "value": 33, "count": 154 },
-          { "label": "£500,000–£1m", "value": 14, "count": 66 },
-          { "label": "Over £1m", "value": 7, "count": 33 }
+          {
+            "label": "\u00a325,000\u2013\u00a3100,000",
+            "value": 46,
+            "count": 215
+          },
+          {
+            "label": "\u00a3100,000\u2013\u00a3500,000",
+            "value": 33,
+            "count": 154
+          },
+          {
+            "label": "\u00a3500,000\u2013\u00a31m",
+            "value": 14,
+            "count": 66
+          },
+          {
+            "label": "Over \u00a31m",
+            "value": 7,
+            "count": 33
+          }
         ]
       },
       {
         "questionId": "q2",
         "buckets": [
-          { "label": "A named implementation lead", "value": 72, "count": 337 },
-          { "label": "A written success plan with dates", "value": 49, "count": 229 },
-          { "label": "Integration with at least one existing system", "value": 58, "count": 271 },
-          { "label": "Administrator training", "value": 64, "count": 300 },
-          { "label": "End-user training", "value": 41, "count": 192 },
-          { "label": "A documented adoption measurement method", "value": 23, "count": 108 },
-          { "label": "None of these", "value": 6, "count": 28 }
+          {
+            "label": "A named implementation lead",
+            "value": 72,
+            "count": 337
+          },
+          {
+            "label": "A written success plan with dates",
+            "value": 49,
+            "count": 229
+          },
+          {
+            "label": "Integration with at least one existing system",
+            "value": 58,
+            "count": 271
+          },
+          {
+            "label": "Administrator training",
+            "value": 64,
+            "count": 300
+          },
+          {
+            "label": "End-user training",
+            "value": 41,
+            "count": 192
+          },
+          {
+            "label": "A documented adoption measurement method",
+            "value": 23,
+            "count": 108
+          },
+          {
+            "label": "None of these",
+            "value": 6,
+            "count": 28
+          }
         ]
       },
       {
         "questionId": "q3",
         "buckets": [
-          { "label": "Under 30 days", "value": 11, "count": 51 },
-          { "label": "30–90 days", "value": 29, "count": 136 },
-          { "label": "3–6 months", "value": 32, "count": 150 },
-          { "label": "6–12 months", "value": 19, "count": 89 },
-          { "label": "Not yet achieved", "value": 9, "count": 42 }
+          {
+            "label": "Under 30 days",
+            "value": 11,
+            "count": 51
+          },
+          {
+            "label": "30\u201390 days",
+            "value": 29,
+            "count": 136
+          },
+          {
+            "label": "3\u20136 months",
+            "value": 32,
+            "count": 150
+          },
+          {
+            "label": "6\u201312 months",
+            "value": 19,
+            "count": 89
+          },
+          {
+            "label": "Not yet achieved",
+            "value": 9,
+            "count": 42
+          }
         ]
       },
       {
         "questionId": "q4",
         "buckets": [
-          { "label": "Low adoption", "value": 54, "count": 253 },
-          { "label": "Missing integration", "value": 37, "count": 173 },
-          { "label": "Support response times", "value": 28, "count": 131 },
-          { "label": "Price increase at renewal", "value": 42, "count": 197 },
-          { "label": "Champion left the organisation", "value": 31, "count": 145 },
-          { "label": "No non-renewal conversation occurred", "value": 26, "count": 122 }
+          {
+            "label": "Low adoption",
+            "value": 54,
+            "count": 253
+          },
+          {
+            "label": "Missing integration",
+            "value": 37,
+            "count": 173
+          },
+          {
+            "label": "Support response times",
+            "value": 28,
+            "count": 131
+          },
+          {
+            "label": "Price increase at renewal",
+            "value": 42,
+            "count": 197
+          },
+          {
+            "label": "Champion left the organisation",
+            "value": 31,
+            "count": 145
+          },
+          {
+            "label": "No non-renewal conversation occurred",
+            "value": 26,
+            "count": 122
+          }
         ]
       },
       {
         "questionId": "q5",
         "buckets": [
-          { "label": "Strongly disagree", "value": 13, "count": 61 },
-          { "label": "Disagree", "value": 21, "count": 98 },
-          { "label": "Neutral", "value": 27, "count": 126 },
-          { "label": "Agree", "value": 28, "count": 131 },
-          { "label": "Strongly agree", "value": 11, "count": 52 }
+          {
+            "label": "Strongly disagree",
+            "value": 13,
+            "count": 61
+          },
+          {
+            "label": "Disagree",
+            "value": 21,
+            "count": 98
+          },
+          {
+            "label": "Neutral",
+            "value": 27,
+            "count": 126
+          },
+          {
+            "label": "Agree",
+            "value": 28,
+            "count": 131
+          },
+          {
+            "label": "Strongly agree",
+            "value": 11,
+            "count": 52
+          }
         ],
         "mean": 3.16
       },
-      { "questionId": "q6", "buckets": [], "mean": 4.8 },
-      { "questionId": "q7", "buckets": [{ "label": "Free-text responses received", "value": 100, "count": 244 }] }
-    ]
+      {
+        "questionId": "q6",
+        "buckets": [],
+        "mean": 4.8
+      },
+      {
+        "questionId": "q7",
+        "buckets": [
+          {
+            "label": "Free-text responses received",
+            "value": 100,
+            "count": 244
+          }
+        ]
+      }
+    ],
+    "rewardNaira": 1200,
+    "rewardPoints": 12,
+    "escrowPoints": 384
   },
   {
     "id": "srv-cloud-cost-predictability",
@@ -1189,7 +2366,7 @@
     "slug": "cloud-migration-cost-predictability-mid-market-firms",
     "category": "Technology",
     "objective": "Quantify the gap between forecast and actual infrastructure cost after migration among mid-market firms, and identify which governance practices correlate with a smaller gap.",
-    "audience": "Technology leaders, finance business partners and operations directors at organisations with 50–1,000 employees that completed a major infrastructure migration in the last three years.",
+    "audience": "Technology leaders, finance business partners and operations directors at organisations with 50\u20131,000 employees that completed a major infrastructure migration in the last three years.",
     "creatorId": "user-survey-creator",
     "creatorName": "Amara Okafor",
     "organizationId": "org-innotrend",
@@ -1204,7 +2381,13 @@
     "isBranded": false,
     "consentNotice": "Responses are anonymous. Do not disclose your employer's contract terms, vendor pricing or any information subject to a non-disclosure agreement. Aggregate reporting only.",
     "estimatedMinutes": 6,
-    "tags": ["cloud", "FinOps", "cost management", "mid-market", "migration"],
+    "tags": [
+      "cloud",
+      "FinOps",
+      "cost management",
+      "mid-market",
+      "migration"
+    ],
     "createdAt": "2026-10-06T16:00:00.000Z",
     "updatedAt": "2026-10-12T09:20:00.000Z",
     "questions": [
@@ -1213,14 +2396,25 @@
         "prompt": "When did your organisation complete its most significant infrastructure migration?",
         "type": "single_choice",
         "required": true,
-        "options": ["Within the last 12 months", "12–24 months ago", "24–36 months ago"]
+        "options": [
+          "Within the last 12 months",
+          "12\u201324 months ago",
+          "24\u201336 months ago"
+        ]
       },
       {
         "id": "q2",
         "prompt": "How did actual monthly infrastructure cost compare with the pre-migration forecast in the first year?",
         "type": "single_choice",
         "required": true,
-        "options": ["More than 25% below forecast", "Up to 25% below", "Within 5% of forecast", "Up to 25% above", "More than 25% above", "We did not produce a forecast"]
+        "options": [
+          "More than 25% below forecast",
+          "Up to 25% below",
+          "Within 5% of forecast",
+          "Up to 25% above",
+          "More than 25% above",
+          "We did not produce a forecast"
+        ]
       },
       {
         "id": "q3",
@@ -1241,15 +2435,29 @@
         "prompt": "Who owns the infrastructure budget after migration?",
         "type": "single_choice",
         "required": true,
-        "options": ["Technology function", "Finance function", "Jointly owned", "Unclear or contested"]
+        "options": [
+          "Technology function",
+          "Finance function",
+          "Jointly owned",
+          "Unclear or contested"
+        ]
       },
       {
         "id": "q5",
         "prompt": "'We can explain a month-on-month cost movement within five working days.'",
         "type": "likert",
         "required": true,
-        "options": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
-        "scaleLabels": { "left": "Strongly disagree", "right": "Strongly agree" }
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly agree"
+        ],
+        "scaleLabels": {
+          "left": "Strongly disagree",
+          "right": "Strongly agree"
+        }
       },
       {
         "id": "q6",
@@ -1257,7 +2465,10 @@
         "type": "rating",
         "required": true,
         "ratingMax": 10,
-        "scaleLabels": { "left": "None", "right": "Most of it" }
+        "scaleLabels": {
+          "left": "None",
+          "right": "Most of it"
+        }
       },
       {
         "id": "q7",
@@ -1265,6 +2476,9 @@
         "type": "short_text",
         "required": false
       }
-    ]
+    ],
+    "rewardNaira": 400,
+    "rewardPoints": 4,
+    "escrowPoints": 0
   }
 ]

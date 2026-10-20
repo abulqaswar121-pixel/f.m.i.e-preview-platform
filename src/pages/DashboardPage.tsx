@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { type FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   BarChart3,
@@ -33,6 +33,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { api, downloadTextFile, useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
+import type { PayoutRequest, WalletTransaction } from "@/types";
 import type { Survey, SurveyStatus } from "@/types";
 
 export type DashboardTab = "overview" | "surveys" | "press" | "orders" | "account";
@@ -305,6 +306,8 @@ export function DashboardPage() {
                 icon={<Building2 className="h-4 w-4" />}
               />
             </div>
+
+            {user.role === "earner" ? <EarnerPortalPanel userId={user.id} /> : null}
 
             <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
               <div className="rounded-lg border border-brand-border bg-white p-6">
@@ -1075,3 +1078,95 @@ export function DashboardPage() {
 }
 
 export default DashboardPage;
+
+/** Survey Earner portal: earnings, wallet movements and payout state at a glance. */
+function EarnerPortalPanel({ userId }: { userId: string }) {
+  const database = useDatabase();
+  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
+  const [payouts, setPayouts] = useState<PayoutRequest[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    void api.wallets.summary(userId).then((summary) => {
+      if (alive) setTransactions(summary.transactions.slice(0, 4));
+    });
+    void api.payouts.list().then((list) => {
+      if (alive) setPayouts(list.filter((payout) => payout.userId === userId));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [userId, database.transactions, database.payouts]);
+
+  const user = database.users.find((candidate) => candidate.id === userId);
+  const cash = user?.cashWallet ?? { availableNaira: 0, totalEarnedNaira: 0, completedSurveys: 0 };
+  const pending = payouts.filter((payout) => payout.status === "pending");
+
+  return (
+    <section className="mt-6 rounded-lg border border-brand-gold/50 bg-brand-gold/10 p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="font-display text-lg font-semibold text-brand-charcoal">
+          Survey Earner portal
+        </h2>
+        <Button asChild size="sm" className="bg-brand-navy text-white hover:bg-brand-navy-dark">
+          <Link to="/wallet">Open wallet & withdraw</Link>
+        </Button>
+      </div>
+      <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+        {[
+          ["Available balance", `₦${cash.availableNaira.toLocaleString()}`],
+          ["Total earned", `₦${cash.totalEarnedNaira.toLocaleString()}`],
+          ["Completed surveys", String(cash.completedSurveys)],
+        ].map(([label, value]) => (
+          <div key={label} className="rounded-md border border-brand-border bg-white p-4">
+            <dt className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">{label}</dt>
+            <dd className="mt-1 font-display text-2xl font-bold text-brand-navy">{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-md border border-brand-border bg-white p-4">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-slate">
+            Recent wallet movements
+          </h3>
+          <ul className="mt-2 space-y-1.5 text-xs text-brand-charcoal">
+            {transactions.length === 0 ? (
+              <li className="text-brand-slate">No movements yet — take your first paid survey.</li>
+            ) : (
+              transactions.map((txn) => (
+                <li key={txn.id} className="flex justify-between gap-3">
+                  <span className="truncate">{txn.note}</span>
+                  <span className="shrink-0 font-semibold text-brand-navy">
+                    {txn.naira !== 0
+                      ? `${txn.naira > 0 ? "+" : ""}₦${Math.abs(txn.naira).toLocaleString()}`
+                      : ""}
+                  </span>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+        <div className="rounded-md border border-brand-border bg-white p-4">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-slate">
+            Withdrawals
+          </h3>
+          {pending.length > 0 ? (
+            <p className="mt-2 text-xs text-brand-charcoal">
+              {pending.length} payout{pending.length === 1 ? "" : "s"} processing — ₦
+              {pending.reduce((sum, payout) => sum + payout.amountNaira, 0).toLocaleString()} on the
+              way to your bank.
+            </p>
+          ) : (
+            <p className="mt-2 text-xs text-brand-slate">
+              No pending withdrawals. Minimum payout ₦
+              {database.settings.minWithdrawalNaira.toLocaleString()}.
+            </p>
+          )}
+          <Button asChild size="sm" variant="outline" className="mt-3">
+            <Link to="/surveys">Find paid surveys</Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}

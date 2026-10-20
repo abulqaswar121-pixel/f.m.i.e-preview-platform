@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   BadgeCheck,
+  Banknote,
   Boxes,
+  Clapperboard,
+  Shirt,
   FlaskConical,
   Gauge,
   Megaphone,
+  Newspaper,
   Radio,
   RefreshCw,
   ShieldAlert,
@@ -28,7 +32,17 @@ import { cn } from "@/lib/utils";
 import type { PRStatus, SurveyPlan, SurveyStatus } from "@/types";
 
 export type AdminTab =
-  "overview" | "moderation" | "plans" | "press" | "channels" | "commerce" | "audience";
+  | "overview"
+  | "moderation"
+  | "plans"
+  | "press"
+  | "channels"
+  | "payouts"
+  | "kits"
+  | "content"
+  | "platform"
+  | "commerce"
+  | "audience";
 
 const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "overview", label: "Platform overview", icon: Gauge },
@@ -36,9 +50,15 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "plans", label: "Plan configuration", icon: SlidersHorizontal },
   { id: "press", label: "Press campaigns", icon: Megaphone },
   { id: "channels", label: "Distribution channels", icon: Radio },
+  { id: "payouts", label: "Bank payouts", icon: Banknote },
+  { id: "kits", label: "Kit quote requests", icon: Shirt },
+  { id: "content", label: "Content manager", icon: Newspaper },
+  { id: "platform", label: "Homepage video & settings", icon: Clapperboard },
   { id: "commerce", label: "Commerce & orders", icon: Boxes },
   { id: "audience", label: "Audience & enquiries", icon: Users },
 ];
+
+import { ContentManagerPanel } from "@/components/admin/ContentManager";
 
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-navy focus:outline-none";
@@ -752,10 +772,13 @@ export function AdminPage() {
                     </Badge>
                   </div>
                   <p className="mt-1 text-xs text-brand-slate">
-                    {channel.type.replace(/_/g, " ")} · {channel.region} ·{" "}
-                    {channel.indicativePrice === 0
-                      ? "included"
-                      : formatCurrency(channel.indicativePrice)}
+                    {channel.region} ·{" "}
+                    {channel.priceNaira != null ? `₦${channel.priceNaira.toLocaleString()}` : ""}
+                    {channel.priceNaira != null && channel.priceUsd != null ? " / " : ""}
+                    {channel.priceUsd != null ? `$${channel.priceUsd.toLocaleString()}` : ""}
+                    {channel.priceNaira == null && channel.priceUsd == null
+                      ? "rate on request"
+                      : ""}
                   </p>
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     {channel.audience}
@@ -799,6 +822,96 @@ export function AdminPage() {
             </div>
           </section>
         ) : null}
+
+        {tab === "payouts" ? (
+          <section className="space-y-4">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+                Bank payouts
+              </h2>
+              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+                Withdrawal requests from survey earners. Approving marks the request paid and closes
+                the loop on the earner's wallet history. Payouts are simulated in this preview.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {database.payouts.length === 0 ? (
+                <EmptyState
+                  title="No payout requests"
+                  description="Earner withdrawals will appear here."
+                />
+              ) : (
+                database.payouts.map((payout) => (
+                  <article
+                    key={payout.id}
+                    className="rounded-lg border border-brand-border bg-white p-5"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-sm font-semibold text-brand-charcoal">
+                          {payout.earnerName} — ₦{payout.amountNaira.toLocaleString()}
+                        </h3>
+                        <p className="mt-1 text-xs text-brand-slate">
+                          {payout.bankName} •••{payout.accountNumber.slice(-4)} ·{" "}
+                          {payout.accountName} · requested {formatDate(payout.requestedAt)}
+                        </p>
+                      </div>
+                      {payout.status === "paid" ? (
+                        <Badge tone="success">
+                          Paid {payout.paidAt ? formatDate(payout.paidAt) : ""}
+                        </Badge>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+                          onClick={() => {
+                            void api.payouts
+                              .markPaid(payout.id)
+                              .then(() =>
+                                toast.success(`Payout ${payout.id} approved and marked paid.`),
+                              );
+                          }}
+                        >
+                          Approve & Mark Paid
+                        </Button>
+                      )}
+                    </div>
+                  </article>
+                ))
+              )}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "kits" ? (
+          <section className="space-y-4">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+                Kit quote requests
+              </h2>
+              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+                Club and corporate kit requests with full player rosters. Reply with a custom quote;
+                the requester sees the quoted status on submission.
+              </p>
+            </div>
+            <div className="space-y-4">
+              {database.kitRequests.length === 0 ? (
+                <EmptyState
+                  title="No kit requests yet"
+                  description="Requests from /shop/team-kits land here."
+                />
+              ) : (
+                database.kitRequests.map((request) => (
+                  <KitQuoteCard key={request.id} requestId={request.id} />
+                ))
+              )}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "content" ? <ContentManagerPanel /> : null}
+
+        {tab === "platform" ? <PlatformSettingsPanel /> : null}
 
         {tab === "commerce" ? (
           <section className="space-y-6">
@@ -1247,3 +1360,294 @@ export function AdminPage() {
 }
 
 export default AdminPage;
+
+/** One club kit request with its roster and a quote reply form. */
+function KitQuoteCard({ requestId }: { requestId: string }) {
+  const database = useDatabase();
+  const [quoteNaira, setQuoteNaira] = useState("");
+  const [note, setNote] = useState("");
+  const request = database.kitRequests.find((candidate) => candidate.id === requestId);
+  if (!request) return null;
+
+  return (
+    <article className="rounded-lg border border-brand-border bg-white p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-sm font-semibold text-brand-charcoal">
+          {request.clubName} · {request.sport} · {request.quantity} kits
+        </h3>
+        <Badge tone={request.status === "quoted" ? "success" : "warning"}>
+          {request.status === "quoted"
+            ? `Quoted ₦${(request.quoteNaira ?? 0).toLocaleString()}`
+            : "Awaiting quote"}
+        </Badge>
+      </div>
+      <p className="mt-1 text-xs text-brand-slate">
+        Colours {request.primaryColor} / {request.secondaryColor}
+        {request.crestFileName ? ` · crest ${request.crestFileName}` : ""} · deliver{" "}
+        {request.deliveryDate || "TBC"} to {request.deliveryAddress || "address TBC"}
+      </p>
+      {request.roster.length > 0 ? (
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[360px] text-left text-xs">
+            <thead>
+              <tr className="border-b border-brand-border text-brand-slate">
+                <th className="py-1 pr-4 font-semibold">Player</th>
+                <th className="py-1 pr-4 font-semibold">Number</th>
+                <th className="py-1 font-semibold">Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              {request.roster.map((row, index) => (
+                <tr key={index} className="border-b border-brand-border/60 text-brand-charcoal">
+                  <td className="py-1 pr-4">{row.name}</td>
+                  <td className="py-1 pr-4">{row.number}</td>
+                  <td className="py-1">{row.size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+      {request.notes ? (
+        <p className="mt-2 text-xs italic text-brand-slate">“{request.notes}”</p>
+      ) : null}
+      {request.status === "quoted" ? (
+        request.quoteNote ? (
+          <p className="mt-2 text-xs text-brand-slate">Quote note: {request.quoteNote}</p>
+        ) : null
+      ) : (
+        <div className="mt-3 grid gap-2 sm:grid-cols-[160px_1fr_auto]">
+          <input
+            className={inputClass}
+            type="number"
+            placeholder="Quote ₦"
+            value={quoteNaira}
+            onChange={(event) => setQuoteNaira(event.target.value)}
+          />
+          <input
+            className={inputClass}
+            placeholder="Quote note (fabric, splits, delivery)"
+            value={note}
+            onChange={(event) => setNote(event.target.value)}
+          />
+          <Button
+            size="sm"
+            className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+            onClick={() => {
+              void api.kits
+                .quote(request.id, Number(quoteNaira || 0), note)
+                .then(() => toast.success(`Quote sent for ${request.clubName}.`));
+            }}
+          >
+            Send quote
+          </Button>
+        </div>
+      )}
+    </article>
+  );
+}
+
+/** Homepage video manager + survey economy settings (admin configurable). */
+function PlatformSettingsPanel() {
+  const database = useDatabase();
+  const [showcaseVideo, setShowcaseVideo] = useState(database.settings.showcaseVideoUrl);
+  const [showcaseAudio, setShowcaseAudio] = useState(database.settings.showcaseAudioUrl);
+  const [hiddenSections, setHiddenSections] = useState<string[]>(database.settings.hiddenSections);
+  const [assistantEnabled, setAssistantEnabled] = useState(database.settings.assistantEnabled);
+  const [heroHeadline, setHeroHeadline] = useState(database.settings.heroHeadline);
+  const [heroLines, setHeroLines] = useState(database.settings.heroRotatingLines.join("\n"));
+  const [footerDisclaimer, setFooterDisclaimer] = useState(database.settings.footerDisclaimer);
+  const [pointToNaira, setPointToNaira] = useState(String(database.settings.pointToNaira));
+  const [minWithdrawal, setMinWithdrawal] = useState(String(database.settings.minWithdrawalNaira));
+
+  return (
+    <section className="space-y-6">
+      <div>
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Showcase film manager
+        </h2>
+        <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+          The homepage banner backdrop is a single static brand cover by design — it never moves.
+          All homepage motion lives in the “F.M.I.E in 60 seconds” showcase card: point it at a
+          hosted film (with its voice-over track) or clear the URL to fall back to the brand loop
+          still with audio.
+        </p>
+      </div>
+      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 lg:grid-cols-[1fr_auto]">
+        <div className="space-y-3">
+          <label className="block text-xs font-semibold text-brand-slate">
+            Showcase card video URL (with audio track)
+            <input
+              className={`${inputClass} mt-1`}
+              value={showcaseVideo}
+              onChange={(event) => setShowcaseVideo(event.target.value)}
+              placeholder="https://…/fmie-60s.mp4"
+            />
+          </label>
+          <label className="block text-xs font-semibold text-brand-slate">
+            Showcase voice-over URL (plays under the brand loop when no video is set)
+            <input
+              className={`${inputClass} mt-1`}
+              value={showcaseAudio}
+              onChange={(event) => setShowcaseAudio(event.target.value)}
+              placeholder="/media/showcase-voiceover-60s.mp3"
+            />
+          </label>
+        </div>
+        <div className="flex items-end gap-2">
+          <Button
+            size="sm"
+            className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+            onClick={() =>
+              void api.settings
+                .update({ showcaseVideoUrl: showcaseVideo, showcaseAudioUrl: showcaseAudio })
+                .then(() => toast.success("Showcase card updated."))
+            }
+          >
+            Save showcase
+          </Button>
+        </div>
+      </div>
+      <div className="space-y-4 rounded-lg border border-brand-border bg-white p-5">
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Homepage & site visibility
+        </h2>
+        <p className="max-w-3xl text-xs leading-relaxed text-brand-slate">
+          Hide or show whole homepage sections, switch the floating AI assistant on or off
+          site-wide, and edit the hero headline, rotating lines and footer disclaimer — all without
+          a developer. Changes apply instantly across the public site.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {(
+            [
+              ["hero", "Hero banner"],
+              ["positioning", "Positioning strip"],
+              ["poll", "Poll & spotlight"],
+              ["news", "Editorial desk"],
+              ["visibility", "Releases & kits band"],
+            ] as [string, string][]
+          ).map(([id, label]) => {
+            const off = hiddenSections.includes(id);
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() =>
+                  setHiddenSections((prev) =>
+                    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                  )
+                }
+                className={
+                  off
+                    ? "rounded-full border border-brand-border bg-brand-cream px-4 py-1.5 text-xs font-semibold text-brand-slate line-through"
+                    : "rounded-full border border-brand-gold bg-brand-gold/10 px-4 py-1.5 text-xs font-semibold text-brand-navy"
+                }
+              >
+                {off ? "Hidden: " : "Visible: "}
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <label className="flex items-center gap-2 text-xs font-semibold text-brand-charcoal">
+          <input
+            type="checkbox"
+            checked={assistantEnabled}
+            onChange={(e) => setAssistantEnabled(e.target.checked)}
+          />
+          Floating AI assistant enabled site-wide
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Hero headline
+          <input
+            className={`${inputClass} mt-1`}
+            value={heroHeadline}
+            onChange={(e) => setHeroHeadline(e.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Hero rotating lines (one per line)
+          <textarea
+            rows={3}
+            className={`${inputClass} mt-1`}
+            value={heroLines}
+            onChange={(e) => setHeroLines(e.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Footer disclaimer
+          <input
+            className={`${inputClass} mt-1`}
+            value={footerDisclaimer}
+            onChange={(e) => setFooterDisclaimer(e.target.value)}
+          />
+        </label>
+        <Button
+          size="sm"
+          className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+          onClick={() =>
+            void api.settings
+              .update({
+                hiddenSections,
+                assistantEnabled,
+                heroHeadline,
+                heroRotatingLines: heroLines
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter(Boolean),
+                footerDisclaimer,
+              })
+              .then(() => toast.success("Homepage & visibility updated site-wide."))
+          }
+        >
+          Save visibility & copy
+        </Button>
+      </div>
+      <div>
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Platform settings
+        </h2>
+        <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+          Survey point conversion and the minimum bank withdrawal are commercial levers — never
+          hardcoded in the UI.
+        </p>
+      </div>
+      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 sm:grid-cols-2">
+        <label className="block text-xs font-semibold text-brand-slate">
+          Naira per survey point
+          <input
+            className={`${inputClass} mt-1`}
+            type="number"
+            value={pointToNaira}
+            onChange={(event) => setPointToNaira(event.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Minimum withdrawal (₦)
+          <input
+            className={`${inputClass} mt-1`}
+            type="number"
+            value={minWithdrawal}
+            onChange={(event) => setMinWithdrawal(event.target.value)}
+          />
+        </label>
+        <div className="sm:col-span-2">
+          <Button
+            size="sm"
+            className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+            onClick={() =>
+              void api.settings
+                .update({
+                  pointToNaira: Number(pointToNaira || 100),
+                  minWithdrawalNaira: Number(minWithdrawal || 2000),
+                })
+                .then(() => toast.success("Platform settings saved."))
+            }
+          >
+            Save settings
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
