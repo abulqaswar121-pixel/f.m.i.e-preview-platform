@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Live account roles belong in protected `public.user_roles`, never profiles or the demo store, to prevent self-granted administrator access.
+- Cloud foundation tables remain separate from the legacy simulated API until each flow is explicitly migrated; connecting Cloud alone does not make demo operations live.
+- Money is stored in integer minor units and ledger event keys are unique; verified server operations must settle balances and payments atomically.
+- Member uploads use the private `member-files` bucket under `<auth user id>/`; authenticated ownership policies prevent cross-account file access.
+- Run `src/test/backend-foundation.sql` through the database read tool after permission changes; every returned `passed` value must be true.
