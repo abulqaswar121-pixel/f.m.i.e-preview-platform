@@ -63,17 +63,17 @@ export function VideoShowcaseCard({ className }: { className?: string }) {
           loop
           playsInline
           muted
-          className="aspect-[4/3] w-full object-cover"
+          className="aspect-video w-full object-cover"
         />
       ) : (
         <img
           src="/media/brand-loop.webp"
           alt=""
           aria-hidden="true"
-          className="aspect-[4/3] w-full object-cover"
+          className="aspect-video w-full object-cover"
         />
       )}
-      {hasAudio ? (
+      {hasVideo && hasAudio ? null : hasAudio ? (
         <audio ref={audioRef} src={showcaseAudioUrl} autoPlay loop muted playsInline />
       ) : null}
 
