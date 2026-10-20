@@ -490,7 +490,7 @@ export const surveyEconomyDefaults = {
   minWithdrawalNaira: 2000,
   heroVideoUrl: "",
   showcaseVideoUrl: "",
-  showcaseAudioUrl: "",
+  showcaseAudioUrl: "/media/showcase-voiceover.mp3",
 } as const;
 
 /** Exact disclaimer line required on the demonstration preview. */

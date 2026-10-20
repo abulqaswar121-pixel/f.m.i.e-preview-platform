@@ -80,7 +80,7 @@ import type {
  */
 
 const STORAGE_KEY = "fmie.platform.database.v1";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const LATENCY_MS = 70;
 
 function isBrowser(): boolean {
