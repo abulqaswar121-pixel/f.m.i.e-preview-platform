@@ -137,7 +137,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     void (async () => {
       const next = await fetchAccount(current);
-      await api.users.signIn(next.email, next.name);
       if (!cancelled) setAccount(next);
     })();
     return () => {
@@ -153,6 +152,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         candidate.email.toLowerCase() === account.email,
     );
   }, [account, database.users, database.sessionUserId]);
+
+  // Keep the local sample store pointed at the signed-in member (also after a sample-data reset).
+  const localSessionId = database.sessionUserId;
+  useEffect(() => {
+    if (account && !localUser) void api.users.signIn(account.email, account.name);
+  }, [account, localUser, localSessionId]);
 
   const user = useMemo<User | undefined>(() => {
     if (!account || !localUser) return undefined;

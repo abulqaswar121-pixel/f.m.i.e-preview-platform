@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_site/signin")({
   head: () => ({
     meta: [
       { title: `Sign in | ${site.name}` },
-      { name: "description", content: "Simulated sign-in with one-click demonstration personas." },
+      { name: "description", content: "Sign in to your F.M.I.E account with email, Google or Lovable." },
     ],
   }),
 });

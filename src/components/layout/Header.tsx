@@ -15,7 +15,7 @@ import {
 import { Logo } from "@/components/brand/Logo";
 import { Modal } from "@/components/common/Modal";
 import { MarketTicker } from "@/components/layout/MarketTicker";
-import { PersonaSwitcher } from "@/components/layout/PersonaSwitcher";
+import { AccountMenu } from "@/components/layout/AccountMenu";
 import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
 import { SocialIconLinks } from "@/components/layout/SocialIconLinks";
 import { Button } from "@/components/ui/button";
@@ -267,7 +267,7 @@ export function Header() {
                     </p>
                     <ul className="p-1.5">
                       {item.children.map((child) => (
-                        <li key={child.to}>
+                        <li key={`${child.to}-${child.label}`}>
                           <SiteLink
                             to={child.to}
                             search={child.search}
@@ -324,10 +324,10 @@ export function Header() {
               </span>
             ) : null}
           </Button>
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-2 md:flex">
             <WalletChip />
             <NotificationBell />
-            <PersonaSwitcher />
+            <AccountMenu />
           </div>
           <Button
             asChild
@@ -373,7 +373,7 @@ export function Header() {
                       {item.children ? (
                         <ul className="ml-3 border-l border-brand-border pl-3">
                           {item.children.map((child) => (
-                            <li key={child.to}>
+                            <li key={`${child.to}-${child.label}`}>
                               <SiteLink
                                 to={child.to}
                                 search={child.search}
@@ -406,10 +406,10 @@ export function Header() {
                   </Button>
                 </div>
                 <div className="mt-4 border-t border-brand-border pt-4">
-                  <p className="fmie-eyebrow mb-2">Signed in as</p>
+                  <p className="fmie-eyebrow mb-2">Your account</p>
                   <WalletChip />
                   <NotificationBell />
-                  <PersonaSwitcher />
+                  <AccountMenu />
                 </div>
                 <div className="mt-4 space-y-1 border-t border-brand-border pt-4 text-xs text-brand-slate">
                   {contactRoutes.map((route) => (

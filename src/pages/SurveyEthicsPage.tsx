@@ -132,7 +132,7 @@ export function SurveyEthicsPage() {
                 search={{ tab: "moderation" }}
                 className="mt-3 inline-block text-xs font-semibold text-brand-navy hover:underline"
               >
-                Open the moderation queue (administrator persona) →
+                Open the moderation queue (administrators only) →
               </Link>
             </div>
 

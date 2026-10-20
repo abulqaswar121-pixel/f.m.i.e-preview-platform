@@ -8,7 +8,7 @@ import type { DailyPoll as DailyPollType } from "@/types";
 
 /**
  * Quick daily poll: one click votes and the live percentage bars appear
- * immediately. Votes persist per signed-in persona in the simulated backend.
+ * immediately. Votes are kept per signed-in member.
  */
 export function DailyPoll() {
   const { user } = useAuth();
@@ -33,7 +33,7 @@ export function DailyPoll() {
 
   async function vote(optionId: string): Promise<void> {
     if (!user) {
-      setMessage("Sign in with any demo persona to cast your vote.");
+      setMessage("Sign in to cast your vote.");
       return;
     }
     if (!poll) return;

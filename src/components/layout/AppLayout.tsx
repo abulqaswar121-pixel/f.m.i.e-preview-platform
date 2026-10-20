@@ -14,6 +14,7 @@ import { useDatabase } from "@/services/api";
 const FOOTERLESS_PREFIXES = [
   "/signin",
   "/register",
+  "/reset-password",
   "/dashboard",
   "/admin",
   "/checkout",
@@ -25,7 +26,8 @@ const FOOTERLESS_PREFIXES = [
  * auth and focused survey-taking screens stay free of both footer and
  * assistant so the task in hand owns the screen.
  */
-const ASSISTANTLESS_PREFIXES = ["/signin", "/register", "/checkout"];
+const ASSISTANTLESS_PREFIXES = ["/signin", "/register",
+  "/reset-password", "/checkout"];
 
 /** Site shell: header (utility bar, ticker, navigation), page content, footer. */
 export function AppLayout() {

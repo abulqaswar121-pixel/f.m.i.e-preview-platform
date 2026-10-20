@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useMemo, useState } from "react";
-import { Link, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   BarChart3,
   Building2,
@@ -63,7 +63,8 @@ export function DashboardPage() {
     : "overview";
 
   const database = useDatabase();
-  const { user, isAdmin, personas, switchPersona, signOut, updateProfile } = useAuth();
+  const { user, isAdmin, signOut, updateProfile } = useAuth();
+  const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
     name: user?.name ?? "",
@@ -121,44 +122,10 @@ export function DashboardPage() {
         <div className="mx-auto max-w-3xl">
           <EmptyState
             title="Your dashboard is one sign-in away"
-            description="Sign in with any valid-looking email to open a pre-filled dashboard, or switch straight to a demonstration persona below. Nothing is verified and no email is sent."
+            description="Sign in or create a free account to see your surveys, wallet, press bookings and orders."
             action={{ label: "Sign in", to: "/signin" }}
             icon={<ShieldCheck className="h-6 w-6" />}
           />
-          <div className="mt-8 rounded-lg border border-brand-border bg-white p-6">
-            <h2 className="font-display text-lg font-semibold text-brand-charcoal">
-              One-click demo presets
-            </h2>
-            <p className="mt-1 text-xs text-brand-slate">
-              Each preset loads a complete account with surveys, campaigns, orders and permissions
-              already in place.
-            </p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {personas.map((persona) => (
-                <button
-                  key={persona.id}
-                  type="button"
-                  onClick={async () => {
-                    await switchPersona(persona.id);
-                    toast.success(`Signed in as ${persona.name}`, {
-                      description: roleLabels[persona.role],
-                    });
-                  }}
-                  className="rounded-lg border border-brand-border bg-brand-cream/40 p-4 text-left transition-colors hover:border-brand-navy/40"
-                >
-                  <p className="font-display text-sm font-semibold text-brand-charcoal">
-                    {persona.name}
-                  </p>
-                  <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-brand-gold-dark">
-                    {roleLabels[persona.role]}
-                  </p>
-                  <p className="mt-1.5 text-xs leading-relaxed text-brand-slate">
-                    {roleDescriptions[persona.role]}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -188,16 +155,21 @@ export function DashboardPage() {
   const saveProfile = async (event: FormEvent) => {
     event.preventDefault();
     setSaving(true);
-    await updateProfile({
-      name: profile.name.trim() || user.name,
-      jobTitle: profile.jobTitle.trim(),
-      location: profile.location.trim(),
-      organization: profile.organization.trim(),
-    });
-    setSaving(false);
-    toast.success("Profile updated", {
-      description: "Saved to local storage and reflected across the platform.",
-    });
+    try {
+      await updateProfile({
+        name: profile.name.trim() || user.name,
+        jobTitle: profile.jobTitle.trim(),
+        location: profile.location.trim(),
+        organization: profile.organization.trim(),
+      });
+      toast.success("Profile updated", {
+        description: "Saved to your account on every device.",
+      });
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const downloadInvoice = async (orderId: string) => {
@@ -864,12 +836,16 @@ export function DashboardPage() {
                           className="accent-brand-navy"
                           checked={enabled}
                           onChange={async (event) => {
-                            await updateProfile({
-                              notificationPreferences: {
-                                ...user.notificationPreferences!,
-                                [key]: event.target.checked,
-                              },
-                            });
+                            try {
+                              await updateProfile({
+                                notificationPreferences: {
+                                  ...user.notificationPreferences!,
+                                  [key]: event.target.checked,
+                                },
+                              });
+                            } catch (error) {
+                              toast.error((error as Error).message);
+                            }
                           }}
                         />
                       </label>
@@ -883,45 +859,23 @@ export function DashboardPage() {
               </div>
 
               <div className="rounded-lg border border-brand-border bg-white p-6">
-                <h2 className="font-display text-lg font-semibold text-brand-charcoal">Session</h2>
+                <h2 className="font-display text-lg font-semibold text-brand-charcoal">Sign-in</h2>
+                <p className="mt-2 text-xs leading-relaxed text-brand-slate">
+                  Signed in as <strong>{user.email}</strong> · {roleLabels[user.role]}
+                </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {personas.map((persona) => (
-                    <Button
-                      key={persona.id}
-                      size="sm"
-                      variant={persona.id === user.id ? "default" : "outline"}
-                      className={
-                        persona.id === user.id
-                          ? "bg-brand-navy text-white hover:bg-brand-navy-light"
-                          : undefined
-                      }
-                      onClick={async () => {
-                        await switchPersona(persona.id);
-                        toast.success(`Switched to ${persona.name}`, {
-                          description: roleLabels[persona.role],
-                        });
-                      }}
-                    >
-                      {roleLabels[persona.role]}
-                    </Button>
-                  ))}
                   <Button
                     size="sm"
-                    variant="ghost"
+                    variant="outline"
                     onClick={async () => {
                       await signOut();
-                      toast.success("Signed out", {
-                        description: "You are browsing as a guest reader.",
-                      });
+                      toast.success("Signed out");
+                      void navigate({ to: "/signin", replace: true });
                     }}
                   >
                     <LogOut className="h-3.5 w-3.5" /> Sign out
                   </Button>
                 </div>
-                <p className="mt-3 text-[11px] leading-relaxed text-brand-slate">
-                  Switching persona updates permissions, navigation and dashboard contents
-                  immediately — no page reload. {site.previewNotice}
-                </p>
               </div>
             </div>
 
@@ -1008,8 +962,8 @@ export function DashboardPage() {
                 ) : (
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     This account is an individual membership. Corporate plans add team seats,
-                    billing history and branded survey experiences. Switch to the corporate preset
-                    to see a populated organisation record.
+                    billing history and branded survey experiences. Contact our team to upgrade
+                    your organisation.
                   </p>
                 )}
               </div>
@@ -1054,7 +1008,7 @@ export function DashboardPage() {
                   </h2>
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
                     Clears local storage and restores every article, survey, campaign, order and
-                    persona to the shipped sample set.
+                    sample account to the shipped sample set.
                   </p>
                   <Button
                     variant="outline"

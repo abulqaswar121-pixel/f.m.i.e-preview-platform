@@ -14,8 +14,8 @@ const SECTIONS = [
     body: "Every article, survey, statistic, price, reference number, order, campaign and person shown on this platform is fictional sample data created to demonstrate design and workflow. Nothing here is published journalism, live market data, a real transaction or a real individual. Quotations generated in the preview are illustrative and create no contractual obligation on either side.",
   },
   {
-    title: "3. Accounts and personas",
-    body: "Sign-in accepts any valid-looking email address and creates or restores a local account. Four demonstration personas are provided so permissions can be exercised without registration. You remain responsible for what you create under any persona, and you may reset the platform to its shipped sample data at any time from the administrator panel.",
+    title: "3. Accounts",
+    body: "You need an account to create surveys, earn rewards, book press releases and place orders. Keep your password private: you are responsible for activity under your account. Administrator access is granted only to approved F.M.I.E team members.",
   },
   {
     title: "4. Editorial content",

@@ -93,7 +93,7 @@ export function ContactPage() {
       <PageHeader
         eyebrow="Contact F.M.I.E"
         title="Four desks, one accountable inbox each"
-        description="Choose the desk that matches your enquiry. Every message is logged with a reference, a department and an expected response time, and is visible to the administrator persona."
+        description="Choose the desk that matches your enquiry. Every message is logged with a reference, a department and an expected response time, and is handled by the right F.M.I.E team."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Contact" }]}
       />
 
