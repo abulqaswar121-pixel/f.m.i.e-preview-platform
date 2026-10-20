@@ -11,16 +11,7 @@
 /* ------------------------------------------------------------------ */
 
 export type NewsCategory =
-  | "Business & Finance"
-  | "Global Economy"
-  | "Technology & Innovation"
-  | "Entrepreneurship"
-  | "Investment & Markets"
-  | "Leadership"
-  | "Lifestyle & Culture"
-  | "Africa & Emerging Markets"
-  | "International Affairs"
-  | "Opinions & Analysis";
+  "Finance" | "Energy & Oil" | "Tech & AI" | "African Trade" | "Policy" | "Global Markets";
 
 export type SurveyCategory =
   | "Consumer Behaviour"
@@ -475,6 +466,7 @@ export interface Product {
   slug: string;
   category: ProductCategory;
   price: number;
+  priceNaira?: number | undefined;
   currency: string;
   description: string;
   material: string;

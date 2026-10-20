@@ -32,6 +32,11 @@ export function HomePage() {
   const surveys = useAsyncResource(() => api.surveys.list({ status: "active", limit: 4 }), [], []);
   const products = useAsyncResource(() => api.products.featured(3), [], []);
   const services = useAsyncResource(() => api.services.list(), [], []);
+  const publishedReleases = useAsyncResource(
+    () => api.pressReleases.list({ status: "completed" }),
+    [],
+    [],
+  );
 
   const lead = articles.data.find((article) => article.isFeatured) ?? articles.data[0];
   const secondary = articles.data.filter((article) => article.id !== lead?.id).slice(0, 4);
@@ -437,6 +442,68 @@ export function HomePage() {
       </section>
 
       {/* Merch */}
+      {/* Press release showcase */}
+      <section className="border-b border-brand-border bg-white">
+        <div className="fmie-container py-12">
+          <SectionHeading
+            eyebrow="Press releases"
+            title="Recently published announcements"
+            description="Campaigns that completed the six-stage pipeline. Distribution runs through partner desks — publication always at the editor's discretion."
+            action={{ label: "Book distribution", to: "/press-releases/book" }}
+          />
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {(publishedReleases.data ?? []).slice(0, 3).map((release) => (
+              <article
+                key={release.id}
+                className="flex flex-col rounded-lg border border-brand-border bg-brand-cream p-6"
+              >
+                <Badge tone="gold">Partner Distribution</Badge>
+                <h3 className="mt-3 flex-1 font-display text-lg font-semibold leading-snug text-brand-charcoal">
+                  {release.title}
+                </h3>
+                <p className="mt-2 text-xs text-brand-slate">
+                  {release.companyName} · {formatDate(release.submittedDate)}
+                </p>
+                {release.publishedUrls?.[0] ? (
+                  <a
+                    href={release.publishedUrls[0]}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="mt-2 text-xs font-semibold text-brand-navy hover:underline"
+                  >
+                    Read the live article
+                  </a>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Custom kit & jersey banner */}
+      <section className="bg-brand-navy-dark text-white">
+        <div className="fmie-container flex flex-col items-start gap-6 py-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="fmie-eyebrow text-brand-gold">Custom Kits & Jerseys</p>
+            <h2 className="mt-2 font-display text-3xl font-bold">
+              Football clubs & corporate teams: order your seasonal custom kit
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/80">
+              Build your roster, choose club colours and upload your crest — the F.M.I.E kit desk
+              replies with an official invoice quote for match-ready strips, training wear and
+              corporate polos.
+            </p>
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="shrink-0 bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+          >
+            <Link to="/shop/team-kits">Design your kit</Link>
+          </Button>
+        </div>
+      </section>
+
       <section className="border-t border-brand-border bg-white py-14 sm:py-20">
         <div className="fmie-container">
           <SectionHeading

@@ -48,6 +48,11 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-3 flex items-center justify-between">
           <p className="font-display text-lg font-bold text-brand-navy">
             {formatCurrency(product.price)}
+            {product.priceNaira != null ? (
+              <span className="ml-1 text-xs font-medium text-brand-slate">
+                / ₦{product.priceNaira.toLocaleString("en-NG")}
+              </span>
+            ) : null}
           </p>
           <Button
             size="sm"

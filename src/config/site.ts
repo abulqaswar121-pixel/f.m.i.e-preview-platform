@@ -408,33 +408,21 @@ export const footerNavigation: FooterColumn[] = [
 /* ------------------------------------------------------------------ */
 
 export const newsCategories: NewsCategory[] = [
-  "Business & Finance",
-  "Global Economy",
-  "Technology & Innovation",
-  "Entrepreneurship",
-  "Investment & Markets",
-  "Leadership",
-  "Lifestyle & Culture",
-  "Africa & Emerging Markets",
-  "International Affairs",
-  "Opinions & Analysis",
+  "Finance",
+  "Energy & Oil",
+  "Tech & AI",
+  "African Trade",
+  "Policy",
+  "Global Markets",
 ];
 
 export const newsCategoryDescriptions: Record<NewsCategory, string> = {
-  "Business & Finance":
-    "Corporate performance, banking, capital and the balance sheets behind them.",
-  "Global Economy": "Trade policy, macro cycles, supply chains and cross-border investment flows.",
-  "Technology & Innovation":
-    "Enterprise compute, applied research and the industrialisation of new tools.",
-  Entrepreneurship: "Founder playbooks, scaling capital and cross-border company building.",
-  "Investment & Markets": "Asset allocation, private markets, yields and risk pricing.",
-  Leadership: "Governance, board design, executive accountability and organisational culture.",
-  "Lifestyle & Culture": "Work, travel, design and the consumer culture surrounding business life.",
-  "Africa & Emerging Markets":
-    "Frontier-market industrialisation, demographics and regional integration.",
-  "International Affairs": "Diplomacy, sanctions, security and multilateral economic institutions.",
-  "Opinions & Analysis":
-    "Signed columns and long-read interpretation from contributors and desk editors.",
+  Finance: "Banking, capital, corporate performance and the balance sheets behind them.",
+  "Energy & Oil": "Upstream, downstream, transition finance and the economics of power.",
+  "Tech & AI": "Enterprise compute, applied research and the industrialisation of new tools.",
+  "African Trade": "Corridors, cross-border company building and regional integration.",
+  Policy: "Governance, regulation, board design and executive accountability.",
+  "Global Markets": "Allocation, yields, risk pricing and the desks that trade them.",
 };
 
 export const surveyCategories: SurveyCategory[] = [
@@ -494,6 +482,9 @@ export const surveyPointPacks: SurveyPointPack[] = [
     blurb: "Programme pricing for continuous research.",
   },
 ];
+
+/** Indicative per-kit price used by the team-kit builder's instant quote. */
+export const teamKitUnitNaira = 25000;
 
 export const surveyEconomyDefaults = {
   pointToNaira: 100,

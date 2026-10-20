@@ -9,7 +9,13 @@
     "currency": "GBP",
     "description": "A long-staple Pima cotton polo in deep imperial navy, cut for boardroom and travel alike. The F.M.I.E monogram is embroidered in gold thread over the heart at 8,000 stitches, and the placket is finished with mother-of-pearl effect buttons.",
     "material": "100% long-staple Pima cotton pique, 220gsm",
-    "variants": ["S", "M", "L", "XL", "XXL"],
+    "variants": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "variantLabel": "Size",
     "inStock": true,
     "stockLevel": 148,
@@ -22,7 +28,8 @@
       "Woven F.M.I.E label at the inner side seam"
     ],
     "careNotes": "Machine wash cold, inside out. Do not iron directly on the embroidery.",
-    "badge": "Best seller"
+    "badge": "Best seller",
+    "priceNaira": 75000
   },
   {
     "id": "prod-hoodie-navy",
@@ -34,7 +41,13 @@
     "currency": "GBP",
     "description": "A 400gsm brushed navy cotton hoodie with a structured double-layer hood, metal-tipped drawcords and a discreet debossed monogram on the left cuff. Built for long-haul travel and cold newsroom floors.",
     "material": "80% ring-spun cotton, 20% recycled polyester, 400gsm brushed fleece",
-    "variants": ["S", "M", "L", "XL", "XXL"],
+    "variants": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "variantLabel": "Size",
     "inStock": true,
     "stockLevel": 92,
@@ -47,7 +60,8 @@
       "Fleece brushed on the reverse for warmth without bulk"
     ],
     "careNotes": "Machine wash cold with like colours. Reshape while damp and dry flat.",
-    "badge": "Limited run"
+    "badge": "Limited run",
+    "priceNaira": 110000
   },
   {
     "id": "prod-cap-navy",
@@ -59,7 +73,9 @@
     "currency": "GBP",
     "description": "A six-panel structured cap in navy cotton twill with a debossed F.M.I.E monogram on the front panel and a gold metal closure. Pre-curved peak, sweat-wicking inner band.",
     "material": "100% structured cotton twill, 260gsm",
-    "variants": ["One size (adjustable)"],
+    "variants": [
+      "One size (adjustable)"
+    ],
     "variantLabel": "Fit",
     "inStock": true,
     "stockLevel": 210,
@@ -71,7 +87,8 @@
       "Pre-curved peak with eight rows of stitching",
       "Moisture-wicking inner sweatband"
     ],
-    "careNotes": "Spot clean only. Do not machine wash — the structured front panel will lose shape."
+    "careNotes": "Spot clean only. Do not machine wash \u2014 the structured front panel will lose shape.",
+    "priceNaira": 40000
   },
   {
     "id": "prod-notebook-set",
@@ -83,7 +100,11 @@
     "currency": "GBP",
     "description": "A 240-page numbered notebook bound in navy board with a gold foil monogram, paired with a solid brass barrel pen. Presented in a rigid gift box with a ribbon pull.",
     "material": "120gsm numbered cream paper, navy binder board, solid brass",
-    "variants": ["Ruled", "Dot grid", "Plain"],
+    "variants": [
+      "Ruled",
+      "Dot grid",
+      "Plain"
+    ],
     "variantLabel": "Paper",
     "inStock": true,
     "stockLevel": 64,
@@ -95,7 +116,8 @@
       "Inner pocket, elastic closure and twin ribbon markers",
       "Rigid gift box with ribbon pull"
     ],
-    "badge": "Gift boxed"
+    "badge": "Gift boxed",
+    "priceNaira": 55000
   },
   {
     "id": "prod-mug-ceramic",
@@ -107,7 +129,10 @@
     "currency": "GBP",
     "description": "A 350ml matte navy ceramic mug with a white interior and a fired-in gold monogram. Weighted base, comfortable handle, dishwasher safe.",
     "material": "Matte-glazed stoneware, 350ml",
-    "variants": ["Navy / White", "Charcoal / Cream"],
+    "variants": [
+      "Navy / White",
+      "Charcoal / Cream"
+    ],
     "variantLabel": "Finish",
     "inStock": true,
     "stockLevel": 320,
@@ -118,7 +143,8 @@
       "Fired-in gold F.M.I.E monogram, not a surface transfer",
       "Dishwasher and microwave safe",
       "Packed in a moulded pulp sleeve"
-    ]
+    ],
+    "priceNaira": 25000
   },
   {
     "id": "prod-leather-folio",
@@ -130,7 +156,11 @@
     "currency": "GBP",
     "description": "A full-grain Italian leather folio sized for 16-inch laptops, with a suede-lined device sleeve, document pockets, card slots and a debossed F.M.I.E monogram on the front panel.",
     "material": "Full-grain vegetable-tanned Italian leather, suede lining",
-    "variants": ["Navy", "Charcoal", "Cognac"],
+    "variants": [
+      "Navy",
+      "Charcoal",
+      "Cognac"
+    ],
     "variantLabel": "Colour",
     "inStock": true,
     "stockLevel": 38,
@@ -143,6 +173,7 @@
       "Detachable shoulder strap with padded leather shoulder guard"
     ],
     "careNotes": "Condition with a neutral leather cream twice a year. Patina is expected and intended.",
-    "badge": "Premium"
+    "badge": "Premium",
+    "priceNaira": 215000
   }
 ]

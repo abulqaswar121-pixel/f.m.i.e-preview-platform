@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   BadgeCheck,
+  Banknote,
   Boxes,
+  Clapperboard,
+  Shirt,
   FlaskConical,
   Gauge,
   Megaphone,
@@ -28,7 +31,16 @@ import { cn } from "@/lib/utils";
 import type { PRStatus, SurveyPlan, SurveyStatus } from "@/types";
 
 export type AdminTab =
-  "overview" | "moderation" | "plans" | "press" | "channels" | "commerce" | "audience";
+  | "overview"
+  | "moderation"
+  | "plans"
+  | "press"
+  | "channels"
+  | "payouts"
+  | "kits"
+  | "platform"
+  | "commerce"
+  | "audience";
 
 const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "overview", label: "Platform overview", icon: Gauge },
@@ -36,6 +48,9 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "plans", label: "Plan configuration", icon: SlidersHorizontal },
   { id: "press", label: "Press campaigns", icon: Megaphone },
   { id: "channels", label: "Distribution channels", icon: Radio },
+  { id: "payouts", label: "Bank payouts", icon: Banknote },
+  { id: "kits", label: "Kit quote requests", icon: Shirt },
+  { id: "platform", label: "Homepage video & settings", icon: Clapperboard },
   { id: "commerce", label: "Commerce & orders", icon: Boxes },
   { id: "audience", label: "Audience & enquiries", icon: Users },
 ];
@@ -803,6 +818,94 @@ export function AdminPage() {
           </section>
         ) : null}
 
+        {tab === "payouts" ? (
+          <section className="space-y-4">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+                Bank payouts
+              </h2>
+              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+                Withdrawal requests from survey earners. Approving marks the request paid and closes
+                the loop on the earner's wallet history. Payouts are simulated in this preview.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {database.payouts.length === 0 ? (
+                <EmptyState
+                  title="No payout requests"
+                  description="Earner withdrawals will appear here."
+                />
+              ) : (
+                database.payouts.map((payout) => (
+                  <article
+                    key={payout.id}
+                    className="rounded-lg border border-brand-border bg-white p-5"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-sm font-semibold text-brand-charcoal">
+                          {payout.earnerName} — ₦{payout.amountNaira.toLocaleString()}
+                        </h3>
+                        <p className="mt-1 text-xs text-brand-slate">
+                          {payout.bankName} •••{payout.accountNumber.slice(-4)} ·{" "}
+                          {payout.accountName} · requested {formatDate(payout.requestedAt)}
+                        </p>
+                      </div>
+                      {payout.status === "paid" ? (
+                        <Badge tone="success">
+                          Paid {payout.paidAt ? formatDate(payout.paidAt) : ""}
+                        </Badge>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+                          onClick={() => {
+                            void api.payouts
+                              .markPaid(payout.id)
+                              .then(() =>
+                                toast.success(`Payout ${payout.id} approved and marked paid.`),
+                              );
+                          }}
+                        >
+                          Approve & Mark Paid
+                        </Button>
+                      )}
+                    </div>
+                  </article>
+                ))
+              )}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "kits" ? (
+          <section className="space-y-4">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+                Kit quote requests
+              </h2>
+              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+                Club and corporate kit requests with full player rosters. Reply with a custom quote;
+                the requester sees the quoted status on submission.
+              </p>
+            </div>
+            <div className="space-y-4">
+              {database.kitRequests.length === 0 ? (
+                <EmptyState
+                  title="No kit requests yet"
+                  description="Requests from /shop/team-kits land here."
+                />
+              ) : (
+                database.kitRequests.map((request) => (
+                  <KitQuoteCard key={request.id} requestId={request.id} />
+                ))
+              )}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "platform" ? <PlatformSettingsPanel /> : null}
+
         {tab === "commerce" ? (
           <section className="space-y-6">
             <div>
@@ -1250,3 +1353,208 @@ export function AdminPage() {
 }
 
 export default AdminPage;
+
+/** One club kit request with its roster and a quote reply form. */
+function KitQuoteCard({ requestId }: { requestId: string }) {
+  const database = useDatabase();
+  const [quoteNaira, setQuoteNaira] = useState("");
+  const [note, setNote] = useState("");
+  const request = database.kitRequests.find((candidate) => candidate.id === requestId);
+  if (!request) return null;
+
+  return (
+    <article className="rounded-lg border border-brand-border bg-white p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-sm font-semibold text-brand-charcoal">
+          {request.clubName} · {request.sport} · {request.quantity} kits
+        </h3>
+        <Badge tone={request.status === "quoted" ? "success" : "warning"}>
+          {request.status === "quoted"
+            ? `Quoted ₦${(request.quoteNaira ?? 0).toLocaleString()}`
+            : "Awaiting quote"}
+        </Badge>
+      </div>
+      <p className="mt-1 text-xs text-brand-slate">
+        Colours {request.primaryColor} / {request.secondaryColor}
+        {request.crestFileName ? ` · crest ${request.crestFileName}` : ""} · deliver{" "}
+        {request.deliveryDate || "TBC"} to {request.deliveryAddress || "address TBC"}
+      </p>
+      {request.roster.length > 0 ? (
+        <table className="mt-3 w-full text-left text-xs">
+          <thead>
+            <tr className="border-b border-brand-border text-brand-slate">
+              <th className="py-1 pr-4 font-semibold">Player</th>
+              <th className="py-1 pr-4 font-semibold">Number</th>
+              <th className="py-1 font-semibold">Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {request.roster.map((row, index) => (
+              <tr key={index} className="border-b border-brand-border/60 text-brand-charcoal">
+                <td className="py-1 pr-4">{row.name}</td>
+                <td className="py-1 pr-4">{row.number}</td>
+                <td className="py-1">{row.size}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : null}
+      {request.notes ? (
+        <p className="mt-2 text-xs italic text-brand-slate">“{request.notes}”</p>
+      ) : null}
+      {request.status === "quoted" ? (
+        request.quoteNote ? (
+          <p className="mt-2 text-xs text-brand-slate">Quote note: {request.quoteNote}</p>
+        ) : null
+      ) : (
+        <div className="mt-3 grid gap-2 sm:grid-cols-[160px_1fr_auto]">
+          <input
+            className={inputClass}
+            type="number"
+            placeholder="Quote ₦"
+            value={quoteNaira}
+            onChange={(event) => setQuoteNaira(event.target.value)}
+          />
+          <input
+            className={inputClass}
+            placeholder="Quote note (fabric, splits, delivery)"
+            value={note}
+            onChange={(event) => setNote(event.target.value)}
+          />
+          <Button
+            size="sm"
+            className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+            onClick={() => {
+              void api.kits
+                .quote(request.id, Number(quoteNaira || 0), note)
+                .then(() => toast.success(`Quote sent for ${request.clubName}.`));
+            }}
+          >
+            Send quote
+          </Button>
+        </div>
+      )}
+    </article>
+  );
+}
+
+/** Homepage video manager + survey economy settings (admin configurable). */
+function PlatformSettingsPanel() {
+  const database = useDatabase();
+  const [videoUrl, setVideoUrl] = useState(database.settings.heroVideoUrl);
+  const [pointToNaira, setPointToNaira] = useState(String(database.settings.pointToNaira));
+  const [minWithdrawal, setMinWithdrawal] = useState(String(database.settings.minWithdrawalNaira));
+
+  async function uploadVideo(file: File | undefined): Promise<void> {
+    if (!file) return;
+    if (file.size > 4_000_000) {
+      toast.error("Video too large for browser storage — paste a hosted URL instead (max 4 MB).");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const url = String(reader.result);
+      setVideoUrl(url);
+      void api.settings
+        .update({ heroVideoUrl: url })
+        .then(() => toast.success("Homepage video uploaded — the banner now loops it."));
+    };
+    reader.readAsDataURL(file);
+  }
+
+  return (
+    <section className="space-y-6">
+      <div>
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Homepage video manager
+        </h2>
+        <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+          The looping marketing banner on the homepage plays this video on auto-repeat. Upload a
+          short clip (stored locally, max 4 MB) or paste a hosted URL; clear it to fall back to the
+          brand photo montage.
+        </p>
+      </div>
+      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 lg:grid-cols-[1fr_auto]">
+        <label className="block text-xs font-semibold text-brand-slate">
+          Video URL (or data URL)
+          <input
+            className={`${inputClass} mt-1`}
+            value={videoUrl.startsWith("data:") ? "(uploaded file)" : videoUrl}
+            onChange={(event) => setVideoUrl(event.target.value)}
+            placeholder="https://…/fmie-brand-loop.mp4"
+          />
+        </label>
+        <div className="flex items-end gap-2">
+          <label className="cursor-pointer rounded-md border border-brand-border px-3 py-2 text-xs font-semibold text-brand-navy hover:border-brand-gold">
+            Upload video
+            <input
+              type="file"
+              accept="video/*"
+              className="hidden"
+              onChange={(event) => void uploadVideo(event.target.files?.[0])}
+            />
+          </label>
+          <Button
+            size="sm"
+            className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+            onClick={() =>
+              void api.settings
+                .update({
+                  heroVideoUrl:
+                    videoUrl === "(uploaded file)" ? database.settings.heroVideoUrl : videoUrl,
+                })
+                .then(() => toast.success("Homepage video updated."))
+            }
+          >
+            Save video
+          </Button>
+        </div>
+      </div>
+      <div>
+        <h2 className="font-display text-xl font-semibold text-brand-charcoal">
+          Platform settings
+        </h2>
+        <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
+          Survey point conversion and the minimum bank withdrawal are commercial levers — never
+          hardcoded in the UI.
+        </p>
+      </div>
+      <div className="grid gap-4 rounded-lg border border-brand-border bg-white p-5 sm:grid-cols-2">
+        <label className="block text-xs font-semibold text-brand-slate">
+          Naira per survey point
+          <input
+            className={`${inputClass} mt-1`}
+            type="number"
+            value={pointToNaira}
+            onChange={(event) => setPointToNaira(event.target.value)}
+          />
+        </label>
+        <label className="block text-xs font-semibold text-brand-slate">
+          Minimum withdrawal (₦)
+          <input
+            className={`${inputClass} mt-1`}
+            type="number"
+            value={minWithdrawal}
+            onChange={(event) => setMinWithdrawal(event.target.value)}
+          />
+        </label>
+        <div className="sm:col-span-2">
+          <Button
+            size="sm"
+            className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+            onClick={() =>
+              void api.settings
+                .update({
+                  pointToNaira: Number(pointToNaira || 100),
+                  minWithdrawalNaira: Number(minWithdrawal || 2000),
+                })
+                .then(() => toast.success("Platform settings saved."))
+            }
+          >
+            Save settings
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -34,6 +34,7 @@ import { Route as SiteServicesIndexRouteImport } from './routes/_site/services/i
 import { Route as SiteServicesSlugRouteImport } from './routes/_site/services/$slug'
 import { Route as SiteShopIndexRouteImport } from './routes/_site/shop/index'
 import { Route as SiteShopSlugRouteImport } from './routes/_site/shop/$slug'
+import { Route as SiteShopTeamKitsRouteImport } from './routes/_site/shop/team-kits'
 import { Route as SiteSurveysIndexRouteImport } from './routes/_site/surveys/index'
 import { Route as SiteSurveysIdRouteImport } from './routes/_site/surveys/$id'
 import { Route as SiteSurveysCreateRouteImport } from './routes/_site/surveys/create'
@@ -164,6 +165,11 @@ const SiteShopSlugRoute = SiteShopSlugRouteImport.update({
   path: '/shop/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteShopTeamKitsRoute = SiteShopTeamKitsRouteImport.update({
+  id: '/shop/team-kits',
+  path: '/shop/team-kits',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteSurveysIndexRoute = SiteSurveysIndexRouteImport.update({
   id: '/surveys/',
   path: '/surveys/',
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
+  '/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
@@ -236,6 +243,7 @@ export interface FileRoutesByTo {
   '/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/shop/$slug': typeof SiteShopSlugRoute
+  '/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/surveys/$id': typeof SiteSurveysIdRoute
   '/surveys/create': typeof SiteSurveysCreateRoute
   '/surveys/plans': typeof SiteSurveysPlansRoute
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/_site/press-releases/tracker': typeof SitePressReleasesTrackerRoute
   '/_site/services/$slug': typeof SiteServicesSlugRoute
   '/_site/shop/$slug': typeof SiteShopSlugRoute
+  '/_site/shop/team-kits': typeof SiteShopTeamKitsRoute
   '/_site/surveys/$id': typeof SiteSurveysIdRoute
   '/_site/surveys/create': typeof SiteSurveysCreateRoute
   '/_site/surveys/plans': typeof SiteSurveysPlansRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
+    | '/shop/team-kits'
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/press-releases/tracker'
     | '/services/$slug'
     | '/shop/$slug'
+    | '/shop/team-kits'
     | '/surveys/$id'
     | '/surveys/create'
     | '/surveys/plans'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/_site/press-releases/tracker'
     | '/_site/services/$slug'
     | '/_site/shop/$slug'
+    | '/_site/shop/team-kits'
     | '/_site/surveys/$id'
     | '/_site/surveys/create'
     | '/_site/surveys/plans'
@@ -552,6 +564,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteShopSlugRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/shop/team-kits': {
+      id: '/_site/shop/team-kits'
+      path: '/shop/team-kits'
+      fullPath: '/shop/team-kits'
+      preLoaderRoute: typeof SiteShopTeamKitsRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/surveys/': {
       id: '/_site/surveys/'
       path: '/surveys'
@@ -604,6 +623,7 @@ interface SiteRouteChildren {
   SitePressReleasesTrackerRoute: typeof SitePressReleasesTrackerRoute
   SiteServicesSlugRoute: typeof SiteServicesSlugRoute
   SiteShopSlugRoute: typeof SiteShopSlugRoute
+  SiteShopTeamKitsRoute: typeof SiteShopTeamKitsRoute
   SiteSurveysIdRoute: typeof SiteSurveysIdRoute
   SiteSurveysCreateRoute: typeof SiteSurveysCreateRoute
   SiteSurveysPlansRoute: typeof SiteSurveysPlansRoute
@@ -635,6 +655,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SitePressReleasesTrackerRoute: SitePressReleasesTrackerRoute,
   SiteServicesSlugRoute: SiteServicesSlugRoute,
   SiteShopSlugRoute: SiteShopSlugRoute,
+  SiteShopTeamKitsRoute: SiteShopTeamKitsRoute,
   SiteSurveysIdRoute: SiteSurveysIdRoute,
   SiteSurveysCreateRoute: SiteSurveysCreateRoute,
   SiteSurveysPlansRoute: SiteSurveysPlansRoute,
