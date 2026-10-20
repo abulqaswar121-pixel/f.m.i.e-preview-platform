@@ -1,17 +1,12 @@
 import { useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
 
-const MONTAGE = [
-  "/media/hero-original.webp",
-  "/media/hero-field.webp",
-  "/media/newsroom-portrait.webp",
-];
-
 /**
  * The looping marketing banner. When the Super Admin configures a video URL
- * (Platform Settings → Homepage video) it plays on auto-repeat; otherwise a
- * cinematic cross-fade montage of the brand photography stands in so the
- * banner always loops like a film.
+ * (Admin → Homepage video & settings) it plays on auto-repeat; otherwise the
+ * shipped brand film loop (`public/media/brand-loop.webp`, a 10-second animated
+ * loop of the brand photography) plays in its place so the banner always
+ * moves like a film.
  */
 export function HeroMedia({ className }: { className?: string }) {
   const database = useDatabase();
@@ -33,29 +28,12 @@ export function HeroMedia({ className }: { className?: string }) {
   }
 
   return (
-    <div
+    <img
+      src="/media/brand-loop.webp"
+      alt=""
       aria-hidden="true"
-      className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}
-    >
-      <style>{`
-        @keyframes fmie-montage {
-          0% { opacity: 0; transform: scale(1.06); }
-          6% { opacity: 1; }
-          30% { opacity: 1; transform: scale(1); }
-          38% { opacity: 0; transform: scale(1.02); }
-          100% { opacity: 0; }
-        }
-      `}</style>
-      {MONTAGE.map((src, index) => (
-        <img
-          key={src}
-          src={src}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-0"
-          style={{ animation: `fmie-montage 18s linear ${index * 6}s infinite` }}
-        />
-      ))}
-    </div>
+      className={cn("pointer-events-none absolute inset-0 h-full w-full object-cover", className)}
+    />
   );
 }
 
