@@ -94,7 +94,7 @@ export function WalletPage() {
       <PageHeader
         eyebrow="Wallet"
         title="Cash earnings & research points"
-        description="Survey earners withdraw to a Nigerian bank account; researchers top up survey points through a simulated Paystack checkout. Every movement is stored locally and survives refresh."
+        description="Earners: withdraw your cash to any Nigerian bank. Researchers: top up points here. Everything is saved on this device."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Wallet" }]}
       />
 

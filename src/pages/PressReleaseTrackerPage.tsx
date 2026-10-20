@@ -46,7 +46,7 @@ export function PressReleaseTrackerPage() {
       <PageHeader
         eyebrow="Order tracker"
         title="Press release pipeline"
-        description="Draft → Submitted → Under Review → Approved → In Production → Published. Published releases carry the live article link recorded by the press desk."
+        description="Follow your release step by step, from draft to published — with the live link at the end."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Press releases", to: "/press-releases" },
@@ -74,7 +74,7 @@ export function PressReleaseTrackerPage() {
                   </h2>
                   <p className="text-xs font-semibold text-brand-navy">{booking.referenceNumber}</p>
                 </div>
-                <ol className="mt-4 grid gap-2 sm:grid-cols-6">
+                <ol className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
                   {PIPELINE.map((entry, index) => (
                     <li
                       key={entry.label}

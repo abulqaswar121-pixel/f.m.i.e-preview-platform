@@ -63,7 +63,7 @@ export function TeamKitsPage() {
       <PageHeader
         eyebrow="Team kits"
         title="Custom football & corporate kit builder"
-        description="For clubs, academies and corporate teams ordering seasonal custom kits. Build your roster, pick your colours and submit the request — the F.M.I.E kit desk replies with an official invoice quote."
+        description="Build your squad list, pick your colours and get an instant quote. The kit desk replies with an official invoice."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Shop", to: "/shop" },
@@ -154,7 +154,10 @@ export function TeamKitsPage() {
             </div>
             <div className="mt-4 space-y-2">
               {roster.map((row, index) => (
-                <div key={index} className="grid grid-cols-[1fr_70px_90px_36px] gap-2">
+                <div
+                  key={index}
+                  className="grid grid-cols-[minmax(0,1fr)_3rem_4.25rem_2.25rem] gap-1.5 sm:grid-cols-[minmax(0,1fr)_4.5rem_5.5rem_2.5rem] sm:gap-2"
+                >
                   <input
                     className={inputClass}
                     value={row.name}

@@ -7,7 +7,7 @@ export function PRBookingPage() {
       <PageHeader
         eyebrow="Booking wizard"
         title="Book press distribution in three steps"
-        description="Select partner outlets with a live ₦/$ total, settle the simulated checkout, then submit your story with the mandatory editorial notice. A reference number is issued on submission."
+        description="Pick your outlets, pay in the simulated checkout, then submit your story. You'll get a reference number straight away."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Global Press Releases", to: "/press-releases" },

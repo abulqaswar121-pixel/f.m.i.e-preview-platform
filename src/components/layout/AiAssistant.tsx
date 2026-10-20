@@ -22,66 +22,66 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
   return [
     {
       match: /(earn|reward|cash|naira|₦|withdraw|bank|payout)/i,
-      answer: `Survey earners are credited the moment a submission is recorded, and can withdraw from ₦${minWithdrawal.toLocaleString()} to any Nigerian bank account from the wallet. Payouts are simulated in this preview.`,
+      answer: `You earn cash the moment you finish a survey. From ₦${minWithdrawal.toLocaleString()} you can withdraw straight to your bank (simulated here).`,
       link: { href: "/wallet", label: "Open wallet" },
     },
     {
       match: /(survey|respond|question|take)/i,
       answer:
-        "Live paid surveys are open to every signed-in persona. Each listing shows category, estimated minutes and the cash reward before you start.",
+        "Pick any live survey. You'll see the topic, time needed and cash reward before you start.",
       link: { href: "/surveys", label: "Browse live surveys" },
     },
     {
       match: /(point|pack|paystack|researcher|escrow|budget)/i,
       answer:
-        "Researchers buy points through a simulated Paystack checkout (₦5,000 = 50 pts, ₦20,000 = 250 pts, ₦75,000 = 1,000 pts). Points for respondent rewards are locked in escrow when a survey goes live and unused points return automatically.",
+        "Buy points with Paystack (simulated): ₦5,000 = 50 pts, ₦20,000 = 250 pts, ₦75,000 = 1,000 pts. Rewards are held safely in escrow and unused points come back.",
       link: { href: "/wallet", label: "Buy points" },
     },
     {
       match: /(press|release|outlet|newspaper|publish|media|distribution)/i,
       answer:
-        "The booking desk lists Nigerian national, premium and international titles with exact ₦/$ rates. You select outlets, settle the simulated checkout, then submit the story — editors always retain final discretion.",
+        "Choose your outlets, pay (simulated), then submit your story with photos. Exact ₦/$ prices are on the booking page. Editors make the final call.",
       link: { href: "/press-releases/book", label: "Book distribution" },
     },
     {
       match: /(track|pipeline|status|stage)/i,
       answer:
-        "Every release moves through Draft → Submitted → Under Review → Approved → In Production → Published. The tracker shows your live pipeline and the published link once recorded.",
+        "Your release moves in six steps: Draft → Submitted → Under Review → Approved → In Production → Published. The tracker shows where it is now.",
       link: { href: "/press-releases/tracker", label: "Open tracker" },
     },
     {
       match: /(kit|jersey|club|team|crest|roster)/i,
       answer:
-        "The team-kit builder takes club details, colours, crest and a player roster (S–XXL), prices an instant quote and sends the request to the kit desk for an official invoice.",
+        "Add your club name, colours, crest and player list — you'll see an instant price and can request an official invoice.",
       link: { href: "/shop/team-kits", label: "Build a kit" },
     },
     {
       match: /(shop|merch|polo|hoodie|cap|folio|mug|buy|order)/i,
       answer:
-        "Official merchandise — polo £65/₦75,000, hoodie £95/₦110,000, cap £35/₦40,000, leather folio £185/₦215,000, mug £22/₦25,000 — is in the shop with cart and simulated checkout.",
+        "Polos, hoodies, caps, folios and mugs are in the shop — prices in £ and ₦, checkout simulated.",
       link: { href: "/shop", label: "Visit the shop" },
     },
     {
       match: /(news|article|story|desk|category)/i,
       answer:
-        "The newsroom runs six desks — Finance, Energy & Oil, Tech & AI, African Trade, Policy and Global Markets — with author credentials and clear Editorial vs Sponsored labelling.",
+        "Six desks: Finance, Energy & Oil, Tech & AI, African Trade, Policy and Global Markets. Every story names its author and shows if it's sponsored.",
       link: { href: "/news", label: "Read the newsroom" },
     },
     {
       match: /(contact|email|phone|office|address|social|instagram|facebook|linkedin|tiktok)/i,
-      answer: `Reach the desks at ${contactEmail.general}, ${contactEmail.editorial}, ${contactEmail.press}, ${contactEmail.surveys} or ${contactEmail.services}. Offices: ${headquarters.addressOneLine} and ${westAfricaDesk.addressOneLine}. Socials: ${socialLinks.map((s) => s.label).join(", ")}.`,
+      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Offices in London and Lagos. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
       link: { href: "/contact", label: "Contact page" },
     },
     {
       match: /(service|autobiography|biography|marketing|wikipedia|pitch|represent)/i,
       answer:
-        "Professional services cover executive biography writing, corporate digital marketing, media pitching & representation, and Wikipedia editorial advisory — each with its own disclosures.",
+        "We write executive biographies, run corporate marketing, pitch your story to media, and advise on Wikipedia policy.",
       link: { href: "/services", label: "Explore services" },
     },
     {
       match: /(demo|sample|real|preview|disclaimer)/i,
       answer:
-        "This is a demonstration preview: all editorial, prices, wallets and transactions are sample data stored in your browser. Nothing here is live journalism or a real payment.",
+        "This is a demo: everything you see is sample data in your browser. No real money or live journalism.",
     },
   ];
 }
@@ -108,7 +108,7 @@ export function AiAssistant() {
     {
       id: 1,
       from: "assistant",
-      text: "Good day, I'm Ada, your F.M.I.E client assistant. Ask me about surveys, earnings, press distribution, kits or anything else on the platform.",
+      text: "Hi, I'm Ada — your F.M.I.E helper. Ask me about earning, surveys, press releases, kits or anything else.",
     },
   ]);
   const nextId = useRef(2);
@@ -163,7 +163,7 @@ export function AiAssistant() {
         <div
           role="dialog"
           aria-label="F.M.I.E assistant"
-          className="fixed bottom-24 right-5 z-50 flex h-[28rem] w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-xl border border-brand-border bg-white shadow-2xl"
+          className="fixed bottom-24 right-5 z-50 flex h-[28rem] max-h-[calc(100dvh-8rem)] w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-xl border border-brand-border bg-white shadow-2xl"
         >
           <header className="flex items-center gap-3 bg-brand-navy px-4 py-3 text-white">
             <img

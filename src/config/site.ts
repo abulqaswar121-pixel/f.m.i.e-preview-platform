@@ -32,7 +32,7 @@ export const site = {
   companyNumber: "Sample registration — demonstration preview",
   vatNumber: "Sample VAT registration — demonstration preview",
   previewNotice:
-    "Demonstration preview. Every article, survey, statistic, price, reference number, order and person shown on this platform is fictional sample data created to illustrate the design. Nothing here is published journalism, live market data, a real transaction or a real individual.",
+    "Demonstration preview. Every article, survey, price, order and person here is sample data made for this design. Nothing is real journalism, live data or a real transaction.",
 } as const;
 
 export const headquarters = {
@@ -199,7 +199,7 @@ export const livePositioning: {
   heroLine: "Unlock Your Story. Amplify Your Impact.",
   bandTitle: "Feature Local. Impact Global.",
   bandBody:
-    "Campaigns are planned around owned F.M.I.E channels and administrator-verified distribution partners, each with a documented workflow and an honest quotation. Placement in a named third-party publication is never promised, sold or implied.",
+    "We plan every campaign on owned F.M.I.E channels and verified partner desks, with a clear workflow and an honest quote. No publication is ever promised — editors always decide.",
   photoCredit:
     "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
   heroRotatingLines: [
@@ -450,15 +450,14 @@ export const roleLabels: Record<UserRole, string> = {
 };
 
 export const roleDescriptions: Record<UserRole, string> = {
-  earner: "Answer live surveys for cash rewards and withdraw earnings to a bank account.",
+  earner: "Answer surveys, earn cash, withdraw to your bank.",
   visitor: "Read-only access to public journalism, surveys and the shop.",
   registered_user: "Saved reading list, survey participation and order history.",
-  survey_creator: "Buy survey points, launch research and read live results dashboards.",
-  premium_customer: "Book press distribution, track the pipeline and manage releases.",
+  survey_creator: "Buy points, launch surveys, read live results.",
+  premium_customer: "Book press coverage and track it live.",
   corporate_account: "Multi-seat research account with billing history and branded surveys.",
   contributor: "Submit pitches, drafts and interview requests to the editorial desk.",
-  administrator:
-    "Full control: surveys, payouts, press releases, kit quotes, homepage video and platform settings.",
+  administrator: "Full control of surveys, payouts, press, kits and settings.",
 };
 
 /* ------------------------------------------------------------------ */

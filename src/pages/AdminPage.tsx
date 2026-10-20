@@ -1380,24 +1380,26 @@ function KitQuoteCard({ requestId }: { requestId: string }) {
         {request.deliveryDate || "TBC"} to {request.deliveryAddress || "address TBC"}
       </p>
       {request.roster.length > 0 ? (
-        <table className="mt-3 w-full text-left text-xs">
-          <thead>
-            <tr className="border-b border-brand-border text-brand-slate">
-              <th className="py-1 pr-4 font-semibold">Player</th>
-              <th className="py-1 pr-4 font-semibold">Number</th>
-              <th className="py-1 font-semibold">Size</th>
-            </tr>
-          </thead>
-          <tbody>
-            {request.roster.map((row, index) => (
-              <tr key={index} className="border-b border-brand-border/60 text-brand-charcoal">
-                <td className="py-1 pr-4">{row.name}</td>
-                <td className="py-1 pr-4">{row.number}</td>
-                <td className="py-1">{row.size}</td>
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[360px] text-left text-xs">
+            <thead>
+              <tr className="border-b border-brand-border text-brand-slate">
+                <th className="py-1 pr-4 font-semibold">Player</th>
+                <th className="py-1 pr-4 font-semibold">Number</th>
+                <th className="py-1 font-semibold">Size</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {request.roster.map((row, index) => (
+                <tr key={index} className="border-b border-brand-border/60 text-brand-charcoal">
+                  <td className="py-1 pr-4">{row.name}</td>
+                  <td className="py-1 pr-4">{row.number}</td>
+                  <td className="py-1">{row.size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : null}
       {request.notes ? (
         <p className="mt-2 text-xs italic text-brand-slate">“{request.notes}”</p>
