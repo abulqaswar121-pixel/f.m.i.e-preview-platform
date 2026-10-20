@@ -1,0 +1,14 @@
+REVOKE ALL ON public.profiles, public.user_roles, public.surveys, public.survey_answers, public.wallet_accounts, public.wallet_transactions, public.withdrawals, public.press_releases, public.kit_quotes, public.shop_orders FROM anon, authenticated;
+REVOKE ALL (id,display_name,avatar_path,organization,job_title,country,industry,preferences,created_at,updated_at) ON public.profiles FROM anon, authenticated;
+REVOKE ALL (creator_id,title,slug,category,objective,audience,questions,tags,consent_notice,is_anonymous,opening_date,closing_date) ON public.surveys FROM anon, authenticated;
+REVOKE ALL (user_id,title,content_draft,company_name,contact_name,contact_email,contact_phone,country,industry,website_url,target_audience,selected_outlets,distribution_regions,attachments,target_date,disclosure_acknowledged,consent_to_processing) ON public.press_releases FROM anon, authenticated;
+REVOKE ALL (user_id,club_name,sport,crest_path,primary_color,secondary_color,roster,quantity,delivery_date,delivery_address,notes) ON public.kit_quotes FROM anon, authenticated;
+GRANT SELECT ON public.profiles, public.user_roles, public.survey_answers, public.wallet_accounts, public.wallet_transactions, public.withdrawals, public.press_releases, public.kit_quotes, public.shop_orders TO authenticated;
+GRANT UPDATE (display_name,avatar_path,organization,job_title,country,industry,preferences) ON public.profiles TO authenticated;
+GRANT SELECT ON public.surveys TO anon, authenticated;
+GRANT INSERT (creator_id,title,slug,category,objective,audience,questions,tags,consent_notice,is_anonymous,opening_date,closing_date) ON public.surveys TO authenticated;
+GRANT UPDATE (title,slug,category,objective,audience,questions,tags,consent_notice,is_anonymous,opening_date,closing_date) ON public.surveys TO authenticated;
+GRANT INSERT (user_id,title,content_draft,company_name,contact_name,contact_email,contact_phone,country,industry,website_url,target_audience,selected_outlets,distribution_regions,attachments,target_date,disclosure_acknowledged,consent_to_processing) ON public.press_releases TO authenticated;
+GRANT UPDATE (title,content_draft,company_name,contact_name,contact_email,contact_phone,country,industry,website_url,target_audience,selected_outlets,distribution_regions,attachments,target_date,disclosure_acknowledged,consent_to_processing) ON public.press_releases TO authenticated;
+GRANT INSERT (user_id,club_name,sport,crest_path,primary_color,secondary_color,roster,quantity,delivery_date,delivery_address,notes) ON public.kit_quotes TO authenticated;
+REVOKE ALL ON FUNCTION public.touch_updated_at() FROM PUBLIC;
