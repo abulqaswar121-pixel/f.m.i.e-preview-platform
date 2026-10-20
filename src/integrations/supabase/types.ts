@@ -424,6 +424,48 @@ export type Database = {
         }
         Relationships: []
       }
+      wallet_point_purchases: {
+        Row: {
+          amount_minor: number
+          created_at: string
+          currency: string
+          id: string
+          pack_id: string
+          paid_at: string | null
+          points: number
+          provider_transaction_id: string | null
+          reference: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_minor: number
+          created_at?: string
+          currency?: string
+          id?: string
+          pack_id: string
+          paid_at?: string | null
+          points: number
+          provider_transaction_id?: string | null
+          reference: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_minor?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          pack_id?: string
+          paid_at?: string | null
+          points?: number
+          provider_transaction_id?: string | null
+          reference?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       wallet_transactions: {
         Row: {
           amount_minor: number
@@ -466,6 +508,7 @@ export type Database = {
           account_number: string
           amount_minor: number
           bank_code: string
+          bank_name: string
           currency: string
           id: string
           processed_at: string | null
@@ -479,6 +522,7 @@ export type Database = {
           account_number: string
           amount_minor: number
           bank_code: string
+          bank_name?: string
           currency?: string
           id?: string
           processed_at?: string | null
@@ -492,6 +536,7 @@ export type Database = {
           account_number?: string
           amount_minor?: number
           bank_code?: string
+          bank_name?: string
           currency?: string
           id?: string
           processed_at?: string | null
@@ -511,6 +556,29 @@ export type Database = {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
+        }
+        Returns: boolean
+      }
+      request_wallet_withdrawal: {
+        Args: {
+          _account_name: string
+          _account_number: string
+          _amount_minor: number
+          _bank_name: string
+          _user_id: string
+        }
+        Returns: string
+      }
+      resolve_wallet_withdrawal: {
+        Args: { _decision: string; _withdrawal_id: string }
+        Returns: boolean
+      }
+      settle_wallet_point_purchase: {
+        Args: {
+          _amount_minor: number
+          _currency: string
+          _provider_transaction_id: string
+          _reference: string
         }
         Returns: boolean
       }
