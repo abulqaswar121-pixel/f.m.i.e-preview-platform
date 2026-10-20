@@ -112,7 +112,7 @@ export function AdminPage() {
       <div className="fmie-container py-20">
         <EmptyState
           title="Administrator access required"
-          description="The administration panel is restricted to the administrator persona. Switch persona from the header to explore moderation, plan configuration and channel verification."
+          description={`The control room is only open to approved F.M.I.E team accounts. You are signed in as ${user?.email ?? "a member"}. If you should have access, ask the site owner to approve your account.`}
           action={{ label: "Go to my dashboard", to: "/dashboard" }}
           icon={<ShieldAlert className="h-6 w-6" />}
         />
