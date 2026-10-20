@@ -267,7 +267,7 @@ export function Header() {
                     </p>
                     <ul className="p-1.5">
                       {item.children.map((child) => (
-                        <li key={child.to}>
+                        <li key={`${child.to}-${child.label}`}>
                           <SiteLink
                             to={child.to}
                             search={child.search}
@@ -373,7 +373,7 @@ export function Header() {
                       {item.children ? (
                         <ul className="ml-3 border-l border-brand-border pl-3">
                           {item.children.map((child) => (
-                            <li key={child.to}>
+                            <li key={`${child.to}-${child.label}`}>
                               <SiteLink
                                 to={child.to}
                                 search={child.search}
