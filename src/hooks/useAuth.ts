@@ -5,17 +5,22 @@ import type { User, UserRole } from "@/types";
 /**
  * Auth context contract.
  *
- * The provider component lives in `@/components/providers/AuthProvider` so this
- * module stays free of JSX and exports no components (fast-refresh friendly).
- *
- * The preview has no credential store: signing in accepts any valid-looking
- * email and lands on a pre-filled dashboard, and the header persona switcher
- * moves instantly between the four demo accounts without a page reload.
+ * Identity, profile details and roles come from real Cloud accounts. The
+ * provider lives in `@/components/providers/AuthProvider` so this module stays
+ * free of JSX (fast-refresh friendly).
  */
 
+export type ProfilePatch = Partial<
+  Pick<User, "name" | "organization" | "jobTitle" | "location" | "notificationPreferences">
+>;
+
 export interface AuthContextValue {
+  /** Signed-in member, or undefined for visitors (and while the account loads). */
   user: User | undefined;
-  personas: User[];
+  /** True once the session check has finished and any account has loaded. */
+  ready: boolean;
+  /** True when a real session exists, even before the profile has loaded. */
+  isSignedIn: boolean;
   role: UserRole;
   roleLabel: string;
   roleDescription: string;
@@ -23,10 +28,8 @@ export interface AuthContextValue {
   canCreateSurveys: boolean;
   canManagePressReleases: boolean;
   organizationName: string | undefined;
-  signIn: (email: string, name?: string) => Promise<User>;
-  switchPersona: (userId: string) => Promise<User | undefined>;
   signOut: () => Promise<void>;
-  updateProfile: (patch: Partial<Omit<User, "id" | "role">>) => Promise<void>;
+  updateProfile: (patch: ProfilePatch) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);

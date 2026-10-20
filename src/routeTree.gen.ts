@@ -11,19 +11,21 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteAuthenticatedRouteRouteImport } from './routes/_site/_authenticated/route'
 import { Route as SiteAboutRouteImport } from './routes/_site/about'
-import { Route as SiteAdminRouteImport } from './routes/_site/admin'
 import { Route as SiteAdvertisingRouteImport } from './routes/_site/advertising'
 import { Route as SiteCheckoutRouteImport } from './routes/_site/checkout'
 import { Route as SiteContactRouteImport } from './routes/_site/contact'
-import { Route as SiteDashboardRouteImport } from './routes/_site/dashboard'
 import { Route as SiteEditorialPolicyRouteImport } from './routes/_site/editorial-policy'
 import { Route as SitePrivacyRouteImport } from './routes/_site/privacy'
 import { Route as SiteRegisterRouteImport } from './routes/_site/register'
+import { Route as SiteResetPasswordRouteImport } from './routes/_site/reset-password'
 import { Route as SiteSigninRouteImport } from './routes/_site/signin'
 import { Route as SiteSurveyEthicsRouteImport } from './routes/_site/survey-ethics'
 import { Route as SiteTermsRouteImport } from './routes/_site/terms'
-import { Route as SiteWalletRouteImport } from './routes/_site/wallet'
+import { Route as SiteAuthenticatedAdminRouteImport } from './routes/_site/_authenticated/admin'
+import { Route as SiteAuthenticatedDashboardRouteImport } from './routes/_site/_authenticated/dashboard'
+import { Route as SiteAuthenticatedWalletRouteImport } from './routes/_site/_authenticated/wallet'
 import { Route as SiteNewsIndexRouteImport } from './routes/_site/news/index'
 import { Route as SiteNewsSlugRouteImport } from './routes/_site/news/$slug'
 import { Route as SitePressReleasesIndexRouteImport } from './routes/_site/press-releases/index'
@@ -49,14 +51,13 @@ const SiteIndexRoute = SiteIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteAuthenticatedRouteRoute = SiteAuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteAboutRoute = SiteAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteAdminRoute = SiteAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteAdvertisingRoute = SiteAdvertisingRouteImport.update({
@@ -74,11 +75,6 @@ const SiteContactRoute = SiteContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => SiteRoute,
 } as any)
-const SiteDashboardRoute = SiteDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => SiteRoute,
-} as any)
 const SiteEditorialPolicyRoute = SiteEditorialPolicyRouteImport.update({
   id: '/editorial-policy',
   path: '/editorial-policy',
@@ -92,6 +88,11 @@ const SitePrivacyRoute = SitePrivacyRouteImport.update({
 const SiteRegisterRoute = SiteRegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteResetPasswordRoute = SiteResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteSigninRoute = SiteSigninRouteImport.update({
@@ -109,10 +110,21 @@ const SiteTermsRoute = SiteTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => SiteRoute,
 } as any)
-const SiteWalletRoute = SiteWalletRouteImport.update({
+const SiteAuthenticatedAdminRoute = SiteAuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => SiteAuthenticatedRouteRoute,
+} as any)
+const SiteAuthenticatedDashboardRoute =
+  SiteAuthenticatedDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => SiteAuthenticatedRouteRoute,
+  } as any)
+const SiteAuthenticatedWalletRoute = SiteAuthenticatedWalletRouteImport.update({
   id: '/wallet',
   path: '/wallet',
-  getParentRoute: () => SiteRoute,
+  getParentRoute: () => SiteAuthenticatedRouteRoute,
 } as any)
 const SiteNewsIndexRoute = SiteNewsIndexRouteImport.update({
   id: '/news/',
@@ -194,18 +206,19 @@ const SiteSurveysPlansRoute = SiteSurveysPlansRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/about': typeof SiteAboutRoute
-  '/admin': typeof SiteAdminRoute
   '/advertising': typeof SiteAdvertisingRoute
   '/checkout': typeof SiteCheckoutRoute
   '/contact': typeof SiteContactRoute
-  '/dashboard': typeof SiteDashboardRoute
   '/editorial-policy': typeof SiteEditorialPolicyRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
+  '/reset-password': typeof SiteResetPasswordRoute
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
-  '/wallet': typeof SiteWalletRoute
+  '/admin': typeof SiteAuthenticatedAdminRoute
+  '/dashboard': typeof SiteAuthenticatedDashboardRoute
+  '/wallet': typeof SiteAuthenticatedWalletRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
@@ -223,20 +236,21 @@ export interface FileRoutesByFullPath {
   '/surveys/': typeof SiteSurveysIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof SiteIndexRoute
   '/about': typeof SiteAboutRoute
-  '/admin': typeof SiteAdminRoute
   '/advertising': typeof SiteAdvertisingRoute
   '/checkout': typeof SiteCheckoutRoute
   '/contact': typeof SiteContactRoute
-  '/dashboard': typeof SiteDashboardRoute
   '/editorial-policy': typeof SiteEditorialPolicyRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
+  '/reset-password': typeof SiteResetPasswordRoute
   '/signin': typeof SiteSigninRoute
   '/survey-ethics': typeof SiteSurveyEthicsRoute
   '/terms': typeof SiteTermsRoute
-  '/wallet': typeof SiteWalletRoute
-  '/': typeof SiteIndexRoute
+  '/admin': typeof SiteAuthenticatedAdminRoute
+  '/dashboard': typeof SiteAuthenticatedDashboardRoute
+  '/wallet': typeof SiteAuthenticatedWalletRoute
   '/news/$slug': typeof SiteNewsSlugRoute
   '/press-releases/$id': typeof SitePressReleasesIdRoute
   '/press-releases/book': typeof SitePressReleasesBookRoute
@@ -256,20 +270,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
+  '/_site/_authenticated': typeof SiteAuthenticatedRouteRouteWithChildren
   '/_site/about': typeof SiteAboutRoute
-  '/_site/admin': typeof SiteAdminRoute
   '/_site/advertising': typeof SiteAdvertisingRoute
   '/_site/checkout': typeof SiteCheckoutRoute
   '/_site/contact': typeof SiteContactRoute
-  '/_site/dashboard': typeof SiteDashboardRoute
   '/_site/editorial-policy': typeof SiteEditorialPolicyRoute
   '/_site/privacy': typeof SitePrivacyRoute
   '/_site/register': typeof SiteRegisterRoute
+  '/_site/reset-password': typeof SiteResetPasswordRoute
   '/_site/signin': typeof SiteSigninRoute
   '/_site/survey-ethics': typeof SiteSurveyEthicsRoute
   '/_site/terms': typeof SiteTermsRoute
-  '/_site/wallet': typeof SiteWalletRoute
   '/_site/': typeof SiteIndexRoute
+  '/_site/_authenticated/admin': typeof SiteAuthenticatedAdminRoute
+  '/_site/_authenticated/dashboard': typeof SiteAuthenticatedDashboardRoute
+  '/_site/_authenticated/wallet': typeof SiteAuthenticatedWalletRoute
   '/_site/news/$slug': typeof SiteNewsSlugRoute
   '/_site/press-releases/$id': typeof SitePressReleasesIdRoute
   '/_site/press-releases/book': typeof SitePressReleasesBookRoute
@@ -291,17 +307,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/admin'
     | '/advertising'
     | '/checkout'
     | '/contact'
-    | '/dashboard'
     | '/editorial-policy'
     | '/privacy'
     | '/register'
+    | '/reset-password'
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/admin'
+    | '/dashboard'
     | '/wallet'
     | '/news/$slug'
     | '/press-releases/$id'
@@ -320,20 +337,21 @@ export interface FileRouteTypes {
     | '/surveys/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/about'
-    | '/admin'
     | '/advertising'
     | '/checkout'
     | '/contact'
-    | '/dashboard'
     | '/editorial-policy'
     | '/privacy'
     | '/register'
+    | '/reset-password'
     | '/signin'
     | '/survey-ethics'
     | '/terms'
+    | '/admin'
+    | '/dashboard'
     | '/wallet'
-    | '/'
     | '/news/$slug'
     | '/press-releases/$id'
     | '/press-releases/book'
@@ -352,20 +370,22 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/_site/_authenticated'
     | '/_site/about'
-    | '/_site/admin'
     | '/_site/advertising'
     | '/_site/checkout'
     | '/_site/contact'
-    | '/_site/dashboard'
     | '/_site/editorial-policy'
     | '/_site/privacy'
     | '/_site/register'
+    | '/_site/reset-password'
     | '/_site/signin'
     | '/_site/survey-ethics'
     | '/_site/terms'
-    | '/_site/wallet'
     | '/_site/'
+    | '/_site/_authenticated/admin'
+    | '/_site/_authenticated/dashboard'
+    | '/_site/_authenticated/wallet'
     | '/_site/news/$slug'
     | '/_site/press-releases/$id'
     | '/_site/press-releases/book'
@@ -403,18 +423,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteIndexRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/_authenticated': {
+      id: '/_site/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteAuthenticatedRouteRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/about': {
       id: '/_site/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof SiteAboutRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/admin': {
-      id: '/_site/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof SiteAdminRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/advertising': {
@@ -438,13 +458,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteContactRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/dashboard': {
-      id: '/_site/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof SiteDashboardRouteImport
-      parentRoute: typeof SiteRoute
-    }
     '/_site/editorial-policy': {
       id: '/_site/editorial-policy'
       path: '/editorial-policy'
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof SiteRegisterRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/reset-password': {
+      id: '/_site/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof SiteResetPasswordRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/signin': {
@@ -487,12 +507,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTermsRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/wallet': {
-      id: '/_site/wallet'
+    '/_site/_authenticated/admin': {
+      id: '/_site/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof SiteAuthenticatedAdminRouteImport
+      parentRoute: typeof SiteAuthenticatedRouteRoute
+    }
+    '/_site/_authenticated/dashboard': {
+      id: '/_site/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof SiteAuthenticatedDashboardRouteImport
+      parentRoute: typeof SiteAuthenticatedRouteRoute
+    }
+    '/_site/_authenticated/wallet': {
+      id: '/_site/_authenticated/wallet'
       path: '/wallet'
       fullPath: '/wallet'
-      preLoaderRoute: typeof SiteWalletRouteImport
-      parentRoute: typeof SiteRoute
+      preLoaderRoute: typeof SiteAuthenticatedWalletRouteImport
+      parentRoute: typeof SiteAuthenticatedRouteRoute
     }
     '/_site/news/': {
       id: '/_site/news/'
@@ -602,20 +636,37 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SiteAuthenticatedRouteRouteChildren {
+  SiteAuthenticatedAdminRoute: typeof SiteAuthenticatedAdminRoute
+  SiteAuthenticatedDashboardRoute: typeof SiteAuthenticatedDashboardRoute
+  SiteAuthenticatedWalletRoute: typeof SiteAuthenticatedWalletRoute
+}
+
+const SiteAuthenticatedRouteRouteChildren: SiteAuthenticatedRouteRouteChildren =
+  {
+    SiteAuthenticatedAdminRoute: SiteAuthenticatedAdminRoute,
+    SiteAuthenticatedDashboardRoute: SiteAuthenticatedDashboardRoute,
+    SiteAuthenticatedWalletRoute: SiteAuthenticatedWalletRoute,
+  }
+
+const SiteAuthenticatedRouteRouteWithChildren =
+  SiteAuthenticatedRouteRoute._addFileChildren(
+    SiteAuthenticatedRouteRouteChildren,
+  )
+
 interface SiteRouteChildren {
+  SiteAuthenticatedRouteRoute: typeof SiteAuthenticatedRouteRouteWithChildren
   SiteAboutRoute: typeof SiteAboutRoute
-  SiteAdminRoute: typeof SiteAdminRoute
   SiteAdvertisingRoute: typeof SiteAdvertisingRoute
   SiteCheckoutRoute: typeof SiteCheckoutRoute
   SiteContactRoute: typeof SiteContactRoute
-  SiteDashboardRoute: typeof SiteDashboardRoute
   SiteEditorialPolicyRoute: typeof SiteEditorialPolicyRoute
   SitePrivacyRoute: typeof SitePrivacyRoute
   SiteRegisterRoute: typeof SiteRegisterRoute
+  SiteResetPasswordRoute: typeof SiteResetPasswordRoute
   SiteSigninRoute: typeof SiteSigninRoute
   SiteSurveyEthicsRoute: typeof SiteSurveyEthicsRoute
   SiteTermsRoute: typeof SiteTermsRoute
-  SiteWalletRoute: typeof SiteWalletRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteNewsSlugRoute: typeof SiteNewsSlugRoute
   SitePressReleasesIdRoute: typeof SitePressReleasesIdRoute
@@ -635,19 +686,18 @@ interface SiteRouteChildren {
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
+  SiteAuthenticatedRouteRoute: SiteAuthenticatedRouteRouteWithChildren,
   SiteAboutRoute: SiteAboutRoute,
-  SiteAdminRoute: SiteAdminRoute,
   SiteAdvertisingRoute: SiteAdvertisingRoute,
   SiteCheckoutRoute: SiteCheckoutRoute,
   SiteContactRoute: SiteContactRoute,
-  SiteDashboardRoute: SiteDashboardRoute,
   SiteEditorialPolicyRoute: SiteEditorialPolicyRoute,
   SitePrivacyRoute: SitePrivacyRoute,
   SiteRegisterRoute: SiteRegisterRoute,
+  SiteResetPasswordRoute: SiteResetPasswordRoute,
   SiteSigninRoute: SiteSigninRoute,
   SiteSurveyEthicsRoute: SiteSurveyEthicsRoute,
   SiteTermsRoute: SiteTermsRoute,
-  SiteWalletRoute: SiteWalletRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteNewsSlugRoute: SiteNewsSlugRoute,
   SitePressReleasesIdRoute: SitePressReleasesIdRoute,

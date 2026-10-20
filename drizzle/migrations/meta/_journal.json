@@ -15,6 +15,13 @@
       "when": 1792536825011,
       "tag": "0001_restrict_foundation_default_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792537699311,
+      "tag": "0002_member_profile_signup_details",
+      "breakpoints": true
     }
   ]
 }

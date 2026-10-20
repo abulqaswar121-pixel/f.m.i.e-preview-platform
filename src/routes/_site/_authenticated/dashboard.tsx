@@ -7,7 +7,7 @@ interface DashboardSearch {
   tab?: string | undefined;
 }
 
-export const Route = createFileRoute("/_site/dashboard")({
+export const Route = createFileRoute("/_site/_authenticated/dashboard")({
   component: DashboardPage,
   validateSearch: (search: Record<string, unknown>): DashboardSearch => ({
     tab: typeof search["tab"] === "string" ? search["tab"] : undefined,
