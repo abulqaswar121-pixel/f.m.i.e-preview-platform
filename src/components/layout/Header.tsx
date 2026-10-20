@@ -324,7 +324,7 @@ export function Header() {
               </span>
             ) : null}
           </Button>
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-2 md:flex">
             <WalletChip />
             <NotificationBell />
             <AccountMenu />
