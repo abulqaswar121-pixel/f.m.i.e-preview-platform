@@ -24,8 +24,7 @@ function naira(value: number): string {
 }
 
 /**
- * Two-sided wallet: cash earnings and bank withdrawal for survey earners,
- * survey points and Paystack (simulated) top-ups for researchers.
+ * Cash earnings and research points are shown independently for every member.
  */
 export function WalletPage() {
   const { user } = useAuth();
@@ -79,7 +78,6 @@ export function WalletPage() {
 
   const cashMinor = summary?.cashMinor ?? 0;
   const pointsBalance = summary?.points ?? 0;
-  const isEarner = user?.role === "earner";
 
   async function submitWithdrawal(): Promise<void> {
     if (!user) return;
@@ -132,48 +130,50 @@ export function WalletPage() {
           </p>
         ) : null}
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="fmie-card p-5">
             <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">
-              Available balance
+              Available cash
             </p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {loading ? "Loading…" : isEarner ? naira(cashMinor / 100) : `${pointsBalance.toLocaleString()} pts`}
+              {loading ? "Loading…" : naira(cashMinor / 100)}
+            </p>
+          </div>
+          <div className="fmie-card p-5">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">Research points</p>
+            <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
+              {loading ? "Loading…" : `${pointsBalance.toLocaleString()} pts`}
             </p>
           </div>
           <div className="rounded-lg border border-brand-border bg-white p-5 shadow-sm">
-            <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">Total earned</p>
+            <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">Cash earned</p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {loading ? "Loading…" : isEarner ? naira((summary?.totalEarnedMinor ?? 0) / 100) : naira((summary?.purchasedMinor ?? 0) / 100)}
+              {loading ? "Loading…" : naira((summary?.totalEarnedMinor ?? 0) / 100)}
             </p>
           </div>
           <div className="rounded-lg border border-brand-border bg-white p-5 shadow-sm">
             <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">
-              {isEarner ? "Completed surveys" : "Lifetime point spend"}
+              Points reserved for surveys
             </p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {loading ? "Loading…" : isEarner ? String(summary?.completedSurveys ?? 0) : `${(summary?.lockedPoints ?? 0).toLocaleString()} pts`}
+              {loading ? "Loading…" : `${(summary?.lockedPoints ?? 0).toLocaleString()} pts`}
             </p>
           </div>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          {isEarner ? (
-            <Button
-              onClick={() => setWithdrawOpen(true)}
-              className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-            >
-              <Download className="mr-2 h-4 w-4" /> Withdraw to Bank
-            </Button>
-          ) : (
-            <Badge tone="gold">
-              <ShieldCheck className="mr-1 inline h-3 w-3" /> Researcher wallet — points escrowed
-              per live survey
-            </Badge>
-          )}
+          <Button
+            disabled={loading || cashMinor < surveyEconomyDefaults.minWithdrawalNaira * 100}
+            onClick={() => setWithdrawOpen(true)}
+            className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+          >
+            <Download className="mr-2 h-4 w-4" /> Withdraw to Bank
+          </Button>
+          <Badge tone="gold">
+            <ShieldCheck className="mr-1 inline h-3 w-3" /> Points are for rewards on live surveys
+          </Badge>
         </div>
 
-        {!isEarner ? (
           <section className="mt-10">
             <h2 className="font-display text-xl font-bold text-brand-charcoal">
               Buy survey points
@@ -208,7 +208,6 @@ export function WalletPage() {
               ))}
             </div>
           </section>
-        ) : null}
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div>

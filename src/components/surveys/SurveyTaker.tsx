@@ -309,8 +309,8 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
             <p className="mt-3 text-xs text-brand-slate">Incentive: {survey.incentive}</p>
           ) : null}
           <p className="mt-2 rounded-md border border-brand-gold/60 bg-brand-gold/10 px-3 py-2 text-xs font-semibold text-brand-charcoal">
-            Cash reward: ₦{survey.rewardNaira.toLocaleString("en-NG")} credited to your wallet the
-            moment your submission is recorded.
+            Sample reward: ₦{survey.rewardNaira.toLocaleString("en-NG")}. This preview does not pay
+            survey rewards.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button
@@ -341,8 +341,8 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
           Thank you for participating
         </h2>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-brand-slate">
-          Your response has been recorded against <strong>{survey.title}</strong>. Responses are
-          stored in the preview database and appear immediately in the owner's analytics.
+          Your sample response to <strong>{survey.title}</strong> has been saved in this preview.
+          It is not a paid survey response and no cash reward was issued.
         </p>
         <p className="mx-auto mt-3 max-w-lg text-xs leading-relaxed text-brand-slate">
           Remember: results from self-selected respondents describe the people who answered, not a
