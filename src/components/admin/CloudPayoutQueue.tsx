@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 
-import { useState } from "react";
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
 import { getWithdrawalQueue, resolveWithdrawal } from "@/lib/wallet.functions";

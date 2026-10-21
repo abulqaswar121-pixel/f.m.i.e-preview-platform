@@ -80,7 +80,6 @@ export function WalletPage() {
   const cashMinor = summary?.cashMinor ?? 0;
   const pointsBalance = summary?.points ?? 0;
   const isEarner = user?.role === "earner";
-  const isEarner = user?.role === "earner";
 
   async function submitWithdrawal(): Promise<void> {
     if (!user) return;
