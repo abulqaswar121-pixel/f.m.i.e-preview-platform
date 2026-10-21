@@ -214,10 +214,29 @@ export const getWithdrawalQueue = createServerFn({ method: "GET" })
       amountMinor: item.amount_minor,
       bankName: item.bank_name,
       accountName: item.account_name,
-      accountNumber: item.account_number,
+      accountLastFour: item.account_number.slice(-4),
       status: item.status,
       requestedAt: item.requested_at,
     }));
+  });
+
+export const getWithdrawalAccountNumber = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ withdrawalId: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: isAdmin, error: roleError } = await context.supabase.rpc("has_role", {
+      _user_id: context.userId,
+      _role: "administrator",
+    });
+    if (roleError || !isAdmin) throw new Error("Administrator access required.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: withdrawal, error } = await supabaseAdmin
+      .from("withdrawals")
+      .select("account_number")
+      .eq("id", data.withdrawalId)
+      .maybeSingle();
+    if (error || !withdrawal) throw new Error("Bank details could not be loaded.");
+    return { accountNumber: withdrawal.account_number };
   });
 
 export const resolveWithdrawal = createServerFn({ method: "POST" })

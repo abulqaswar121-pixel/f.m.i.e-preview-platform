@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
-import { getWithdrawalQueue, resolveWithdrawal } from "@/lib/wallet.functions";
+import { getWithdrawalAccountNumber, getWithdrawalQueue, resolveWithdrawal } from "@/lib/wallet.functions";
 
 type Withdrawal = Awaited<ReturnType<typeof getWithdrawalQueue>>[number];
 
@@ -14,11 +14,13 @@ function naira(amountMinor: number): string {
 
 export function CloudPayoutQueue() {
   const getQueue = useServerFn(getWithdrawalQueue);
+  const getAccountNumber = useServerFn(getWithdrawalAccountNumber);
   const resolveRequest = useServerFn(resolveWithdrawal);
   const [items, setItems] = useState<Withdrawal[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [revealedId, setRevealedId] = useState<string | null>(null);
+  const [accountNumbers, setAccountNumbers] = useState<Record<string, string>>({});
 
   async function reload(): Promise<void> {
     setLoading(true);
@@ -48,6 +50,22 @@ export function CloudPayoutQueue() {
     }
   }
 
+  async function toggleAccountNumber(withdrawalId: string): Promise<void> {
+    if (revealedId === withdrawalId) {
+      setRevealedId(null);
+      return;
+    }
+    setRevealedId(withdrawalId);
+    if (accountNumbers[withdrawalId]) return;
+    try {
+      const result = await getAccountNumber({ data: { withdrawalId } });
+      setAccountNumbers((current) => ({ ...current, [withdrawalId]: result.accountNumber }));
+    } catch (error) {
+      setRevealedId(null);
+      toast.error(error instanceof Error ? error.message : "Bank details could not be loaded.");
+    }
+  }
+
   return (
     <section className="space-y-4">
       <div>
@@ -65,13 +83,13 @@ export function CloudPayoutQueue() {
               <div>
                 <h3 className="text-sm font-semibold text-brand-charcoal">{naira(item.amountMinor)} · {item.bankName}</h3>
                 <p className="mt-1 text-xs text-brand-slate">{item.accountName} · account ending {item.accountNumber.slice(-4)} · requested {new Date(item.requestedAt).toLocaleDateString()}</p>
-                {revealedId === item.id ? (
-                  <p className="mt-2 font-mono text-sm text-brand-charcoal" aria-label="Full bank account number">{item.accountNumber}</p>
+                {revealedId === item.id && accountNumbers[item.id] ? (
+                  <p className="mt-2 font-mono text-sm text-brand-charcoal" aria-label="Full bank account number">{accountNumbers[item.id]}</p>
                 ) : null}
               </div>
               <div className="flex items-center gap-2">
                 <Badge tone={item.status === "approved" ? "success" : "gold"}>{item.status === "approved" ? "Approved — transfer pending" : "Pending review"}</Badge>
-                <Button size="sm" variant="outline" onClick={() => setRevealedId(revealedId === item.id ? null : item.id)}>
+                <Button size="sm" variant="outline" onClick={() => void toggleAccountNumber(item.id)}>
                   {revealedId === item.id ? "Hide account" : "Show account"}
                 </Button>
                 {item.status === "pending" ? (
