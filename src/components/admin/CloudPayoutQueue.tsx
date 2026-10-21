@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 
+import { useState } from "react";
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
 import { getWithdrawalQueue, resolveWithdrawal } from "@/lib/wallet.functions";
@@ -18,6 +19,7 @@ export function CloudPayoutQueue() {
   const [items, setItems] = useState<Withdrawal[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [revealedId, setRevealedId] = useState<string | null>(null);
 
   async function reload(): Promise<void> {
     setLoading(true);
@@ -64,9 +66,15 @@ export function CloudPayoutQueue() {
               <div>
                 <h3 className="text-sm font-semibold text-brand-charcoal">{naira(item.amountMinor)} · {item.bankName}</h3>
                 <p className="mt-1 text-xs text-brand-slate">{item.accountName} · account ending {item.accountNumber.slice(-4)} · requested {new Date(item.requestedAt).toLocaleDateString()}</p>
+                {revealedId === item.id ? (
+                  <p className="mt-2 font-mono text-sm text-brand-charcoal" aria-label="Full bank account number">{item.accountNumber}</p>
+                ) : null}
               </div>
               <div className="flex items-center gap-2">
                 <Badge tone={item.status === "approved" ? "success" : "gold"}>{item.status === "approved" ? "Approved — transfer pending" : "Pending review"}</Badge>
+                <Button size="sm" variant="outline" onClick={() => setRevealedId(revealedId === item.id ? null : item.id)}>
+                  {revealedId === item.id ? "Hide account" : "Show account"}
+                </Button>
                 {item.status === "pending" ? (
                   <>
                     <Button size="sm" variant="outline" disabled={busyId === item.id} onClick={() => void decide(item.id, "reject")}>Reject</Button>

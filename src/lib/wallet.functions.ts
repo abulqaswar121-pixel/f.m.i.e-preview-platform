@@ -156,6 +156,7 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
         }),
       });
     } catch {
+      await supabaseAdmin.from("wallet_point_purchases").update({ status: "failed" }).eq("reference", reference);
       throw new Error("Paystack could not be reached. No points were added; please try again.");
     }
     const payload: unknown = await response.json().catch(() => null);

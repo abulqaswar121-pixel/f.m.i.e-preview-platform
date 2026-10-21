@@ -824,65 +824,7 @@ export function AdminPage() {
           </section>
         ) : null}
 
-        {tab === "payouts" ? (
-          <section className="space-y-4">
-            <div>
-              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-                Bank payouts
-              </h2>
-              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
-                Withdrawal requests from survey earners. Approving marks the request paid and closes
-                the loop on the earner's wallet history. Payouts are simulated in this preview.
-              </p>
-            </div>
-            <div className="space-y-3">
-              {database.payouts.length === 0 ? (
-                <EmptyState
-                  title="No payout requests"
-                  description="Earner withdrawals will appear here."
-                />
-              ) : (
-                database.payouts.map((payout) => (
-                  <article
-                    key={payout.id}
-                    className="rounded-lg border border-brand-border bg-white p-5"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <h3 className="text-sm font-semibold text-brand-charcoal">
-                          {payout.earnerName} — ₦{payout.amountNaira.toLocaleString()}
-                        </h3>
-                        <p className="mt-1 text-xs text-brand-slate">
-                          {payout.bankName} •••{payout.accountNumber.slice(-4)} ·{" "}
-                          {payout.accountName} · requested {formatDate(payout.requestedAt)}
-                        </p>
-                      </div>
-                      {payout.status === "paid" ? (
-                        <Badge tone="success">
-                          Paid {payout.paidAt ? formatDate(payout.paidAt) : ""}
-                        </Badge>
-                      ) : (
-                        <Button
-                          size="sm"
-                          className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-                          onClick={() => {
-                            void api.payouts
-                              .markPaid(payout.id)
-                              .then(() =>
-                                toast.success(`Payout ${payout.id} approved and marked paid.`),
-                              );
-                          }}
-                        >
-                          Approve & Mark Paid
-                        </Button>
-                      )}
-                    </div>
-                  </article>
-                ))
-              )}
-            </div>
-          </section>
-        ) : null}
+        {tab === "payouts" ? <CloudPayoutQueue /> : null}
 
         {tab === "kits" ? (
           <section className="space-y-4">
