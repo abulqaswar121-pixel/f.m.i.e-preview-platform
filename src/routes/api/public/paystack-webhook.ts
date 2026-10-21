@@ -22,21 +22,29 @@ export const Route = createFileRoute("/api/public/paystack-webhook")({
         if (!isChargeSuccess(payload)) return Response.json({ received: true });
 
         const verified = await verifyPayment(payload.data.reference, secret);
-        if (!verified || !matchesPaystackPayment(verified, {
-          reference: payload.data.reference,
-          amountMinor: verified.amount,
-          currency: "NGN",
-        })) {
+        if (!verified || verified.reference !== payload.data.reference) {
           return new Response("Payment verification pending", { status: 202 });
         }
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { error } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
+        const { data: purchase, error: purchaseError } = await supabaseAdmin
+          .from("wallet_point_purchases")
+          .select("reference, amount_minor, currency")
+          .eq("reference", verified.reference)
+          .maybeSingle();
+        if (purchaseError || !purchase || !matchesPaystackPayment(verified, {
+          reference: purchase.reference,
+          amountMinor: purchase.amount_minor,
+          currency: purchase.currency,
+        })) {
+          return new Response("Payment does not match a pending purchase", { status: 400 });
+        }
+        const { data: settled, error } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
           _reference: verified.reference,
           _amount_minor: verified.amount,
           _currency: verified.currency,
           _provider_transaction_id: String(verified.id),
         });
-        if (error) return new Response("Payment settlement failed", { status: 500 });
+        if (error || !settled) return new Response("Payment settlement failed", { status: 500 });
         return Response.json({ received: true });
       },
     },

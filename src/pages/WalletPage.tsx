@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Banknote, Download, ShieldCheck, Wallet as WalletIcon } from "lucide-react";
+import { useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 
 import { Badge } from "@/components/common/Badge";
 import { PageHeader } from "@/components/common/Primitives";
 import { Modal } from "@/components/common/Modal";
 import { Button } from "@/components/ui/button";
-import { surveyPointPacks } from "@/config/site";
+import { surveyEconomyDefaults, surveyPointPacks } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
-import { api, useDatabase } from "@/services/api";
-import type { PayoutRequest, WalletTransaction } from "@/types";
+import {
+  confirmPointPurchase,
+  getWalletSummary,
+  initializePointPurchase,
+  requestWalletWithdrawal,
+} from "@/lib/wallet.functions";
 
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-gold focus:outline-none";
@@ -23,12 +29,17 @@ function naira(value: number): string {
  */
 export function WalletPage() {
   const { user } = useAuth();
-  const database = useDatabase();
-  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
-  const [payouts, setPayouts] = useState<PayoutRequest[]>([]);
+  const search = useSearch({ strict: false }) as { payment?: string; reference?: string };
+  const getSummary = useServerFn(getWalletSummary);
+  const beginPurchase = useServerFn(initializePointPurchase);
+  const confirmPurchase = useServerFn(confirmPointPurchase);
+  const makeWithdrawal = useServerFn(requestWalletWithdrawal);
+  const [summary, setSummary] = useState<Awaited<ReturnType<typeof getWalletSummary>> | null>(null);
+  const [loading, setLoading] = useState(true);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [buying, setBuying] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const confirmedReference = useRef<string | null>(null);
   const [form, setForm] = useState({
     bankName: "",
     accountNumber: "",
@@ -36,40 +47,57 @@ export function WalletPage() {
     amountNaira: "",
   });
 
-  const settings = database.settings;
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    try {
+      setSummary(await getSummary());
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Your wallet could not be loaded.");
+    } finally {
+      setLoading(false);
+    }
+  }, [getSummary]);
 
   useEffect(() => {
-    if (!user) return;
-    let alive = true;
-    void api.wallets.summary(user.id).then((summary) => {
-      if (alive) setTransactions(summary.transactions);
-    });
-    void api.payouts.list().then((list) => {
-      if (alive) setPayouts(list.filter((payout) => payout.userId === user.id));
-    });
-    return () => {
-      alive = false;
-    };
-  }, [user, database.transactions, database.payouts]);
+    if (user) void refresh();
+  }, [user, refresh]);
 
-  const cash = user?.cashWallet ?? { availableNaira: 0, totalEarnedNaira: 0, completedSurveys: 0 };
-  const points = user?.pointsWallet ?? { balance: 0, purchasedNaira: 0 };
+  useEffect(() => {
+    if (search.payment !== "return" || !search.reference || !user || confirmedReference.current === search.reference) return;
+    confirmedReference.current = search.reference;
+    void confirmPurchase({ data: { reference: search.reference } })
+      .then(async (result) => {
+        setNotice(result.status === "succeeded"
+          ? "Payment confirmed. Points have been added to your research wallet."
+          : "Payment is still being confirmed. Your wallet will update once it is verified.");
+        await refresh();
+      })
+      .catch((error: unknown) => {
+        setNotice(error instanceof Error ? error.message : "Payment confirmation is still pending.");
+      });
+  }, [confirmPurchase, refresh, search.payment, search.reference, user]);
+
+  const cashMinor = summary?.cashMinor ?? 0;
+  const pointsBalance = summary?.points ?? 0;
+  const isEarner = user?.role === "earner";
   const isEarner = user?.role === "earner";
 
   async function submitWithdrawal(): Promise<void> {
     if (!user) return;
     setNotice(null);
     try {
-      const payout = await api.wallets.withdraw(user.id, {
-        bankName: form.bankName,
-        accountNumber: form.accountNumber,
-        accountName: form.accountName,
-        amountNaira: Number(form.amountNaira || 0),
+      await makeWithdrawal({
+        data: {
+          bankName: form.bankName,
+          accountNumber: form.accountNumber,
+          accountName: form.accountName,
+          amountNaira: Number(form.amountNaira || 0),
+        },
       });
       setWithdrawOpen(false);
-      setNotice(
-        `Withdrawal of ${naira(payout.amountNaira)} to ${payout.bankName} is being processed — simulated instant payout.`,
-      );
+      setForm({ bankName: "", accountNumber: "", accountName: "", amountNaira: "" });
+      setNotice("Withdrawal request saved for review. This does not send a bank transfer.");
+      await refresh();
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Withdrawal failed.");
     }
@@ -80,8 +108,8 @@ export function WalletPage() {
     setBuying(packId);
     setNotice(null);
     try {
-      await api.wallets.purchasePoints(user.id, packId);
-      setNotice("Paystack checkout simulated — points credited to your research wallet.");
+      const result = await beginPurchase({ data: { packId } });
+      window.location.assign(result.authorizationUrl);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Purchase failed.");
     } finally {
@@ -94,7 +122,7 @@ export function WalletPage() {
       <PageHeader
         eyebrow="Wallet"
         title="Cash earnings & research points"
-        description="Earners: withdraw your cash to any Nigerian bank. Researchers: top up points here. Everything is saved on this device."
+        description="View your saved wallet balance, buy research points, or request a bank withdrawal."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Wallet" }]}
       />
 
@@ -111,13 +139,13 @@ export function WalletPage() {
               Available balance
             </p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {isEarner ? naira(cash.availableNaira) : `${points.balance.toLocaleString()} pts`}
+              {loading ? "Loading…" : isEarner ? naira(cashMinor / 100) : `${pointsBalance.toLocaleString()} pts`}
             </p>
           </div>
           <div className="rounded-lg border border-brand-border bg-white p-5 shadow-sm">
             <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">Total earned</p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {isEarner ? naira(cash.totalEarnedNaira) : naira(points.purchasedNaira)}
+              {loading ? "Loading…" : isEarner ? naira((summary?.totalEarnedMinor ?? 0) / 100) : naira((summary?.purchasedMinor ?? 0) / 100)}
             </p>
           </div>
           <div className="rounded-lg border border-brand-border bg-white p-5 shadow-sm">
@@ -125,7 +153,7 @@ export function WalletPage() {
               {isEarner ? "Completed surveys" : "Lifetime point spend"}
             </p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
-              {isEarner ? String(cash.completedSurveys) : `${points.balance.toLocaleString()} pts`}
+              {loading ? "Loading…" : isEarner ? String(summary?.completedSurveys ?? 0) : `${(summary?.lockedPoints ?? 0).toLocaleString()} pts`}
             </p>
           </div>
         </div>
@@ -187,12 +215,14 @@ export function WalletPage() {
           <div>
             <h2 className="font-display text-xl font-bold text-brand-charcoal">Transactions</h2>
             <ul className="mt-4 divide-y divide-brand-border rounded-lg border border-brand-border bg-white shadow-sm">
-              {transactions.length === 0 ? (
+              {loading ? (
+                <li className="px-5 py-8 text-center text-sm text-brand-slate">Loading wallet history…</li>
+              ) : (summary?.transactions.length ?? 0) === 0 ? (
                 <li className="px-5 py-8 text-center text-sm text-brand-slate">
                   No wallet movements yet.
                 </li>
               ) : (
-                transactions.map((txn) => (
+                (summary?.transactions ?? []).map((txn) => (
                   <li
                     key={txn.id}
                     className="flex items-center justify-between gap-4 px-5 py-3 text-sm"
@@ -200,12 +230,12 @@ export function WalletPage() {
                     <div>
                       <p className="font-medium text-brand-charcoal">{txn.note}</p>
                       <p className="text-[11px] text-brand-slate">
-                        {new Date(txn.createdAt).toLocaleString()} · {txn.kind.replace("_", " ")}
+                        {new Date(txn.createdAt).toLocaleString()} · {txn.kind.replaceAll("_", " ")}
                       </p>
                     </div>
                     <p className="shrink-0 font-semibold text-brand-navy">
-                      {txn.naira !== 0 ? `${txn.naira > 0 ? "+" : ""}${naira(txn.naira)}` : ""}
-                      {txn.naira !== 0 && txn.points !== 0 ? " · " : ""}
+                      {txn.amountMinor !== 0 ? `${txn.amountMinor > 0 ? "+" : "−"}${naira(Math.abs(txn.amountMinor) / 100)}` : ""}
+                      {txn.amountMinor !== 0 && txn.points !== 0 ? " · " : ""}
                       {txn.points !== 0 ? `${txn.points > 0 ? "+" : ""}${txn.points} pts` : ""}
                     </p>
                   </li>
@@ -216,26 +246,28 @@ export function WalletPage() {
           <div>
             <h2 className="font-display text-xl font-bold text-brand-charcoal">Withdrawals</h2>
             <ul className="mt-4 space-y-3">
-              {payouts.length === 0 ? (
+              {loading ? (
+                <li className="rounded-lg border border-brand-border bg-white px-5 py-8 text-center text-sm text-brand-slate shadow-sm">Loading withdrawal requests…</li>
+              ) : (summary?.withdrawals.length ?? 0) === 0 ? (
                 <li className="rounded-lg border border-brand-border bg-white px-5 py-8 text-center text-sm text-brand-slate shadow-sm">
                   No withdrawal requests yet.
                 </li>
               ) : (
-                payouts.map((payout) => (
+                (summary?.withdrawals ?? []).map((payout) => (
                   <li
                     key={payout.id}
                     className="rounded-lg border border-brand-border bg-white p-4 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold text-brand-charcoal">
-                        {naira(payout.amountNaira)}
+                        {naira(payout.amountMinor / 100)}
                       </p>
-                      <Badge tone={payout.status === "paid" ? "navy" : "gold"}>
-                        {payout.status === "paid" ? "Paid" : "Processing"}
+                      <Badge tone={payout.status === "rejected" ? "danger" : payout.status === "approved" ? "info" : "gold"}>
+                        {payout.status === "rejected" ? "Rejected — balance returned" : payout.status === "approved" ? "Approved — transfer pending" : "Pending review"}
                       </Badge>
                     </div>
                     <p className="mt-1 text-xs text-brand-slate">
-                      {payout.bankName} •••{payout.accountNumber.slice(-4)} ·{" "}
+                      {payout.bankName} ••••{payout.accountLastFour} ·{" "}
                       {new Date(payout.requestedAt).toLocaleDateString()}
                     </p>
                   </li>
@@ -244,8 +276,7 @@ export function WalletPage() {
             </ul>
             <p className="mt-4 flex items-start gap-2 text-xs text-brand-slate">
               <Banknote className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-gold-dark" />
-              Minimum withdrawal {naira(settings.minWithdrawalNaira)}. Payouts are simulated for
-              this demonstration preview — no real bank transfer occurs.
+              Minimum withdrawal {naira(surveyEconomyDefaults.minWithdrawalNaira)}. Requests need administrator review; approval does not send a bank transfer.
             </p>
           </div>
         </section>
@@ -285,10 +316,12 @@ export function WalletPage() {
             />
           </label>
           <label className="block text-xs font-semibold text-brand-slate">
-            Amount (minimum {naira(settings.minWithdrawalNaira)})
+            Amount (minimum {naira(surveyEconomyDefaults.minWithdrawalNaira)})
             <input
               className={`${inputClass} mt-1`}
               type="number"
+              min={surveyEconomyDefaults.minWithdrawalNaira}
+              step="1"
               value={form.amountNaira}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, amountNaira: event.target.value }))
