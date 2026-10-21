@@ -11,8 +11,8 @@ describe("wallet safeguards", () => {
 
   it("only accepts a successful payment matching the saved reference, amount, and currency", () => {
     const expected = { reference: "fmie_points_order1", amountMinor: 500_000, currency: "NGN" };
-    expect(matchesPaystackPayment({ status: "success", ...expected }, expected)).toBe(true);
-    expect(matchesPaystackPayment({ status: "success", ...expected, amount: 499_999 }, expected)).toBe(false);
-    expect(matchesPaystackPayment({ status: "failed", ...expected }, expected)).toBe(false);
+    expect(matchesPaystackPayment({ status: "success", reference: expected.reference, amount: expected.amountMinor, currency: expected.currency }, expected)).toBe(true);
+    expect(matchesPaystackPayment({ status: "success", reference: expected.reference, amount: 499_999, currency: expected.currency }, expected)).toBe(false);
+    expect(matchesPaystackPayment({ status: "failed", reference: expected.reference, amount: expected.amountMinor, currency: expected.currency }, expected)).toBe(false);
   });
 });
