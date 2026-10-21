@@ -35,7 +35,7 @@ export const getWalletSummary = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
-    const [walletResult, transactionResult, withdrawalResult] = await Promise.all([
+    const [walletResult, transactionResult, withdrawalResult, totalsResult] = await Promise.all([
       supabase.from("wallet_accounts").select("cash_minor, points, locked_points").eq("user_id", userId).maybeSingle(),
       supabase
         .from("wallet_transactions")
@@ -49,31 +49,20 @@ export const getWalletSummary = createServerFn({ method: "GET" })
         .eq("user_id", userId)
         .order("requested_at", { ascending: false })
         .limit(50),
+      supabase.rpc("get_wallet_ledger_totals", { _user_id: userId }),
     ]);
-    if (walletResult.error || transactionResult.error || withdrawalResult.error) {
+    if (walletResult.error || transactionResult.error || withdrawalResult.error || totalsResult.error) {
       throw new Error("Your wallet could not be loaded. Please try again.");
     }
     const transactions = transactionResult.data ?? [];
-    const summary = transactions.reduce(
-      (totals, item) => {
-        if (item.kind === "survey_reward" && item.amount_minor > 0) {
-          totals.earnedMinor += item.amount_minor;
-          totals.completedSurveys += 1;
-        }
-        if (item.kind === "points_purchase" && item.amount_minor < 0) {
-          totals.purchasedMinor += Math.abs(item.amount_minor);
-        }
-        return totals;
-      },
-      { earnedMinor: 0, purchasedMinor: 0, completedSurveys: 0 },
-    );
+    const totals = totalsResult.data?.[0];
     return {
       cashMinor: walletResult.data?.cash_minor ?? 0,
       points: walletResult.data?.points ?? 0,
       lockedPoints: walletResult.data?.locked_points ?? 0,
-      totalEarnedMinor: summary.earnedMinor,
-      purchasedMinor: summary.purchasedMinor,
-      completedSurveys: summary.completedSurveys,
+      totalEarnedMinor: totals?.total_earned_minor ?? 0,
+      purchasedMinor: totals?.points_purchased_minor ?? 0,
+      completedSurveys: totals?.completed_surveys ?? 0,
       transactions: transactions.map((item) => ({
         id: item.id,
         kind: item.kind,
@@ -156,7 +145,6 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
         }),
       });
     } catch {
-      await supabaseAdmin.from("wallet_point_purchases").update({ status: "failed" }).eq("reference", reference);
       throw new Error("Paystack could not be reached. No points were added; please try again.");
     }
     const payload: unknown = await response.json().catch(() => null);
