@@ -170,7 +170,7 @@ export function WalletPage() {
             <Download className="mr-2 h-4 w-4" /> Withdraw to Bank
           </Button>
           <Badge tone="gold">
-            <ShieldCheck className="mr-1 inline h-3 w-3" /> Points are for rewards on live surveys
+            <ShieldCheck className="mr-1 inline h-3 w-3" /> Survey reward funding is not active yet
           </Badge>
         </div>
 
@@ -179,8 +179,8 @@ export function WalletPage() {
               Buy survey points
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-brand-slate">
-              Points fund respondent rewards and are locked in escrow when a survey goes live.
-              Unused points return to this wallet automatically if a survey closes before its quota.
+              Confirmed point purchases are saved to this wallet. Using points to fund survey
+              rewards is not active yet.
             </p>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {surveyPointPacks.map((pack) => (
