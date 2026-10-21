@@ -173,7 +173,7 @@ export const confirmPointPurchase = createServerFn({ method: "POST" })
     const secret = process.env["PAYSTACK_SECRET_KEY"];
     if (!secret) return { status: "pending" as const };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: purchase, error: purchaseError } = await context.supabase
+    const { data: purchase, error: purchaseError } = await supabaseAdmin
       .from("wallet_point_purchases")
       .select("reference, amount_minor, currency")
       .eq("reference", data.reference)
