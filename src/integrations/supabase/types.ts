@@ -552,6 +552,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_wallet_ledger_totals: {
+        Args: { _user_id: string }
+        Returns: {
+          completed_surveys: number
+          points_purchased_minor: number
+          total_earned_minor: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
