@@ -166,9 +166,20 @@ export function PressReleasesPage() {
                   {channel.administratorNote}
                 </p>
                 <p className="mt-3 border-t border-brand-border pt-2 text-xs text-brand-slate">
-                  {channel.indicativePrice === 0
-                    ? "Included in every tier"
-                    : `Indicative channel fee: ${formatCurrency(channel.indicativePrice)}`}
+                  {channel.priceNaira == null && channel.priceUsd == null
+                    ? channel.indicativePrice === 0
+                      ? "Included in every tier"
+                      : `Indicative channel fee: ${formatCurrency(channel.indicativePrice)}`
+                    : `Price: ${[
+                        channel.priceNaira != null
+                          ? `₦${channel.priceNaira.toLocaleString("en-NG")}`
+                          : null,
+                        channel.priceUsd != null
+                          ? `$${channel.priceUsd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                          : null,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}`}
                   {channel.verifiedOn ? ` · verified ${channel.verifiedOn.slice(0, 10)}` : ""}
                 </p>
               </article>
