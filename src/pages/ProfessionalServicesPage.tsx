@@ -23,7 +23,7 @@ export function ProfessionalServicesPage() {
         {services.data.map((service, index) => (
           <article
             key={service.id}
-            className={`grid gap-6 rounded-lg border border-brand-border bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1.5fr_1fr] ${
+            className={`grid grid-cols-1 gap-6 rounded-lg border border-brand-border bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1.5fr_1fr] ${
               index % 2 === 1 ? "lg:bg-brand-cream/40" : ""
             }`}
           >

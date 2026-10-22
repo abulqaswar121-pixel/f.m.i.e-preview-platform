@@ -279,7 +279,7 @@ export function HomePage() {
       {/* 5 — Visibility band: published releases + custom kits */}
       {!isHidden("visibility") ? (
         <section className="bg-brand-navy-dark text-white">
-          <div className="fmie-container grid gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr]">
+          <div className="fmie-container grid grid-cols-1 gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr]">
             <div>
               <p className="fmie-eyebrow text-brand-gold">Press releases</p>
               <h2 className="mt-2 font-display text-2xl font-bold">
