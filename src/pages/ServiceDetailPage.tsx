@@ -147,7 +147,7 @@ export function ServiceDetailPage() {
         </div>
       </PageHeader>
 
-      <div className="fmie-container grid gap-8 py-10 lg:grid-cols-[1.5fr_1fr]">
+      <div className="fmie-container grid grid-cols-1 gap-8 py-10 lg:grid-cols-[1.5fr_1fr]">
         <div className="space-y-8">
           <section>
             <h2 className="font-display text-xl font-semibold text-brand-charcoal">

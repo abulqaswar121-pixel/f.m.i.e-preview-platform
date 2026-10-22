@@ -71,7 +71,7 @@ export function TeamKitsPage() {
         ]}
       />
 
-      <div className="fmie-container grid gap-8 py-10 lg:grid-cols-[1.5fr_1fr]">
+      <div className="fmie-container grid grid-cols-1 gap-8 py-10 lg:grid-cols-[1.5fr_1fr]">
         <div className="space-y-6">
           {submitted ? (
             <p className="rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-3 text-sm text-brand-charcoal">
