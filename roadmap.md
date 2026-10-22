@@ -4,10 +4,6 @@
 - [x] Set up private file storage.
 - [x] Verify storage access rules.
 
-# Current preview fixes
-- [x] Make the homepage film play in browsers that do not support its original video format.
-- [ ] Redirect the stray `/index` address to the homepage and confirm it works.
-
 # Priority 2: Real accounts and roles
 - [x] Email/password sign-up with email confirmation, Google and Lovable sign-in, password reset.
 - [x] Saved member profiles (name, organisation, job title, country, preferences).
