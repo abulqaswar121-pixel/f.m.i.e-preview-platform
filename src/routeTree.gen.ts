@@ -17,6 +17,7 @@ import { Route as SiteAdvertisingRouteImport } from './routes/_site/advertising'
 import { Route as SiteCheckoutRouteImport } from './routes/_site/checkout'
 import { Route as SiteContactRouteImport } from './routes/_site/contact'
 import { Route as SiteEditorialPolicyRouteImport } from './routes/_site/editorial-policy'
+import { Route as SiteIndexPageRouteImport } from './routes/_site/index-page'
 import { Route as SitePrivacyRouteImport } from './routes/_site/privacy'
 import { Route as SiteRegisterRouteImport } from './routes/_site/register'
 import { Route as SiteResetPasswordRouteImport } from './routes/_site/reset-password'
@@ -79,6 +80,11 @@ const SiteContactRoute = SiteContactRouteImport.update({
 const SiteEditorialPolicyRoute = SiteEditorialPolicyRouteImport.update({
   id: '/editorial-policy',
   path: '/editorial-policy',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteIndexPageRoute = SiteIndexPageRouteImport.update({
+  id: '/index-page',
+  path: '/index-page',
   getParentRoute: () => SiteRoute,
 } as any)
 const SitePrivacyRoute = SitePrivacyRouteImport.update({
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof SiteCheckoutRoute
   '/contact': typeof SiteContactRoute
   '/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/index-page': typeof SiteIndexPageRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
   '/reset-password': typeof SiteResetPasswordRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof SiteCheckoutRoute
   '/contact': typeof SiteContactRoute
   '/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/index-page': typeof SiteIndexPageRoute
   '/privacy': typeof SitePrivacyRoute
   '/register': typeof SiteRegisterRoute
   '/reset-password': typeof SiteResetPasswordRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/_site/checkout': typeof SiteCheckoutRoute
   '/_site/contact': typeof SiteContactRoute
   '/_site/editorial-policy': typeof SiteEditorialPolicyRoute
+  '/_site/index-page': typeof SiteIndexPageRoute
   '/_site/privacy': typeof SitePrivacyRoute
   '/_site/register': typeof SiteRegisterRoute
   '/_site/reset-password': typeof SiteResetPasswordRoute
@@ -321,6 +330,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/editorial-policy'
+    | '/index-page'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -354,6 +364,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/editorial-policy'
+    | '/index-page'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -388,6 +399,7 @@ export interface FileRouteTypes {
     | '/_site/checkout'
     | '/_site/contact'
     | '/_site/editorial-policy'
+    | '/_site/index-page'
     | '/_site/privacy'
     | '/_site/register'
     | '/_site/reset-password'
@@ -477,6 +489,13 @@ declare module '@tanstack/react-router' {
       path: '/editorial-policy'
       fullPath: '/editorial-policy'
       preLoaderRoute: typeof SiteEditorialPolicyRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/index-page': {
+      id: '/_site/index-page'
+      path: '/index-page'
+      fullPath: '/index-page'
+      preLoaderRoute: typeof SiteIndexPageRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/privacy': {
@@ -682,6 +701,7 @@ interface SiteRouteChildren {
   SiteCheckoutRoute: typeof SiteCheckoutRoute
   SiteContactRoute: typeof SiteContactRoute
   SiteEditorialPolicyRoute: typeof SiteEditorialPolicyRoute
+  SiteIndexPageRoute: typeof SiteIndexPageRoute
   SitePrivacyRoute: typeof SitePrivacyRoute
   SiteRegisterRoute: typeof SiteRegisterRoute
   SiteResetPasswordRoute: typeof SiteResetPasswordRoute
@@ -713,6 +733,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteCheckoutRoute: SiteCheckoutRoute,
   SiteContactRoute: SiteContactRoute,
   SiteEditorialPolicyRoute: SiteEditorialPolicyRoute,
+  SiteIndexPageRoute: SiteIndexPageRoute,
   SitePrivacyRoute: SitePrivacyRoute,
   SiteRegisterRoute: SiteRegisterRoute,
   SiteResetPasswordRoute: SiteResetPasswordRoute,
