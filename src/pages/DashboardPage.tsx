@@ -360,8 +360,7 @@ export function DashboardPage() {
                 </ul>
                 {mySurveys.length + myCampaigns.length + myOrders.length === 0 ? (
                   <p className="mt-4 text-sm text-brand-slate">
-                    Nothing recorded yet for this account. Create a survey or book a campaign and it
-                    will appear here immediately.
+                    Nothing here yet. Create a survey or book a press release to get started.
                   </p>
                 ) : null}
               </div>
@@ -961,9 +960,7 @@ export function DashboardPage() {
                   </>
                 ) : (
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-                    This account is an individual membership. Corporate plans add team seats,
-                    billing history and branded survey experiences. Contact our team to upgrade
-                    your organisation.
+                    This is a personal account. Contact us to get a company account for your team.
                   </p>
                 )}
               </div>
@@ -992,8 +989,7 @@ export function DashboardPage() {
                   </ul>
                 ) : (
                   <p className="mt-2 text-xs text-brand-slate">
-                    No organisation plan attached. Plans are configured by an administrator, never
-                    hardcoded in the interface.
+                    No company plan yet.
                   </p>
                 )}
                 <Button asChild variant="outline" size="sm" className="mt-4">

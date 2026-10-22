@@ -179,8 +179,7 @@ export function WalletPage() {
               Buy survey points
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-brand-slate">
-              Confirmed point purchases are saved to this wallet. Using points to fund survey
-              rewards is not active yet.
+              Points you buy are saved here. Using them to pay survey rewards is coming soon.
             </p>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {surveyPointPacks.map((pack) => (
