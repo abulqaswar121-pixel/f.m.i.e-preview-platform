@@ -94,7 +94,7 @@ export function AccountMenu() {
           onSelect={() => {
             void signOut().then(() => {
               toast.success("Signed out");
-              void navigate({ to: "/signin", replace: true });
+              void navigate({ to: "/", replace: true });
             });
           }}
         >
