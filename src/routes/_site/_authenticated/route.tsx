@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
  */
 export const Route = createFileRoute("/_site/_authenticated")({
   ssr: false,
+  pendingComponent: MemberAreaPending,
   beforeLoad: async ({ location }) => {
     const { data } = await supabase.auth.getUser();
     if (!data.user) {
@@ -18,6 +19,14 @@ export const Route = createFileRoute("/_site/_authenticated")({
   },
   component: MemberArea,
 });
+
+function MemberAreaPending() {
+  return (
+    <div className="fmie-container flex min-h-64 items-center justify-center gap-2 py-24 text-sm text-brand-slate">
+      <Loader2 className="h-4 w-4 animate-spin" /> Checking your account…
+    </div>
+  );
+}
 
 function MemberArea() {
   const { user } = useAuth();

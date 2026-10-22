@@ -99,12 +99,15 @@ export function VideoShowcaseCard({ className }: { className?: string }) {
         {hasVideo ? (
           <video
             ref={videoRef}
-            src={showcaseVideoUrl}
             autoPlay
             loop
             playsInline
             muted
             className="aspect-video w-full object-cover"
+            onError={() => setPlaying(false)}
+            onLoadedMetadata={(event) => {
+              setDuration(event.currentTarget.duration || 0);
+            }}
             onTimeUpdate={(event) => {
               setElapsed(event.currentTarget.currentTime);
               setDuration(event.currentTarget.duration || 0);
@@ -116,7 +119,10 @@ export function VideoShowcaseCard({ className }: { className?: string }) {
             }}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
-          />
+          >
+            <source src={showcaseVideoUrl.replace(/\.mp4(?:\?.*)?$/i, ".webm")} type="video/webm" />
+            <source src={showcaseVideoUrl} type="video/mp4" />
+          </video>
         ) : (
           <>
             <img
