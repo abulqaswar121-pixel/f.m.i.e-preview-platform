@@ -1,3 +1,4 @@
+import { OutletLogo } from "@/components/press/OutletLogo";
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, CreditCard, PenLine, Sparkles } from "lucide-react";
 

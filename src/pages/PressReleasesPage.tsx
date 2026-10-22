@@ -1,3 +1,4 @@
+import { OutletLogo } from "@/components/press/OutletLogo";
 import { Link } from "@tanstack/react-router";
 import { BadgeCheck, Globe2, Megaphone, ShieldAlert } from "lucide-react";
 
