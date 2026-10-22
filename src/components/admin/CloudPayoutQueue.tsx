@@ -82,7 +82,7 @@ export function CloudPayoutQueue() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h3 className="text-sm font-semibold text-brand-charcoal">{naira(item.amountMinor)} · {item.bankName}</h3>
-                <p className="mt-1 text-xs text-brand-slate">{item.accountName} · account ending {item.accountNumber.slice(-4)} · requested {new Date(item.requestedAt).toLocaleDateString()}</p>
+                <p className="mt-1 text-xs text-brand-slate">{item.accountName} · account ending {item.accountLastFour} · requested {new Date(item.requestedAt).toLocaleDateString()}</p>
                 {revealedId === item.id && accountNumbers[item.id] ? (
                   <p className="mt-2 font-mono text-sm text-brand-charcoal" aria-label="Full bank account number">{accountNumbers[item.id]}</p>
                 ) : null}

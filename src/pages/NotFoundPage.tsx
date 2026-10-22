@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, Navigate, useRouterState } from "@tanstack/react-router";
 import { Compass, Search } from "lucide-react";
 
 import { SiteLink } from "@/components/common/SiteLink";
@@ -21,6 +21,12 @@ const SHORTCUTS = [
 ] as const;
 
 export function NotFoundPage() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  if (pathname === "/index") {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div className="fmie-container py-16">
       <div className="mx-auto max-w-3xl text-center">

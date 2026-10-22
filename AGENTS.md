@@ -17,3 +17,4 @@
 - Identity comes only from Cloud auth via `AuthProvider`; pages not yet migrated keep reading the legacy local store, which the provider binds to the signed-in email, so demo personas must not return as a way to change identity or role.
 - Signed-in-only pages live under `src/routes/_site/_authenticated/` (client-only gate redirecting to `/signin?next=`), keeping the shared site layout while blocking visitors.
 - Wallet lifetime totals use a database-side, signed-in-owner aggregate so the transaction history display can stay paginated without misreporting lifetime figures.
+- Serve the homepage showcase film in browser-compatible WebM first with MP4 fallback, because the preview browser cannot decode the supplied MP4 codec.
