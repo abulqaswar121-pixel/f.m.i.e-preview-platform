@@ -118,8 +118,8 @@ export function WalletPage() {
     <div>
       <PageHeader
         eyebrow="Wallet"
-        title="Cash earnings & research points"
-        description="View your saved wallet balance, buy research points, or request a bank withdrawal."
+        title="Your wallet"
+        description="See your money, buy survey points or withdraw to your bank."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Wallet" }]}
       />
 

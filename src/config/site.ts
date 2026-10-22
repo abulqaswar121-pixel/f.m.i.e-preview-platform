@@ -199,7 +199,7 @@ export const livePositioning: {
   heroLine: "Unlock Your Story. Amplify Your Impact.",
   bandTitle: "Feature Local. Impact Global.",
   bandBody:
-    "We plan every campaign on owned F.M.I.E channels and verified partner desks, with a clear workflow and an honest quote. No publication is ever promised — editors always decide.",
+    "We send your story to trusted news outlets at a clear price. Editors decide what gets published.",
   photoCredit:
     "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
   heroRotatingLines: [
@@ -213,19 +213,19 @@ export const livePositioning: {
     {
       title: "PR and Media Placement",
       blurb:
-        "Structured press-release booking through owned and verified channels, with dated workflows, tiered quotations and no guaranteed pickup.",
+        "Book a press release with trusted outlets at clear prices.",
       to: "/press-releases",
     },
     {
       title: "Paid Surveys Platform",
       blurb:
-        "An independent survey marketplace where panellists take part voluntarily and every result is published with its limitations.",
+        "Answer surveys for money, or create surveys to get real answers.",
       to: "/surveys",
     },
     {
       title: "Pitching and Representation",
       blurb:
-        "Executive representation and advisory engagements with documented scopes; we prepare and present, never promise outcomes.",
+        "We help you present your business to the right people.",
       to: "/services",
     },
   ],
@@ -236,7 +236,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "News & Insights",
     to: "/news",
-    description: "Independent business journalism across ten editorial desks.",
+    description: "Business news from around the world.",
     children: [
       {
         label: "All News & Insights",
@@ -451,12 +451,12 @@ export const roleLabels: Record<UserRole, string> = {
 
 export const roleDescriptions: Record<UserRole, string> = {
   earner: "Answer surveys, earn cash, withdraw to your bank.",
-  visitor: "Read-only access to public journalism, surveys and the shop.",
-  registered_user: "Saved reading list, survey participation and order history.",
+  visitor: "Read news, see surveys and visit the shop.",
+  registered_user: "Save articles, answer surveys and see your orders.",
   survey_creator: "Buy points, launch surveys, read live results.",
   premium_customer: "Book press coverage and track it live.",
-  corporate_account: "Multi-seat research account with billing history and branded surveys.",
-  contributor: "Submit pitches, drafts and interview requests to the editorial desk.",
+  corporate_account: "A team account for companies running surveys.",
+  contributor: "Send story ideas and drafts to our news team.",
   administrator: "Full control of surveys, payouts, press, kits and settings.",
 };
 
@@ -626,14 +626,14 @@ export const prStatuses: PRStatusDefinition[] = [
   {
     id: "draft",
     label: "Draft",
-    description: "Saved privately by the client. Not visible to the F.M.I.E desk.",
+    description: "Saved only for you. Our team cannot see it yet.",
     tone: "muted",
     stage: 0,
   },
   {
     id: "submitted",
     label: "Submitted",
-    description: "Received by the press desk and queued with a reference number.",
+    description: "We got it and gave it a reference number.",
     tone: "info",
     stage: 1,
   },

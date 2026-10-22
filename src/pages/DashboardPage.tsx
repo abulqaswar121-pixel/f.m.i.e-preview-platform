@@ -121,8 +121,8 @@ export function DashboardPage() {
       <div className="fmie-container py-12">
         <div className="mx-auto max-w-3xl">
           <EmptyState
-            title="Your dashboard is one sign-in away"
-            description="Sign in or create a free account to see your surveys, wallet, press bookings and orders."
+            title="Sign in to see your dashboard"
+            description="Sign in or sign up free to see your surveys, wallet and bookings."
             action={{ label: "Sign in", to: "/signin" }}
             icon={<ShieldCheck className="h-6 w-6" />}
           />
@@ -466,7 +466,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No surveys yet"
-                  description="Build a Likert, multiple-choice or long-text instrument, preview it live and publish it to the marketplace."
+                  description="Add your questions, preview your survey and publish it."
                   action={{ label: "Create your first survey", to: "/surveys/create" }}
                   icon={<FlaskConical className="h-6 w-6" />}
                 />
@@ -603,7 +603,7 @@ export function DashboardPage() {
                   {isAdmin ? "All press campaigns" : "My press campaigns"}
                 </h2>
                 <p className="mt-1 text-xs text-brand-slate">
-                  Live workflow state, quotation value and the dated event log for each booking.
+                  See where each booking is, its price and its history.
                 </p>
               </div>
               <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-light">
@@ -617,7 +617,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No campaigns booked"
-                  description="Choose a tier, describe the announcement and the press desk will issue a priced quotation after editorial and compliance review."
+                  description="Pick your outlets, write your story and see the price."
                   action={{ label: "Book a press release", to: "/press-releases/book" }}
                   icon={<Megaphone className="h-6 w-6" />}
                 />
@@ -694,7 +694,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No orders yet"
-                  description="Browse branded apparel, stationery and accessories, then check out to generate a simulated order and invoice."
+                  description="Browse F.M.I.E clothing and items, then place your order."
                   action={{ label: "Visit the shop", to: "/shop" }}
                   icon={<Package className="h-6 w-6" />}
                 />
