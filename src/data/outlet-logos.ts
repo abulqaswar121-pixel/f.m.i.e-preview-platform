@@ -46,7 +46,17 @@ const OUTLET_DOMAINS: Record<string, string> = {
   "ch-044": "cnn.com",
 };
 
+/** Outlets whose logo is saved locally because the online icon service only returns a blank globe. */
+const LOCAL_LOGOS = new Set([
+  "ch-002", "ch-006", "ch-009", "ch-019", "ch-025", "ch-027", "ch-029", "ch-034", "ch-041", "ch-043",
+]);
+
+/** Outlets with no findable logo; they show initials instead of a blank globe. */
+const NO_LOGO = new Set(["ch-021", "ch-024", "ch-032", "ch-035"]);
+
 export function outletLogoUrl(channelId: string): string | null {
+  if (LOCAL_LOGOS.has(channelId)) return `/outlet-logos/${channelId}.png`;
+  if (NO_LOGO.has(channelId)) return null;
   const domain = OUTLET_DOMAINS[channelId];
   return domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : null;
 }
