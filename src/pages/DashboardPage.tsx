@@ -121,8 +121,8 @@ export function DashboardPage() {
       <div className="fmie-container py-12">
         <div className="mx-auto max-w-3xl">
           <EmptyState
-            title="Your dashboard is one sign-in away"
-            description="Sign in or create a free account to see your surveys, wallet, press bookings and orders."
+            title="Sign in to see your dashboard"
+            description="Sign in or sign up free to see your surveys, wallet and bookings."
             action={{ label: "Sign in", to: "/signin" }}
             icon={<ShieldCheck className="h-6 w-6" />}
           />
@@ -360,8 +360,7 @@ export function DashboardPage() {
                 </ul>
                 {mySurveys.length + myCampaigns.length + myOrders.length === 0 ? (
                   <p className="mt-4 text-sm text-brand-slate">
-                    Nothing recorded yet for this account. Create a survey or book a campaign and it
-                    will appear here immediately.
+                    Nothing here yet. Create a survey or book a press release to get started.
                   </p>
                 ) : null}
               </div>
@@ -466,7 +465,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No surveys yet"
-                  description="Build a Likert, multiple-choice or long-text instrument, preview it live and publish it to the marketplace."
+                  description="Add your questions, preview your survey and publish it."
                   action={{ label: "Create your first survey", to: "/surveys/create" }}
                   icon={<FlaskConical className="h-6 w-6" />}
                 />
@@ -603,7 +602,7 @@ export function DashboardPage() {
                   {isAdmin ? "All press campaigns" : "My press campaigns"}
                 </h2>
                 <p className="mt-1 text-xs text-brand-slate">
-                  Live workflow state, quotation value and the dated event log for each booking.
+                  See where each booking is, its price and its history.
                 </p>
               </div>
               <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-light">
@@ -617,7 +616,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No campaigns booked"
-                  description="Choose a tier, describe the announcement and the press desk will issue a priced quotation after editorial and compliance review."
+                  description="Pick your outlets, write your story and see the price."
                   action={{ label: "Book a press release", to: "/press-releases/book" }}
                   icon={<Megaphone className="h-6 w-6" />}
                 />
@@ -694,7 +693,7 @@ export function DashboardPage() {
               <div className="mt-6">
                 <EmptyState
                   title="No orders yet"
-                  description="Browse branded apparel, stationery and accessories, then check out to generate a simulated order and invoice."
+                  description="Browse F.M.I.E clothing and items, then place your order."
                   action={{ label: "Visit the shop", to: "/shop" }}
                   icon={<Package className="h-6 w-6" />}
                 />
@@ -961,9 +960,7 @@ export function DashboardPage() {
                   </>
                 ) : (
                   <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-                    This account is an individual membership. Corporate plans add team seats,
-                    billing history and branded survey experiences. Contact our team to upgrade
-                    your organisation.
+                    This is a personal account. Contact us to get a company account for your team.
                   </p>
                 )}
               </div>
@@ -992,8 +989,7 @@ export function DashboardPage() {
                   </ul>
                 ) : (
                   <p className="mt-2 text-xs text-brand-slate">
-                    No organisation plan attached. Plans are configured by an administrator, never
-                    hardcoded in the interface.
+                    No company plan yet.
                   </p>
                 )}
                 <Button asChild variant="outline" size="sm" className="mt-4">

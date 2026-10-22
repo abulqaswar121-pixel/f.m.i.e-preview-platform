@@ -81,14 +81,14 @@ export function HomePage() {
                   variant="outline"
                   className="border-white/40 bg-transparent text-white hover:bg-white/10 hover:text-white"
                 >
-                  <Link to="/press-releases/book">Book Press Distribution</Link>
+                  <Link to="/press-releases/book">Book a Press Release</Link>
                 </Button>
               </div>
               <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
                 {[
-                  ["Editorial desks", String(newsCategories.length)],
-                  ["Live survey categories", "10"],
-                  ["Distribution tiers", "3"],
+                  ["News topics", String(newsCategories.length)],
+                  ["Survey types", "10"],
+                  ["Press packages", "3"],
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-baseline gap-2">
                     <dd className="font-display text-xl font-bold text-brand-gold">{value}</dd>
@@ -106,7 +106,7 @@ export function HomePage() {
                 { label: westAfricaDesk.label, value: westAfricaDesk.addressOneLine },
                 {
                   label: "Survey rewards",
-                  value: "Locked in escrow, released via Paystack on completion",
+                  value: "Kept safe and paid when you finish",
                 },
                 { label: "Press desk", value: contactEmail.press, mailto: contactEmail.press },
               ].map((cell) => (
@@ -171,24 +171,22 @@ export function HomePage() {
               <div className="flex flex-col rounded-2xl border border-brand-border bg-brand-cream p-6 shadow-lg shadow-brand-navy/10 transition-transform duration-300 hover:-translate-y-1">
                 <p className="fmie-eyebrow">For Researchers</p>
                 <h3 className="mt-2 font-display text-xl font-bold text-brand-charcoal">
-                  Guaranteed High-Quality Survey Data
+                  Get Real Answers Fast
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-brand-slate">
-                  Fund a quota, lock respondent rewards in escrow and read a live results dashboard
-                  with demographic filters and CSV export.
+                  Pay for answers, launch your survey and see results live. Download them anytime.
                 </p>
                 <Button asChild className="mt-4 bg-brand-navy text-white hover:bg-brand-navy-dark">
-                  <Link to="/surveys/create">Launch research</Link>
+                  <Link to="/surveys/create">Create a survey</Link>
                 </Button>
               </div>
               <div className="flex flex-col rounded-2xl border border-brand-gold/40 bg-gradient-to-br from-brand-navy to-brand-navy-dark p-6 text-white shadow-xl shadow-brand-navy/30 transition-transform duration-300 hover:-translate-y-1">
                 <p className="fmie-eyebrow text-brand-gold">For Public</p>
                 <h3 className="mt-2 font-display text-xl font-bold">
-                  Earn Cash Rewards Per Survey
+                  Get Paid to Answer Surveys
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-white/80">
-                  Answer live surveys in minutes, watch ₦ rewards land in your wallet instantly and
-                  withdraw from ₦2,000 to any Nigerian bank account.
+                  Answer short surveys, earn money in your wallet and withdraw from ₦2,000 to your bank.
                 </p>
                 <Button
                   asChild
@@ -209,9 +207,9 @@ export function HomePage() {
           <div className="fmie-container py-10 sm:py-12">
             <SectionHeading
               eyebrow="News & Insights"
-              title="Today's editorial lead"
-              description="Independent business journalism, labelled at the point of publication and separated from paid content."
-              action={{ label: "All news & insights", to: "/news" }}
+              title="Top story today"
+              description="Business news you can trust. Paid stories are always marked."
+              action={{ label: "All news", to: "/news" }}
             />
             <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
               {lead ? (
@@ -283,11 +281,10 @@ export function HomePage() {
             <div>
               <p className="fmie-eyebrow text-brand-gold">Press releases</p>
               <h2 className="mt-2 font-display text-2xl font-bold">
-                Recently published announcements
+                Recently published
               </h2>
               <p className="mt-1 max-w-xl text-xs leading-relaxed text-white/70">
-                Campaigns that completed the six-stage pipeline through partner desks — publication
-                always at the editor's discretion.
+                Press releases we sent out recently. Editors decide what gets published.
               </p>
               <ul className="mt-5 space-y-3">
                 {releases.map((release) => (
@@ -311,7 +308,7 @@ export function HomePage() {
                 size="sm"
                 className="mt-4 border-brand-gold bg-transparent text-brand-gold hover:bg-brand-gold hover:text-brand-navy-dark"
               >
-                <Link to="/press-releases/book">Book distribution</Link>
+                <Link to="/press-releases/book">Book a press release</Link>
               </Button>
             </div>
             <div className="fmie-glass-dark flex flex-col justify-between rounded-3xl p-6 shadow-2xl shadow-brand-navy-dark/40 transition-transform duration-300 hover:-translate-y-1">
@@ -319,8 +316,7 @@ export function HomePage() {
                 <Shirt className="h-6 w-6 text-brand-gold" />
                 <h2 className="mt-3 font-display text-2xl font-bold">Custom Kits & Jerseys</h2>
                 <p className="mt-2 text-sm leading-relaxed text-white/80">
-                  Football clubs, academies and corporate teams: build your roster, choose club
-                  colours and get an official invoice quote for seasonal custom kits.
+                  For clubs, academies and company teams. Add your players, pick your colours and get a price quote.
                 </p>
               </div>
               <Button
