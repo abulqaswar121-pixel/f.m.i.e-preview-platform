@@ -141,7 +141,8 @@ export function PressReleasesPage() {
                 )}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="font-display text-base font-semibold text-brand-charcoal">
+                  <h3 className="flex min-w-0 items-center gap-3 font-display text-base font-semibold text-brand-charcoal">
+                    <OutletLogo id={channel.id} label={channel.label} />
                     {channel.label}
                   </h3>
                   <Badge

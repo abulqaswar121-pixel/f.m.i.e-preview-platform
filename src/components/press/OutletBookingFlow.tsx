@@ -532,15 +532,8 @@ export function OutletBookingFlow() {
                         aria-pressed={active}
                       >
                         <span className="flex items-center gap-3">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-brand-navy font-display text-sm font-bold text-brand-gold">
-                            {channel.label
-                              .split(" ")
-                              .map((word) => word[0])
-                              .join("")
-                              .slice(0, 2)
-                              .toUpperCase()}
-                          </span>
-                          <span>
+                          <OutletLogo id={channel.id} label={channel.label} />
+                          <span className="min-w-0">
                             <span className="block text-sm font-semibold text-brand-charcoal">
                               {channel.label}
                             </span>
