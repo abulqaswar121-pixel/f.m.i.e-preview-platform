@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
 import { countries, industries } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
+import { LIFE_STAGES } from "@/lib/audience";
 import { supabase } from "@/integrations/supabase/client";
 
 const inputClass =
