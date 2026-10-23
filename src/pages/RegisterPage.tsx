@@ -47,6 +47,9 @@ export function RegisterPage() {
   const [intent, setIntent] = useState<Intent>("earn");
   const [working, setWorking] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const GENDERS = ["Female", "Male"];
+  const AGE_RANGES = ["18–24", "25–34", "35–44", "45–54", "55+"];
+  const LIFE_STAGES = ["Student", "Employed", "Self-employed", "Parent", "Nursing mother", "Retired"];
   const [form, setForm] = useState<{
     name: string;
     email: string;
@@ -56,6 +59,9 @@ export function RegisterPage() {
     jobTitle: string;
     country: string;
     industry: string;
+    gender: string;
+    ageRange: string;
+    lifeStage: string;
     consent: boolean;
     commercial: boolean;
   }>({
@@ -67,6 +73,9 @@ export function RegisterPage() {
     jobTitle: "",
     country: countries[0] ?? "United Kingdom",
     industry: industries[0] ?? "Technology",
+    gender: "",
+    ageRange: "",
+    lifeStage: "",
     consent: false,
     commercial: false,
   });
@@ -114,6 +123,11 @@ export function RegisterPage() {
           industry: form.industry,
           preferences: {
             joinedFor: intent,
+            audience: {
+              gender: form.gender,
+              ageRange: form.ageRange,
+              lifeStage: form.lifeStage,
+            },
             notifications: {
               editorialDigest: true,
               surveyActivity: true,
@@ -280,7 +294,33 @@ export function RegisterPage() {
                 ))}
               </select>
             </label>
+            {(
+              [
+                ["gender", "Gender", GENDERS],
+                ["ageRange", "Age range", AGE_RANGES],
+                ["lifeStage", "Life stage", LIFE_STAGES],
+              ] as const
+            ).map(([key, label, options]) => (
+              <label key={key} className="block text-xs font-semibold text-brand-slate">
+                {label}
+                <select
+                  className={`${inputClass} mt-1`}
+                  value={form[key]}
+                  onChange={(event) => setForm({ ...form, [key]: event.target.value })}
+                >
+                  <option value="">Prefer not to say</option>
+                  {options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
           </div>
+          <p className="mt-2 text-xs text-brand-slate">
+            We use these details only to send you surveys that fit you.
+          </p>
 
           <fieldset className="mt-6">
             <legend className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-slate">
