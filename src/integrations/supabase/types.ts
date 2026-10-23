@@ -306,6 +306,7 @@ export type Database = {
           consent_notice: string
           created_at: string
           creator_id: string
+          creator_name: string
           escrow_points: number
           hidden: boolean
           id: string
@@ -315,12 +316,14 @@ export type Database = {
           objective: string
           opening_date: string | null
           questions: Json
+          response_count: number
           response_limit: number
           reward_minor: number
           reward_points: number
           slug: string | null
           status: string
           tags: Json
+          target_life_stages: Json
           tier: string
           title: string
           updated_at: string
@@ -332,6 +335,7 @@ export type Database = {
           consent_notice?: string
           created_at?: string
           creator_id?: string
+          creator_name?: string
           escrow_points?: number
           hidden?: boolean
           id?: string
@@ -341,12 +345,14 @@ export type Database = {
           objective?: string
           opening_date?: string | null
           questions?: Json
+          response_count?: number
           response_limit?: number
           reward_minor?: number
           reward_points?: number
           slug?: string | null
           status?: string
           tags?: Json
+          target_life_stages?: Json
           tier?: string
           title: string
           updated_at?: string
@@ -358,6 +364,7 @@ export type Database = {
           consent_notice?: string
           created_at?: string
           creator_id?: string
+          creator_name?: string
           escrow_points?: number
           hidden?: boolean
           id?: string
@@ -367,12 +374,14 @@ export type Database = {
           objective?: string
           opening_date?: string | null
           questions?: Json
+          response_count?: number
           response_limit?: number
           reward_minor?: number
           reward_points?: number
           slug?: string | null
           status?: string
           tags?: Json
+          target_life_stages?: Json
           tier?: string
           title?: string
           updated_at?: string
@@ -552,6 +561,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      close_cloud_survey: {
+        Args: { _actor: string; _is_admin: boolean; _survey_id: string }
+        Returns: boolean
+      }
       get_wallet_ledger_totals: {
         Args: { _user_id: string }
         Returns: {
@@ -567,6 +580,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      moderate_cloud_survey: {
+        Args: { _decision: string; _note: string; _survey_id: string }
+        Returns: boolean
+      }
+      refund_survey_escrow: { Args: { _survey_id: string }; Returns: number }
       request_wallet_withdrawal: {
         Args: {
           _account_name: string
@@ -581,6 +599,17 @@ export type Database = {
         Args: { _decision: string; _withdrawal_id: string }
         Returns: boolean
       }
+      settle_survey_answer: {
+        Args: {
+          _answers: Json
+          _country: string
+          _duration: number
+          _respondent: string
+          _segment: string
+          _survey_id: string
+        }
+        Returns: number
+      }
       settle_wallet_point_purchase: {
         Args: {
           _amount_minor: number
@@ -589,6 +618,27 @@ export type Database = {
           _reference: string
         }
         Returns: boolean
+      }
+      submit_cloud_survey: {
+        Args: {
+          _anonymous: boolean
+          _audience: string
+          _category: string
+          _closing: string
+          _consent: string
+          _creator: string
+          _creator_name: string
+          _objective: string
+          _opening: string
+          _questions: Json
+          _response_limit: number
+          _reward_minor: number
+          _reward_points: number
+          _tags: Json
+          _target: Json
+          _title: string
+        }
+        Returns: string
       }
     }
     Enums: {

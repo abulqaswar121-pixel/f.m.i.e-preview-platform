@@ -39,6 +39,11 @@ export function earnerRewardNaira(rewardPoints: number): number {
   return Math.round(earnerRewardUsd(rewardPoints) * NGN_PER_USD);
 }
 
+/** Wallet credit (kobo) paid to the answerer for one completed answer. */
+export function surveyRewardMinor(rewardPoints: number): number {
+  return earnerRewardNaira(rewardPoints) * 100;
+}
+
 export function findPointPack(packId: string): SurveyPointPack | undefined {
   return surveyPointPacks.find((pack) => pack.id === packId);
 }
