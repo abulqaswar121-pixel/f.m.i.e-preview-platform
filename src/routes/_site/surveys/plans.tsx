@@ -7,11 +7,11 @@ export const Route = createFileRoute("/_site/surveys/plans")({
   component: SurveyPlansPage,
   head: () => ({
     meta: [
-      { title: `Research Plans & Pricing | ${site.name}` },
+      { title: `Survey Point Prices | ${site.name}` },
       {
         name: "description",
         content:
-          "Free, Premium and Corporate research plans, configured by an administrator rather than hardcoded in the interface.",
+          "Pay as you go: buy survey points in dollars and use them to pay people who answer. No yearly plans.",
       },
     ],
   }),
