@@ -20,6 +20,11 @@
 - [ ] Add focused tests for point credit, escrow/reward settlement, idempotency, and withdrawal rules.
 - [ ] Keep shop payment migration for a later step unless needed to safely complete these flows.
 
+# Client update (22 Oct)
+- [x] Replace yearly survey plans with pay-as-you-go point packs in dollars; builder asks points per answer and answers wanted, and blocks review when points are short.
+- [ ] Hold points in the database when a survey goes live and pay answerers per completed answer (needs surveys and answers saved to the database). Blocked until surveys move to the database.
+- [ ] Confirm suggested point prices and answerer share with the client.
+
 # Later priorities
 - [ ] Publication logos and shop content.
 - [ ] Remove remaining demo notices and the sample-data reset button.
