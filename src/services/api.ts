@@ -334,6 +334,7 @@ export interface SurveyFilter {
 }
 
 export interface CreateSurveyInput {
+  targetLifeStages?: string[];
   /** Cash reward paid to each respondent on submission (₦). */
   rewardNaira?: number;
   title: string;
@@ -713,6 +714,7 @@ const surveys = {
       closingDate: input.closingDate,
       isAnonymous: input.isAnonymous,
       isBranded: input.isBranded,
+      targetLifeStages: input.targetLifeStages ?? [],
       consentNotice: input.consentNotice,
       estimatedMinutes: Math.max(1, Math.round(input.questions.length * 0.8)),
       tags: input.tags,

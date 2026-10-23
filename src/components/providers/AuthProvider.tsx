@@ -169,6 +169,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       organization: account.organization || undefined,
       jobTitle: account.jobTitle || undefined,
       location: account.country || undefined,
+      lifeStage: (asRecord(account.preferences["audience"])["lifeStage"] as string | undefined) || undefined,
       joinedAt: account.joinedAt,
       notificationPreferences: readNotifications(account.preferences),
     };
