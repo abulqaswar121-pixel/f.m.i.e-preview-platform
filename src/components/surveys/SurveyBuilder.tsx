@@ -35,12 +35,7 @@ import {
 import { getWalletSummary } from "@/lib/wallet.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/services/api";
-import type {
-  LogicOperator,
-  SurveyCategory,
-  SurveyQuestion,
-  SurveyQuestionType,
-} from "@/types";
+import type { LogicOperator, SurveyCategory, SurveyQuestion, SurveyQuestionType } from "@/types";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_CONSENT =
@@ -142,7 +137,10 @@ export function SurveyBuilder() {
   }, [user, loadWallet]);
 
   const totalPoints = pointsNeeded(draft.rewardPoints, draft.responseTarget);
-  const shortfall = pointBalance === null ? 0 : pointsShortfall(pointBalance, draft.rewardPoints, draft.responseTarget);
+  const shortfall =
+    pointBalance === null
+      ? 0
+      : pointsShortfall(pointBalance, draft.rewardPoints, draft.responseTarget);
 
   const patch = (next: Partial<BuilderDraft>) => setDraft((current) => ({ ...current, ...next }));
 
@@ -223,7 +221,9 @@ export function SurveyBuilder() {
     const problems = submitForModeration ? validateStep(4) : validateStep(1);
     setErrors(problems);
     if (problems.length > 0) {
-      const pointsProblem = problems.some((problem) => problem.includes("points") || problem.includes("answers"));
+      const pointsProblem = problems.some(
+        (problem) => problem.includes("points") || problem.includes("answers"),
+      );
       const questionProblem = problems.some(
         (problem) => problem.includes("question") || problem.includes("Choice"),
       );
@@ -441,7 +441,9 @@ export function SurveyBuilder() {
                     min={surveyPointRules.minRewardPoints}
                     max={surveyPointRules.maxRewardPoints}
                     value={Number.isFinite(draft.rewardPoints) ? draft.rewardPoints : ""}
-                    onChange={(event) => patch({ rewardPoints: Math.floor(Number(event.target.value)) })}
+                    onChange={(event) =>
+                      patch({ rewardPoints: Math.floor(Number(event.target.value)) })
+                    }
                     className={inputClass}
                   />
                 </Field>
@@ -455,26 +457,34 @@ export function SurveyBuilder() {
                     min={surveyPointRules.minResponses}
                     max={surveyPointRules.maxResponses}
                     value={Number.isFinite(draft.responseTarget) ? draft.responseTarget : ""}
-                    onChange={(event) => patch({ responseTarget: Math.floor(Number(event.target.value)) })}
+                    onChange={(event) =>
+                      patch({ responseTarget: Math.floor(Number(event.target.value)) })
+                    }
                     className={inputClass}
                   />
                 </Field>
               </div>
               <div className="grid gap-3 rounded-lg border border-brand-border bg-brand-cream p-4 text-sm sm:grid-cols-3">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Points needed</p>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">
+                    Points needed
+                  </p>
                   <p className="mt-1 font-display text-xl font-bold text-brand-navy">
                     {totalPoints.toLocaleString("en-US")}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Your points</p>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">
+                    Your points
+                  </p>
                   <p className="mt-1 font-display text-xl font-bold text-brand-charcoal">
                     {pointBalance === null ? "…" : pointBalance.toLocaleString("en-US")}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Still needed</p>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">
+                    Still needed
+                  </p>
                   <p
                     className={cn(
                       "mt-1 font-display text-xl font-bold",
@@ -690,97 +700,97 @@ export function SurveyBuilder() {
                             className={cn(inputClass, "text-xs")}
                           />
                         </div>
-                          <details className="rounded-md border border-brand-border bg-white p-3">
-                            <summary className="cursor-pointer text-xs font-semibold text-brand-navy">
-                              Skip logic (show this question only when…)
-                            </summary>
-                            <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                              <label className="text-[11px] text-brand-slate">
-                                Show when question
-                                <select
-                                  value={question.logic?.questionId ?? ""}
-                                  onChange={(event) => {
-                                    const questionId = event.target.value;
-                                    patchQuestion(question.id, {
-                                      logic: questionId
-                                        ? {
-                                            questionId,
-                                            operator: question.logic?.operator ?? "equals",
-                                            value: question.logic?.value ?? "",
-                                            description:
-                                              question.logic?.description ?? "Shown conditionally.",
-                                          }
-                                        : undefined,
-                                    });
-                                  }}
-                                  className={cn(inputClass, "mt-1 text-xs")}
-                                >
-                                  <option value="">No condition</option>
-                                  {draft.questions
-                                    .filter((entry) => entry.id !== question.id)
-                                    .map((entry, entryIndex) => (
-                                      <option key={entry.id} value={entry.id}>
-                                        Q{entryIndex + 1}
-                                      </option>
-                                    ))}
-                                </select>
-                              </label>
-                              <label className="text-[11px] text-brand-slate">
-                                Operator
-                                <select
-                                  value={question.logic?.operator ?? "equals"}
-                                  onChange={(event) =>
-                                    patchQuestion(question.id, {
-                                      logic: question.logic
-                                        ? {
-                                            ...question.logic,
-                                            operator: event.target.value as LogicOperator,
-                                          }
-                                        : undefined,
-                                    })
-                                  }
-                                  className={cn(inputClass, "mt-1 text-xs")}
-                                  disabled={!question.logic}
-                                >
-                                  {(
-                                    [
-                                      "equals",
-                                      "not_equals",
-                                      "contains",
-                                      "greater_than",
-                                      "is_answered",
-                                    ] as LogicOperator[]
-                                  ).map((operator) => (
-                                    <option key={operator} value={operator}>
-                                      {operator.replace(/_/g, " ")}
+                        <details className="rounded-md border border-brand-border bg-white p-3">
+                          <summary className="cursor-pointer text-xs font-semibold text-brand-navy">
+                            Skip logic (show this question only when…)
+                          </summary>
+                          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                            <label className="text-[11px] text-brand-slate">
+                              Show when question
+                              <select
+                                value={question.logic?.questionId ?? ""}
+                                onChange={(event) => {
+                                  const questionId = event.target.value;
+                                  patchQuestion(question.id, {
+                                    logic: questionId
+                                      ? {
+                                          questionId,
+                                          operator: question.logic?.operator ?? "equals",
+                                          value: question.logic?.value ?? "",
+                                          description:
+                                            question.logic?.description ?? "Shown conditionally.",
+                                        }
+                                      : undefined,
+                                  });
+                                }}
+                                className={cn(inputClass, "mt-1 text-xs")}
+                              >
+                                <option value="">No condition</option>
+                                {draft.questions
+                                  .filter((entry) => entry.id !== question.id)
+                                  .map((entry, entryIndex) => (
+                                    <option key={entry.id} value={entry.id}>
+                                      Q{entryIndex + 1}
                                     </option>
                                   ))}
-                                </select>
-                              </label>
-                              <label className="text-[11px] text-brand-slate">
-                                Value
-                                <input
-                                  value={question.logic?.value ?? ""}
-                                  disabled={!question.logic}
-                                  onChange={(event) =>
-                                    patchQuestion(question.id, {
-                                      logic: question.logic
-                                        ? { ...question.logic, value: event.target.value }
-                                        : undefined,
-                                    })
-                                  }
-                                  className={cn(inputClass, "mt-1 text-xs")}
-                                />
-                              </label>
-                            </div>
-                            {question.logic ? (
-                              <p className="mt-2 text-[11px] text-brand-slate">
-                                Respondents see this question only when the condition above is met.
-                                The condition is shown to them as a note, and hidden questions drop
-                                their answers automatically.
-                              </p>
-                            ) : null}
-                          </details>
+                              </select>
+                            </label>
+                            <label className="text-[11px] text-brand-slate">
+                              Operator
+                              <select
+                                value={question.logic?.operator ?? "equals"}
+                                onChange={(event) =>
+                                  patchQuestion(question.id, {
+                                    logic: question.logic
+                                      ? {
+                                          ...question.logic,
+                                          operator: event.target.value as LogicOperator,
+                                        }
+                                      : undefined,
+                                  })
+                                }
+                                className={cn(inputClass, "mt-1 text-xs")}
+                                disabled={!question.logic}
+                              >
+                                {(
+                                  [
+                                    "equals",
+                                    "not_equals",
+                                    "contains",
+                                    "greater_than",
+                                    "is_answered",
+                                  ] as LogicOperator[]
+                                ).map((operator) => (
+                                  <option key={operator} value={operator}>
+                                    {operator.replace(/_/g, " ")}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            <label className="text-[11px] text-brand-slate">
+                              Value
+                              <input
+                                value={question.logic?.value ?? ""}
+                                disabled={!question.logic}
+                                onChange={(event) =>
+                                  patchQuestion(question.id, {
+                                    logic: question.logic
+                                      ? { ...question.logic, value: event.target.value }
+                                      : undefined,
+                                  })
+                                }
+                                className={cn(inputClass, "mt-1 text-xs")}
+                              />
+                            </label>
+                          </div>
+                          {question.logic ? (
+                            <p className="mt-2 text-[11px] text-brand-slate">
+                              Respondents see this question only when the condition above is met.
+                              The condition is shown to them as a note, and hidden questions drop
+                              their answers automatically.
+                            </p>
+                          ) : null}
+                        </details>
                       </div>
                     </div>
                   </li>

@@ -64,17 +64,27 @@ export function WalletPage() {
   }, [user, refresh]);
 
   useEffect(() => {
-    if (search.payment !== "return" || !search.reference || !user || confirmedReference.current === search.reference) return;
+    if (
+      search.payment !== "return" ||
+      !search.reference ||
+      !user ||
+      confirmedReference.current === search.reference
+    )
+      return;
     confirmedReference.current = search.reference;
     void confirmPurchase({ data: { reference: search.reference } })
       .then(async (result) => {
-        setNotice(result.status === "succeeded"
-          ? "Payment confirmed. Points have been added to your research wallet."
-          : "Payment is still being confirmed. Your wallet will update once it is verified.");
+        setNotice(
+          result.status === "succeeded"
+            ? "Payment confirmed. Points have been added to your research wallet."
+            : "Payment is still being confirmed. Your wallet will update once it is verified.",
+        );
         await refresh();
       })
       .catch((error: unknown) => {
-        setNotice(error instanceof Error ? error.message : "Payment confirmation is still pending.");
+        setNotice(
+          error instanceof Error ? error.message : "Payment confirmation is still pending.",
+        );
       });
   }, [confirmPurchase, refresh, search.payment, search.reference, user]);
 
@@ -142,7 +152,9 @@ export function WalletPage() {
             </p>
           </div>
           <div className="fmie-card p-5">
-            <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">Research points</p>
+            <p className="text-[11px] uppercase tracking-[0.14em] text-brand-slate">
+              Research points
+            </p>
             <p className="mt-2 font-display text-3xl font-bold text-brand-navy">
               {loading ? "Loading…" : `${pointsBalance.toLocaleString()} pts`}
             </p>
@@ -176,53 +188,53 @@ export function WalletPage() {
           </Badge>
         </div>
 
-          <section className="mt-10">
-            <h2 className="font-display text-xl font-bold text-brand-charcoal">
-              Buy survey points
-            </h2>
-            <p className="mt-1 max-w-2xl text-sm text-brand-slate">
-              Pay as you go — no yearly plan. Points pay the people who answer your surveys. Top up
-              any time they run low.
-            </p>
-            <div className="mt-4 grid gap-4 sm:grid-cols-3">
-              {surveyPointPacks.map((pack) => (
-                <div
-                  key={pack.id}
-                  className="flex flex-col rounded-lg border border-brand-border bg-white p-5 shadow-sm"
+        <section className="mt-10">
+          <h2 className="font-display text-xl font-bold text-brand-charcoal">Buy survey points</h2>
+          <p className="mt-1 max-w-2xl text-sm text-brand-slate">
+            Pay as you go — no yearly plan. Points pay the people who answer your surveys. Top up
+            any time they run low.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {surveyPointPacks.map((pack) => (
+              <div
+                key={pack.id}
+                className="flex flex-col rounded-lg border border-brand-border bg-white p-5 shadow-sm"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-slate">
+                  {pack.name}
+                </p>
+                <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
+                  {pack.points.toLocaleString()} pts
+                </p>
+                <p className="mt-1 text-lg font-semibold text-brand-charcoal">
+                  {formatUsd(pack.usd)}
+                </p>
+                <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
+                <p className="mt-2 text-[11px] text-brand-slate">
+                  Paystack shows {naira(packChargeKobo(pack) / 100)} at checkout.
+                </p>
+                <Button
+                  className="mt-4"
+                  variant="outline"
+                  disabled={buying === pack.id}
+                  onClick={() => void buyPack(pack.id)}
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-slate">
-                    {pack.name}
-                  </p>
-                  <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
-                    {pack.points.toLocaleString()} pts
-                  </p>
-                  <p className="mt-1 text-lg font-semibold text-brand-charcoal">
-                    {formatUsd(pack.usd)}
-                  </p>
-                  <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
-                  <p className="mt-2 text-[11px] text-brand-slate">
-                    Paystack shows {naira(packChargeKobo(pack) / 100)} at checkout.
-                  </p>
-                  <Button
-                    className="mt-4"
-                    variant="outline"
-                    disabled={buying === pack.id}
-                    onClick={() => void buyPack(pack.id)}
-                  >
-                    <WalletIcon className="mr-2 h-4 w-4" />
-                    {buying === pack.id ? "Processing…" : "Pay with Paystack"}
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </section>
+                  <WalletIcon className="mr-2 h-4 w-4" />
+                  {buying === pack.id ? "Processing…" : "Pay with Paystack"}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <h2 className="font-display text-xl font-bold text-brand-charcoal">Transactions</h2>
             <ul className="mt-4 divide-y divide-brand-border rounded-lg border border-brand-border bg-white shadow-sm">
               {loading ? (
-                <li className="px-5 py-8 text-center text-sm text-brand-slate">Loading wallet history…</li>
+                <li className="px-5 py-8 text-center text-sm text-brand-slate">
+                  Loading wallet history…
+                </li>
               ) : (summary?.transactions.length ?? 0) === 0 ? (
                 <li className="px-5 py-8 text-center text-sm text-brand-slate">
                   No wallet movements yet.
@@ -240,7 +252,9 @@ export function WalletPage() {
                       </p>
                     </div>
                     <p className="shrink-0 font-semibold text-brand-navy">
-                      {txn.amountMinor !== 0 ? `${txn.amountMinor > 0 ? "+" : "−"}${naira(Math.abs(txn.amountMinor) / 100)}` : ""}
+                      {txn.amountMinor !== 0
+                        ? `${txn.amountMinor > 0 ? "+" : "−"}${naira(Math.abs(txn.amountMinor) / 100)}`
+                        : ""}
                       {txn.amountMinor !== 0 && txn.points !== 0 ? " · " : ""}
                       {txn.points !== 0 ? `${txn.points > 0 ? "+" : ""}${txn.points} pts` : ""}
                     </p>
@@ -253,7 +267,9 @@ export function WalletPage() {
             <h2 className="font-display text-xl font-bold text-brand-charcoal">Withdrawals</h2>
             <ul className="mt-4 space-y-3">
               {loading ? (
-                <li className="rounded-lg border border-brand-border bg-white px-5 py-8 text-center text-sm text-brand-slate shadow-sm">Loading withdrawal requests…</li>
+                <li className="rounded-lg border border-brand-border bg-white px-5 py-8 text-center text-sm text-brand-slate shadow-sm">
+                  Loading withdrawal requests…
+                </li>
               ) : (summary?.withdrawals.length ?? 0) === 0 ? (
                 <li className="rounded-lg border border-brand-border bg-white px-5 py-8 text-center text-sm text-brand-slate shadow-sm">
                   No withdrawal requests yet.
@@ -268,8 +284,20 @@ export function WalletPage() {
                       <p className="text-sm font-semibold text-brand-charcoal">
                         {naira(payout.amountMinor / 100)}
                       </p>
-                      <Badge tone={payout.status === "rejected" ? "danger" : payout.status === "approved" ? "info" : "gold"}>
-                        {payout.status === "rejected" ? "Rejected — balance returned" : payout.status === "approved" ? "Approved — transfer pending" : "Pending review"}
+                      <Badge
+                        tone={
+                          payout.status === "rejected"
+                            ? "danger"
+                            : payout.status === "approved"
+                              ? "info"
+                              : "gold"
+                        }
+                      >
+                        {payout.status === "rejected"
+                          ? "Rejected — balance returned"
+                          : payout.status === "approved"
+                            ? "Approved — transfer pending"
+                            : "Pending review"}
                       </Badge>
                     </div>
                     <p className="mt-1 text-xs text-brand-slate">
@@ -282,7 +310,8 @@ export function WalletPage() {
             </ul>
             <p className="mt-4 flex items-start gap-2 text-xs text-brand-slate">
               <Banknote className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-gold-dark" />
-              Minimum withdrawal {naira(surveyEconomyDefaults.minWithdrawalNaira)}. Requests need administrator review; approval does not send a bank transfer.
+              Minimum withdrawal {naira(surveyEconomyDefaults.minWithdrawalNaira)}. Requests need
+              administrator review; approval does not send a bank transfer.
             </p>
           </div>
         </section>

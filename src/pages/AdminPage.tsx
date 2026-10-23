@@ -24,7 +24,16 @@ import { EmptyState, KeyedList, StatCard } from "@/components/common/Primitives"
 import { StatusBadge } from "@/components/press/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/common/Modal";
-import { formatDate, formatCurrency, prStatuses, prTiers, roleLabels } from "@/config/site";
+import {
+  formatDate,
+  formatCurrency,
+  prStatuses,
+  prTiers,
+  roleLabels,
+  surveyPointPacks,
+  surveyPointRules,
+} from "@/config/site";
+import { formatUsd } from "@/lib/outlet-pricing";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { useAuth } from "@/hooks/useAuth";
 import { api, useDatabase } from "@/services/api";
@@ -47,7 +56,7 @@ export type AdminTab =
 const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "overview", label: "Platform overview", icon: Gauge },
   { id: "moderation", label: "Survey moderation", icon: FlaskConical },
-  { id: "plans", label: "Plan configuration", icon: SlidersHorizontal },
+  { id: "plans", label: "Point prices", icon: SlidersHorizontal },
   { id: "press", label: "Press campaigns", icon: Megaphone },
   { id: "channels", label: "Distribution channels", icon: Radio },
   { id: "payouts", label: "Bank payouts", icon: Banknote },
@@ -496,106 +505,52 @@ export function AdminPage() {
           <section className="space-y-4">
             <div>
               <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-                Survey plan configuration
+                Survey point prices
               </h2>
               <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
-                Free, Premium and Corporate plans are administrator-configurable rather than
-                hardcoded. Changes here update the public plans page, the builder's limit checks and
-                every corporate account view instantly.
+                Researchers pay as they go: they buy points and spend them per completed answer.
+                There are no yearly plans. These are the prices members see today.
               </p>
             </div>
-            <div className="grid gap-4 lg:grid-cols-3">
-              {database.surveyPlans.map((plan) => (
+            <div className="grid gap-4 sm:grid-cols-3">
+              {surveyPointPacks.map((pack) => (
                 <article
-                  key={plan.id}
-                  className={cn(
-                    "flex flex-col rounded-lg border bg-white p-5",
-                    plan.highlighted
-                      ? "border-brand-gold ring-2 ring-brand-gold/30"
-                      : "border-brand-border",
-                  )}
+                  key={pack.id}
+                  className="rounded-lg border border-brand-border bg-white p-5"
                 >
-                  <div className="flex items-center justify-between">
-                    <Badge
-                      tone={
-                        plan.tier === "free" ? "cream" : plan.tier === "premium" ? "gold" : "navy"
-                      }
-                    >
-                      {plan.tier}
-                    </Badge>
-                    {plan.adminConfigurable ? (
-                      <Badge tone="success">Admin configurable</Badge>
-                    ) : (
-                      <Badge tone="muted">Locked</Badge>
-                    )}
-                  </div>
-                  <h3 className="mt-3 font-display text-lg font-semibold text-brand-charcoal">
-                    {plan.name}
-                  </h3>
-                  <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
-                    {plan.price === 0 ? "Free" : formatCurrency(plan.price)}
-                    <span className="ml-1 text-xs font-normal text-brand-slate">
-                      {plan.billingPeriod === "annual"
-                        ? "/ year"
-                        : plan.billingPeriod === "monthly"
-                          ? "/ month"
-                          : "one-off"}
-                    </span>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-slate">
+                    {pack.name}
                   </p>
-                  <ul className="mt-3 flex-1 space-y-1.5 text-xs text-brand-slate">
-                    <li>Questions per survey: {plan.questionLimit ?? "Unlimited"}</li>
-                    <li>
-                      Responses per survey:{" "}
-                      {plan.responseLimit?.toLocaleString("en-GB") ?? "Unlimited"}
-                    </li>
-                    <li>Surveys: {plan.surveyLimit ?? "Unlimited"}</li>
-                    <li>Seats included: {plan.seatsIncluded}</li>
-                  </ul>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-4"
-                    onClick={() => openPlanEditor(plan)}
-                  >
-                    <SlidersHorizontal className="h-3.5 w-3.5" /> Configure plan
-                  </Button>
+                  <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
+                    {pack.points.toLocaleString("en-US")} pts
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-brand-charcoal">
+                    {formatUsd(pack.usd)}
+                  </p>
                 </article>
               ))}
             </div>
-            <div className="rounded-lg border border-brand-border bg-white p-6">
-              <h3 className="font-display text-base font-semibold text-brand-charcoal">
-                Feature matrix as configured
-              </h3>
-              <div className="mt-3 grid gap-4 lg:grid-cols-3">
-                {database.surveyPlans.map((plan) => (
-                  <div
-                    key={plan.id}
-                    className="rounded-md border border-brand-border bg-brand-cream/40 p-4"
-                  >
-                    <p className="text-sm font-semibold text-brand-charcoal">{plan.name}</p>
-                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-brand-slate">
-                      Included
-                    </p>
-                    <ul className="mt-1 space-y-1">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="text-xs text-brand-slate">
-                          · {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-brand-slate">
-                      Not included
-                    </p>
-                    <ul className="mt-1 space-y-1">
-                      {plan.exclusions.map((exclusion) => (
-                        <li key={exclusion} className="text-xs text-brand-slate">
-                          · {exclusion}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+            <div className="rounded-lg border border-brand-border bg-white p-5">
+              <KeyedList
+                items={[
+                  {
+                    label: "Lowest points per answer",
+                    value: String(surveyPointRules.minRewardPoints),
+                  },
+                  {
+                    label: "Default points per answer",
+                    value: String(surveyPointRules.defaultRewardPoints),
+                  },
+                  {
+                    label: "Paid to the person answering",
+                    value: `${formatUsd(surveyPointRules.earnerUsdPerPoint)} per point`,
+                  },
+                  {
+                    label: "Answers per survey",
+                    value: `${surveyPointRules.minResponses} to ${surveyPointRules.maxResponses.toLocaleString("en-US")}`,
+                  },
+                ]}
+              />
             </div>
           </section>
         ) : null}
