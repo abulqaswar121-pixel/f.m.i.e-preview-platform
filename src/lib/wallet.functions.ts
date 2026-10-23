@@ -2,8 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
 
-import { surveyPointPacks, site } from "@/config/site";
+import { site } from "@/config/site";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { findPointPack, packChargeKobo } from "@/lib/survey-points";
 import { isValidWithdrawalAmount } from "@/lib/wallet-rules";
 
 const withdrawalInput = z.object({
@@ -112,14 +113,14 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const secret = process.env["PAYSTACK_SECRET_KEY"];
     if (!secret) throw new Error("Paystack is not connected yet. Your wallet has not been charged.");
-    const pack = surveyPointPacks.find((candidate) => candidate.id === data.packId);
+    const pack = findPointPack(data.packId);
     if (!pack) throw new Error("That points package is not available.");
     const { data: authData, error: authError } = await context.supabase.auth.getUser();
     const email = authData.user?.email;
     if (authError || !email) throw new Error("Please sign in again before paying.");
 
     const reference = `fmie_points_${crypto.randomUUID().replaceAll("-", "")}`;
-    const amountMinor = pack.naira * 100;
+    const amountMinor = packChargeKobo(pack);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: insertError } = await supabaseAdmin.from("wallet_point_purchases").insert({
       user_id: context.userId,
@@ -141,7 +142,7 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
           currency: "NGN",
           reference,
           callback_url: `${paymentOrigin()}/wallet?payment=return&reference=${encodeURIComponent(reference)}`,
-          metadata: { purchase_reference: reference, pack_id: pack.id },
+          metadata: { purchase_reference: reference, pack_id: pack.id, price_usd: pack.usd },
         }),
       });
     } catch {

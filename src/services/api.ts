@@ -335,6 +335,10 @@ export interface SurveyFilter {
 
 export interface CreateSurveyInput {
   targetLifeStages?: string[];
+  /** Points paid from the researcher's balance for each completed answer. */
+  rewardPoints?: number;
+  /** How many completed answers the researcher is paying for. */
+  responseLimit?: number;
   /** Cash reward paid to each respondent on submission (₦). */
   rewardNaira?: number;
   title: string;
@@ -688,7 +692,7 @@ const surveys = {
   async create(input: CreateSurveyInput): Promise<Survey> {
     await delay();
     const plan = database.surveyPlans.find((candidate) => candidate.id === input.planId);
-    const responseLimit = plan?.responseLimit ?? 100;
+    const responseLimit = input.responseLimit ?? plan?.responseLimit ?? 100;
     const survey: Survey = {
       id: nextId("srv"),
       title: input.title,
@@ -703,11 +707,12 @@ const surveys = {
       planId: input.planId,
       status: input.submitForModeration ? "pending_moderation" : "draft",
       responseCount: 0,
-      rewardNaira: input.rewardNaira ?? 400,
-      rewardPoints: Math.max(
-        1,
-        Math.ceil((input.rewardNaira ?? 400) / database.settings.pointToNaira),
-      ),
+      rewardNaira:
+        input.rewardNaira ??
+        (input.rewardPoints !== undefined ? earnerRewardNaira(input.rewardPoints) : 400),
+      rewardPoints:
+        input.rewardPoints ??
+        Math.max(1, Math.ceil((input.rewardNaira ?? 400) / database.settings.pointToNaira)),
       escrowPoints: 0,
       responseLimit,
       openingDate: input.openingDate,
@@ -1883,7 +1888,7 @@ const wallets = {
     const wallet: PointsWallet = user.pointsWallet ?? { balance: 0, purchasedNaira: 0 };
     const next: PointsWallet = {
       balance: wallet.balance + pack.points,
-      purchasedNaira: wallet.purchasedNaira + pack.naira,
+      purchasedNaira: wallet.purchasedNaira + packChargeKobo(pack) / 100,
     };
     database = {
       ...database,
@@ -1895,9 +1900,9 @@ const wallets = {
           id: nextId("txn"),
           userId,
           kind: "points_purchase" as const,
-          naira: -pack.naira,
+          naira: -(packChargeKobo(pack) / 100),
           points: pack.points,
-          note: `Paystack (simulated): ₦${pack.naira.toLocaleString()} for ${pack.points} points`,
+          note: `Paystack (simulated): $${pack.usd} for ${pack.points} points`,
           createdAt: nowIso(),
         },
         ...database.transactions,
