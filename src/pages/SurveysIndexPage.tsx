@@ -13,9 +13,10 @@ import { useAsyncResource, useDebouncedValue } from "@/hooks/useAsync";
 import { api } from "@/services/api";
 import type { SurveyCategory, SurveyTier } from "@/types";
 import { cn } from "@/lib/utils";
+import { surveyFitsMember } from "@/lib/audience";
 
 export function SurveysIndexPage() {
-  const { canCreateSurveys } = useAuth();
+  const { canCreateSurveys, user } = useAuth();
   const [query, setQuery] = useState("");
   const debounced = useDebouncedValue(query, 220);
   const [category, setCategory] = useState<SurveyCategory | "All categories">("All categories");
@@ -29,14 +30,16 @@ export function SurveysIndexPage() {
   );
 
   const sorted = useMemo(() => {
-    const list = [...surveys.data];
+    const list = surveys.data.filter(
+      (survey) => survey.creatorId === user?.id || surveyFitsMember(survey.targetLifeStages, user?.lifeStage),
+    );
     if (sort === "closing") {
       list.sort((a, b) => new Date(a.closingDate).getTime() - new Date(b.closingDate).getTime());
     } else if (sort === "responses") {
       list.sort((a, b) => b.responseCount - a.responseCount);
     }
     return list;
-  }, [surveys.data, sort]);
+  }, [surveys.data, sort, user]);
 
   const totalResponses = sorted.reduce((sum, survey) => sum + survey.responseCount, 0);
 

@@ -164,6 +164,7 @@ export interface User {
   avatarUrl: string;
   jobTitle?: string | undefined;
   location?: string | undefined;
+  lifeStage?: string | undefined;
   joinedAt?: string | undefined;
   notificationPreferences?: NotificationPreferences | undefined;
 }
@@ -296,6 +297,8 @@ export interface Survey {
   category: SurveyCategory;
   objective: string;
   audience: string;
+  /** Life stages allowed to answer; empty means everyone. */
+  targetLifeStages?: string[] | undefined;
   creatorId: string;
   creatorName: string;
   organizationId?: string | undefined;

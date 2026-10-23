@@ -1,3 +1,4 @@
+import { LIFE_STAGES } from "@/lib/audience";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -51,6 +52,7 @@ interface BuilderDraft {
   category: string;
   objective: string;
   audience: string;
+  targetLifeStages: string[];
   planId: string;
   isAnonymous: boolean;
   isBranded: boolean;
@@ -98,6 +100,7 @@ export function SurveyBuilder() {
       category: surveyCategories[0] ?? "Consumer Behaviour",
       objective: "",
       audience: "",
+      targetLifeStages: [],
       planId: "plan-free",
       isAnonymous: true,
       isBranded: false,
@@ -213,6 +216,7 @@ export function SurveyBuilder() {
       category: draft.category as SurveyCategory,
       objective: draft.objective.trim(),
       audience: draft.audience.trim(),
+      targetLifeStages: draft.targetLifeStages,
       planId: draft.planId,
       isAnonymous: draft.isAnonymous,
       isBranded: draft.isBranded && plan?.tier !== "free",
@@ -333,6 +337,29 @@ export function SurveyBuilder() {
                   placeholder="Finance leads and treasury managers at organisations transacting in…"
                   className={inputClass}
                 />
+              </Field>
+              <Field label="Who can answer? (leave empty for everyone)">
+                <div className="flex flex-wrap gap-2">
+                  {LIFE_STAGES.map((stage) => {
+                    const on = draft.targetLifeStages.includes(stage);
+                    return (
+                      <button
+                        key={stage}
+                        type="button"
+                        onClick={() =>
+                          patch({
+                            targetLifeStages: on
+                              ? draft.targetLifeStages.filter((item) => item !== stage)
+                              : [...draft.targetLifeStages, stage],
+                          })
+                        }
+                        className={`rounded-full border px-3 py-1 text-xs font-semibold ${on ? "border-brand-navy bg-brand-navy text-brand-cream" : "border-border text-brand-slate"}`}
+                      >
+                        {stage}
+                      </button>
+                    );
+                  })}
+                </div>
               </Field>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Opens">

@@ -49,7 +49,6 @@ export function RegisterPage() {
   const [sentTo, setSentTo] = useState<string | null>(null);
   const GENDERS = ["Female", "Male"];
   const AGE_RANGES = ["18–24", "25–34", "35–44", "45–54", "55+"];
-  const LIFE_STAGES = ["Student", "Employed", "Self-employed", "Parent", "Nursing mother", "Retired"];
   const [form, setForm] = useState<{
     name: string;
     email: string;
