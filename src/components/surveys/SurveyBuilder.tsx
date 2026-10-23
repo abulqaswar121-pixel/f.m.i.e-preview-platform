@@ -21,13 +21,23 @@ import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { InfoNote } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { formatCurrency, surveyCategories } from "@/config/site";
+import { useServerFn } from "@tanstack/react-start";
+
+import { surveyCategories, surveyPointRules } from "@/config/site";
+import { formatUsd } from "@/lib/outlet-pricing";
+import {
+  earnerRewardUsd,
+  isValidResponseTarget,
+  isValidReward,
+  pointsNeeded,
+  pointsShortfall,
+} from "@/lib/survey-points";
+import { getWalletSummary } from "@/lib/wallet.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/services/api";
 import type {
   LogicOperator,
   SurveyCategory,
-  SurveyPlan,
   SurveyQuestion,
   SurveyQuestionType,
 } from "@/types";
@@ -53,7 +63,8 @@ interface BuilderDraft {
   objective: string;
   audience: string;
   targetLifeStages: string[];
-  planId: string;
+  rewardPoints: number;
+  responseTarget: number;
   isAnonymous: boolean;
   isBranded: boolean;
   openingDate: string;
@@ -88,7 +99,8 @@ export function SurveyBuilder() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [plans, setPlans] = useState<SurveyPlan[]>([]);
+  const loadWallet = useServerFn(getWalletSummary);
+  const [pointBalance, setPointBalance] = useState<number | null>(null);
   const [saving, setSaving] = useState<"draft" | "moderation" | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -101,7 +113,8 @@ export function SurveyBuilder() {
       objective: "",
       audience: "",
       targetLifeStages: [],
-      planId: "plan-free",
+      rewardPoints: surveyPointRules.defaultRewardPoints,
+      responseTarget: surveyPointRules.defaultResponses,
       isAnonymous: true,
       isBranded: false,
       openingDate: today.toISOString().slice(0, 10),
@@ -112,21 +125,24 @@ export function SurveyBuilder() {
     };
   });
 
-  // Plan limits are administrator-configurable, so they are read from the
-  // service layer after mount rather than hardcoded in the builder.
+  // The researcher's saved point balance decides whether a survey can be sent for review.
   useEffect(() => {
+    if (!user) return;
     let alive = true;
-    api.surveys.plans().then((result) => {
-      if (alive) setPlans(result);
-    });
+    loadWallet()
+      .then((summary) => {
+        if (alive) setPointBalance(summary.points);
+      })
+      .catch(() => {
+        if (alive) setPointBalance(0);
+      });
     return () => {
       alive = false;
     };
-  }, []);
+  }, [user, loadWallet]);
 
-  const plan = plans.find((candidate) => candidate.id === draft.planId);
-  const questionLimit = plan?.questionLimit ?? null;
-  const overLimit = questionLimit !== null && draft.questions.length > questionLimit;
+  const totalPoints = pointsNeeded(draft.rewardPoints, draft.responseTarget);
+  const shortfall = pointBalance === null ? 0 : pointsShortfall(pointBalance, draft.rewardPoints, draft.responseTarget);
 
   const patch = (next: Partial<BuilderDraft>) => setDraft((current) => ({ ...current, ...next }));
 
@@ -174,11 +190,23 @@ export function SurveyBuilder() {
       ) {
         problems.push("Choice questions need at least two options.");
       }
-      if (overLimit) {
+    }
+    if (target >= 2) {
+      if (!isValidReward(draft.rewardPoints)) {
         problems.push(
-          `The ${plan?.name ?? "selected"} plan allows ${questionLimit} questions. Upgrade the tier or remove questions.`,
+          `Each answer must pay between ${surveyPointRules.minRewardPoints} and ${surveyPointRules.maxRewardPoints} points.`,
         );
       }
+      if (!isValidResponseTarget(draft.responseTarget)) {
+        problems.push(
+          `Ask for between ${surveyPointRules.minResponses} and ${surveyPointRules.maxResponses.toLocaleString("en-US")} answers.`,
+        );
+      }
+    }
+    if (target >= 4 && shortfall > 0) {
+      problems.push(
+        `You need ${shortfall.toLocaleString("en-US")} more points to pay for these answers. Buy points in your wallet, or save as a draft.`,
+      );
     }
     return problems;
   };
@@ -674,10 +702,9 @@ export function SurveyBuilder() {
                             className={cn(inputClass, "text-xs")}
                           />
                         </div>
-                        {plan?.tier !== "free" ? (
                           <details className="rounded-md border border-brand-border bg-white p-3">
                             <summary className="cursor-pointer text-xs font-semibold text-brand-navy">
-                              Conditional logic (Premium feature)
+                              Skip logic (show this question only when…)
                             </summary>
                             <div className="mt-3 grid gap-2 sm:grid-cols-3">
                               <label className="text-[11px] text-brand-slate">
@@ -766,7 +793,6 @@ export function SurveyBuilder() {
                               </p>
                             ) : null}
                           </details>
-                        ) : null}
                       </div>
                     </div>
                   </li>
