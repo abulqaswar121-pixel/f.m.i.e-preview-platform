@@ -514,24 +514,41 @@ export function AdminPage() {
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               {surveyPointPacks.map((pack) => (
-                <article key={pack.id} className="rounded-lg border border-brand-border bg-white p-5">
+                <article
+                  key={pack.id}
+                  className="rounded-lg border border-brand-border bg-white p-5"
+                >
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-slate">
                     {pack.name}
                   </p>
                   <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
                     {pack.points.toLocaleString("en-US")} pts
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-brand-charcoal">{formatUsd(pack.usd)}</p>
+                  <p className="mt-1 text-sm font-semibold text-brand-charcoal">
+                    {formatUsd(pack.usd)}
+                  </p>
                 </article>
               ))}
             </div>
             <div className="rounded-lg border border-brand-border bg-white p-5">
               <KeyedList
                 items={[
-                  { label: "Lowest points per answer", value: String(surveyPointRules.minRewardPoints) },
-                  { label: "Default points per answer", value: String(surveyPointRules.defaultRewardPoints) },
-                  { label: "Paid to the person answering", value: `${formatUsd(surveyPointRules.earnerUsdPerPoint)} per point` },
-                  { label: "Answers per survey", value: `${surveyPointRules.minResponses} to ${surveyPointRules.maxResponses.toLocaleString("en-US")}` },
+                  {
+                    label: "Lowest points per answer",
+                    value: String(surveyPointRules.minRewardPoints),
+                  },
+                  {
+                    label: "Default points per answer",
+                    value: String(surveyPointRules.defaultRewardPoints),
+                  },
+                  {
+                    label: "Paid to the person answering",
+                    value: `${formatUsd(surveyPointRules.earnerUsdPerPoint)} per point`,
+                  },
+                  {
+                    label: "Answers per survey",
+                    value: `${surveyPointRules.minResponses} to ${surveyPointRules.maxResponses.toLocaleString("en-US")}`,
+                  },
                 ]}
               />
             </div>

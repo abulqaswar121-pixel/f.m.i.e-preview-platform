@@ -59,7 +59,9 @@ export function SurveyPlansPage() {
               <article
                 key={pack.id}
                 className={`flex flex-col rounded-lg border bg-card p-6 shadow-sm ${
-                  index === 1 ? "border-brand-gold ring-2 ring-brand-gold/40" : "border-brand-border"
+                  index === 1
+                    ? "border-brand-gold ring-2 ring-brand-gold/40"
+                    : "border-brand-border"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -106,8 +108,8 @@ export function SurveyPlansPage() {
             {formatUsd(earnerRewardUsd(exampleReward))}.
           </InfoNote>
           <InfoNote>
-            Every survey tool is included for everyone: all question types, skip logic, branding
-            and results. You only pay for answers.
+            Every survey tool is included for everyone: all question types, skip logic, branding and
+            results. You only pay for answers.
           </InfoNote>
         </div>
 
