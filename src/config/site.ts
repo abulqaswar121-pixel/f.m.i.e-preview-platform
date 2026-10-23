@@ -466,21 +466,36 @@ export const roleDescriptions: Record<UserRole, string> = {
 
 export interface SurveyPointPack {
   id: string;
-  naira: number;
+  name: string;
+  /** Price in US dollars (the site's main currency). */
+  usd: number;
   points: number;
   blurb: string;
 }
 
+/**
+ * Pay-as-you-go point packs for researchers. No yearly plans: buy points,
+ * spend them as people answer, top up when they run low.
+ * Suggested prices — waiting for the client to confirm.
+ */
 export const surveyPointPacks: SurveyPointPack[] = [
-  { id: "pack-50", naira: 5000, points: 50, blurb: "Starter block for a single pilot survey." },
-  { id: "pack-250", naira: 20000, points: 250, blurb: "Most popular — funds a full quota run." },
-  {
-    id: "pack-1000",
-    naira: 75000,
-    points: 1000,
-    blurb: "Programme pricing for continuous research.",
-  },
+  { id: "pack-100", name: "Starter", usd: 12, points: 100, blurb: "Good for a small test survey." },
+  { id: "pack-500", name: "Standard", usd: 55, points: 500, blurb: "Most popular. Enough for a full study." },
+  { id: "pack-2000", name: "Large", usd: 200, points: 2000, blurb: "Best value for big or ongoing research." },
 ];
+
+/** How points are spent on surveys. Suggested values — waiting for the client to confirm. */
+export const surveyPointRules = {
+  /** Fewest points a researcher can pay for one completed answer. */
+  minRewardPoints: 5,
+  defaultRewardPoints: 10,
+  maxRewardPoints: 200,
+  /** Cash the person answering receives for each point (US dollars). */
+  earnerUsdPerPoint: 0.08,
+  minResponses: 10,
+  defaultResponses: 100,
+  maxResponses: 100_000,
+} as const;
 
 /** Indicative per-kit price used by the team-kit builder's instant quote. */
 export const teamKitUnitNaira = 25000;
