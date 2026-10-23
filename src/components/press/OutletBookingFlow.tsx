@@ -1,3 +1,4 @@
+import { formatUsd, outletPriceUsd } from "@/lib/outlet-pricing";
 import { OutletLogo } from "@/components/press/OutletLogo";
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, CreditCard, PenLine, Sparkles } from "lucide-react";
@@ -27,12 +28,6 @@ const ANNOUNCEMENTS = [
   { id: "report", label: "Research or report publication", noun: "research publication" },
 ] as const;
 
-function formatNaira(value: number): string {
-  return `₦${value.toLocaleString("en-NG")}`;
-}
-function formatUsd(value: number): string {
-  return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-}
 
 function hash(text: string): number {
   let h = 0;
@@ -186,8 +181,7 @@ export function OutletBookingFlow() {
     () => channels.filter((channel) => selected.includes(channel.id)),
     [channels, selected],
   );
-  const totalNaira = chosen.reduce((sum, channel) => sum + (channel.priceNaira ?? 0), 0);
-  const totalUsd = chosen.reduce((sum, channel) => sum + (channel.priceUsd ?? 0), 0);
+  const totalUsd = Math.round(chosen.reduce((sum, channel) => sum + outletPriceUsd(channel), 0) * 100) / 100;
 
   function toggle(id: string): void {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -539,9 +533,7 @@ export function OutletBookingFlow() {
                               {channel.label}
                             </span>
                             <span className="block text-xs text-brand-slate">
-                              {channel.priceNaira != null ? formatNaira(channel.priceNaira) : ""}
-                              {channel.priceNaira != null && channel.priceUsd != null ? " · " : ""}
-                              {channel.priceUsd != null ? formatUsd(channel.priceUsd) : ""}
+                              {formatUsd(outletPriceUsd(channel))}
                             </span>
                           </span>
                         </span>
@@ -557,10 +549,7 @@ export function OutletBookingFlow() {
                 <span className="font-semibold text-brand-charcoal">{chosen.length}</span> outlet
                 {chosen.length === 1 ? "" : "s"} selected · Total{" "}
                 <span className="font-semibold text-brand-navy">
-                  {totalNaira > 0 ? formatNaira(totalNaira) : ""}
-                  {totalNaira > 0 && totalUsd > 0 ? " + " : ""}
-                  {totalUsd > 0 ? formatUsd(totalUsd) : ""}
-                  {totalNaira === 0 && totalUsd === 0 ? "₦0" : ""}
+                  {formatUsd(totalUsd)}
                 </span>
               </p>
               <div className="flex gap-2">
@@ -599,18 +588,14 @@ export function OutletBookingFlow() {
               <li key={channel.id} className="flex justify-between py-2">
                 <span className="text-brand-charcoal">{channel.label}</span>
                 <span className="text-brand-slate">
-                  {channel.priceNaira != null
-                    ? formatNaira(channel.priceNaira)
-                    : formatUsd(channel.priceUsd ?? 0)}
+                  {formatUsd(outletPriceUsd(channel))}
                 </span>
               </li>
             ))}
             <li className="flex justify-between py-2 font-semibold text-brand-navy">
               <span>Total due</span>
               <span>
-                {totalNaira > 0 ? formatNaira(totalNaira) : ""}
-                {totalNaira > 0 && totalUsd > 0 ? " + " : ""}
-                {totalUsd > 0 ? formatUsd(totalUsd) : ""}
+                {formatUsd(totalUsd)}
               </span>
             </li>
           </ul>
@@ -647,9 +632,7 @@ export function OutletBookingFlow() {
           </div>
           <p className="text-xs text-brand-slate">
             <Badge tone="gold">Paid</Badge> Checkout for {chosen.length} outlet
-            {chosen.length === 1 ? "" : "s"} ({totalNaira > 0 ? formatNaira(totalNaira) : ""}
-            {totalNaira > 0 && totalUsd > 0 ? " + " : ""}
-            {totalUsd > 0 ? formatUsd(totalUsd) : ""}) is attached to this booking.
+            {chosen.length === 1 ? "" : "s"} ({formatUsd(totalUsd)}) is attached to this booking.
           </p>
           <label className="flex items-start gap-3 rounded-md border border-brand-gold/60 bg-brand-gold/10 p-4 text-xs leading-relaxed text-brand-charcoal">
             <input

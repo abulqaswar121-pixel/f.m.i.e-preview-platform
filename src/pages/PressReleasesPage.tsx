@@ -10,6 +10,8 @@ import { distributionChannelTypes, formatCurrency, prStatuses, prTiers } from "@
 import { useAsyncResource } from "@/hooks/useAsync";
 import { api } from "@/services/api";
 import { cn } from "@/lib/utils";
+import { formatUsd, outletPriceUsd } from "@/lib/outlet-pricing";
+import { PressPartnerSlider } from "@/components/press/PressPartnerSlider";
 
 export function PressReleasesPage() {
   const channels = useAsyncResource(() => api.pressReleases.channels(), [], []);
@@ -33,6 +35,7 @@ export function PressReleasesPage() {
           </Button>
         </div>
       </PageHeader>
+      <PressPartnerSlider channels={channels.data ?? []} />
 
       <div className="fmie-container space-y-12 py-10">
         <ComplianceBanner variant="distribution" showPoints />
@@ -170,16 +173,7 @@ export function PressReleasesPage() {
                     ? channel.indicativePrice === 0
                       ? "Included in every tier"
                       : `Indicative channel fee: ${formatCurrency(channel.indicativePrice)}`
-                    : `Price: ${[
-                        channel.priceNaira != null
-                          ? `₦${channel.priceNaira.toLocaleString("en-NG")}`
-                          : null,
-                        channel.priceUsd != null
-                          ? `$${channel.priceUsd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                          : null,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}`}
+                    : `Price: ${formatUsd(outletPriceUsd(channel))}`}
                   {channel.verifiedOn ? ` · verified ${channel.verifiedOn.slice(0, 10)}` : ""}
                 </p>
               </article>
