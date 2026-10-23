@@ -22,7 +22,7 @@ const PRODUCTS = [
     detail:
       "A named sponsor funds a survey instrument, its fieldwork and a written analysis. The sponsor is identified in the publication and may review factual accuracy only — never conclusions, framing or the headline.",
     link: "/surveys/plans",
-    linkLabel: "See research plans and limits",
+    linkLabel: "See survey point prices",
     disclosure: "Sponsored Research" as DisclosureTag,
   },
   {

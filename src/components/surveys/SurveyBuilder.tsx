@@ -21,13 +21,23 @@ import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { InfoNote } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { formatCurrency, surveyCategories } from "@/config/site";
+import { useServerFn } from "@tanstack/react-start";
+
+import { surveyCategories, surveyPointRules } from "@/config/site";
+import { formatUsd } from "@/lib/outlet-pricing";
+import {
+  earnerRewardUsd,
+  isValidResponseTarget,
+  isValidReward,
+  pointsNeeded,
+  pointsShortfall,
+} from "@/lib/survey-points";
+import { getWalletSummary } from "@/lib/wallet.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/services/api";
 import type {
   LogicOperator,
   SurveyCategory,
-  SurveyPlan,
   SurveyQuestion,
   SurveyQuestionType,
 } from "@/types";
@@ -53,7 +63,8 @@ interface BuilderDraft {
   objective: string;
   audience: string;
   targetLifeStages: string[];
-  planId: string;
+  rewardPoints: number;
+  responseTarget: number;
   isAnonymous: boolean;
   isBranded: boolean;
   openingDate: string;
@@ -88,7 +99,8 @@ export function SurveyBuilder() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [plans, setPlans] = useState<SurveyPlan[]>([]);
+  const loadWallet = useServerFn(getWalletSummary);
+  const [pointBalance, setPointBalance] = useState<number | null>(null);
   const [saving, setSaving] = useState<"draft" | "moderation" | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -101,7 +113,8 @@ export function SurveyBuilder() {
       objective: "",
       audience: "",
       targetLifeStages: [],
-      planId: "plan-free",
+      rewardPoints: surveyPointRules.defaultRewardPoints,
+      responseTarget: surveyPointRules.defaultResponses,
       isAnonymous: true,
       isBranded: false,
       openingDate: today.toISOString().slice(0, 10),
@@ -112,21 +125,24 @@ export function SurveyBuilder() {
     };
   });
 
-  // Plan limits are administrator-configurable, so they are read from the
-  // service layer after mount rather than hardcoded in the builder.
+  // The researcher's saved point balance decides whether a survey can be sent for review.
   useEffect(() => {
+    if (!user) return;
     let alive = true;
-    api.surveys.plans().then((result) => {
-      if (alive) setPlans(result);
-    });
+    loadWallet()
+      .then((summary) => {
+        if (alive) setPointBalance(summary.points);
+      })
+      .catch(() => {
+        if (alive) setPointBalance(0);
+      });
     return () => {
       alive = false;
     };
-  }, []);
+  }, [user, loadWallet]);
 
-  const plan = plans.find((candidate) => candidate.id === draft.planId);
-  const questionLimit = plan?.questionLimit ?? null;
-  const overLimit = questionLimit !== null && draft.questions.length > questionLimit;
+  const totalPoints = pointsNeeded(draft.rewardPoints, draft.responseTarget);
+  const shortfall = pointBalance === null ? 0 : pointsShortfall(pointBalance, draft.rewardPoints, draft.responseTarget);
 
   const patch = (next: Partial<BuilderDraft>) => setDraft((current) => ({ ...current, ...next }));
 
@@ -174,11 +190,23 @@ export function SurveyBuilder() {
       ) {
         problems.push("Choice questions need at least two options.");
       }
-      if (overLimit) {
+    }
+    if (target >= 2) {
+      if (!isValidReward(draft.rewardPoints)) {
         problems.push(
-          `The ${plan?.name ?? "selected"} plan allows ${questionLimit} questions. Upgrade the tier or remove questions.`,
+          `Each answer must pay between ${surveyPointRules.minRewardPoints} and ${surveyPointRules.maxRewardPoints} points.`,
         );
       }
+      if (!isValidResponseTarget(draft.responseTarget)) {
+        problems.push(
+          `Ask for between ${surveyPointRules.minResponses} and ${surveyPointRules.maxResponses.toLocaleString("en-US")} answers.`,
+        );
+      }
+    }
+    if (target >= 4 && shortfall > 0) {
+      problems.push(
+        `You need ${shortfall.toLocaleString("en-US")} more points to pay for these answers. Buy points in your wallet, or save as a draft.`,
+      );
     }
     return problems;
   };
@@ -195,16 +223,11 @@ export function SurveyBuilder() {
     const problems = submitForModeration ? validateStep(4) : validateStep(1);
     setErrors(problems);
     if (problems.length > 0) {
-      setStep(
-        problems.some(
-          (problem) =>
-            problem.includes("question") ||
-            problem.includes("Choice") ||
-            problem.includes("plan allows"),
-        )
-          ? 2
-          : 0,
+      const pointsProblem = problems.some((problem) => problem.includes("points") || problem.includes("answers"));
+      const questionProblem = problems.some(
+        (problem) => problem.includes("question") || problem.includes("Choice"),
       );
+      setStep(questionProblem ? 2 : pointsProblem ? 1 : 0);
       return;
     }
     setSaving(submitForModeration ? "moderation" : "draft");
@@ -217,9 +240,11 @@ export function SurveyBuilder() {
       objective: draft.objective.trim(),
       audience: draft.audience.trim(),
       targetLifeStages: draft.targetLifeStages,
-      planId: draft.planId,
+      planId: "pay-as-you-go",
+      rewardPoints: draft.rewardPoints,
+      responseLimit: draft.responseTarget,
       isAnonymous: draft.isAnonymous,
-      isBranded: draft.isBranded && plan?.tier !== "free",
+      isBranded: draft.isBranded,
       closingDate: new Date(`${draft.closingDate}T23:59:59`).toISOString(),
       openingDate: new Date(`${draft.openingDate}T00:00:00`).toISOString(),
       consentNotice: draft.consentNotice.trim() || DEFAULT_CONSENT,
@@ -242,7 +267,7 @@ export function SurveyBuilder() {
     void navigate({ to: "/dashboard", search: { tab: "surveys" } });
   };
 
-  const steps = ["Details", "Plan & tier", "Questions", "Review & submit"];
+  const steps = ["Details", "Points & answers", "Questions", "Review & submit"];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
@@ -402,85 +427,86 @@ export function SurveyBuilder() {
           {step === 1 ? (
             <div className="space-y-4">
               <p className="text-sm text-brand-slate">
-                Plans set question limits, response caps and available features. They are configured
-                by the F.M.I.E administrator, not hardcoded — what you see here is the live
-                configuration.
+                Pay as you go. Choose how many points each completed answer pays and how many
+                answers you want. Every survey tool is included.
               </p>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {plans.map((option) => {
-                  const selected = option.id === draft.planId;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      onClick={() =>
-                        patch({
-                          planId: option.id,
-                          isBranded: option.tier === "free" ? false : draft.isBranded,
-                        })
-                      }
-                      className={cn(
-                        "rounded-lg border p-4 text-left transition-colors",
-                        selected
-                          ? "border-brand-navy bg-brand-navy/5 ring-1 ring-brand-navy"
-                          : "border-brand-border hover:border-brand-navy/50",
-                      )}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-display text-lg font-semibold text-brand-charcoal">
-                          {option.name}
-                        </span>
-                        {selected ? <Check className="h-4 w-4 text-brand-navy" /> : null}
-                      </div>
-                      <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
-                        {option.price === 0 ? "Free" : formatCurrency(option.price)}
-                        <span className="ml-1 text-xs font-normal text-brand-slate">
-                          {option.price === 0
-                            ? ""
-                            : option.billingPeriod === "annual"
-                              ? "/ year"
-                              : "one-off"}
-                        </span>
-                      </p>
-                      <ul className="mt-3 space-y-1 text-xs text-brand-slate">
-                        <li>
-                          {option.questionLimit === null ? "Unlimited" : option.questionLimit}{" "}
-                          questions ·{" "}
-                          {option.responseLimit === null
-                            ? "unlimited"
-                            : option.responseLimit.toLocaleString("en-GB")}{" "}
-                          responses
-                        </li>
-                        <li>{option.features.length} included features</li>
-                        {option.tier !== "free" ? (
-                          <li>Conditional logic, export & branding</li>
-                        ) : null}
-                      </ul>
-                    </button>
-                  );
-                })}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  label="Points paid per answer"
+                  hint={`At least ${surveyPointRules.minRewardPoints}. The person answering gets ${formatUsd(earnerRewardUsd(draft.rewardPoints))}.`}
+                >
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={surveyPointRules.minRewardPoints}
+                    max={surveyPointRules.maxRewardPoints}
+                    value={Number.isFinite(draft.rewardPoints) ? draft.rewardPoints : ""}
+                    onChange={(event) => patch({ rewardPoints: Math.floor(Number(event.target.value)) })}
+                    className={inputClass}
+                  />
+                </Field>
+                <Field
+                  label="Answers wanted"
+                  hint={`Between ${surveyPointRules.minResponses} and ${surveyPointRules.maxResponses.toLocaleString("en-US")}. The survey closes when it reaches this number.`}
+                >
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={surveyPointRules.minResponses}
+                    max={surveyPointRules.maxResponses}
+                    value={Number.isFinite(draft.responseTarget) ? draft.responseTarget : ""}
+                    onChange={(event) => patch({ responseTarget: Math.floor(Number(event.target.value)) })}
+                    className={inputClass}
+                  />
+                </Field>
               </div>
-              {plan ? (
+              <div className="grid gap-3 rounded-lg border border-brand-border bg-brand-cream p-4 text-sm sm:grid-cols-3">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Points needed</p>
+                  <p className="mt-1 font-display text-xl font-bold text-brand-navy">
+                    {totalPoints.toLocaleString("en-US")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Your points</p>
+                  <p className="mt-1 font-display text-xl font-bold text-brand-charcoal">
+                    {pointBalance === null ? "…" : pointBalance.toLocaleString("en-US")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brand-slate">Still needed</p>
+                  <p
+                    className={cn(
+                      "mt-1 font-display text-xl font-bold",
+                      shortfall > 0 ? "text-warning" : "text-success",
+                    )}
+                  >
+                    {shortfall > 0 ? shortfall.toLocaleString("en-US") : "None"}
+                  </p>
+                </div>
+              </div>
+              {shortfall > 0 ? (
                 <InfoNote>
-                  Selected: {plan.name} —{" "}
-                  {plan.questionLimit === null
-                    ? "unlimited questions"
-                    : `up to ${plan.questionLimit} questions`}
-                  ,{" "}
-                  {plan.responseLimit === null
-                    ? "unlimited responses"
-                    : `${plan.responseLimit.toLocaleString("en-GB")} responses per survey`}
-                  .
-                  {plan.exclusions.length > 0
-                    ? ` Not included: ${plan.exclusions.join("; ").toLowerCase()}.`
-                    : ""}
+                  You can keep building and save a draft now. Before sending it for review, top up
+                  your points.{" "}
+                  <Link to="/wallet" className="font-semibold text-brand-navy underline">
+                    Buy points
+                  </Link>{" "}
+                  ·{" "}
+                  <Link to="/surveys/plans" className="font-semibold text-brand-navy underline">
+                    See point prices
+                  </Link>
                 </InfoNote>
-              ) : null}
+              ) : (
+                <InfoNote>
+                  When your survey is approved, these points are held for it. Each completed answer
+                  uses its points. Points not used when it closes come back to you.
+                </InfoNote>
+              )}
               <ToggleRow
-                label="Brand the survey environment"
-                description="Premium and Corporate plans can apply your organisation's logo mark and colour treatment."
-                checked={draft.isBranded && plan?.tier !== "free"}
-                disabled={plan?.tier === "free"}
+                label="Add your brand"
+                description="Show your organisation's logo and colours on the survey."
+                checked={draft.isBranded}
                 onChange={(value) => patch({ isBranded: value })}
               />
             </div>
@@ -491,16 +517,12 @@ export function SurveyBuilder() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-sm text-brand-slate">
                   {draft.questions.length} question{draft.questions.length === 1 ? "" : "s"}
-                  {questionLimit !== null
-                    ? ` of ${questionLimit} allowed on the ${plan?.name} plan`
-                    : ""}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {QUESTION_TYPES.map((type) => (
                     <button
                       key={type.id}
                       type="button"
-                      disabled={overLimit}
                       onClick={() =>
                         patch({
                           questions: [
@@ -517,12 +539,6 @@ export function SurveyBuilder() {
                   ))}
                 </div>
               </div>
-              {overLimit ? (
-                <p className="rounded-md border border-warning/40 bg-warning/10 px-4 py-2 text-sm text-warning">
-                  Question limit exceeded for the {plan?.name} plan. Remove questions or choose a
-                  higher tier.
-                </p>
-              ) : null}
               {draft.questions.length === 0 ? (
                 <p className="rounded-md border border-dashed border-brand-border bg-brand-cream px-4 py-8 text-center text-sm text-brand-slate">
                   No questions yet. Add a question type above — the live preview on the right
@@ -674,10 +690,9 @@ export function SurveyBuilder() {
                             className={cn(inputClass, "text-xs")}
                           />
                         </div>
-                        {plan?.tier !== "free" ? (
                           <details className="rounded-md border border-brand-border bg-white p-3">
                             <summary className="cursor-pointer text-xs font-semibold text-brand-navy">
-                              Conditional logic (Premium feature)
+                              Skip logic (show this question only when…)
                             </summary>
                             <div className="mt-3 grid gap-2 sm:grid-cols-3">
                               <label className="text-[11px] text-brand-slate">
@@ -766,7 +781,6 @@ export function SurveyBuilder() {
                               </p>
                             ) : null}
                           </details>
-                        ) : null}
                       </div>
                     </div>
                   </li>
@@ -788,8 +802,11 @@ export function SurveyBuilder() {
                     <dd className="inline text-brand-slate">{draft.category}</dd>
                   </div>
                   <div>
-                    <dt className="inline font-semibold text-brand-charcoal">Plan: </dt>
-                    <dd className="inline text-brand-slate">{plan?.name}</dd>
+                    <dt className="inline font-semibold text-brand-charcoal">Points: </dt>
+                    <dd className="inline text-brand-slate">
+                      {draft.rewardPoints} per answer × {draft.responseTarget} answers ={" "}
+                      {totalPoints.toLocaleString("en-US")}
+                    </dd>
                   </div>
                   <div>
                     <dt className="inline font-semibold text-brand-charcoal">Window: </dt>

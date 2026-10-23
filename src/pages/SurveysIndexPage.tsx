@@ -56,7 +56,7 @@ export function SurveysIndexPage() {
             <Link to="/surveys/create">Create a survey</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/surveys/plans">Plans &amp; pricing</Link>
+            <Link to="/surveys/plans">Point prices</Link>
           </Button>
         </div>
       </PageHeader>

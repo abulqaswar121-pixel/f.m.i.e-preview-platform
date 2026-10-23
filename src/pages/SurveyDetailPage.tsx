@@ -181,7 +181,7 @@ export function SurveyDetailPage() {
                 <KeyedList
                   items={[
                     { label: "Owner", value: data.creatorName },
-                    { label: "Plan", value: data.planId.replace("plan-", "") },
+                    { label: "Pricing", value: data.planId === "pay-as-you-go" ? "Pay as you go" : data.planId.replace("plan-", "") },
                     {
                       label: "Responses",
                       value: `${data.responseCount.toLocaleString("en-GB")} of ${data.responseLimit.toLocaleString("en-GB")}`,

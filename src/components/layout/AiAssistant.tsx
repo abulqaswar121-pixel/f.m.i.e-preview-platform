@@ -34,7 +34,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(point|pack|paystack|researcher|escrow|budget)/i,
       answer:
-        "Buy points with Paystack (simulated): ₦5,000 = 50 pts, ₦20,000 = 250 pts, ₦75,000 = 1,000 pts. Rewards are held safely in escrow and unused points come back.",
+        "Pay as you go, no yearly plan: $12 = 100 pts, $55 = 500 pts, $200 = 2,000 pts. You set the points paid per answer; points are held when your survey goes live, and unused points come back.",
       link: { href: "/wallet", label: "Buy points" },
     },
     {

@@ -8,6 +8,8 @@ import { PageHeader } from "@/components/common/Primitives";
 import { Modal } from "@/components/common/Modal";
 import { Button } from "@/components/ui/button";
 import { surveyEconomyDefaults, surveyPointPacks } from "@/config/site";
+import { formatUsd } from "@/lib/outlet-pricing";
+import { packChargeKobo } from "@/lib/survey-points";
 import { useAuth } from "@/hooks/useAuth";
 import {
   confirmPointPurchase,
@@ -179,7 +181,8 @@ export function WalletPage() {
               Buy survey points
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-brand-slate">
-              Points you buy are saved here. Using them to pay survey rewards is coming soon.
+              Pay as you go — no yearly plan. Points pay the people who answer your surveys. Top up
+              any time they run low.
             </p>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {surveyPointPacks.map((pack) => (
@@ -187,13 +190,19 @@ export function WalletPage() {
                   key={pack.id}
                   className="flex flex-col rounded-lg border border-brand-border bg-white p-5 shadow-sm"
                 >
-                  <p className="font-display text-2xl font-bold text-brand-navy">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-slate">
+                    {pack.name}
+                  </p>
+                  <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
                     {pack.points.toLocaleString()} pts
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-brand-charcoal">
-                    {naira(pack.naira)}
+                  <p className="mt-1 text-lg font-semibold text-brand-charcoal">
+                    {formatUsd(pack.usd)}
                   </p>
                   <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
+                  <p className="mt-2 text-[11px] text-brand-slate">
+                    Paystack shows {naira(packChargeKobo(pack) / 100)} at checkout.
+                  </p>
                   <Button
                     className="mt-4"
                     variant="outline"
