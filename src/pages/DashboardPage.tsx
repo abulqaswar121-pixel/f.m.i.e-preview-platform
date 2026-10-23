@@ -993,7 +993,7 @@ export function DashboardPage() {
                   </p>
                 )}
                 <Button asChild variant="outline" size="sm" className="mt-4">
-                  <Link to="/surveys/plans">Compare plans</Link>
+                  <Link to="/surveys/plans">See point prices</Link>
                 </Button>
               </div>
 

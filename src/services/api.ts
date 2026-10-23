@@ -22,6 +22,7 @@ import {
   seedUsers,
 } from "@/data";
 import { clearCartStorage } from "@/hooks/useCart";
+import { earnerRewardNaira, packChargeKobo } from "@/lib/survey-points";
 import type {
   Article,
   CashWallet,
