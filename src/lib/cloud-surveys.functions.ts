@@ -21,10 +21,8 @@ const surveyInput = z.object({
   responseLimit: z.number().int().min(1).max(100_000),
 });
 
-async function isAdmin(context: { supabase: { rpc: (...args: never[]) => unknown }; userId: string }): Promise<boolean> {
-  const { data, error } = (await (context.supabase as unknown as {
-    rpc: (name: string, args: Record<string, unknown>) => Promise<{ data: boolean | null; error: unknown }>;
-  }).rpc("has_role", { _user_id: context.userId, _role: "administrator" }));
+async function isAdmin(context: { supabase: { rpc: (name: "has_role", args: { _user_id: string; _role: "administrator" }) => PromiseLike<{ data: boolean | null; error: unknown }> }; userId: string }): Promise<boolean> {
+  const { data, error } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "administrator" });
   return !error && data === true;
 }
 
@@ -62,7 +60,7 @@ export const moderateCloudSurvey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ surveyId: z.string().uuid(), decision: z.enum(["approve", "reject"]), note: z.string().max(1000).default("") }).parse(input))
   .handler(async ({ data, context }) => {
-    if (!(await isAdmin(context as never))) throw new Error("Administrator access required.");
+    if (!(await isAdmin(context))) throw new Error("Administrator access required.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: ok, error } = await supabaseAdmin.rpc("moderate_cloud_survey", { _survey_id: data.surveyId, _decision: data.decision, _note: data.note });
     if (error || !ok) throw new Error("This survey was already handled.");
@@ -73,7 +71,7 @@ export const closeCloudSurvey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ surveyId: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
-    const admin = await isAdmin(context as never);
+    const admin = await isAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: ok, error } = await supabaseAdmin.rpc("close_cloud_survey", { _survey_id: data.surveyId, _actor: context.userId, _is_admin: admin });
     if (error || !ok) throw new Error("This survey could not be closed.");
