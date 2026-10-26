@@ -1,3 +1,4 @@
+import { OfficeList } from "@/components/common/OfficeList";
 import { Link } from "@tanstack/react-router";
 import { Building2, Compass, Layers, MapPin } from "lucide-react";
 
@@ -110,7 +111,7 @@ export function AboutPage() {
           <aside className="space-y-4">
             <div className="rounded-lg border border-brand-border bg-white p-6">
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold-dark">
-                <MapPin className="h-4 w-4" /> {headquarters.label}
+                <MapPin className="h-4 w-4" /> {headquarters.label} · {headquarters.country}
               </p>
               <address className="mt-3 not-italic text-sm leading-relaxed text-brand-charcoal">
                 {headquarters.lines.map((line) => (
@@ -130,6 +131,7 @@ export function AboutPage() {
                 <Building2 className="h-3.5 w-3.5" /> View on map
               </a>
             </div>
+            <OfficeList />
             <div className="rounded-lg border border-brand-border bg-brand-navy p-6 text-white">
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold">
                 <Compass className="h-4 w-4" /> Demonstration preview

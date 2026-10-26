@@ -1,3 +1,4 @@
+import { OfficeList } from "@/components/common/OfficeList";
 import { useState, type FormEvent } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import { Building2, CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
@@ -250,7 +251,7 @@ export function ContactPage() {
         <aside className="space-y-4">
           <div className="rounded-lg border border-brand-border bg-white p-6">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold-dark">
-              <MapPin className="h-4 w-4" /> {headquarters.label}
+              <MapPin className="h-4 w-4" /> {headquarters.label} · {headquarters.country}
             </p>
             <address className="mt-3 not-italic text-sm leading-relaxed text-brand-charcoal">
               {headquarters.lines.map((line) => (
@@ -277,6 +278,7 @@ export function ContactPage() {
               <Building2 className="h-3.5 w-3.5" /> View on map
             </a>
           </div>
+          <OfficeList />
 
           <div className="rounded-lg border border-brand-border bg-white p-6">
             <h3 className="font-display text-base font-semibold text-brand-charcoal">
