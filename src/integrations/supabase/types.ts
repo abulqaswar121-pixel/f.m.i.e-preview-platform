@@ -89,6 +89,8 @@ export type Database = {
           industry: string
           paid_at: string | null
           payment_reference: string | null
+          price_usd_cents: number | null
+          provider_transaction_id: string | null
           published_urls: Json
           quote_minor: number | null
           reference_number: string
@@ -119,6 +121,8 @@ export type Database = {
           industry?: string
           paid_at?: string | null
           payment_reference?: string | null
+          price_usd_cents?: number | null
+          provider_transaction_id?: string | null
           published_urls?: Json
           quote_minor?: number | null
           reference_number?: string
@@ -149,6 +153,8 @@ export type Database = {
           industry?: string
           paid_at?: string | null
           payment_reference?: string | null
+          price_usd_cents?: number | null
+          provider_transaction_id?: string | null
           published_urls?: Json
           quote_minor?: number | null
           reference_number?: string
@@ -599,6 +605,15 @@ export type Database = {
         Args: { _decision: string; _withdrawal_id: string }
         Returns: boolean
       }
+      settle_press_release_payment: {
+        Args: {
+          _amount_minor: number
+          _currency: string
+          _provider_transaction_id: string
+          _reference: string
+        }
+        Returns: boolean
+      }
       settle_survey_answer: {
         Args: {
           _answers: Json
@@ -639,6 +654,15 @@ export type Database = {
           _title: string
         }
         Returns: string
+      }
+      update_press_release_stage: {
+        Args: {
+          _id: string
+          _note: string
+          _published_url: string
+          _status: string
+        }
+        Returns: boolean
       }
     }
     Enums: {
