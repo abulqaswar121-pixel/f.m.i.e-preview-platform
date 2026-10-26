@@ -69,7 +69,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     },
     {
       match: /(contact|email|phone|office|address|social|instagram|facebook|linkedin|tiktok)/i,
-      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Offices in London and Lagos. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
+      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Head office in ${headquarters.city}, ${headquarters.country}; also in ${offices.slice(1).map((item) => item.city).join(", ")}. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
       link: { href: "/contact", label: "Contact page" },
     },
     {
