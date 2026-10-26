@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
-import { contactEmail, headquarters, socialLinks, westAfricaDesk } from "@/config/site";
+import { contactEmail, headquarters, offices, socialLinks } from "@/config/site";
 import { useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
 
@@ -69,7 +69,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     },
     {
       match: /(contact|email|phone|office|address|social|instagram|facebook|linkedin|tiktok)/i,
-      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Offices in London and Lagos. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
+      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Head office in ${headquarters.city}, ${headquarters.country}; also in ${offices.slice(1).map((item) => item.city).join(", ")}. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
       link: { href: "/contact", label: "Contact page" },
     },
     {

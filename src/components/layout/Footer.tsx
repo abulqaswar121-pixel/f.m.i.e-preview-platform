@@ -12,7 +12,7 @@ import {
   contactRoutes,
   footerNavigation,
   headquarters,
-  westAfricaDesk,
+  offices,
   legal,
   newsletterFrequencies,
   newsletterPreferences,
@@ -176,7 +176,9 @@ export function Footer() {
             <p className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-gold" />
               <span>{headquarters.addressOneLine}</span>
-              <span>{westAfricaDesk.addressOneLine}</span>
+            </p>
+            <p className="pl-5.5 text-white/60">
+              Also in {offices.slice(1).map((item) => item.city).join(", ")}.
             </p>
             <p className="flex items-center gap-2">
               <Phone className="h-3.5 w-3.5 text-brand-gold" />

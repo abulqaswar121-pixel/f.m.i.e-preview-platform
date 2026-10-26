@@ -35,23 +35,38 @@ export const site = {
     "Demonstration preview. Every article, survey, price, order and person here is sample data made for this design. Nothing is real journalism, live data or a real transaction.",
 } as const;
 
-export const headquarters = {
-  label: "Head Office",
-  lines: ["124 City Road", "London", "EC1V 2NX", "United Kingdom"],
-  addressOneLine: "124 City Road, London, EC1V 2NX, United Kingdom",
-  telephone: "+44 20 7946 0100",
-  hours: "Monday to Friday, 09:00–18:00 GMT",
-  mapUrl: "https://www.google.com/maps/search/?api=1&query=124+City+Road+London+EC1V+2NX",
-} as const;
+function mapLink(address: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
 
-export const westAfricaDesk = {
-  label: "West Africa Desk",
-  lines: ["Victoria Island", "Lagos", "Nigeria"],
-  addressOneLine: "Victoria Island, Lagos, Nigeria",
+export interface Office {
+  label: string;
+  country: string;
+  city: string;
+  lines: readonly string[];
+  addressOneLine: string;
+  mapUrl: string;
+}
+
+function office(label: string, country: string, city: string, lines: string[]): Office {
+  const addressOneLine = lines.join(", ");
+  return { label, country, city, lines, addressOneLine, mapUrl: mapLink(addressOneLine) };
+}
+
+/** Official F.M.I.E office locations, supplied by the client. Head office first. */
+export const offices: readonly Office[] = [
+  office("Head Office", "Nigeria", "Lagos", ["Enterprise Hubs, Trinity Avenue", "Near Landmark, Oniru", "Victoria Island, Lagos", "Nigeria"]),
+  office("United Kingdom", "United Kingdom", "Manchester", ["Linley House, Dickinson Street", "Manchester", "United Kingdom"]),
+  office("United States", "United States", "New York", ["3737 Timber Trail", "Liverpool, New York 13090", "United States"]),
+  office("Australia", "Australia", "Sydney", ["WeWork Australia, 100 Harris Street", "Pyrmont, NSW", "Australia"]),
+  office("South Africa", "South Africa", "East London", ["Stewart Drive", "East London, Eastern Cape", "South Africa"]),
+];
+
+export const headquarters = {
+  ...offices[0]!,
+  telephone: "+44 20 7946 0100",
   hours: "Monday to Friday, 09:00–18:00 WAT",
 } as const;
-
-export const offices = [headquarters, westAfricaDesk] as const;
 
 export interface ContactRoute {
   id: ContactDepartment;

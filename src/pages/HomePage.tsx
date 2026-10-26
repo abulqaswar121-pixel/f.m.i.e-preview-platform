@@ -15,7 +15,7 @@ import {
   livePositioning,
   newsCategories,
   site,
-  westAfricaDesk,
+  offices,
 } from "@/config/site";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { useDatabase } from "@/services/api";
@@ -103,7 +103,7 @@ export function HomePage() {
             <dl className="fmie-glass-dark col-span-full grid gap-x-6 gap-y-4 rounded-2xl px-5 py-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { label: headquarters.label, value: headquarters.addressOneLine },
-                { label: westAfricaDesk.label, value: westAfricaDesk.addressOneLine },
+                { label: "Our offices", value: offices.map((item) => item.country).join(" · ") },
                 {
                   label: "Survey rewards",
                   value: "Kept safe and paid when you finish",
