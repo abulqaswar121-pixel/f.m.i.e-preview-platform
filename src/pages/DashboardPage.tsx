@@ -1105,14 +1105,14 @@ function EarnerPortalPanel({ userId }: { userId: string }) {
           </h3>
           {pending.length > 0 ? (
             <p className="mt-2 text-xs text-brand-charcoal">
-              {pending.length} payout{pending.length === 1 ? "" : "s"} processing — ₦
-              {pending.reduce((sum, payout) => sum + payout.amountNaira, 0).toLocaleString()} on the
+              {pending.length} payout{pending.length === 1 ? "" : "s"} processing — $
+              {(pending.reduce((sum, payout) => sum + payout.amountNaira, 0) / 1600).toFixed(2)} on the
               way to your bank.
             </p>
           ) : (
             <p className="mt-2 text-xs text-brand-slate">
-              No pending withdrawals. Minimum payout ₦
-              {database.settings.minWithdrawalNaira.toLocaleString()}.
+              No pending withdrawals. Minimum payout $
+              {(database.settings.minWithdrawalNaira / 1600).toFixed(2)}.
             </p>
           )}
           <Button asChild size="sm" variant="outline" className="mt-3">
