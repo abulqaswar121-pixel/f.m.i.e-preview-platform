@@ -63,6 +63,9 @@ export function DashboardPage() {
     : "overview";
 
   const database = useDatabase();
+  useEffect(() => {
+    void api.surveys.syncCloud();
+  }, []);
   const { user, isAdmin, signOut, updateProfile } = useAuth();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
