@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
-import { contactEmail, headquarters, socialLinks, westAfricaDesk } from "@/config/site";
+import { contactEmail, headquarters, offices, socialLinks } from "@/config/site";
 import { useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
 
