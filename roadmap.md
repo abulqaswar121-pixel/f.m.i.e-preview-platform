@@ -16,7 +16,7 @@
 - [ ] Verified Paystack checkout is coded, but needs a safely saved key and a real test payment before it is ready.
 - [x] Save survey point escrow and respondent cash rewards atomically with each completed response.
 - [x] Save withdrawal requests, enforce the ₦2,000 minimum, and let administrators approve or reject them (approval does not send a transfer).
-- [ ] Keep press-release writing and AI polishing before payment; save bookings and confirm payment only after verification.
+- [x] Keep press-release writing and AI polishing before payment; save bookings and confirm payment only after verification. Needs a real Paystack test payment.
 - [ ] Add focused tests for point credit, escrow/reward settlement, idempotency, and withdrawal rules.
 - [ ] Keep shop payment migration for a later step unless needed to safely complete these flows.
 
@@ -28,4 +28,5 @@
 # Later priorities
 - [ ] Publication logos and shop content.
 - [ ] Remove remaining demo notices and the sample-data reset button.
-- [ ] Confirm business details, emails, and domain before launch.
+- [x] Use the client's phone (+234 810 395 4351) and email as site contact details.
+- [ ] Confirm domain before launch.
