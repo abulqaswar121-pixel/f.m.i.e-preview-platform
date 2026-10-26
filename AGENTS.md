@@ -19,3 +19,4 @@
 - Wallet lifetime totals use a database-side, signed-in-owner aggregate so the transaction history display can stay paginated without misreporting lifetime figures.
 - Serve the homepage showcase film in browser-compatible WebM first with MP4 fallback, because the preview browser cannot decode the supplied MP4 codec.
 - Survey point packs and spending rules live only in `surveyPointPacks`/`surveyPointRules` in the site config with math in `src/lib/survey-points.ts`, so prices change in one place; packs show in USD and Paystack charges the naira equivalent at the price-sheet rate.
+- Press booking prices are recomputed on the server from the outlet catalogue (`src/lib/press-booking-rules.ts`) and bookings become paid only through the service-only settle function after Paystack verification (return page or webhook), so a browser can never set a price or mark itself paid.
