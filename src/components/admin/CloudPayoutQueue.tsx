@@ -9,7 +9,8 @@ import { getWithdrawalAccountNumber, getWithdrawalQueue, resolveWithdrawal } fro
 type Withdrawal = Awaited<ReturnType<typeof getWithdrawalQueue>>[number];
 
 function naira(amountMinor: number): string {
-  return `₦${(amountMinor / 100).toLocaleString("en-NG")}`;
+  const value = amountMinor / 100;
+  return `₦${value.toLocaleString("en-NG")} (≈ $${(value / 1600).toFixed(2)})`;
 }
 
 export function CloudPayoutQueue() {

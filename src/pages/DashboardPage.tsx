@@ -1067,8 +1067,8 @@ function EarnerPortalPanel({ userId }: { userId: string }) {
       </div>
       <dl className="mt-4 grid gap-4 sm:grid-cols-3">
         {[
-          ["Available balance", `₦${cash.availableNaira.toLocaleString()}`],
-          ["Total earned", `₦${cash.totalEarnedNaira.toLocaleString()}`],
+          ["Available balance", `$${(cash.availableNaira / 1600).toFixed(2)}`],
+          ["Total earned", `$${(cash.totalEarnedNaira / 1600).toFixed(2)}`],
           ["Completed surveys", String(cash.completedSurveys)],
         ].map(([label, value]) => (
           <div key={label} className="rounded-md border border-brand-border bg-white p-4">
@@ -1091,7 +1091,7 @@ function EarnerPortalPanel({ userId }: { userId: string }) {
                   <span className="truncate">{txn.note}</span>
                   <span className="shrink-0 font-semibold text-brand-navy">
                     {txn.naira !== 0
-                      ? `${txn.naira > 0 ? "+" : ""}₦${Math.abs(txn.naira).toLocaleString()}`
+                      ? `${txn.naira > 0 ? "+" : ""}$${(Math.abs(txn.naira) / 1600).toFixed(2)}`
                       : ""}
                   </span>
                 </li>
