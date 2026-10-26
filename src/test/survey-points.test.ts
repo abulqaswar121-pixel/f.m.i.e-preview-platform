@@ -38,3 +38,10 @@ describe("pay-as-you-go survey points", () => {
     expect(packChargeKobo(findPointPack("pack-100")!)).toBe(1_920_000);
   });
 });
+
+import { surveyRewardMinor } from "@/lib/survey-points";
+describe("answer reward paid to the wallet", () => {
+  it("pays 10 points as ₦1,280 (128,000 kobo)", () => {
+    expect(surveyRewardMinor(10)).toBe(128_000);
+  });
+});

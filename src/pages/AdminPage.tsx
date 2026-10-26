@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect as useEffectSync } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   BadgeCheck,
@@ -90,6 +91,9 @@ export function AdminPage() {
     : "overview";
   const { user, isAdmin } = useAuth();
   const database = useDatabase();
+  useEffectSync(() => {
+    void api.surveys.syncCloud();
+  }, []);
   const overview = useAsyncResource(() => api.admin.overview(), undefined, [database.updatedAt]);
 
   const [moderating, setModerating] = useState<{

@@ -7,6 +7,8 @@ SELECT rule, passed FROM (
  UNION ALL SELECT 'Wallet totals stay private to signed-in members', has_function_privilege('authenticated','public.get_wallet_ledger_totals(uuid)','EXECUTE') AND NOT has_function_privilege('anon','public.get_wallet_ledger_totals(uuid)','EXECUTE')
  UNION ALL SELECT 'Members cannot mark press releases paid', NOT has_column_privilege('authenticated','public.press_releases','paid_at','UPDATE')
  UNION ALL SELECT 'Members can draft articles before payment', has_column_privilege('authenticated','public.press_releases','content_draft','INSERT')
+ UNION ALL SELECT 'Members cannot pay themselves survey rewards', NOT has_function_privilege('authenticated','public.settle_survey_answer(uuid, uuid, jsonb, integer, text, text)','EXECUTE') AND NOT has_function_privilege('anon','public.settle_survey_answer(uuid, uuid, jsonb, integer, text, text)','EXECUTE')
+ UNION ALL SELECT 'Members cannot release survey points themselves', NOT has_function_privilege('authenticated','public.refund_survey_escrow(uuid)','EXECUTE')
  UNION ALL SELECT 'Members cannot set shop order prices', NOT has_table_privilege('authenticated','public.shop_orders','INSERT')
  UNION ALL SELECT 'Every foundation table has row protection', count(*)=10 AND bool_and(c.relrowsecurity) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='public' AND c.relname IN ('profiles','user_roles','surveys','survey_answers','wallet_accounts','wallet_transactions','withdrawals','press_releases','kit_quotes','shop_orders')
 ) checks ORDER BY rule;

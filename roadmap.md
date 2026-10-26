@@ -14,7 +14,7 @@
 # Priority 3: Wallet and verified payments
 - [x] Replace browser-only wallet balances and history with Lovable Cloud records; add private lifetime totals and cloud-backed withdrawal review.
 - [ ] Verified Paystack checkout is coded, but needs a safely saved key and a real test payment before it is ready.
-- [ ] Save survey point escrow and respondent cash rewards atomically with each completed response.
+- [x] Save survey point escrow and respondent cash rewards atomically with each completed response.
 - [x] Save withdrawal requests, enforce the ₦2,000 minimum, and let administrators approve or reject them (approval does not send a transfer).
 - [ ] Keep press-release writing and AI polishing before payment; save bookings and confirm payment only after verification.
 - [ ] Add focused tests for point credit, escrow/reward settlement, idempotency, and withdrawal rules.
@@ -22,7 +22,7 @@
 
 # Client update (22 Oct)
 - [x] Replace yearly survey plans with pay-as-you-go point packs in dollars; builder asks points per answer and answers wanted, and blocks review when points are short.
-- [ ] Hold points in the database when a survey goes live and pay answerers per completed answer (needs surveys and answers saved to the database). Blocked until surveys move to the database.
+- [x] Hold points when a survey is sent for review, pay answerers per completed answer, return unused points on reject/close. Needs a real test with bought points.
 - [ ] Confirm suggested point prices and answerer share with the client.
 
 # Later priorities

@@ -234,7 +234,9 @@ export function SurveyBuilder() {
     const organization = user.organization
       ? await api.users.organizationByName(user.organization)
       : undefined;
-    const created = await api.surveys.create({
+    let created;
+    try {
+      created = await api.surveys.create({
       title: draft.title.trim(),
       category: draft.category as SurveyCategory,
       objective: draft.objective.trim(),
@@ -257,7 +259,12 @@ export function SurveyBuilder() {
       creatorName: user.name,
       organizationId: organization?.id,
       submitForModeration,
-    });
+      });
+    } catch (problem) {
+      setSaving(null);
+      toast.error(problem instanceof Error ? problem.message : "Your survey could not be sent.");
+      return;
+    }
     setSaving(null);
     toast.success(submitForModeration ? "Submitted for editorial moderation" : "Draft saved", {
       description: submitForModeration

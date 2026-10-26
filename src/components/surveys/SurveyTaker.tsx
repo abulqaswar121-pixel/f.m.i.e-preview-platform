@@ -233,14 +233,20 @@ export function SurveyTaker({ survey }: { survey: Survey }) {
   const submit = async () => {
     setSubmitting(true);
     const durationSeconds = Math.max(30, Math.round((Date.now() - startedAt) / 1000));
-    await api.surveys.submitResponse(survey.id, answers, {
-      completed: true,
-      durationSeconds,
-      segment,
-      country,
-    });
-    setSubmitting(false);
-    setStage("thanks");
+    try {
+      await api.surveys.submitResponse(survey.id, answers, {
+        completed: true,
+        durationSeconds,
+        segment,
+        country,
+      });
+      setStage("thanks");
+    } catch (problem) {
+      const message = problem instanceof Error ? problem.message : "";
+      setError(/unauthor|sign in|401/i.test(message) ? "Please sign in to answer and get paid." : message || "Your answer could not be saved. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (survey.status !== "active") {
