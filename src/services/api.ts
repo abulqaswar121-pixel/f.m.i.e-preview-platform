@@ -22,7 +22,14 @@ import {
   seedUsers,
 } from "@/data";
 import { clearCartStorage } from "@/hooks/useCart";
-import { earnerRewardNaira, packChargeKobo } from "@/lib/survey-points";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  answerCloudSurvey,
+  closeCloudSurvey,
+  moderateCloudSurvey,
+  submitCloudSurvey,
+} from "@/lib/cloud-surveys.functions";
+import { earnerRewardNaira, packChargeKobo, surveyRewardMinor } from "@/lib/survey-points";
 import type {
   Article,
   CashWallet,
@@ -615,9 +622,72 @@ function refundEscrow(surveyId: string): void {
   };
 }
 
+const CLOUD_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Surveys saved in the database use real ids; sample surveys keep local ids. */
+export function isCloudSurveyId(id: string): boolean {
+  return CLOUD_ID.test(id);
+}
+
+let lastCloudSync = 0;
+
+/** Pulls every survey this visitor may see (live ones, own ones, or all for admins) into the local view. */
+async function syncCloudSurveys(force = false): Promise<void> {
+  if (typeof window === "undefined") return;
+  if (!force && Date.now() - lastCloudSync < 5_000) return;
+  lastCloudSync = Date.now();
+  const { data, error } = await supabase.from("surveys").select("*").order("created_at", { ascending: false }).limit(200);
+  if (error || !data) return;
+  const cloud: Survey[] = data.map((row) => {
+    const questions = (Array.isArray(row.questions) ? row.questions : []) as unknown as Survey["questions"];
+    return {
+      id: row.id,
+      title: row.title,
+      slug: row.slug ?? row.id,
+      category: row.category as Survey["category"],
+      objective: row.objective,
+      audience: row.audience,
+      targetLifeStages: (Array.isArray(row.target_life_stages) ? row.target_life_stages : []) as string[],
+      creatorId: row.creator_id,
+      creatorName: row.creator_name || "F.M.I.E member",
+      tier: "free",
+      planId: "pay-as-you-go",
+      status: (row.status === "draft" ? "draft" : row.status) as SurveyStatus,
+      hidden: row.hidden,
+      responseCount: row.response_count,
+      responseLimit: row.response_limit,
+      openingDate: row.opening_date ?? row.created_at,
+      closingDate: row.closing_date ?? row.created_at,
+      isAnonymous: row.is_anonymous,
+      isBranded: row.is_branded,
+      consentNotice: row.consent_notice,
+      estimatedMinutes: Math.max(1, Math.round(questions.length * 0.8)),
+      rewardNaira: Number(row.reward_minor) / 100,
+      rewardPoints: Number(row.reward_points),
+      escrowPoints: Number(row.escrow_points),
+      tags: (Array.isArray(row.tags) ? row.tags : []) as string[],
+      questions,
+      moderationNote: row.moderation_note || undefined,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    };
+  });
+  const ids = new Set(cloud.map((survey) => survey.id));
+  database = {
+    ...database,
+    surveys: [...cloud, ...database.surveys.filter((survey) => !isCloudSurveyId(survey.id) || ids.has(survey.id))],
+  };
+  commit();
+}
+
 const surveys = {
+  async syncCloud(): Promise<void> {
+    await syncCloudSurveys(true);
+  },
+
   async list(filter: SurveyFilter = {}): Promise<Survey[]> {
     await delay();
+    await syncCloudSurveys();
     const result = database.surveys.filter((survey) => {
       if (!filter.includeHidden && survey.hidden) return false;
       if (
@@ -660,6 +730,7 @@ const surveys = {
 
   async getById(id: string): Promise<Survey | undefined> {
     await delay();
+    if (isCloudSurveyId(id)) await syncCloudSurveys(true);
     return database.surveys.find((survey) => survey.id === id);
   },
 
@@ -692,6 +763,31 @@ const surveys = {
 
   async create(input: CreateSurveyInput): Promise<Survey> {
     await delay();
+    if (input.submitForModeration) {
+      const rewardPoints = input.rewardPoints ?? 10;
+      await submitCloudSurvey({
+        data: {
+          creatorName: input.creatorName,
+          title: input.title,
+          category: input.category,
+          objective: input.objective,
+          audience: input.audience,
+          targetLifeStages: input.targetLifeStages ?? [],
+          questions: input.questions as unknown as Record<string, unknown>[],
+          tags: input.tags,
+          consentNotice: input.consentNotice,
+          isAnonymous: input.isAnonymous,
+          openingDate: input.openingDate,
+          closingDate: input.closingDate,
+          rewardPoints,
+          responseLimit: input.responseLimit ?? 100,
+        },
+      });
+      await syncCloudSurveys(true);
+      const saved = database.surveys.find((survey) => isCloudSurveyId(survey.id) && survey.title === input.title);
+      if (saved) return saved;
+      return { ...database.surveys[0]!, title: input.title, rewardNaira: surveyRewardMinor(rewardPoints) / 100 };
+    }
     const plan = database.surveyPlans.find((candidate) => candidate.id === input.planId);
     const responseLimit = input.responseLimit ?? plan?.responseLimit ?? 100;
     const survey: Survey = {
@@ -756,6 +852,14 @@ const surveys = {
     status: SurveyStatus,
     moderationNote?: string,
   ): Promise<Survey | undefined> {
+    if (isCloudSurveyId(id)) {
+      if (status === "closed") await closeCloudSurvey({ data: { surveyId: id } });
+      else if (status === "active" || status === "draft") {
+        await moderateCloudSurvey({ data: { surveyId: id, decision: status === "active" ? "approve" : "reject", note: moderationNote ?? "" } });
+      } else throw new Error("This change is not available for live surveys.");
+      await syncCloudSurveys(true);
+      return database.surveys.find((survey) => survey.id === id);
+    }
     const before = database.surveys.find((candidate) => candidate.id === id);
     const updated = await surveys.update(id, {
       status,
@@ -774,6 +878,22 @@ const surveys = {
     meta: { completed: boolean; durationSeconds: number; segment: string; country: string },
   ): Promise<SurveyResponse | undefined> {
     await delay();
+    if (isCloudSurveyId(surveyId)) {
+      await answerCloudSurvey({
+        data: { surveyId, answers, durationSeconds: meta.durationSeconds, segment: meta.segment, country: meta.country },
+      });
+      await syncCloudSurveys(true);
+      return {
+        id: nextId("rsp"),
+        surveyId,
+        submittedAt: nowIso(),
+        answers,
+        completed: true,
+        durationSeconds: meta.durationSeconds,
+        respondentSegment: meta.segment,
+        respondentCountry: meta.country,
+      };
+    }
     const survey = database.surveys.find((candidate) => candidate.id === surveyId);
     if (!survey) return undefined;
 
