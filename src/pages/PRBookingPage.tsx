@@ -7,7 +7,7 @@ export function PRBookingPage() {
       <PageHeader
         eyebrow="Booking wizard"
         title="Write your release first, pay when it's ready"
-        description="Draft your article with AI help, choose your partner outlets, settle the simulated checkout, then submit to the press desk. You'll get a reference number straight away."
+        description="Write your article with AI help and choose your outlets. Pay only when it's ready — then it goes straight to our press desk and you get a booking number."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Global Press Releases", to: "/press-releases" },
