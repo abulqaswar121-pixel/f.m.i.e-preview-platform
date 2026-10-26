@@ -612,7 +612,7 @@ export function OutletBookingFlow() {
                   onClick={() => setStep(3)}
                   className="bg-brand-navy text-white hover:bg-brand-navy-dark"
                 >
-                  Continue to payment
+                  Continue to check &amp; pay
                 </Button>
               </div>
             </div>
