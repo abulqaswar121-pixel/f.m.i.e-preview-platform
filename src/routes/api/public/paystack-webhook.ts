@@ -26,6 +26,17 @@ export const Route = createFileRoute("/api/public/paystack-webhook")({
           return new Response("Payment verification pending", { status: 202 });
         }
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        if (verified.reference.startsWith("fmie_press_")) {
+          if (verified.status !== "success") return new Response("Payment not successful", { status: 400 });
+          const { data: settled, error } = await supabaseAdmin.rpc("settle_press_release_payment", {
+            _reference: verified.reference,
+            _amount_minor: verified.amount,
+            _currency: verified.currency,
+            _provider_transaction_id: String(verified.id),
+          });
+          if (error || !settled) return new Response("Payment does not match a press booking", { status: 400 });
+          return Response.json({ received: true });
+        }
         const { data: purchase, error: purchaseError } = await supabaseAdmin
           .from("wallet_point_purchases")
           .select("reference, amount_minor, currency")

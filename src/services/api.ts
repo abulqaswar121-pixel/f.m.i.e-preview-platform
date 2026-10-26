@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from "react";
 
 import {
+  contactEmail,
+  headquarters,
   marketIndicesSeed,
   prAddOns,
   prStatuses,
@@ -1608,8 +1610,8 @@ const orders = {
     await delay();
     const lines = [
       "F.M.I.E MEDIA & RESEARCH LTD",
-      "124 City Road, London, EC1V 2NX, United Kingdom",
-      "contact@fmie.co.uk",
+      headquarters.addressOneLine,
+      contactEmail.general,
       "",
       `INVOICE ${order.reference}`,
       `Issued: ${order.placedAt.slice(0, 10)}`,

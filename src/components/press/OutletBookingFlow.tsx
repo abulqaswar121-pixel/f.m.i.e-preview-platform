@@ -1,14 +1,18 @@
-import { formatUsd, outletPriceUsd } from "@/lib/outlet-pricing";
+import { formatUsd, NGN_PER_USD, outletPriceUsd } from "@/lib/outlet-pricing";
 import { OutletLogo } from "@/components/press/OutletLogo";
-import { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, CreditCard, PenLine, Sparkles } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { CheckCircle2, CreditCard, Loader2, PenLine, Sparkles } from "lucide-react";
 
-import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
 import { contactEmail } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
+import { confirmPressBooking, startPressBooking } from "@/lib/press-bookings.functions";
 import { api } from "@/services/api";
 import type { DistributionChannel, DistributionChannelGroup } from "@/types";
+
+const DRAFT_KEY = "fmie-press-draft";
 
 const GROUPS: { id: DistributionChannelGroup; label: string }[] = [
   { id: "nigerian-national", label: "Nigerian National Newspapers" },
@@ -137,15 +141,21 @@ const inputClass = "mt-1 w-full rounded-md border border-brand-border px-3 py-2 
  * writing. Publication is never guaranteed — editors decide.
  */
 export function OutletBookingFlow() {
-  const { user } = useAuth();
+  const { user, isSignedIn } = useAuth();
+  const search = useSearch({ strict: false }) as { payment?: string; reference?: string };
+  const startBooking = useServerFn(startPressBooking);
+  const confirmBooking = useServerFn(confirmPressBooking);
   const [channels, setChannels] = useState<DistributionChannel[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [paying, setPaying] = useState(false);
   const [drafting, setDrafting] = useState(false);
   const [polishing, setPolishing] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [reference, setReference] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
+  const [draftLoaded, setDraftLoaded] = useState(false);
+  const confirmedReference = useRef<string | null>(null);
   const [form, setForm] = useState({
     headline: "",
     subhead: "",
@@ -177,6 +187,51 @@ export function OutletBookingFlow() {
     };
   }, []);
 
+  // Keep the written release in this browser, so signing in or a page reload never loses it.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as { form?: Partial<typeof form>; selected?: unknown };
+        if (parsed.form) setForm((prev) => ({ ...prev, ...parsed.form }));
+        if (Array.isArray(parsed.selected)) setSelected(parsed.selected.filter((id): id is string => typeof id === "string"));
+      }
+    } catch {
+      window.localStorage.removeItem(DRAFT_KEY);
+    }
+    setDraftLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!draftLoaded || reference) return;
+    window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ form, selected }));
+  }, [draftLoaded, form, selected, reference]);
+
+  // Coming back from Paystack: check the payment, then show the reference.
+  useEffect(() => {
+    if (search.payment !== "return" || !search.reference || !user) return;
+    if (confirmedReference.current === search.reference) return;
+    confirmedReference.current = search.reference;
+    setChecking(true);
+    void confirmBooking({ data: { reference: search.reference } })
+      .then((result) => {
+        if (result.status === "succeeded") {
+          window.localStorage.removeItem(DRAFT_KEY);
+          setReference(result.referenceNumber);
+        } else {
+          setStep(3);
+          setNotice(
+            `We are still waiting for Paystack to confirm your payment (booking ${result.referenceNumber}). It will show in My requests once confirmed. Please don't pay twice.`,
+          );
+        }
+      })
+      .catch((error: unknown) => {
+        setStep(3);
+        setNotice(error instanceof Error ? error.message : "We could not check your payment yet.");
+      })
+      .finally(() => setChecking(false));
+  }, [confirmBooking, search.payment, search.reference, user]);
+
   const chosen = useMemo(
     () => channels.filter((channel) => selected.includes(channel.id)),
     [channels, selected],
@@ -206,50 +261,46 @@ export function OutletBookingFlow() {
   }
 
   async function pay(): Promise<void> {
-    setPaying(true);
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setPaying(false);
-    setStep(4);
-  }
-
-  async function submit(): Promise<void> {
     if (!form.editorialAccepted) {
-      setNotice("Please acknowledge the editorial notice before submitting.");
+      setNotice("Please tick the editorial notice box before paying.");
       return;
     }
-    const group: DistributionChannelGroup = chosen.some((c) => c.group === "international")
-      ? "international"
-      : chosen.some((c) => c.group === "premium-nigerian")
-        ? "premium-nigerian"
-        : "nigerian-national";
-    const booking = await api.pressReleases.create({
-      title: form.headline,
-      companyName: form.companyName || "Independent client",
-      contactName: form.contactName,
-      contactEmail: form.contactEmail,
-      contactPhone: form.contactPhone,
-      country: form.country,
-      industry: form.industry || "General",
-      websiteUrl: form.websiteUrl,
-      tier:
-        group === "international"
-          ? "tier_1_premium"
-          : group === "premium-nigerian"
-            ? "tier_2_business"
-            : "tier_3_emerging",
-      targetAudience: `Partner desks: ${chosen.map((c) => c.label).join(", ")}`,
-      distributionRegions: [...new Set(chosen.map((c) => c.region))],
-      targetDate:
-        form.targetDate || new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10),
-      contentDraft: `${form.subhead}\n\n${form.body}`,
-      mediaAttachments: form.images ? form.images.split(",").map((entry) => entry.trim()) : [],
-      addOnIds: [],
-      disclosureAcknowledged: true,
-      consentToProcessing: true,
-      userId: user?.id,
-    });
-    await api.pressReleases.markPaid(booking.id);
-    setReference(booking.referenceNumber);
+    setPaying(true);
+    setNotice(null);
+    try {
+      const result = await startBooking({
+        data: {
+          outletIds: chosen.map((channel) => channel.id),
+          headline: form.headline,
+          subhead: form.subhead,
+          body: form.body,
+          companyName: form.companyName,
+          industry: form.industry,
+          country: form.country,
+          contactName: form.contactName,
+          contactEmail: form.contactEmail,
+          contactPhone: form.contactPhone,
+          websiteUrl: form.websiteUrl,
+          targetDate: form.targetDate,
+          images: form.images
+            ? form.images.split(",").map((entry) => entry.trim()).filter(Boolean).slice(0, 20)
+            : [],
+          editorialAccepted: true,
+        },
+      });
+      window.location.assign(result.authorizationUrl);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "The payment could not be started. Please try again.");
+      setPaying(false);
+    }
+  }
+
+  if (checking) {
+    return (
+      <div className="fmie-card flex items-center justify-center gap-2 p-8 text-sm text-brand-slate">
+        <Loader2 className="h-4 w-4 animate-spin" /> Checking your payment…
+      </div>
+    );
   }
 
   if (reference) {
@@ -257,15 +308,15 @@ export function OutletBookingFlow() {
       <div className="fmie-card p-8 text-center">
         <CheckCircle2 className="mx-auto h-10 w-10 text-brand-gold-dark" />
         <h2 className="mt-4 font-display text-2xl font-bold text-brand-charcoal">
-          Booking received
+          Paid and sent to the press desk
         </h2>
         <p className="mt-2 text-sm text-brand-slate">
-          Reference <span className="font-semibold text-brand-navy">{reference}</span> — paid and
-          queued with the press desk. Track progress through the six-stage pipeline any time.
+          Your booking number is <span className="font-semibold text-brand-navy">{reference}</span>.
+          Our team will review your release and keep you updated in My requests.
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-dark">
-            <a href="/press-releases/tracker">Open order tracker</a>
+            <a href="/press-releases/tracker">Open My requests</a>
           </Button>
         </div>
       </div>
@@ -275,7 +326,7 @@ export function OutletBookingFlow() {
   return (
     <div className="space-y-8">
       <ol className="flex flex-wrap gap-2 text-xs font-semibold">
-        {(["Write with AI help", "Select outlets", "Payment", "Review & submit"] as const).map(
+        {(["Write with AI help", "Choose outlets", "Check & pay"] as const).map(
           (label, index) => (
             <li
               key={label}
@@ -561,7 +612,7 @@ export function OutletBookingFlow() {
                   onClick={() => setStep(3)}
                   className="bg-brand-navy text-white hover:bg-brand-navy-dark"
                 >
-                  Continue to payment
+                  Continue to check &amp; pay
                 </Button>
               </div>
             </div>
@@ -575,64 +626,35 @@ export function OutletBookingFlow() {
       ) : null}
 
       {step === 3 ? (
-        <div className="fmie-card p-6">
-          <h3 className="font-display text-xl font-bold text-brand-charcoal">
-            Checkout (simulated) — payment before submission
-          </h3>
-          <p className="mt-1 text-xs text-brand-slate">
-            Your article is saved with this booking. Distribution fees are settled now; the story
-            goes to the press desk on the next step.
-          </p>
-          <ul className="mt-4 divide-y divide-brand-border text-sm">
-            {chosen.map((channel) => (
-              <li key={channel.id} className="flex justify-between py-2">
-                <span className="text-brand-charcoal">{channel.label}</span>
-                <span className="text-brand-slate">
-                  {formatUsd(outletPriceUsd(channel))}
-                </span>
-              </li>
-            ))}
-            <li className="flex justify-between py-2 font-semibold text-brand-navy">
-              <span>Total due</span>
-              <span>
-                {formatUsd(totalUsd)}
-              </span>
-            </li>
-          </ul>
-          <div className="mt-5 flex gap-3">
-            <Button variant="outline" onClick={() => setStep(2)}>
-              Back
-            </Button>
-            <Button
-              onClick={() => void pay()}
-              disabled={paying}
-              className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-            >
-              <CreditCard className="mr-2 h-4 w-4" />
-              {paying ? "Processing…" : "Pay now (Paystack simulated)"}
-            </Button>
-          </div>
-          <p className="mt-3 text-[11px] text-brand-slate">
-            No real payment is taken in this demonstration preview.
-          </p>
-        </div>
-      ) : null}
-
-      {step === 4 ? (
         <div className="space-y-4 fmie-card p-6">
           <h3 className="font-display text-xl font-bold text-brand-charcoal">
-            Review & submit to the press desk
+            Check your release, then pay
           </h3>
+          <p className="text-xs text-brand-slate">
+            Read it one last time. When you pay, your release is saved and sent to our press desk.
+          </p>
           <div className="rounded-lg border border-brand-border bg-brand-cream p-4">
             <p className="font-display text-lg font-bold text-brand-charcoal">{form.headline}</p>
             {form.subhead ? <p className="mt-1 text-sm text-brand-slate">{form.subhead}</p> : null}
-            <p className="mt-3 max-h-56 overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-brand-charcoal">
+            <p className="mt-3 max-h-56 overflow-y-auto whitespace-pre-line break-words text-sm leading-relaxed text-brand-charcoal">
               {form.body}
             </p>
           </div>
-          <p className="text-xs text-brand-slate">
-            <Badge tone="gold">Paid</Badge> Checkout for {chosen.length} outlet
-            {chosen.length === 1 ? "" : "s"} ({formatUsd(totalUsd)}) is attached to this booking.
+          <ul className="divide-y divide-brand-border text-sm">
+            {chosen.map((channel) => (
+              <li key={channel.id} className="flex justify-between gap-3 py-2">
+                <span className="min-w-0 text-brand-charcoal">{channel.label}</span>
+                <span className="shrink-0 text-brand-slate">{formatUsd(outletPriceUsd(channel))}</span>
+              </li>
+            ))}
+            <li className="flex justify-between py-2 font-semibold text-brand-navy">
+              <span>Total to pay</span>
+              <span>{formatUsd(totalUsd)}</span>
+            </li>
+          </ul>
+          <p className="text-[11px] text-brand-slate">
+            Paystack charges the same amount in naira: ₦
+            {Math.round(totalUsd * NGN_PER_USD).toLocaleString("en-NG")} (₦{NGN_PER_USD.toLocaleString("en-NG")} = $1).
           </p>
           <label className="flex items-start gap-3 rounded-md border border-brand-gold/60 bg-brand-gold/10 p-4 text-xs leading-relaxed text-brand-charcoal">
             <input
@@ -644,17 +666,31 @@ export function OutletBookingFlow() {
             <span>{EDITORIAL_NOTICE}</span>
           </label>
           {notice ? <p className="text-xs text-brand-slate">{notice}</p> : null}
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={() => setStep(3)}>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline" onClick={() => setStep(2)}>
               Back
             </Button>
-            <Button
-              onClick={() => void submit()}
-              className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-            >
-              Submit to press desk
-            </Button>
+            {isSignedIn ? (
+              <Button
+                onClick={() => void pay()}
+                disabled={paying || chosen.length === 0}
+                className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                {paying ? "Opening Paystack…" : `Pay ${formatUsd(totalUsd)} with Paystack`}
+              </Button>
+            ) : (
+              <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-dark">
+                <a href={`/signin?next=${encodeURIComponent("/press-releases/book")}`}>Sign in to pay</a>
+              </Button>
+            )}
           </div>
+          <p className="text-[11px] text-brand-slate">
+            {isSignedIn
+              ? "You will go to Paystack to pay, then come straight back here."
+              : "Your release is kept on this device while you sign in."}{" "}
+            Publication is always the editor's choice and is never guaranteed.
+          </p>
         </div>
       ) : null}
     </div>

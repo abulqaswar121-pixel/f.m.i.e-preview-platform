@@ -64,7 +64,7 @@ export const offices: readonly Office[] = [
 
 export const headquarters = {
   ...offices[0]!,
-  telephone: "+44 20 7946 0100",
+  telephone: "+234 810 395 4351",
   hours: "Monday to Friday, 09:00–18:00 WAT",
 } as const;
 
@@ -78,13 +78,13 @@ export interface ContactRoute {
   handles: string[];
 }
 
-/** All outbound contact addresses. Only `@fmie.co.uk` is permitted. */
+/** All outbound contact addresses, supplied by the client. */
 export const contactRoutes: ContactRoute[] = [
   {
     id: "general",
     label: "General Enquiries",
-    email: "contact@fmie.co.uk",
-    telephone: "+44 20 7946 0100",
+    email: "franciserazua59@gmail.com",
+    telephone: "+234 810 395 4351",
     description:
       "Account help, platform questions, membership, partnership enquiries and anything that does not belong to a specialist desk.",
     responseTime: "One working day",
@@ -93,8 +93,8 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "editorial",
     label: "Editorial & Journalism",
-    email: "editorial@fmie.co.uk",
-    telephone: "+44 20 7946 0112",
+    email: "franciserazua59@gmail.com",
+    telephone: "+234 810 395 4351",
     description:
       "News tips, corrections, contributor pitches, right of reply requests and editorial standards questions.",
     responseTime: "Two working days",
@@ -103,8 +103,8 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "press",
     label: "Press Releases & Media Distribution",
-    email: "press@fmie.co.uk",
-    telephone: "+44 20 7946 0134",
+    email: "franciserazua59@gmail.com",
+    telephone: "+234 810 395 4351",
     description:
       "Press release bookings, tier selection, distribution scope, quotation requests and campaign reporting.",
     responseTime: "Four working hours",
@@ -113,8 +113,8 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "services",
     label: "Executive & Professional Services",
-    email: "services@fmie.co.uk",
-    telephone: "+44 20 7946 0156",
+    email: "franciserazua59@gmail.com",
+    telephone: "+234 810 395 4351",
     description:
       "Autobiography and executive profile writing, digital marketing contracting, pitching and representation, and Wikipedia policy advisory.",
     responseTime: "One working day",
@@ -128,13 +128,13 @@ export const contactRoutes: ContactRoute[] = [
 ];
 
 export const contactEmail = {
-  general: "contact@fmie.co.uk",
-  editorial: "editorial@fmie.co.uk",
-  press: "press@fmie.co.uk",
-  surveys: "survey@fmie.co.uk",
-  services: "services@fmie.co.uk",
-  privacy: "contact@fmie.co.uk",
-  abuse: "editorial@fmie.co.uk",
+  general: "franciserazua59@gmail.com",
+  editorial: "franciserazua59@gmail.com",
+  press: "franciserazua59@gmail.com",
+  surveys: "franciserazua59@gmail.com",
+  services: "franciserazua59@gmail.com",
+  privacy: "franciserazua59@gmail.com",
+  abuse: "franciserazua59@gmail.com",
 } as const;
 
 export const socialLinks = [

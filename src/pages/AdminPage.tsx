@@ -70,6 +70,7 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
 
 import { ContentManagerPanel } from "@/components/admin/ContentManager";
 import { CloudPayoutQueue } from "@/components/admin/CloudPayoutQueue";
+import { CloudPressQueue } from "@/components/admin/CloudPressQueue";
 
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-navy focus:outline-none";
@@ -559,8 +560,10 @@ export function AdminPage() {
           </section>
         ) : null}
 
+        {tab === "press" ? <CloudPressQueue /> : null}
+
         {tab === "press" ? (
-          <section className="space-y-4">
+          <section className="mt-10 space-y-4">
             <div>
               <h2 className="font-display text-xl font-semibold text-brand-charcoal">
                 Press campaign oversight
