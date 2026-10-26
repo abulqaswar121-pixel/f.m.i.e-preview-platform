@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/common/Primitives";
 import { Modal } from "@/components/common/Modal";
 import { Button } from "@/components/ui/button";
 import { surveyEconomyDefaults, surveyPointPacks } from "@/config/site";
-import { formatUsd } from "@/lib/outlet-pricing";
+import { NGN_PER_USD, formatUsd } from "@/lib/outlet-pricing";
 import { packChargeKobo } from "@/lib/survey-points";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -21,7 +21,12 @@ import {
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-gold focus:outline-none";
 
+/** Wallet amounts are kept in naira for bank payouts but shown in US dollars. */
 function naira(value: number): string {
+  return formatUsd(value / NGN_PER_USD);
+}
+
+function localNaira(value: number): string {
   return `₦${value.toLocaleString("en-NG")}`;
 }
 
@@ -211,7 +216,7 @@ export function WalletPage() {
                 </p>
                 <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
                 <p className="mt-2 text-[11px] text-brand-slate">
-                  Paystack shows {naira(packChargeKobo(pack) / 100)} at checkout.
+                  Paystack shows {localNaira(packChargeKobo(pack) / 100)} at checkout.
                 </p>
                 <Button
                   className="mt-4"
@@ -351,7 +356,7 @@ export function WalletPage() {
             />
           </label>
           <label className="block text-xs font-semibold text-brand-slate">
-            Amount (minimum {naira(surveyEconomyDefaults.minWithdrawalNaira)})
+            Amount in naira, paid to your bank (minimum {localNaira(surveyEconomyDefaults.minWithdrawalNaira)} ≈ {naira(surveyEconomyDefaults.minWithdrawalNaira)})
             <input
               className={`${inputClass} mt-1`}
               type="number"
@@ -363,6 +368,9 @@ export function WalletPage() {
               }
               placeholder="2000"
             />
+            {Number(form.amountNaira) > 0 ? (
+              <span className="mt-1 block font-normal">≈ {naira(Number(form.amountNaira))}</span>
+            ) : null}
           </label>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setWithdrawOpen(false)}>
