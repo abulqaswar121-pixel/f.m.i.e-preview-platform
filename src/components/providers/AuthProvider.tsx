@@ -170,6 +170,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       jobTitle: account.jobTitle || undefined,
       location: account.country || undefined,
       lifeStage: (asRecord(account.preferences["audience"])["lifeStage"] as string | undefined) || undefined,
+      gender: (asRecord(account.preferences["audience"])["gender"] as string | undefined) || undefined,
+      ageRange: (asRecord(account.preferences["audience"])["ageRange"] as string | undefined) || undefined,
       joinedAt: account.joinedAt,
       notificationPreferences: readNotifications(account.preferences),
     };
@@ -204,7 +206,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         update.country = next.country;
       }
       if (patch.notificationPreferences) {
-        next.preferences = { ...account.preferences, notifications: patch.notificationPreferences };
+        next.preferences = { ...next.preferences, notifications: patch.notificationPreferences };
+        update.preferences = next.preferences as Json;
+      }
+      if (patch.gender !== undefined || patch.ageRange !== undefined || patch.lifeStage !== undefined) {
+        const audience = { ...asRecord(next.preferences["audience"]) };
+        if (patch.gender !== undefined) audience["gender"] = (patch.gender ?? "").slice(0, 40);
+        if (patch.ageRange !== undefined) audience["ageRange"] = (patch.ageRange ?? "").slice(0, 40);
+        if (patch.lifeStage !== undefined) audience["lifeStage"] = (patch.lifeStage ?? "").slice(0, 60);
+        next.preferences = { ...next.preferences, audience };
         update.preferences = next.preferences as Json;
       }
 

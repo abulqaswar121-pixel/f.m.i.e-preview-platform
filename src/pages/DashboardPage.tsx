@@ -33,6 +33,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { api, downloadTextFile, useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
+import { AGE_RANGES, GENDERS, LIFE_STAGES } from "@/lib/audience";
 import type { PayoutRequest, WalletTransaction } from "@/types";
 import type { Survey, SurveyStatus } from "@/types";
 
@@ -74,6 +75,9 @@ export function DashboardPage() {
     jobTitle: user?.jobTitle ?? "",
     location: user?.location ?? "",
     organization: user?.organization ?? "",
+    gender: user?.gender ?? "",
+    ageRange: user?.ageRange ?? "",
+    lifeStage: user?.lifeStage ?? "",
   });
 
   const mySurveys = useMemo(() => {
@@ -164,6 +168,9 @@ export function DashboardPage() {
         jobTitle: profile.jobTitle.trim(),
         location: profile.location.trim(),
         organization: profile.organization.trim(),
+        gender: profile.gender,
+        ageRange: profile.ageRange,
+        lifeStage: profile.lifeStage,
       });
       toast.success("Profile updated", {
         description: "Saved to your account on every device.",
@@ -809,6 +816,34 @@ export function DashboardPage() {
                     value={profile.organization}
                     onChange={(e) => setProfile({ ...profile, organization: e.target.value })}
                   />
+                </div>
+                <p className="mt-4 text-xs text-brand-slate">
+                  These help us show you surveys meant for people like you. All are optional.
+                </p>
+                <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                  {(
+                    [
+                      ["gender", "Gender", GENDERS],
+                      ["ageRange", "Age range", AGE_RANGES],
+                      ["lifeStage", "Life stage", LIFE_STAGES],
+                    ] as const
+                  ).map(([key, label, options]) => (
+                    <label key={key} className="block text-xs font-semibold text-brand-slate">
+                      {label}
+                      <select
+                        className={`${inputClass} mt-1`}
+                        value={profile[key]}
+                        onChange={(e) => setProfile({ ...profile, [key]: e.target.value })}
+                      >
+                        <option value="">Prefer not to say</option>
+                        {options.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  ))}
                 </div>
                 <Button
                   type="submit"
