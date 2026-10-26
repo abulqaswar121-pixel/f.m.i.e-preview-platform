@@ -326,7 +326,7 @@ export function OutletBookingFlow() {
   return (
     <div className="space-y-8">
       <ol className="flex flex-wrap gap-2 text-xs font-semibold">
-        {(["Write with AI help", "Select outlets", "Payment", "Review & submit"] as const).map(
+        {(["Write with AI help", "Choose outlets", "Check & pay"] as const).map(
           (label, index) => (
             <li
               key={label}
@@ -626,64 +626,35 @@ export function OutletBookingFlow() {
       ) : null}
 
       {step === 3 ? (
-        <div className="fmie-card p-6">
-          <h3 className="font-display text-xl font-bold text-brand-charcoal">
-            Checkout (simulated) — payment before submission
-          </h3>
-          <p className="mt-1 text-xs text-brand-slate">
-            Your article is saved with this booking. Distribution fees are settled now; the story
-            goes to the press desk on the next step.
-          </p>
-          <ul className="mt-4 divide-y divide-brand-border text-sm">
-            {chosen.map((channel) => (
-              <li key={channel.id} className="flex justify-between py-2">
-                <span className="text-brand-charcoal">{channel.label}</span>
-                <span className="text-brand-slate">
-                  {formatUsd(outletPriceUsd(channel))}
-                </span>
-              </li>
-            ))}
-            <li className="flex justify-between py-2 font-semibold text-brand-navy">
-              <span>Total due</span>
-              <span>
-                {formatUsd(totalUsd)}
-              </span>
-            </li>
-          </ul>
-          <div className="mt-5 flex gap-3">
-            <Button variant="outline" onClick={() => setStep(2)}>
-              Back
-            </Button>
-            <Button
-              onClick={() => void pay()}
-              disabled={paying}
-              className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-            >
-              <CreditCard className="mr-2 h-4 w-4" />
-              {paying ? "Processing…" : "Pay now (Paystack simulated)"}
-            </Button>
-          </div>
-          <p className="mt-3 text-[11px] text-brand-slate">
-            No real payment is taken in this demonstration preview.
-          </p>
-        </div>
-      ) : null}
-
-      {step === 4 ? (
         <div className="space-y-4 fmie-card p-6">
           <h3 className="font-display text-xl font-bold text-brand-charcoal">
-            Review & submit to the press desk
+            Check your release, then pay
           </h3>
+          <p className="text-xs text-brand-slate">
+            Read it one last time. When you pay, your release is saved and sent to our press desk.
+          </p>
           <div className="rounded-lg border border-brand-border bg-brand-cream p-4">
             <p className="font-display text-lg font-bold text-brand-charcoal">{form.headline}</p>
             {form.subhead ? <p className="mt-1 text-sm text-brand-slate">{form.subhead}</p> : null}
-            <p className="mt-3 max-h-56 overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-brand-charcoal">
+            <p className="mt-3 max-h-56 overflow-y-auto whitespace-pre-line break-words text-sm leading-relaxed text-brand-charcoal">
               {form.body}
             </p>
           </div>
-          <p className="text-xs text-brand-slate">
-            <Badge tone="gold">Paid</Badge> Checkout for {chosen.length} outlet
-            {chosen.length === 1 ? "" : "s"} ({formatUsd(totalUsd)}) is attached to this booking.
+          <ul className="divide-y divide-brand-border text-sm">
+            {chosen.map((channel) => (
+              <li key={channel.id} className="flex justify-between gap-3 py-2">
+                <span className="min-w-0 text-brand-charcoal">{channel.label}</span>
+                <span className="shrink-0 text-brand-slate">{formatUsd(outletPriceUsd(channel))}</span>
+              </li>
+            ))}
+            <li className="flex justify-between py-2 font-semibold text-brand-navy">
+              <span>Total to pay</span>
+              <span>{formatUsd(totalUsd)}</span>
+            </li>
+          </ul>
+          <p className="text-[11px] text-brand-slate">
+            Paystack charges the same amount in naira: ₦
+            {Math.round(totalUsd * NGN_PER_USD).toLocaleString("en-NG")} (₦{NGN_PER_USD.toLocaleString("en-NG")} = $1).
           </p>
           <label className="flex items-start gap-3 rounded-md border border-brand-gold/60 bg-brand-gold/10 p-4 text-xs leading-relaxed text-brand-charcoal">
             <input
@@ -695,17 +666,31 @@ export function OutletBookingFlow() {
             <span>{EDITORIAL_NOTICE}</span>
           </label>
           {notice ? <p className="text-xs text-brand-slate">{notice}</p> : null}
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={() => setStep(3)}>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline" onClick={() => setStep(2)}>
               Back
             </Button>
-            <Button
-              onClick={() => void submit()}
-              className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-            >
-              Submit to press desk
-            </Button>
+            {isSignedIn ? (
+              <Button
+                onClick={() => void pay()}
+                disabled={paying || chosen.length === 0}
+                className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                {paying ? "Opening Paystack…" : `Pay ${formatUsd(totalUsd)} with Paystack`}
+              </Button>
+            ) : (
+              <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-dark">
+                <a href={`/signin?next=${encodeURIComponent("/press-releases/book")}`}>Sign in to pay</a>
+              </Button>
+            )}
           </div>
+          <p className="text-[11px] text-brand-slate">
+            {isSignedIn
+              ? "You will go to Paystack to pay, then come straight back here."
+              : "Your release is kept on this device while you sign in."}{" "}
+            Publication is always the editor's choice and is never guaranteed.
+          </p>
         </div>
       ) : null}
     </div>
