@@ -11,7 +11,7 @@ import type { User, UserRole } from "@/types";
  */
 
 export type ProfilePatch = Partial<
-  Pick<User, "name" | "organization" | "jobTitle" | "location" | "notificationPreferences">
+  Pick<User, "name" | "organization" | "jobTitle" | "location" | "notificationPreferences" | "gender" | "ageRange" | "lifeStage">
 >;
 
 export interface AuthContextValue {

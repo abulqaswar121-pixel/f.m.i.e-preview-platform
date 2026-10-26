@@ -165,6 +165,8 @@ export interface User {
   jobTitle?: string | undefined;
   location?: string | undefined;
   lifeStage?: string | undefined;
+  gender?: string | undefined;
+  ageRange?: string | undefined;
   joinedAt?: string | undefined;
   notificationPreferences?: NotificationPreferences | undefined;
 }

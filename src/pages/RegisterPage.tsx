@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
 import { countries, industries } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
-import { LIFE_STAGES } from "@/lib/audience";
+import { AGE_RANGES, GENDERS, LIFE_STAGES } from "@/lib/audience";
 import { supabase } from "@/integrations/supabase/client";
 
 const inputClass =
@@ -48,8 +48,6 @@ export function RegisterPage() {
   const [intent, setIntent] = useState<Intent>("earn");
   const [working, setWorking] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
-  const GENDERS = ["Female", "Male"];
-  const AGE_RANGES = ["18–24", "25–34", "35–44", "45–54", "55+"];
   const [form, setForm] = useState<{
     name: string;
     email: string;
