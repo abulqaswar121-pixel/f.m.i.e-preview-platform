@@ -1610,7 +1610,7 @@ const orders = {
     await delay();
     const lines = [
       "F.M.I.E MEDIA & RESEARCH LTD",
-      `${headquarters.street}, ${headquarters.city}, ${headquarters.country}`,
+      headquarters.addressOneLine,
       contactEmail.general,
       "",
       `INVOICE ${order.reference}`,
