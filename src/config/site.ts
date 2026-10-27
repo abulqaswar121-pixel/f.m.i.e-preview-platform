@@ -486,6 +486,10 @@ export interface SurveyPointPack {
   usd: number;
   points: number;
   blurb: string;
+  /** Which shelf the pack sits on. */
+  group: "standard" | "corporate" | "academic";
+  /** Buyer must upload a student ID card before paying. */
+  requiresStudentId?: boolean;
 }
 
 /**
@@ -494,10 +498,26 @@ export interface SurveyPointPack {
  * Suggested prices — waiting for the client to confirm.
  */
 export const surveyPointPacks: SurveyPointPack[] = [
-  { id: "pack-100", name: "Starter", usd: 12, points: 100, blurb: "Good for a small test survey." },
-  { id: "pack-500", name: "Standard", usd: 55, points: 500, blurb: "Most popular. Enough for a full study." },
-  { id: "pack-2000", name: "Large", usd: 200, points: 2000, blurb: "Best value for big or ongoing research." },
+  { id: "pack-100", name: "Starter", usd: 12, points: 100, blurb: "Good for a small test survey.", group: "standard" },
+  { id: "pack-500", name: "Standard", usd: 55, points: 500, blurb: "Most popular. Enough for a full study.", group: "standard" },
+  { id: "pack-2000", name: "Large", usd: 200, points: 2000, blurb: "Best value for big or ongoing research.", group: "standard" },
+  { id: "corp-999", name: "Corporate Bronze", usd: 999, points: 10_000, blurb: "For company teams running regular customer surveys.", group: "corporate" },
+  { id: "corp-2499", name: "Corporate Silver", usd: 2499, points: 27_500, blurb: "For brands and banks running studies across markets.", group: "corporate" },
+  { id: "corp-4999", name: "Corporate Gold", usd: 4999, points: 60_000, blurb: "For large firms with big, ongoing research.", group: "corporate" },
+  { id: "academic-599", name: "Academic Research", usd: 599, points: 5_000, blurb: "For Masters and PhD students. Upload your student ID card before you pay.", group: "academic", requiresStudentId: true },
 ];
+
+/** Yearly plan for government agencies, UN bodies and NGOs. Arranged with our team, not bought online. */
+export const governmentPlan = {
+  name: "Government & International Agencies",
+  usdPerYear: 10_000,
+  summary: "Unlimited survey points for one year, for ministries, commissions, UN bodies and NGOs.",
+  perks: [
+    "Unlimited survey points for 12 months",
+    "Reach people by country, job and life stage",
+    "A named F.M.I.E contact for your team",
+  ],
+} as const;
 
 /** How points are spent on surveys. Suggested values — waiting for the client to confirm. */
 export const surveyPointRules = {
