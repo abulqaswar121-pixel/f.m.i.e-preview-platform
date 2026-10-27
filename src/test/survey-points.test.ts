@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { surveyPointPacks } from "@/config/site";
+import { governmentPlan, surveyPointPacks } from "@/config/site";
 import {
   earnerRewardUsd,
   findPointPack,
@@ -12,7 +12,7 @@ import {
 
 describe("pay-as-you-go survey points", () => {
   it("sells point packs in dollars, with no yearly plans", () => {
-    expect(surveyPointPacks.map((pack) => [pack.points, pack.usd])).toEqual([
+    expect(surveyPointPacks.filter((pack) => pack.group === "standard").map((pack) => [pack.points, pack.usd])).toEqual([
       [100, 12],
       [500, 55],
       [2000, 200],
@@ -45,3 +45,23 @@ describe("answer reward paid to the wallet", () => {
     expect(surveyRewardMinor(10)).toBe(128_000);
   });
 });
+
+describe("corporate, academic and government plans", () => {
+  it("offers corporate packs from $999 to $4,999", () => {
+    const corporate = surveyPointPacks.filter((pack) => pack.group === "corporate").map((pack) => pack.usd);
+    expect(Math.min(...corporate)).toBe(999);
+    expect(Math.max(...corporate)).toBe(4999);
+  });
+
+  it("sells the academic pack at $599 for 5,000 points, only with a student ID", () => {
+    const pack = findPointPack("academic-599");
+    expect(pack?.usd).toBe(599);
+    expect(pack?.points).toBe(5000);
+    expect(pack?.requiresStudentId).toBe(true);
+  });
+
+  it("prices the government plan at $10,000 a year", () => {
+    expect(governmentPlan.usdPerYear).toBe(10000);
+  });
+});
+

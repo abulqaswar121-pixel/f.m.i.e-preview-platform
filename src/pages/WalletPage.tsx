@@ -7,9 +7,10 @@ import { Badge } from "@/components/common/Badge";
 import { PageHeader } from "@/components/common/Primitives";
 import { Modal } from "@/components/common/Modal";
 import { Button } from "@/components/ui/button";
-import { surveyEconomyDefaults, surveyPointPacks } from "@/config/site";
+import { surveyEconomyDefaults } from "@/config/site";
 import { NGN_PER_USD, formatUsd } from "@/lib/outlet-pricing";
-import { packChargeKobo } from "@/lib/survey-points";
+import { STUDENT_ID_FOLDER, packChargeKobo, packsInGroup } from "@/lib/survey-points";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import {
   confirmPointPurchase,
@@ -117,6 +118,46 @@ export function WalletPage() {
     }
   }
 
+  const [studentIdUploaded, setStudentIdUploaded] = useState(false);
+  const [uploadingId, setUploadingId] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    void supabase.auth.getUser().then(async ({ data: auth }) => {
+      if (!auth.user) return;
+      const { data } = await supabase.storage
+        .from("member-files")
+        .list(`${auth.user.id}/${STUDENT_ID_FOLDER}`, { limit: 1 });
+      setStudentIdUploaded(Boolean(data && data.length > 0));
+    });
+  }, [user]);
+
+  async function uploadStudentId(file: File): Promise<void> {
+    if (!user) return;
+    if (file.size > 10 * 1024 * 1024) {
+      setNotice("Your ID file is too big. Please use a file under 10 MB.");
+      return;
+    }
+    setUploadingId(true);
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) {
+      setUploadingId(false);
+      setNotice("Please sign in again to upload your ID.");
+      return;
+    }
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
+    const { error } = await supabase.storage
+      .from("member-files")
+      .upload(`${auth.user.id}/${STUDENT_ID_FOLDER}/${Date.now()}-${safeName}`, file);
+    setUploadingId(false);
+    if (error) {
+      setNotice("Your ID could not be uploaded. Please try again.");
+      return;
+    }
+    setStudentIdUploaded(true);
+    setNotice("Student ID uploaded. You can now buy the academic pack.");
+  }
+
   async function buyPack(packId: string): Promise<void> {
     if (!user) return;
     setBuying(packId);
@@ -199,37 +240,66 @@ export function WalletPage() {
             Pay as you go — no yearly plan. Points pay the people who answer your surveys. Top up
             any time they run low.
           </p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {surveyPointPacks.map((pack) => (
-              <div
-                key={pack.id}
-                className="flex flex-col rounded-lg border border-brand-border bg-white p-5 shadow-sm"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-slate">
-                  {pack.name}
-                </p>
-                <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
-                  {pack.points.toLocaleString()} pts
-                </p>
-                <p className="mt-1 text-lg font-semibold text-brand-charcoal">
-                  {formatUsd(pack.usd)}
-                </p>
-                <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
-                <p className="mt-2 text-[11px] text-brand-slate">
-                  Paystack shows {localNaira(packChargeKobo(pack) / 100)} at checkout.
-                </p>
-                <Button
-                  className="mt-4"
-                  variant="outline"
-                  disabled={buying === pack.id}
-                  onClick={() => void buyPack(pack.id)}
-                >
-                  <WalletIcon className="mr-2 h-4 w-4" />
-                  {buying === pack.id ? "Processing…" : "Pay with Paystack"}
-                </Button>
+          {([
+            ["standard", "Pay-as-you-go packs", ""],
+            ["corporate", "Corporate packs", "For companies, brands and banks. $999 to $4,999."],
+            ["academic", "Academic research", "For Masters and PhD students only."],
+          ] as const).map(([group, title, note]) => (
+            <div key={group} className="mt-6">
+              <h3 className="font-display text-base font-bold text-brand-charcoal">{title}</h3>
+              {note ? <p className="text-xs text-brand-slate">{note}</p> : null}
+              <div className="mt-3 grid gap-4 sm:grid-cols-3">
+                {packsInGroup(group).map((pack) => {
+                  const blocked = pack.requiresStudentId && !studentIdUploaded;
+                  return (
+                    <div
+                      key={pack.id}
+                      className="flex flex-col rounded-lg border border-brand-border bg-white p-5 shadow-sm"
+                    >
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-slate">
+                        {pack.name}
+                      </p>
+                      <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
+                        {pack.points.toLocaleString()} pts
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-brand-charcoal">
+                        {formatUsd(pack.usd)}
+                      </p>
+                      <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
+                      {pack.requiresStudentId ? (
+                        <label className="mt-3 block text-xs font-semibold text-brand-slate">
+                          {studentIdUploaded ? "Student ID uploaded ✓ (you can replace it)" : "Upload your student ID card"}
+                          <input
+                            type="file"
+                            accept="image/*,application/pdf"
+                            className="mt-1 block w-full text-xs"
+                            disabled={uploadingId}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) void uploadStudentId(file);
+                            }}
+                          />
+                          {uploadingId ? <span className="mt-1 block">Uploading…</span> : null}
+                        </label>
+                      ) : null}
+                      <p className="mt-2 text-[11px] text-brand-slate">
+                        Paystack shows {localNaira(packChargeKobo(pack) / 100)} at checkout.
+                      </p>
+                      <Button
+                        className="mt-4"
+                        variant="outline"
+                        disabled={buying === pack.id || blocked}
+                        onClick={() => void buyPack(pack.id)}
+                      >
+                        <WalletIcon className="mr-2 h-4 w-4" />
+                        {buying === pack.id ? "Processing…" : blocked ? "Upload ID to continue" : "Pay with Paystack"}
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">

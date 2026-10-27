@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { site } from "@/config/site";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { findPointPack, packChargeKobo } from "@/lib/survey-points";
+import { STUDENT_ID_FOLDER, findPointPack, packChargeKobo } from "@/lib/survey-points";
 import { isValidWithdrawalAmount } from "@/lib/wallet-rules";
 
 const withdrawalInput = z.object({
@@ -115,6 +115,14 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
     if (!secret) throw new Error("Paystack is not connected yet. Your wallet has not been charged.");
     const pack = findPointPack(data.packId);
     if (!pack) throw new Error("That points package is not available.");
+    if (pack.requiresStudentId) {
+      const { data: idFiles } = await context.supabase.storage
+        .from("member-files")
+        .list(`${context.userId}/${STUDENT_ID_FOLDER}`, { limit: 1 });
+      if (!idFiles || idFiles.length === 0) {
+        throw new Error("Please upload your student ID card before buying the academic pack.");
+      }
+    }
     const { data: authData, error: authError } = await context.supabase.auth.getUser();
     const email = authData.user?.email;
     if (authError || !email) throw new Error("Please sign in again before paying.");

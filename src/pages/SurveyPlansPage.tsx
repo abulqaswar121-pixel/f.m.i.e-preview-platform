@@ -5,9 +5,9 @@ import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { InfoNote, PageHeader } from "@/components/common/Primitives";
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
-import { surveyPointPacks, surveyPointRules } from "@/config/site";
+import { governmentPlan, surveyPointRules } from "@/config/site";
 import { formatUsd } from "@/lib/outlet-pricing";
-import { earnerRewardUsd, pointsNeeded } from "@/lib/survey-points";
+import { earnerRewardUsd, packsInGroup, pointsNeeded } from "@/lib/survey-points";
 
 const steps = [
   {
@@ -55,7 +55,7 @@ export function SurveyPlansPage() {
         <section>
           <h2 className="font-display text-xl font-bold text-brand-charcoal">Point packs</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {surveyPointPacks.map((pack, index) => (
+            {packsInGroup("standard").map((pack, index) => (
               <article
                 key={pack.id}
                 className={`flex flex-col rounded-lg border bg-card p-6 shadow-sm ${
@@ -85,6 +85,60 @@ export function SurveyPlansPage() {
                 </Button>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="mt-12 grid gap-6 lg:grid-cols-2">
+          <div>
+            <h2 className="font-display text-xl font-bold text-brand-charcoal">Corporate packs</h2>
+            <p className="mt-1 text-sm text-brand-slate">For companies, brands and banks.</p>
+            <ul className="mt-4 divide-y divide-brand-border rounded-lg border border-brand-border bg-card">
+              {packsInGroup("corporate").map((pack) => (
+                <li key={pack.id} className="flex flex-wrap items-center justify-between gap-2 p-4">
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-brand-charcoal">{pack.name}</span>
+                    <span className="block text-xs text-brand-slate">
+                      {pack.points.toLocaleString("en-US")} pts · {pack.blurb}
+                    </span>
+                  </span>
+                  <span className="font-display text-lg font-bold text-brand-navy">{formatUsd(pack.usd)}</span>
+                </li>
+              ))}
+            </ul>
+            <Button asChild variant="outline" className="mt-3">
+              <Link to="/wallet">Buy in your wallet</Link>
+            </Button>
+          </div>
+          <div className="space-y-6">
+            {packsInGroup("academic").map((pack) => (
+              <article key={pack.id} className="rounded-lg border border-brand-border bg-card p-5">
+                <Badge tone="gold">Masters &amp; PhD students</Badge>
+                <h3 className="mt-2 font-display text-lg font-semibold text-brand-charcoal">{pack.name}</h3>
+                <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
+                  {pack.points.toLocaleString("en-US")} pts · {formatUsd(pack.usd)}
+                </p>
+                <p className="mt-2 text-sm text-brand-slate">{pack.blurb}</p>
+                <Button asChild variant="outline" className="mt-3">
+                  <Link to="/wallet">Upload ID and buy</Link>
+                </Button>
+              </article>
+            ))}
+            <article className="rounded-lg border-2 border-brand-gold bg-card p-5">
+              <Badge tone="gold">Yearly plan</Badge>
+              <h3 className="mt-2 font-display text-lg font-semibold text-brand-charcoal">{governmentPlan.name}</h3>
+              <p className="mt-1 font-display text-2xl font-bold text-brand-navy">
+                From {formatUsd(governmentPlan.usdPerYear)} / year
+              </p>
+              <p className="mt-2 text-sm text-brand-slate">{governmentPlan.summary}</p>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-brand-slate">
+                {governmentPlan.perks.map((perk) => (
+                  <li key={perk}>{perk}</li>
+                ))}
+              </ul>
+              <Button asChild className="mt-4 bg-brand-navy text-white hover:bg-brand-navy-light">
+                <Link to="/contact">Talk to our team</Link>
+              </Button>
+            </article>
           </div>
         </section>
 

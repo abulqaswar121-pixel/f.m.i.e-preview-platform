@@ -52,3 +52,10 @@ export function findPointPack(packId: string): SurveyPointPack | undefined {
 export function packChargeKobo(pack: SurveyPointPack): number {
   return Math.round(pack.usd * NGN_PER_USD * 100);
 }
+
+/** Folder (inside the member's own private files) that holds their student ID card. */
+export const STUDENT_ID_FOLDER = "student-id";
+
+export function packsInGroup(group: SurveyPointPack["group"]): SurveyPointPack[] {
+  return surveyPointPacks.filter((pack) => pack.group === group);
+}

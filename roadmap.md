@@ -37,6 +37,7 @@
 - [x] Show the press partner logo strip at the very top of the homepage, just under the menu.
 - [x] Put the outlet list and prices before the "write with AI help" step in press booking.
 - [x] Let signed-in members use the logo to visit the homepage without signing out.
-- [ ] Add the corporate points range ($999–$4,999) and the $599 student/academic pack (5,000 points) with ID upload before purchase.
-- [ ] Add the government agency yearly subscription ($10,000/year, unlimited points).
+- [x] Add the corporate points range ($999–$4,999) and the $599 student/academic pack (5,000 points) with ID upload before purchase.
+- [x] Add the government agency yearly plan ($10,000/year) as a "talk to our team" plan.
+- [ ] Client to confirm corporate point amounts and permission before showing big-brand or government logos.
 - [ ] Save team kit quotes properly and clean up the shop.
