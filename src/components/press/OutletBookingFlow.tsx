@@ -335,7 +335,7 @@ export function OutletBookingFlow() {
   }
 
   return (
-    <div ref={topRef} className="scroll-mt-24 space-y-8">
+    <div ref={topRef} className="scroll-mt-32 space-y-8">
       <ol className="flex flex-wrap gap-2 text-xs font-semibold">
         {(["Choose outlets", "Write with AI help", "Check & pay"] as const).map(
           (label, index) => (
