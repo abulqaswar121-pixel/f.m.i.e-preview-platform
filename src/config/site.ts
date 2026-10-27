@@ -83,7 +83,7 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "general",
     label: "General Enquiries",
-    email: "franciserazua59@gmail.com",
+    email: "contact@fmie.co.uk",
     telephone: "+234 810 395 4351",
     description:
       "Account help, platform questions, membership, partnership enquiries and anything that does not belong to a specialist desk.",
@@ -93,7 +93,7 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "editorial",
     label: "Editorial & Journalism",
-    email: "franciserazua59@gmail.com",
+    email: "editorial@fmie.co.uk",
     telephone: "+234 810 395 4351",
     description:
       "News tips, corrections, contributor pitches, right of reply requests and editorial standards questions.",
@@ -103,7 +103,7 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "press",
     label: "Press Releases & Media Distribution",
-    email: "franciserazua59@gmail.com",
+    email: "press@fmie.co.uk",
     telephone: "+234 810 395 4351",
     description:
       "Press release bookings, tier selection, distribution scope, quotation requests and campaign reporting.",
@@ -113,7 +113,7 @@ export const contactRoutes: ContactRoute[] = [
   {
     id: "services",
     label: "Executive & Professional Services",
-    email: "franciserazua59@gmail.com",
+    email: "services@fmie.co.uk",
     telephone: "+234 810 395 4351",
     description:
       "Autobiography and executive profile writing, digital marketing contracting, pitching and representation, and Wikipedia policy advisory.",
@@ -128,39 +128,39 @@ export const contactRoutes: ContactRoute[] = [
 ];
 
 export const contactEmail = {
-  general: "franciserazua59@gmail.com",
-  editorial: "franciserazua59@gmail.com",
-  press: "franciserazua59@gmail.com",
-  surveys: "franciserazua59@gmail.com",
-  services: "franciserazua59@gmail.com",
-  privacy: "franciserazua59@gmail.com",
-  abuse: "franciserazua59@gmail.com",
+  general: "contact@fmie.co.uk",
+  editorial: "editorial@fmie.co.uk",
+  press: "press@fmie.co.uk",
+  surveys: "survey@fmie.co.uk",
+  services: "services@fmie.co.uk",
+  privacy: "contact@fmie.co.uk",
+  abuse: "editorial@fmie.co.uk",
 } as const;
 
 export const socialLinks = [
   {
-    id: "instagram",
-    label: "Instagram",
-    handle: "@hague_digital",
-    url: "https://www.instagram.com/hague_digital?stkn=cDRveGtjdW0yY25i",
+    id: "linkedin",
+    label: "LinkedIn",
+    handle: "F.M.I.E",
+    url: "https://www.linkedin.com/company/f-m-i-e/",
   },
   {
     id: "facebook",
     label: "Facebook",
     handle: "F.M.I.E",
-    url: "https://www.facebook.com/profile.php?id=100085736047647",
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    handle: "The Hague Digital Company",
-    url: "https://www.linkedin.com/company/the-hague-digital-company",
+    url: "https://www.facebook.com/profile.php?id=61565454176974",
   },
   {
     id: "tiktok",
     label: "TikTok",
-    handle: "@haguecoofficial",
-    url: "https://www.tiktok.com/@haguecoofficial?lang=en",
+    handle: "@f.m.i.e_tik",
+    url: "https://www.tiktok.com/@f.m.i.e_tik",
+  },
+  {
+    id: "youtube",
+    label: "YouTube",
+    handle: "@F.M.I.E",
+    url: "https://www.youtube.com/@F.M.I.E",
   },
 ] as const;
 
