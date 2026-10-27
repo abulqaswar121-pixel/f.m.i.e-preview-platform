@@ -48,7 +48,6 @@ export function HomePage() {
   return (
     <div>
       {/* 1 — Press partners trust bar, featured at the very top of the page */}
-      <PressPartnerSlider channels={seedDistributionChannels} />
 
       {/* 2 — Film banner */}
       {!isHidden("hero") ? (
@@ -138,6 +137,8 @@ export function HomePage() {
         </section>
       ) : null}
 
+
+      <PressPartnerSlider channels={seedDistributionChannels} />
 
       {/* 3 — Positioning strip (copy adopted from the client's live site) */}
       {!isHidden("positioning") ? (
