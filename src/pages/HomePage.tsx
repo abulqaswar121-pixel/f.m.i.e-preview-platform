@@ -164,7 +164,10 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 3 — Daily poll + two-sided spotlight */}
+      {/* 3 — Press partners trust band, placed high so people see the outlets first */}
+      <PressPartnerSlider channels={seedDistributionChannels} />
+
+      {/* 4 — Daily poll + two-sided spotlight */}
       {!isHidden("poll") ? (
         <section className="border-b border-brand-border bg-white">
           <div className="fmie-container grid gap-6 py-10 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
@@ -331,7 +334,6 @@ export function HomePage() {
           </div>
         </section>
       ) : null}
-      <PressPartnerSlider channels={seedDistributionChannels} />
     </div>
   );
 }
