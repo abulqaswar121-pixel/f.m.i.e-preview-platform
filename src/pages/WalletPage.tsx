@@ -123,10 +123,13 @@ export function WalletPage() {
 
   useEffect(() => {
     if (!user) return;
-    void supabase.storage
-      .from("member-files")
-      .list(`${user.id}/${STUDENT_ID_FOLDER}`, { limit: 1 })
-      .then(({ data }) => setStudentIdUploaded(Boolean(data && data.length > 0)));
+    void supabase.auth.getUser().then(async ({ data: auth }) => {
+      if (!auth.user) return;
+      const { data } = await supabase.storage
+        .from("member-files")
+        .list(`${auth.user.id}/${STUDENT_ID_FOLDER}`, { limit: 1 });
+      setStudentIdUploaded(Boolean(data && data.length > 0));
+    });
   }, [user]);
 
   async function uploadStudentId(file: File): Promise<void> {
@@ -136,10 +139,16 @@ export function WalletPage() {
       return;
     }
     setUploadingId(true);
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) {
+      setUploadingId(false);
+      setNotice("Please sign in again to upload your ID.");
+      return;
+    }
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
     const { error } = await supabase.storage
       .from("member-files")
-      .upload(`${user.id}/${STUDENT_ID_FOLDER}/${Date.now()}-${safeName}`, file);
+      .upload(`${auth.user.id}/${STUDENT_ID_FOLDER}/${Date.now()}-${safeName}`, file);
     setUploadingId(false);
     if (error) {
       setNotice("Your ID could not be uploaded. Please try again.");
