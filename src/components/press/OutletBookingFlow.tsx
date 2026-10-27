@@ -135,10 +135,10 @@ function aiPolish(
 const inputClass = "mt-1 w-full rounded-md border border-brand-border px-3 py-2 text-sm";
 
 /**
- * Content-first press booking (client instruction, 2026-10-20): the client
- * writes their proposed article with AI drafting help FIRST, then selects
- * outlets, then pays — payment is prompted before submission, never before
- * writing. Publication is never guaranteed — editors decide.
+ * Press booking order (client instructions, 20 and 26 Oct): choose outlets and
+ * see the price first, then write the article with AI help, then check & pay.
+ * Payment is always the last step, never before writing. Publication is never
+ * guaranteed — editors decide.
  */
 export function OutletBookingFlow() {
   const { user, isSignedIn } = useAuth();
@@ -326,7 +326,7 @@ export function OutletBookingFlow() {
   return (
     <div className="space-y-8">
       <ol className="flex flex-wrap gap-2 text-xs font-semibold">
-        {(["Write with AI help", "Choose outlets", "Check & pay"] as const).map(
+        {(["Choose outlets", "Write with AI help", "Check & pay"] as const).map(
           (label, index) => (
             <li
               key={label}
@@ -342,19 +342,32 @@ export function OutletBookingFlow() {
         )}
       </ol>
 
-      {step === 1 ? (
+      {step === 2 ? (
         <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-3 text-xs text-brand-charcoal">
+            <span className="min-w-0">
+              <span className="font-semibold">{chosen.length}</span> outlet
+              {chosen.length === 1 ? "" : "s"} chosen · Total{" "}
+              <span className="font-semibold text-brand-navy">{formatUsd(totalUsd)}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="font-semibold text-brand-navy underline underline-offset-2"
+            >
+              Change outlets
+            </button>
+          </div>
           <div className="fmie-card space-y-4 p-6">
             <div className="flex items-center gap-2">
               <PenLine className="h-5 w-5 text-brand-gold-dark" />
               <h3 className="font-display text-xl font-bold text-brand-charcoal">
-                Write your release first — pay later
+                Write your release — pay later
               </h3>
             </div>
             <p className="text-xs leading-relaxed text-brand-slate">
-              Tell the assistant what you want to announce and it drafts a full professional release
-              for you to edit. Nothing is paid or submitted at this stage — the checkout only
-              appears once your story is written and your outlets are chosen.
+              Tell the assistant what you want to announce and it drafts a full release for you to
+              edit. Nothing is paid or sent at this step — you pay only after you check everything.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-xs font-semibold text-brand-slate">
@@ -530,33 +543,45 @@ export function OutletBookingFlow() {
               </label>
             </div>
             {notice ? <p className="text-xs text-brand-slate">{notice}</p> : null}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[11px] text-brand-slate">
-                {form.body.trim().length} characters drafted · no payment taken on this step
-              </p>
+            <p className="text-[11px] text-brand-slate">
+              {form.body.trim().length} characters written · no payment taken on this step
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" onClick={() => setStep(1)}>
+                Back to outlets
+              </Button>
               <Button
                 disabled={!form.headline.trim() || form.body.trim().length < 80}
                 onClick={() => {
                   setNotice(null);
-                  setStep(2);
+                  setStep(3);
                 }}
                 className="bg-brand-navy text-white hover:bg-brand-navy-dark"
               >
-                Continue to outlets
+                Continue to check &amp; pay
               </Button>
             </div>
             {!form.headline.trim() || form.body.trim().length < 80 ? (
               <p className="text-[11px] text-brand-slate">
-                A headline and at least a short body (80+ characters) are needed before outlets —
-                use the AI draft button if you'd rather start from a full draft.
+                Add a headline and a short story (80+ characters) to continue — or use the AI
+                draft button to start from a full draft.
               </p>
             ) : null}
           </div>
         </div>
       ) : null}
 
-      {step === 2 ? (
+      {step === 1 ? (
         <div className="space-y-8">
+          <div className="fmie-card space-y-2 p-6">
+            <h3 className="font-display text-xl font-bold text-brand-charcoal">
+              Pick your outlets — see the price first
+            </h3>
+            <p className="text-xs leading-relaxed text-brand-slate">
+              Tap the media you want your story sent to. Your total shows at the bottom. Next, you
+              write your release (with AI help if you like). You only pay at the very end.
+            </p>
+          </div>
           {GROUPS.map((group) => (
             <section key={group.id}>
               <h3 className="font-display text-lg font-bold text-brand-charcoal">{group.label}</h3>
@@ -603,18 +628,16 @@ export function OutletBookingFlow() {
                   {formatUsd(totalUsd)}
                 </span>
               </p>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(1)}>
-                  Back to article
-                </Button>
-                <Button
-                  disabled={chosen.length === 0}
-                  onClick={() => setStep(3)}
-                  className="bg-brand-navy text-white hover:bg-brand-navy-dark"
-                >
-                  Continue to check &amp; pay
-                </Button>
-              </div>
+              <Button
+                disabled={chosen.length === 0}
+                onClick={() => {
+                  setNotice(null);
+                  setStep(2);
+                }}
+                className="bg-brand-navy text-white hover:bg-brand-navy-dark"
+              >
+                Continue to write your release
+              </Button>
             </div>
             <p className="mt-2 text-[11px] leading-relaxed text-brand-slate">
               Listed publications are independent third parties reached through partner distribution
@@ -667,7 +690,7 @@ export function OutletBookingFlow() {
           </label>
           {notice ? <p className="text-xs text-brand-slate">{notice}</p> : null}
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline" onClick={() => setStep(2)}>
+            <Button variant="outline" onClick={() => setStep(2)} aria-label="Back to your release">
               Back
             </Button>
             {isSignedIn ? (
