@@ -135,7 +135,10 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 2 — Positioning strip (copy adopted from the client's live site) */}
+      {/* 2 — Press partners trust band, featured high so people see the outlets first */}
+      <PressPartnerSlider channels={seedDistributionChannels} />
+
+      {/* 3 — Positioning strip (copy adopted from the client's live site) */}
       {!isHidden("positioning") ? (
         <section className="border-b border-brand-border bg-brand-cream">
           <div className="fmie-container flex flex-col gap-6 py-8 lg:flex-row lg:items-center lg:justify-between">
@@ -164,8 +167,6 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 3 — Press partners trust band, placed high so people see the outlets first */}
-      <PressPartnerSlider channels={seedDistributionChannels} />
 
       {/* 4 — Daily poll + two-sided spotlight */}
       {!isHidden("poll") ? (
