@@ -206,7 +206,7 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 4 — Editorial desk */}
+      {/* 5 — Editorial desk */}
       {!isHidden("news") ? (
         <section className="bg-brand-cream">
           <div className="fmie-container py-10 sm:py-12">
@@ -279,7 +279,7 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 5 — Visibility band: published releases + custom kits */}
+      {/* 6 — Visibility band: published releases + custom kits */}
       {!isHidden("visibility") ? (
         <section className="bg-brand-navy-dark text-white">
           <div className="fmie-container grid grid-cols-1 gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr]">
