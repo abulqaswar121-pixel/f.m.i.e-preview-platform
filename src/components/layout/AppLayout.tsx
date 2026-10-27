@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Outlet, useRouterState } from "@tanstack/react-router";
 
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
@@ -18,8 +17,9 @@ const FOOTERLESS_PREFIXES = ["/signin", "/register", "/reset-password", "/checko
 const ASSISTANTLESS_PREFIXES = ["/signin", "/register", "/reset-password", "/checkout"];
 
 /**
- * Pages a signed-in member may use. Signed-in members stay inside the portal;
- * any other page sends them to the dashboard until they sign out.
+ * Member portal pages. Signed-in members get the portal-only menu here; on
+ * every other page (homepage, news, shop…) they see the normal site menu and
+ * stay signed in.
  */
 const PORTAL_PREFIXES = [
   "/dashboard",
@@ -38,21 +38,14 @@ export function isPortalPath(pathname: string) {
   );
 }
 
-/** Site shell: public header and footer for visitors, portal header for members. */
+/** Site shell: portal header for members inside the portal, public header and footer elsewhere. */
 export function AppLayout() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const { isSignedIn, ready } = useAuth();
-  const navigate = useNavigate();
+  const { isSignedIn } = useAuth();
   const matches = (prefixes: string[]) =>
     prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
-  const inPortal = isSignedIn;
+  const inPortal = isSignedIn && isPortalPath(pathname);
   const database = useDatabase();
-
-  useEffect(() => {
-    if (ready && isSignedIn && !isPortalPath(pathname)) {
-      void navigate({ to: "/dashboard", replace: true });
-    }
-  }, [ready, isSignedIn, pathname, navigate]);
 
   const showFooter = !inPortal && !matches(FOOTERLESS_PREFIXES);
   const showAssistant =

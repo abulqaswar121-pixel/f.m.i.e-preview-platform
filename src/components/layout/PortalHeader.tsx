@@ -47,7 +47,7 @@ export function PortalHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-brand-border bg-white/95 backdrop-blur">
       <div className="fmie-container flex h-16 items-center justify-between gap-3">
-        <Link to="/dashboard" className="shrink-0" aria-label="Dashboard">
+        <Link to="/" className="shrink-0" aria-label="F.M.I.E home">
           <Logo compact />
         </Link>
         <nav aria-label="Portal navigation" className="hidden items-center gap-1 xl:flex">
