@@ -61,7 +61,7 @@ export function HomePage() {
             className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-navy-dark via-brand-navy-dark/85 to-brand-navy/45"
           />
           <div className="fmie-container relative grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
+            <div className="min-w-0">
               <Eyebrow className="text-brand-gold">{site.tagline}</Eyebrow>
               <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
                 {database.settings.heroHeadline}
