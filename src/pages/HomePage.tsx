@@ -86,6 +86,7 @@ export function HomePage() {
                   <Link to="/press-releases/book">Book a Press Release</Link>
                 </Button>
               </div>
+              <PressPartnerSlider channels={seedDistributionChannels} variant="dark" />
               <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
                 {[
                   ["News topics", String(newsCategories.length)],
@@ -135,10 +136,8 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 2 — Press partners trust band, featured high so people see the outlets first */}
-      <PressPartnerSlider channels={seedDistributionChannels} />
 
-      {/* 3 — Positioning strip (copy adopted from the client's live site) */}
+      {/* 2 — Positioning strip (copy adopted from the client's live site) */}
       {!isHidden("positioning") ? (
         <section className="border-b border-brand-border bg-brand-cream">
           <div className="fmie-container flex flex-col gap-6 py-8 lg:flex-row lg:items-center lg:justify-between">
@@ -168,7 +167,7 @@ export function HomePage() {
       ) : null}
 
 
-      {/* 4 — Daily poll + two-sided spotlight */}
+      {/* 3 — Daily poll + two-sided spotlight */}
       {!isHidden("poll") ? (
         <section className="border-b border-brand-border bg-white">
           <div className="fmie-container grid gap-6 py-10 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
@@ -207,7 +206,7 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 5 — Editorial desk */}
+      {/* 4 — Editorial desk */}
       {!isHidden("news") ? (
         <section className="bg-brand-cream">
           <div className="fmie-container py-10 sm:py-12">
@@ -280,7 +279,7 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* 6 — Visibility band: published releases + custom kits */}
+      {/* 5 — Visibility band: published releases + custom kits */}
       {!isHidden("visibility") ? (
         <section className="bg-brand-navy-dark text-white">
           <div className="fmie-container grid grid-cols-1 gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr]">
