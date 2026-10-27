@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Music2 } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Music2, Youtube } from "lucide-react";
 
 import { socialLinks } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,7 @@ const ICONS = {
   facebook: Facebook,
   linkedin: Linkedin,
   tiktok: Music2,
+  youtube: Youtube,
 } as const;
 
 interface SocialIconLinksProps {

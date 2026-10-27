@@ -21,6 +21,8 @@ import { useAsyncResource } from "@/hooks/useAsync";
 import { useDatabase } from "@/services/api";
 import { api } from "@/services/api";
 import { SiteLink } from "@/components/common/SiteLink";
+import { PressPartnerSlider } from "@/components/press/PressPartnerSlider";
+import { seedDistributionChannels } from "@/data";
 
 /**
  * Homepage: five deliberate blocks — film banner, positioning strip, poll +
@@ -329,6 +331,7 @@ export function HomePage() {
           </div>
         </section>
       ) : null}
+      <PressPartnerSlider channels={seedDistributionChannels} />
     </div>
   );
 }
