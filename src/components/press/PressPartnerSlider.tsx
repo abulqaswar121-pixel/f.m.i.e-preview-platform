@@ -28,7 +28,7 @@ export function PressPartnerSlider({
     <section
       aria-label="Our press partners"
       className={
-        dark ? "fmie-glass-dark rounded-2xl px-4 py-3" : "border-y border-brand-border bg-white py-5"
+        dark ? "fmie-glass-dark mt-5 rounded-2xl px-4 py-3" : "border-y border-brand-border bg-white py-5"
       }
     >
       <p
@@ -43,7 +43,7 @@ export function PressPartnerSlider({
       <div
         className={
           dark
-            ? "group mt-2 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
+            ? "group mt-2 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%,black_78%,transparent)]"
             : "group mt-4 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
         }
       >
