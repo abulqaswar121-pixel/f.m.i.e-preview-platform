@@ -6,8 +6,8 @@ export function PRBookingPage() {
     <div>
       <PageHeader
         eyebrow="Booking wizard"
-        title="Write your release first, pay when it's ready"
-        description="Write your article with AI help and choose your outlets. Pay only when it's ready — then it goes straight to our press desk and you get a booking number."
+        title="See the price first, pay when it's ready"
+        description="Pick your outlets and see the total. Then write your story with AI help. You pay only at the end — then it goes to our press desk and you get a booking number."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Global Press Releases", to: "/press-releases" },

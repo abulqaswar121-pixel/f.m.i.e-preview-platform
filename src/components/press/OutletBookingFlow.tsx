@@ -156,6 +156,8 @@ export function OutletBookingFlow() {
   const [checking, setChecking] = useState(false);
   const [draftLoaded, setDraftLoaded] = useState(false);
   const confirmedReference = useRef<string | null>(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
+  const firstStepRender = useRef(true);
   const [form, setForm] = useState({
     headline: "",
     subhead: "",
@@ -231,6 +233,15 @@ export function OutletBookingFlow() {
       })
       .finally(() => setChecking(false));
   }, [confirmBooking, search.payment, search.reference, user]);
+
+  // Moving between steps starts the new step from its top, not mid-page.
+  useEffect(() => {
+    if (firstStepRender.current) {
+      firstStepRender.current = false;
+      return;
+    }
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [step]);
 
   const chosen = useMemo(
     () => channels.filter((channel) => selected.includes(channel.id)),
@@ -324,7 +335,7 @@ export function OutletBookingFlow() {
   }
 
   return (
-    <div className="space-y-8">
+    <div ref={topRef} className="scroll-mt-24 space-y-8">
       <ol className="flex flex-wrap gap-2 text-xs font-semibold">
         {(["Choose outlets", "Write with AI help", "Check & pay"] as const).map(
           (label, index) => (
@@ -573,15 +584,10 @@ export function OutletBookingFlow() {
 
       {step === 1 ? (
         <div className="space-y-8">
-          <div className="fmie-card space-y-2 p-6">
-            <h3 className="font-display text-xl font-bold text-brand-charcoal">
-              Pick your outlets — see the price first
-            </h3>
-            <p className="text-xs leading-relaxed text-brand-slate">
-              Tap the media you want your story sent to. Your total shows at the bottom. Next, you
-              write your release (with AI help if you like). You only pay at the very end.
-            </p>
-          </div>
+          <p className="text-sm leading-relaxed text-brand-slate">
+            Tap the media you want your story sent to. Your total shows at the bottom. Next, you
+            write your release (with AI help if you like). You only pay at the very end.
+          </p>
           {GROUPS.map((group) => (
             <section key={group.id}>
               <h3 className="font-display text-lg font-bold text-brand-charcoal">{group.label}</h3>
