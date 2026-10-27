@@ -9,7 +9,9 @@ interface Channel {
 
 /** Sliding strip of press partner logos shown before booking, to build trust. */
 export function PressPartnerSlider({ channels }: { channels: Channel[] }) {
-  const partners = channels.filter((channel) => channel.status === "verified" && outletLogoUrl(channel.id));
+  const partners = channels.filter(
+    (channel) => channel.status === "verified" && outletLogoUrl(channel.id),
+  );
   if (partners.length === 0) return null;
   const loop = [...partners, ...partners];
   return (
