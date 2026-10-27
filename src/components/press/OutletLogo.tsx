@@ -19,7 +19,9 @@ export function OutletLogo({ id, label, size = 40 }: { id: string; label: string
         <img
           src={url}
           alt={`${label} logo`}
-          loading="lazy"
+          width={size}
+          height={size}
+          decoding="async"
           className="h-full w-full object-contain p-1"
           onError={() => setFailed(true)}
         />
