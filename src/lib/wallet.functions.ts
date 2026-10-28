@@ -149,7 +149,8 @@ export const initializePointPurchase = createServerFn({ method: "POST" })
           amount: amountMinor,
           currency: "NGN",
           reference,
-          callback_url: `${paymentOrigin()}/wallet?payment=return&reference=${encodeURIComponent(reference)}`,
+          // The payment page adds `reference` and `trxref` itself; adding it here too made it appear twice.
+          callback_url: `${paymentOrigin()}/wallet?payment=return`,
           metadata: { purchase_reference: reference, pack_id: pack.id, price_usd: pack.usd },
         }),
       });
@@ -169,25 +170,64 @@ export const confirmPointPurchase = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ reference: z.string().regex(/^fmie_points_[a-f0-9]{32}$/) }).parse(input))
   .handler(async ({ data, context }) => {
     const secret = process.env["PAYSTACK_SECRET_KEY"];
-    if (!secret) return { status: "pending" as const };
+    if (!secret) return { status: "pending" as const, points: 0 };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: purchase, error: purchaseError } = await supabaseAdmin
       .from("wallet_point_purchases")
-      .select("reference, amount_minor, currency")
+      .select("reference, amount_minor, currency, points, status")
       .eq("reference", data.reference)
       .eq("user_id", context.userId)
       .maybeSingle();
-    if (purchaseError || !purchase) throw new Error("This payment reference was not found on your account.");
+    if (purchaseError || !purchase) throw new Error("This payment was not found on your account.");
+    if (purchase.status === "succeeded") return { status: "succeeded" as const, points: purchase.points };
     const payment = await verifyPaystackReference(data.reference, secret);
-    if (!payment || !matchesPurchase(payment, purchase)) return { status: "pending" as const };
+    if (!payment || !matchesPurchase(payment, purchase)) return { status: "pending" as const, points: purchase.points };
     const { data: settled, error } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
       _reference: purchase.reference,
       _amount_minor: purchase.amount_minor,
       _currency: purchase.currency,
       _provider_transaction_id: String(payment.id),
     });
-    if (error || !settled) throw new Error("Payment verification is still pending. Your wallet was not credited yet.");
-    return { status: "succeeded" as const };
+    if (error || !settled) return { status: "pending" as const, points: purchase.points };
+    return { status: "succeeded" as const, points: purchase.points };
+  });
+
+/**
+ * Safety net: re-checks the member's own recent unconfirmed point payments, so
+ * a payment that went through is credited even if the return link failed.
+ */
+export const reconcileMyPointPurchases = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const secret = process.env["PAYSTACK_SECRET_KEY"];
+    if (!secret) return { credited: 0, points: 0 };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const since = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: pending } = await supabaseAdmin
+      .from("wallet_point_purchases")
+      .select("reference, amount_minor, currency, points")
+      .eq("user_id", context.userId)
+      .eq("status", "pending")
+      .gte("created_at", since)
+      .order("created_at", { ascending: false })
+      .limit(5);
+    let credited = 0;
+    let points = 0;
+    for (const purchase of pending ?? []) {
+      const payment = await verifyPaystackReference(purchase.reference, secret);
+      if (!payment || !matchesPurchase(payment, purchase)) continue;
+      const { data: settled } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
+        _reference: purchase.reference,
+        _amount_minor: purchase.amount_minor,
+        _currency: purchase.currency,
+        _provider_transaction_id: String(payment.id),
+      });
+      if (settled) {
+        credited += 1;
+        points += purchase.points;
+      }
+    }
+    return { credited, points };
   });
 
 export const getWithdrawalQueue = createServerFn({ method: "GET" })
