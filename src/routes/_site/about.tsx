@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_site/about")({
     meta: [
       { title: `About | ${site.name}` },
       { property: "og:title", content: `About | ${site.name}` },
-      { property: "og:description", content: `${site.mission },
+      { property: "og:description", content: `${site.mission} Mission, values, editorial team and the platform roadmap.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       {
