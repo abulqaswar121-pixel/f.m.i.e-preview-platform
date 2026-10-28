@@ -18,7 +18,7 @@ import { AccountMenu } from "@/components/layout/AccountMenu";
 import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
 import { SocialIconLinks } from "@/components/layout/SocialIconLinks";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { contactRoutes, mainNavigation, site } from "@/config/site";
 import { useDebouncedValue } from "@/hooks/useAsync";
 import { SiteLink } from "@/components/common/SiteLink";
@@ -308,8 +308,16 @@ export function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
+              showCloseButton={false}
+              aria-describedby={undefined}
+              onClickCapture={(event) => {
+                if (event.target instanceof Element && event.target.closest("a[href]")) {
+                  setMobileOpen(false);
+                }
+              }}
               className="w-[86vw] max-w-sm overflow-y-auto border-brand-border bg-white p-0"
             >
+              <SheetTitle className="sr-only">Site menu</SheetTitle>
               <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
                 <Logo compact />
                 <Button

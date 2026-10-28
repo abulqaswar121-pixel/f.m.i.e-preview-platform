@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { Logo } from "@/components/brand/Logo";
 import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
 
 /** Header shown to signed-in members: only portal pages, no public site menu. */
@@ -80,8 +80,16 @@ export function PortalHeader() {
             </SheetTrigger>
             <SheetContent
               side="right"
+              showCloseButton={false}
+              aria-describedby={undefined}
+              onClickCapture={(event) => {
+                if (event.target instanceof Element && event.target.closest("a[href]")) {
+                  setOpen(false);
+                }
+              }}
               className="w-[86vw] max-w-sm overflow-y-auto border-brand-border bg-white p-0"
             >
+              <SheetTitle className="sr-only">Member menu</SheetTitle>
               <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
                 <Logo compact />
                 <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close menu">

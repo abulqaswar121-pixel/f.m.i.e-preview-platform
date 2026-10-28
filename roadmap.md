@@ -32,6 +32,7 @@
 - [ ] Confirm domain before launch.
 
 # QA round (26–27 Oct)
+- [x] Keep one close button in each phone menu and close the menu when any link is selected.
 - [x] Point the social links at F.M.I.E's own LinkedIn, Facebook, TikTok and YouTube pages.
 - [x] Keep contact emails as official @fmie.co.uk addresses; Francis's personal email removed from the site.
 - [x] Show the press logo strip after the video and office details, before "Feature Local. Impact Global."
