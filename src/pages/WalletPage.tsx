@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Banknote, Download, ShieldCheck, Wallet as WalletIcon } from "lucide-react";
-import { useSearch } from "@tanstack/react-router";
+import { Banknote, CheckCircle2, Clock, Download, Loader2, Lock, ShieldCheck } from "lucide-react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
 import { Badge } from "@/components/common/Badge";
+import { FileDropzone, type DropzoneItem } from "@/components/common/FileDropzone";
 import { PageHeader } from "@/components/common/Primitives";
 import { Modal } from "@/components/common/Modal";
 import { Button } from "@/components/ui/button";
 import { surveyEconomyDefaults } from "@/config/site";
 import { NGN_PER_USD, formatUsd } from "@/lib/outlet-pricing";
+import { isPaymentReturn, paymentReferenceFromSearch } from "@/lib/payment-return";
 import { STUDENT_ID_FOLDER, packChargeKobo, packsInGroup } from "@/lib/survey-points";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,6 +18,7 @@ import {
   confirmPointPurchase,
   getWalletSummary,
   initializePointPurchase,
+  reconcileMyPointPurchases,
   requestWalletWithdrawal,
 } from "@/lib/wallet.functions";
 
@@ -307,7 +310,7 @@ export function WalletPage() {
             <Download className="mr-2 h-4 w-4" /> Withdraw to Bank
           </Button>
           <Badge tone="gold">
-            <ShieldCheck className="mr-1 inline h-3 w-3" /> Survey reward funding is not active yet
+            <ShieldCheck className="mr-1 inline h-3 w-3" /> Points are added only after your payment is confirmed
           </Badge>
         </div>
 
@@ -344,32 +347,40 @@ export function WalletPage() {
                       </p>
                       <p className="mt-2 flex-1 text-xs text-brand-slate">{pack.blurb}</p>
                       {pack.requiresStudentId ? (
-                        <label className="mt-3 block text-xs font-semibold text-brand-slate">
-                          {studentIdUploaded ? "Student ID uploaded ✓ (you can replace it)" : "Upload your student ID card"}
-                          <input
-                            type="file"
-                            accept="image/*,application/pdf"
-                            className="mt-1 block w-full text-xs"
+                        <div className="mt-3">
+                          <FileDropzone
+                            label="Your student ID card"
+                            hint="Photo or PDF · up to 10 MB · only our team can see it"
+                            accept={["image/png", "image/jpeg", "image/webp", "application/pdf"]}
+                            maxSizeMb={10}
                             disabled={uploadingId}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
+                            items={studentId ? [studentId] : []}
+                            onAdd={([file]) => {
                               if (file) void uploadStudentId(file);
                             }}
+                            onRemove={() => void removeStudentId()}
                           />
-                          {uploadingId ? <span className="mt-1 block">Uploading…</span> : null}
-                        </label>
+                        </div>
                       ) : null}
                       <p className="mt-2 text-[11px] text-brand-slate">
-                        Paystack shows {localNaira(packChargeKobo(pack) / 100)} at checkout.
+                        Charged as {localNaira(packChargeKobo(pack) / 100)} at checkout.
                       </p>
                       <Button
                         className="mt-4"
                         variant="outline"
-                        disabled={buying === pack.id || blocked}
+                        disabled={buying !== null || blocked}
                         onClick={() => void buyPack(pack.id)}
                       >
-                        <WalletIcon className="mr-2 h-4 w-4" />
-                        {buying === pack.id ? "Processing…" : blocked ? "Upload ID to continue" : "Pay with Paystack"}
+                        {buying === pack.id ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Lock className="mr-2 h-4 w-4" />
+                        )}
+                        {buying === pack.id
+                          ? "Opening secure checkout…"
+                          : blocked
+                            ? "Add your student ID first"
+                            : `Pay ${formatUsd(pack.usd)} securely`}
                       </Button>
                     </div>
                   );
