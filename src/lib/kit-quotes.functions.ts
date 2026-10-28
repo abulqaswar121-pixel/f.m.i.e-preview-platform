@@ -11,6 +11,7 @@ export const submitKitRequest = createServerFn({ method: "POST" })
     if (data.crestPath) {
       if (!ownsKitCrest(context.userId, data.crestPath)) throw new Error("Please upload your team crest again.");
       const name = data.crestPath.split("/")[2];
+      if (!name) throw new Error("Please upload your team crest again.");
       const { data: files, error } = await context.supabase.storage.from("member-files").list(`${context.userId}/kit-crests`, { search: name, limit: 100 });
       if (error || !files?.some((file) => file.name === name)) throw new Error("Your crest upload could not be found.");
     }

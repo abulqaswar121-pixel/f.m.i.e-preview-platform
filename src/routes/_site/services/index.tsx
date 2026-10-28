@@ -8,6 +8,10 @@ export const Route = createFileRoute("/_site/services/")({
   head: () => ({
     meta: [
       { title: `Professional Services | ${site.name}` },
+      { property: "og:title", content: `Professional Services | ${site.name}` },
+      { property: "og:description", content: "Executive profile writing, digital marketing contracting, pitching advisory and Wikipedia policy guidance — scoped, dated and disclosed." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

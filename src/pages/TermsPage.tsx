@@ -7,11 +7,11 @@ import { commerce, contactEmail, headquarters, legal, site } from "@/config/site
 const SECTIONS = [
   {
     title: "1. About these terms",
-    body: `These terms describe how you may use the ${site.legalName} demonstration platform at ${site.domain}. They are written for a live service, but the build you are using is a preview: it has no server, no payment processing, no email delivery and no file storage. By continuing to use the preview you accept these terms as a description of how the live platform would operate.`,
+    body: `These terms cover the ${site.legalName} preview at ${site.domain}. Accounts, saved requests and private uploads use Lovable Cloud. Payments are in test mode. These preview terms need a final business and legal review before live sales begin.`,
   },
   {
     title: "2. Nature of the preview",
-    body: "Every article, survey, statistic, price, reference number, order, campaign and person shown on this platform is fictional sample data created to demonstrate design and workflow. Nothing here is published journalism, live market data, a real transaction or a real individual. Quotations generated in the preview are illustrative and create no contractual obligation on either side.",
+    body: site.previewNotice,
   },
   {
     title: "3. Accounts",
@@ -35,7 +35,7 @@ const SECTIONS = [
   },
   {
     title: "8. Commerce",
-    body: `Orders placed in the preview are simulated. No payment is taken and no goods are dispatched. In a live service, ${commerce.vatNote.toLowerCase()} Delivery charges would be standard ${commerce.currencySymbol}${commerce.standardShipping.toFixed(2)} within the United Kingdom and ${commerce.currencySymbol}${commerce.internationalShipping.toFixed(2)} internationally, free above ${commerce.currencySymbol}${commerce.freeShippingThreshold.toFixed(2)}.`,
+    body: "Online merchandise sales are not open. Team kit requests are saved for our team to review and quote in dollars. Sending a request does not place an order or take a payment. Delivery and other terms must be agreed before an order is accepted.",
   },
   {
     title: "9. Acceptable use",

@@ -441,10 +441,6 @@ export function DashboardPage() {
                         </li>
                       ))}
                   </ul>
-                  <p className="mt-3 border-t border-brand-border pt-3 text-[11px] text-brand-slate">
-                    Data is stored in this browser's local storage. Use the administrator panel to
-                    reset the preview to its shipped sample data.
-                  </p>
                 </div>
                 <ComplianceBanner variant="sample" className="text-xs" />
               </div>
@@ -949,28 +945,6 @@ export function DashboardPage() {
                 </Button>
               </div>
 
-              {isAdmin ? (
-                <div className="rounded-lg border border-danger/40 bg-danger/5 p-6">
-                  <h2 className="font-display text-base font-semibold text-brand-charcoal">
-                    Reset demonstration data
-                  </h2>
-                  <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-                    Clears local storage and restores every article, survey, campaign, order and
-                    sample account to the shipped sample set.
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-3"
-                    onClick={async () => {
-                      await api.admin.reset();
-                      toast.success("Preview reset", { description: "Sample data restored." });
-                    }}
-                  >
-                    <RefreshCw className="h-3.5 w-3.5" /> Reset preview data
-                  </Button>
-                </div>
-              ) : null}
             </aside>
           </section>
         ) : null}

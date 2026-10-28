@@ -13,6 +13,11 @@ export const Route = createFileRoute("/_site/surveys/$id")({
     tab: typeof search["tab"] === "string" ? search["tab"] : undefined,
   }),
   head: () => ({
-    meta: [{ title: `Survey | ${site.name}` }],
+    meta: [{ title: `Survey | ${site.name}` },
+      { name: "description", content: "Read the survey details, reward and consent notice before answering." },
+      { property: "og:title", content: `Survey | ${site.name}` },
+      { property: "og:description", content: "Read the survey details, reward and consent notice before answering." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },],
   }),
 });

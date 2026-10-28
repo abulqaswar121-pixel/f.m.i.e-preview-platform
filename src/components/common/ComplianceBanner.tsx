@@ -1,6 +1,6 @@
 import { Info, Scale, ShieldAlert, ShieldCheck, FlaskConical } from "lucide-react";
 
-import { compliance } from "@/config/site";
+import { compliance, site } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 export type ComplianceVariant =
@@ -48,8 +48,8 @@ const variants: Record<
   },
   sample: {
     title: "Demonstration preview",
-    body: "Every article, survey, statistic, price, reference number and person on this platform is fictional sample data, shown to demonstrate design and workflow.",
-    notice: "No live payments, emails, wire transmissions or database writes occur in this build.",
+    body: site.previewNotice,
+    notice: "Sample content is not live reporting. Do not use sample figures to make business or research decisions.",
     icon: Info,
     tone: "border-brand-border bg-white",
   },

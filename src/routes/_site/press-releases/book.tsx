@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { site } from "@/config/site";
 import { PRBookingPage } from "@/pages/PRBookingPage";
 
-const description = "Write your press release with AI help, choose your outlets, then pay with Paystack and send it to our press desk.";
+const description = "Choose outlets and see prices first, write your press release with AI help, then review and pay last.";
 
 export const Route = createFileRoute("/_site/press-releases/book")({
   component: PRBookingPage,

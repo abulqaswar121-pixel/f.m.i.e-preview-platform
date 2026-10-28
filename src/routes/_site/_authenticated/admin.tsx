@@ -15,6 +15,10 @@ export const Route = createFileRoute("/_site/_authenticated/admin")({
   head: () => ({
     meta: [
       { title: `Administration | ${site.name}` },
+      { property: "og:title", content: `Administration | ${site.name}` },
+      { property: "og:description", content: "Moderation queue, plan configuration, channel verification, campaign oversight and commerce control." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

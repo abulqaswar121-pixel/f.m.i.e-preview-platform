@@ -8,10 +8,14 @@ export const Route = createFileRoute("/_site/privacy")({
   head: () => ({
     meta: [
       { title: `Privacy Notice | ${site.name}` },
+      { property: "og:title", content: `Privacy Notice | ${site.name}` },
+      { property: "og:description", content: "How F.M.I.E handles account details, survey answers, private uploads and test payments." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:
-          "What this preview stores, where it lives, and what a live deployment would be required to do.",
+          "How F.M.I.E handles account details, survey answers, private uploads and test payments.",
       },
     ],
   }),

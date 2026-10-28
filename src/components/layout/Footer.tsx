@@ -1,10 +1,7 @@
-import { useState, type FormEvent } from "react";
-import { Link } from "@tanstack/react-router";
 
 import { SiteLink } from "@/components/common/SiteLink";
 import { useDatabase } from "@/services/api";
-import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
-import { toast } from "sonner";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
 import {
@@ -14,153 +11,18 @@ import {
   headquarters,
   offices,
   legal,
-  newsletterFrequencies,
-  newsletterPreferences,
   site,
   socialLinks,
 } from "@/config/site";
-import { api } from "@/services/api";
 import { cn } from "@/lib/utils";
 
 export function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [frequency, setFrequency] = useState<string>(newsletterFrequencies[0] ?? "Weekly");
-  const [preferences, setPreferences] = useState<string[]>(["morning-brief"]);
-  const [consent, setConsent] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-
-  const toggle = (id: string) => {
-    setPreferences((current) =>
-      current.includes(id) ? current.filter((entry) => entry !== id) : [...current, id],
-    );
-  };
-
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setError(undefined);
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    if (preferences.length === 0) {
-      setError("Select at least one newsletter preference.");
-      return;
-    }
-    if (!consent) {
-      setError("Please confirm the consent statement to subscribe.");
-      return;
-    }
-    setSubmitting(true);
-    await api.audience.subscribeNewsletter(email, preferences, frequency);
-    setSubmitting(false);
-    setDone(true);
-    toast.success("Subscription confirmed", {
-      description: `You are subscribed to ${preferences.length} briefing${preferences.length === 1 ? "" : "s"} (${frequency.toLowerCase()}).`,
-    });
-  };
-
-  if (done) {
-    return (
-      <div className="rounded-lg border border-brand-gold/50 bg-brand-navy-light/20 p-5">
-        <p className="flex items-center gap-2 text-sm font-semibold text-white">
-          <CheckCircle2 className="h-4 w-4 text-brand-gold" /> Subscription confirmed
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-white/75">
-          A confirmation record has been written to the preview database. You can change frequency
-          and preferences at any time — in production this would be a double opt-in email flow.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-lg border border-white/15 bg-white/5 p-5"
-      noValidate
-    >
-      <h3 className="font-display text-lg font-semibold text-white">Institutional briefings</h3>
-      <p className="mt-1 text-xs leading-relaxed text-white/70">
-        Choose exactly what arrives, and how often. No preference is pre-selected for commercial
-        content.
-      </p>
-      <label
-        className="mt-4 block text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60"
-        htmlFor="footer-email"
-      >
-        Work email
-      </label>
-      <input
-        id="footer-email"
-        type="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        placeholder="name@organisation.com"
-        className="mt-1.5 w-full rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-brand-gold focus:outline-none"
-      />
-      <fieldset className="mt-4 space-y-2">
-        <legend className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60">
-          Preferences
-        </legend>
-        {newsletterPreferences.map((preference) => (
-          <label
-            key={preference.id}
-            className="flex cursor-pointer items-start gap-2.5 text-xs text-white/80"
-          >
-            <input
-              type="checkbox"
-              checked={preferences.includes(preference.id)}
-              onChange={() => toggle(preference.id)}
-              className="mt-0.5 h-3.5 w-3.5 accent-[#C5A869]"
-            />
-            <span>
-              <span className="font-medium text-white">{preference.label}</span>
-              <span className="block text-white/60">{preference.detail}</span>
-            </span>
-          </label>
-        ))}
-      </fieldset>
-      <div className="mt-4">
-        <label
-          className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60"
-          htmlFor="footer-frequency"
-        >
-          Frequency
-        </label>
-        <select
-          id="footer-frequency"
-          value={frequency}
-          onChange={(event) => setFrequency(event.target.value)}
-          className="mt-1.5 w-full rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm text-white focus:border-brand-gold focus:outline-none"
-        >
-          {newsletterFrequencies.map((option) => (
-            <option key={option} value={option} className="text-brand-charcoal">
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-      <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-[11px] leading-relaxed text-white/70">
-        <input
-          type="checkbox"
-          checked={consent}
-          onChange={(event) => setConsent(event.target.checked)}
-          className="mt-0.5 h-3.5 w-3.5 accent-[#C5A869]"
-        />
-        I consent to receiving the selected F.M.I.E briefings and understand I can withdraw consent
-        at any time by emailing {contactRoutes[0]?.email}.
-      </label>
-      {error ? <p className="mt-3 text-xs font-medium text-rose-300">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={submitting}
-        className="mt-4 w-full rounded-md bg-brand-gold px-4 py-2.5 text-sm font-semibold text-brand-navy-dark hover:bg-[#d4b87e] disabled:opacity-60"
-      >
-        {submitting ? "Recording…" : "Subscribe to briefings"}
-      </button>
-    </form>
+    <div className="space-y-3">
+      <h3 className="font-display text-lg font-semibold text-white">Email updates</h3>
+      <p className="text-sm leading-relaxed text-white/70">Email briefings are not open yet.</p>
+      <p className="text-xs leading-relaxed text-white/70">Follow F.M.I.E on our official social pages for updates.</p>
+    </div>
   );
 }
 

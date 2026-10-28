@@ -32,7 +32,7 @@ export const site = {
   companyNumber: "Sample registration — demonstration preview",
   vatNumber: "Sample VAT registration — demonstration preview",
   previewNotice:
-    "Demonstration preview. Every article, survey, price, order and person here is sample data made for this design. Nothing is real journalism, live data or a real transaction.",
+    "Demonstration preview. Sample news, polls and figures are for review, not live reporting. Member accounts and saved requests use real records. Payments are in test mode; no real charges or bank transfers are made.",
 } as const;
 
 function mapLink(address: string): string {
@@ -393,7 +393,7 @@ export const footerNavigation: FooterColumn[] = [
       { label: "Register", to: "/register" },
       { label: "My Dashboard", to: "/dashboard" },
       { label: "Administrator Panel", to: "/admin" },
-      { label: "Checkout", to: "/checkout" },
+      { label: "Team kit requests", to: "/shop/team-kits" },
     ],
   },
   {
@@ -1091,13 +1091,13 @@ export const budgetBands = [
 ] as const;
 
 export const legal = {
-  copyright: `© ${new Date().getFullYear()} ${site.legalName}. All rights reserved.`,
+  copyright: `© ${site.legalName}. All rights reserved.`,
   registeredOffice: `Registered office: ${headquarters.addressOneLine}.`,
   notices: [
     "F.M.I.E is an independent business media and research platform. It is not affiliated with, endorsed by, or sponsored by any third-party publisher, broadcaster, newswire or social platform.",
     "Press release distribution is a paid commercial service. Paid content is labelled at the point of publication and is produced separately from the editorial newsroom.",
     "Survey results published on this platform are self-selected and are not presented as statistically representative of any population.",
-    "This build is a design and workflow preview. No live payments, emails, file uploads, wire transmissions or database writes occur.",
+    "Payments are in test mode. Email briefings and online merchandise sales are not open yet. Approved withdrawal requests do not send bank transfers automatically.",
   ],
 } as const;
 
