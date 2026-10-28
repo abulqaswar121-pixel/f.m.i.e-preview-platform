@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
 import { contactEmail, headquarters, offices, socialLinks } from "@/config/site";
+import { formatUsd, NGN_PER_USD } from "@/lib/outlet-pricing";
 import { useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +23,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
   return [
     {
       match: /(earn|reward|cash|naira|₦|withdraw|bank|payout)/i,
-      answer: `You earn cash the moment you finish a survey. From ₦${minWithdrawal.toLocaleString()} you can withdraw straight to your bank (simulated here).`,
+      answer: `Eligible completed survey answers earn money in your wallet. You can request a withdrawal from ${formatUsd(minWithdrawal / NGN_PER_USD)}. Our team reviews requests; approval does not send a bank transfer automatically.`,
       link: { href: "/wallet", label: "Open wallet" },
     },
     {
@@ -34,13 +35,13 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(point|pack|paystack|researcher|escrow|budget)/i,
       answer:
-        "Pay as you go, no yearly plan: $12 = 100 pts, $55 = 500 pts, $200 = 2,000 pts. You set the points paid per answer; points are held when your survey goes live, and unused points come back.",
+        "Buy a point pack, then choose points per answer. The needed points are held when you send a survey for review. Each completed answer uses points and pays the answerer. Unused points return when it closes. Corporate and student packs are on the price page; agencies can ask about a yearly plan.",
       link: { href: "/wallet", label: "Buy points" },
     },
     {
       match: /(press|release|outlet|newspaper|publish|media|distribution)/i,
       answer:
-        "Choose your outlets, pay (simulated), then submit your story with photos. Exact ₦/$ prices are on the booking page. Editors make the final call.",
+        "Choose outlets and see the dollar prices first. Write your story with AI help if you want, then review and pay last. Payments are in test mode. Editors decide what gets published.",
       link: { href: "/press-releases/book", label: "Book distribution" },
     },
     {
@@ -52,13 +53,13 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(kit|jersey|club|team|crest|roster)/i,
       answer:
-        "Add your club name, colours, crest and player list — you'll see an instant price and can request an official invoice.",
+        "Add your team name, colours, crest and player list. Send the request and our team will reply with a quote in dollars. No payment is needed to request a quote.",
       link: { href: "/shop/team-kits", label: "Build a kit" },
     },
     {
       match: /(shop|merch|polo|hoodie|cap|folio|mug|buy|order)/i,
       answer:
-        "Polos, hoodies, caps, folios and mugs are in the shop — prices in £ and ₦, checkout simulated.",
+        "You can request custom team kits. Other merchandise is not open for online sales yet.",
       link: { href: "/shop", label: "Visit the shop" },
     },
     {
@@ -81,7 +82,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(demo|sample|real|preview|disclaimer)/i,
       answer:
-        "This is a demo: everything you see is sample data in your browser. No real money or live journalism.",
+        "Sample news, polls and figures are for review, not live reporting. Accounts and saved requests use real records. Payments are in test mode, with no real charges.",
     },
   ];
 }

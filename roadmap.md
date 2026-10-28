@@ -27,17 +27,23 @@
 
 # Later priorities
 - [ ] Publication logos and shop content.
-- [ ] Remove remaining demo notices and the sample-data reset button.
+- [x] Remove sample-data reset buttons and correct notices that wrongly call all records fake; keep sample-content labels.
 - [x] Use the client's phone (+234 810 395 4351) with official @fmie.co.uk emails as site contact details.
 - [ ] Confirm domain before launch.
 
 # QA round (26–27 Oct)
 - [x] Point the social links at F.M.I.E's own LinkedIn, Facebook, TikTok and YouTube pages.
 - [x] Keep contact emails as official @fmie.co.uk addresses; Francis's personal email removed from the site.
-- [x] Show the press partner logo strip at the very top of the homepage, just under the menu.
+- [x] Show the press logo strip after the video and office details, before "Feature Local. Impact Global."
 - [x] Put the outlet list and prices before the "write with AI help" step in press booking.
 - [x] Let signed-in members use the logo to visit the homepage without signing out.
 - [x] Add the corporate points range ($999–$4,999) and the $599 student/academic pack (5,000 points) with ID upload before purchase.
 - [x] Add the government agency yearly plan ($10,000/year) as a "talk to our team" plan.
 - [ ] Client to confirm corporate point amounts and permission before showing big-brand or government logos.
 - [x] Save team kit requests and private crest uploads, show member quote replies and connect the admin kit desk; hide sample merchandise and disable sample checkout.
+
+# Final launch checks
+- [ ] Test Paystack checkout, payment read-back, academic ID purchase, survey rewards and kit requests with signed-in accounts.
+- [ ] Receive live Paystack credentials before switching out of test mode.
+- [ ] Connect fmie.co.uk when the owner is ready; official email boxes are not active yet.
+- [ ] Replace sample editorial content and review privacy/terms for the live service before public launch.

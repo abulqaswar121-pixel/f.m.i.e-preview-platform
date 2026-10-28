@@ -12,7 +12,6 @@ import {
   Megaphone,
   Newspaper,
   Radio,
-  RefreshCw,
   ShieldAlert,
   SlidersHorizontal,
   Users,
@@ -383,27 +382,6 @@ export function AdminPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
-                <div className="rounded-lg border border-danger/40 bg-danger/5 p-6">
-                  <h2 className="font-display text-base font-semibold text-brand-charcoal">
-                    Reset preview data
-                  </h2>
-                  <p className="mt-2 text-xs leading-relaxed text-brand-slate">
-                    Restores every record to the shipped sample set and clears local storage.
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-3"
-                    onClick={async () => {
-                      await api.admin.reset();
-                      toast.success("Preview reset", {
-                        description: "Sample data restored across the platform.",
-                      });
-                    }}
-                  >
-                    <RefreshCw className="h-3.5 w-3.5" /> Reset now
-                  </Button>
                 </div>
               </div>
             </div>
