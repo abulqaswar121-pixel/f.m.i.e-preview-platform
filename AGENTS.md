@@ -24,3 +24,4 @@
 
 - Team kit requests and admin quote replies use authenticated Cloud functions, never the legacy kit store; quote_minor remains NGN minor units converted to dollars for display, and only a verified administrator can set quotes.
 - The shop stays quote-led until real merchandise is approved; sample product and checkout URLs redirect to the shop so fake purchases cannot appear live.
+- Preview notices must distinguish sample editorial/local demo content from Cloud-backed member records and test payments, so connected flows are not falsely described as browser-only or live-paid.

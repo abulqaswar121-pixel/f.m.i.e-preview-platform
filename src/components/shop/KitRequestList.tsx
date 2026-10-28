@@ -38,7 +38,7 @@ function KitCard({ item, admin }: { item: Kit; admin: boolean }) {
     {item.quote_note && item.status === "quoted" && <p className="mt-3 whitespace-pre-line break-words text-sm text-foreground">Quote details: {item.quote_note}</p>}
     {admin && <>
       {item.crest_path && <Button variant="outline" size="sm" className="mt-3" onClick={async () => { try { const { url } = await openCrest({ data: { id: item.id } }); window.open(url, "_blank", "noopener,noreferrer"); } catch { toast.error("Crest could not be opened."); } }}>Open team crest</Button>}
-      {Array.isArray(item.roster) && item.roster.length > 0 && <ul className="mt-3 space-y-1 text-sm text-muted-foreground">{item.roster.map((row, i) => row && typeof row === "object" && !Array.isArray(row) ? <li key={i}>{String(row.name ?? "")} · #{String(row.number ?? "")} · {String(row.size ?? "")}</li> : null)}</ul>}
+      {Array.isArray(item.roster) && item.roster.length > 0 && <ul className="mt-3 space-y-1 text-sm text-muted-foreground">{item.roster.map((row, i) => row && typeof row === "object" && !Array.isArray(row) ? <li key={i}>{String(row["name"] ?? "")} · #{String(row["number"] ?? "")} · {String(row["size"] ?? "")}</li> : null)}</ul>}
       <div className="mt-4 grid items-end gap-3 sm:grid-cols-[140px_minmax(0,1fr)_auto]">
         <label className="text-xs text-muted-foreground">Quote ($)<input type="number" min="0.01" step="0.01" className={`${inputClass} mt-1`} value={usd} onChange={(e) => setUsd(e.target.value)} /></label>
         <label className="text-xs text-muted-foreground">Fabric, delivery and other details<textarea rows={2} className={`${inputClass} mt-1`} value={note} onChange={(e) => setNote(e.target.value)} /></label>

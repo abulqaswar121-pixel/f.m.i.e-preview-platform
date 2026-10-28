@@ -38,9 +38,7 @@ export function NotFoundPage() {
           That page is not on the platform
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-brand-slate">
-          The address may be mistyped, or the record may have been removed when the demonstration
-          data was reset. Nothing has been lost — every article, survey and campaign remains
-          reachable from the sections below.
+          The link may be wrong, or this page may no longer be available. Try one of the sections below.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-2">
