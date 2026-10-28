@@ -1,10 +1,16 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Plus, Shirt, Trash2 } from "lucide-react";
 
 import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
-import { teamKitUnitNaira } from "@/config/site";
-import { api } from "@/services/api";
+import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { submitKitRequest } from "@/lib/kit-quotes.functions";
+import { kitRequestSchema } from "@/lib/kit-quotes";
+import { KitRequestList } from "@/components/shop/KitRequestList";
 import type { KitRosterRow } from "@/types";
 
 const SIZES = ["S", "M", "L", "XL", "XXL"] as const;
@@ -12,16 +18,17 @@ type Sport = "Football" | "Basketball" | "Corporate";
 const inputClass =
   "w-full rounded-md border border-brand-border bg-white px-3 py-2 text-sm text-brand-charcoal placeholder:text-brand-slate/60 focus:border-brand-gold focus:outline-none";
 
-function naira(value: number): string {
-  return `₦${value.toLocaleString("en-NG")}`;
-}
-
 /** Custom football & corporate kit builder with live quote summary. */
 export function TeamKitsPage() {
+  const { user, isSignedIn } = useAuth();
+  const saveRequest = useServerFn(submitKitRequest);
+  const queryClient = useQueryClient();
+  const [crest, setCrest] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     clubName: "",
     sport: "Football" as Sport,
-    crestFileName: "",
     primaryColor: "#0A2E68",
     secondaryColor: "#C5A869",
     quantity: 18,
@@ -32,38 +39,39 @@ export function TeamKitsPage() {
   const [roster, setRoster] = useState<KitRosterRow[]>([{ name: "", number: "1", size: "M" }]);
   const [submitted, setSubmitted] = useState<string | null>(null);
 
-  const quote = useMemo(() => {
-    const base = form.quantity * teamKitUnitNaira;
-    const crestFee = form.crestFileName ? 15000 : 0;
-    return { base, crestFee, total: base + crestFee };
-  }, [form.quantity, form.crestFileName]);
-
   function setRow(index: number, patch: Partial<KitRosterRow>): void {
     setRoster((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)));
   }
 
   async function submit(): Promise<void> {
-    const request = await api.kits.submit({
-      clubName: form.clubName || "Unnamed club",
-      sport: form.sport,
-      ...(form.crestFileName ? { crestFileName: form.crestFileName } : {}),
-      primaryColor: form.primaryColor,
-      secondaryColor: form.secondaryColor,
-      roster: roster.filter((row) => row.name.trim().length > 0),
-      quantity: form.quantity,
-      deliveryDate: form.deliveryDate,
-      deliveryAddress: form.deliveryAddress,
-      notes: form.notes,
-    });
-    setSubmitted(request.id);
+    if (!user || busy) return;
+    setError("");
+    const parsed = kitRequestSchema.safeParse({ ...form, crestPath: null, roster: roster.filter((row) => row.name.trim()) });
+    if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Check your details."); return; }
+    if (crest && (!['image/png', 'image/jpeg', 'image/webp'].includes(crest.type) || crest.size > 5 * 1024 * 1024)) { setError("Choose a PNG, JPG or WebP crest, up to 5 MB."); return; }
+    setBusy(true);
+    let crestPath: string | null = null;
+    try {
+      if (crest) {
+        crestPath = `${user.id}/kit-crests/${crypto.randomUUID()}-${crest.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100)}`;
+        const { error: uploadError } = await supabase.storage.from("member-files").upload(crestPath, crest);
+        if (uploadError) throw new Error("Your crest could not be uploaded. Please try again.");
+      }
+      const request = await saveRequest({ data: { ...parsed.data, crestPath } });
+      setSubmitted(request.id);
+      await queryClient.invalidateQueries({ queryKey: ["kit-requests"] });
+    } catch (err) {
+      if (crestPath) await supabase.storage.from("member-files").remove([crestPath]);
+      setError(err instanceof Error ? err.message : "Your request could not be saved.");
+    } finally { setBusy(false); }
   }
 
   return (
     <div>
       <PageHeader
         eyebrow="Team kits"
-        title="Custom football & corporate kit builder"
-        description="Build your squad list, pick your colours and get an instant quote. The kit desk replies with an official invoice."
+        title="Custom team kits"
+        description="Pick your colours, add your players and ask for a price. Our team confirms the fabric and delivery before you pay."
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Shop", to: "/shop" },
@@ -75,8 +83,7 @@ export function TeamKitsPage() {
         <div className="space-y-6">
           {submitted ? (
             <p className="rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-3 text-sm text-brand-charcoal">
-              Kit request <span className="font-semibold">{submitted}</span> received — the kit desk
-              will reply with an official invoice quote (see Super Admin → Kit quotes).
+              Request saved: <span className="break-all font-semibold">{submitted}</span>. Your quote will appear in My kit requests below.
             </p>
           ) : null}
 
@@ -105,12 +112,13 @@ export function TeamKitsPage() {
                 </select>
               </label>
               <label className="block text-xs font-semibold text-brand-slate">
-                Club crest (file name)
+                Team crest (optional)
                 <input
                   className={`${inputClass} mt-1`}
-                  value={form.crestFileName}
-                  onChange={(e) => setForm((p) => ({ ...p, crestFileName: e.target.value }))}
-                  placeholder="crest.png"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  disabled={busy || !isSignedIn}
+                  onChange={(e) => setCrest(e.target.files?.[0] ?? null)}
                 />
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -181,14 +189,16 @@ export function TeamKitsPage() {
                       <option key={size}>{size}</option>
                     ))}
                   </select>
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="icon"
                     aria-label={`Remove row ${index + 1}`}
                     className="rounded-md border border-brand-border text-brand-slate hover:border-danger hover:text-danger"
                     onClick={() => setRoster((prev) => prev.filter((_r, i) => i !== index))}
                   >
                     <Trash2 className="mx-auto h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
@@ -242,38 +252,15 @@ export function TeamKitsPage() {
           </section>
         </div>
 
-        <aside className="h-fit rounded-lg border border-brand-border bg-brand-navy p-6 text-white shadow-sm lg:sticky lg:top-24">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold">
-            <Shirt className="h-4 w-4 text-brand-gold" /> Instant quote summary
-          </h2>
-          <dl className="mt-4 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <dt className="text-white/70">
-                Kits ({form.quantity} × {naira(teamKitUnitNaira)})
-              </dt>
-              <dd>{naira(quote.base)}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-white/70">Crest digitising</dt>
-              <dd>{quote.crestFee ? naira(quote.crestFee) : "included"}</dd>
-            </div>
-            <div className="flex justify-between border-t border-white/20 pt-2 font-display text-base font-bold text-brand-gold">
-              <dt>Estimated total</dt>
-              <dd>{naira(quote.total)}</dd>
-            </div>
-          </dl>
-          <p className="mt-3 text-[11px] leading-relaxed text-white/70">
-            Estimate only — the kit desk confirms fabric, sizing splits and delivery before issuing
-            the official invoice.
-          </p>
-          <Button
-            onClick={() => void submit()}
-            className="mt-5 w-full bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-          >
-            Submit Kit Request for Official Invoice
-          </Button>
+        <aside className="h-fit border-t border-brand-border py-6 lg:sticky lg:top-24">
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-brand-charcoal"><Shirt className="h-4 w-4 text-brand-gold" /> Request a quote</h2>
+          <p className="mt-3 text-sm text-brand-slate">{form.quantity} kits · {form.sport}</p>
+          <p className="mt-3 text-sm leading-relaxed text-brand-slate">No payment now. We will send a price in dollars after checking your team details.</p>
+          {error && <p role="alert" className="mt-3 text-sm text-destructive">{error}</p>}
+          {submitted ? <p className="mt-4 text-sm font-semibold text-brand-charcoal">Request received.</p> : isSignedIn ? <Button onClick={() => void submit()} disabled={busy} className="mt-5 w-full">{busy ? "Saving request…" : "Send kit request"}</Button> : <Button asChild className="mt-5 w-full"><Link to="/signin" search={{ next: "/shop/team-kits" }}>Sign in to send request</Link></Button>}
         </aside>
       </div>
+      {user && <div className="fmie-container pb-12"><KitRequestList /></div>}
     </div>
   );
 }

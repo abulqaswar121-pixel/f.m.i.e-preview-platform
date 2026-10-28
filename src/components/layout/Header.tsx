@@ -8,7 +8,6 @@ import {
   Newspaper,
   Package,
   Search,
-  ShoppingCart,
   X,
 } from "lucide-react";
 
@@ -22,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { contactRoutes, mainNavigation, site } from "@/config/site";
 import { useDebouncedValue } from "@/hooks/useAsync";
-import { useCart } from "@/hooks/useCart";
 import { SiteLink } from "@/components/common/SiteLink";
 import { api } from "@/services/api";
 import { cn } from "@/lib/utils";
@@ -49,8 +47,7 @@ function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void })
       results.articles.length +
       results.surveys.length +
       results.pressReleases.length +
-      results.services.length +
-      results.products.length
+      results.services.length
     );
   }, [results]);
 
@@ -191,25 +188,7 @@ function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void })
           </section>
         ) : null}
 
-        {results?.products.length ? (
-          <section>
-            <h3 className="fmie-eyebrow mb-2">Shop</h3>
-            <ul className="space-y-1">
-              {results.products.map((product) => (
-                <li key={product.id}>
-                  <button
-                    type="button"
-                    onClick={() => go(`/shop/${product.slug}`)}
-                    className="flex w-full items-start gap-3 rounded-md px-2 py-2 text-left hover:bg-brand-cream"
-                  >
-                    <Package className="mt-0.5 h-4 w-4 shrink-0 text-brand-navy" />
-                    <span className="text-sm font-medium text-brand-charcoal">{product.name}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
+
       </div>
     </Modal>
   );
@@ -218,7 +197,6 @@ function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void })
 export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { itemCount, openCart } = useCart();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-brand-border bg-white/95 backdrop-blur">
@@ -309,20 +287,6 @@ export function Header() {
             aria-label="Search the platform"
           >
             <Search />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={openCart}
-            aria-label={`Open cart, ${itemCount} items`}
-            className="relative"
-          >
-            <ShoppingCart />
-            {itemCount > 0 ? (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-gold px-1 text-[10px] font-bold text-brand-navy-dark">
-                {itemCount}
-              </span>
-            ) : null}
           </Button>
           <div className="hidden items-center gap-2 md:flex">
             <WalletChip />

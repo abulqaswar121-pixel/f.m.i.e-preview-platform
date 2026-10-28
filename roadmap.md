@@ -40,4 +40,4 @@
 - [x] Add the corporate points range ($999–$4,999) and the $599 student/academic pack (5,000 points) with ID upload before purchase.
 - [x] Add the government agency yearly plan ($10,000/year) as a "talk to our team" plan.
 - [ ] Client to confirm corporate point amounts and permission before showing big-brand or government logos.
-- [ ] Save team kit quotes properly and clean up the shop.
+- [x] Save team kit requests and private crest uploads, show member quote replies and connect the admin kit desk; hide sample merchandise and disable sample checkout.

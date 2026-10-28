@@ -33,6 +33,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { api, downloadTextFile, useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
+import { KitRequestList } from "@/components/shop/KitRequestList";
 import { AGE_RANGES, GENDERS, LIFE_STAGES } from "@/lib/audience";
 import type { PayoutRequest, WalletTransaction } from "@/types";
 import type { Survey, SurveyStatus } from "@/types";
@@ -43,7 +44,7 @@ const TABS: { id: DashboardTab; label: string; icon: typeof BarChart3 }[] = [
   { id: "overview", label: "Overview", icon: BarChart3 },
   { id: "surveys", label: "My surveys", icon: FlaskConical },
   { id: "press", label: "Press campaigns", icon: Megaphone },
-  { id: "orders", label: "Orders & invoices", icon: Package },
+  { id: "orders", label: "Kit requests", icon: Package },
   { id: "account", label: "Account & organisation", icon: UserCog },
 ];
 
@@ -690,94 +691,7 @@ export function DashboardPage() {
           </section>
         ) : null}
 
-        {tab === "orders" ? (
-          <section>
-            <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-              {isAdmin ? "All orders" : "My orders & invoices"}
-            </h2>
-            <p className="mt-1 text-xs text-brand-slate">
-              Simulated commerce records. Invoices can be downloaded as plain-text documents for
-              demonstration.
-            </p>
-            {myOrders.length === 0 ? (
-              <div className="mt-6">
-                <EmptyState
-                  title="No orders yet"
-                  description="Browse F.M.I.E clothing and items, then place your order."
-                  action={{ label: "Visit the shop", to: "/shop" }}
-                  icon={<Package className="h-6 w-6" />}
-                />
-              </div>
-            ) : (
-              <div className="mt-6 space-y-3">
-                {myOrders.map((order) => (
-                  <article
-                    key={order.id}
-                    className="rounded-lg border border-brand-border bg-white p-5"
-                  >
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div>
-                        <p className="flex items-center gap-2 font-mono text-sm font-semibold text-brand-charcoal">
-                          {order.reference}
-                          <Badge
-                            tone={
-                              order.status === "delivered"
-                                ? "success"
-                                : order.status === "cancelled" || order.status === "refunded"
-                                  ? "danger"
-                                  : order.status === "pending_payment"
-                                    ? "warning"
-                                    : "info"
-                            }
-                          >
-                            {order.status.replace(/_/g, " ")}
-                          </Badge>
-                        </p>
-                        <p className="mt-1 text-xs text-brand-slate">
-                          Placed {formatDate(order.placedAt)} ·{" "}
-                          {order.paymentMethod.replace(/_/g, " ")} ·{" "}
-                          <span className="font-mono">{order.paymentReference}</span>
-                        </p>
-                        <ul className="mt-2 space-y-1">
-                          {order.items.map((item) => (
-                            <li
-                              key={`${item.productId}-${item.variant}`}
-                              className="text-xs text-brand-slate"
-                            >
-                              {item.quantity} × {item.name} ({item.variant}) —{" "}
-                              {formatCurrency(item.price * item.quantity)}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-display text-xl font-bold text-brand-navy">
-                          {formatCurrency(order.total)}
-                        </p>
-                        {order.promoCode ? (
-                          <p className="mt-0.5 text-[11px] text-success">Promo {order.promoCode}</p>
-                        ) : null}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="mt-3"
-                          onClick={() => void downloadInvoice(order.id)}
-                        >
-                          <Download className="h-3.5 w-3.5" /> Invoice
-                        </Button>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-            <p className="mt-6 rounded-md bg-brand-cream px-4 py-3 text-[11px] leading-relaxed text-brand-slate">
-              {commerce.vatNote} Delivery: standard {formatCurrency(commerce.standardShipping)} ·
-              international {formatCurrency(commerce.internationalShipping)} · free over{" "}
-              {formatCurrency(commerce.freeShippingThreshold)}.
-            </p>
-          </section>
-        ) : null}
+        {tab === "orders" ? <KitRequestList /> : null}
 
         {tab === "account" ? (
           <section className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">

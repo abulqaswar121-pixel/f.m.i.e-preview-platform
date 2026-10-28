@@ -70,6 +70,7 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
 
 import { ContentManagerPanel } from "@/components/admin/ContentManager";
 import { CloudPayoutQueue } from "@/components/admin/CloudPayoutQueue";
+import { KitRequestList } from "@/components/shop/KitRequestList";
 import { CloudPressQueue } from "@/components/admin/CloudPressQueue";
 
 const inputClass =
@@ -788,132 +789,13 @@ export function AdminPage() {
 
         {tab === "payouts" ? <CloudPayoutQueue /> : null}
 
-        {tab === "kits" ? (
-          <section className="space-y-4">
-            <div>
-              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-                Kit quote requests
-              </h2>
-              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
-                Club and corporate kit requests with full player rosters. Reply with a custom quote;
-                the requester sees the quoted status on submission.
-              </p>
-            </div>
-            <div className="space-y-4">
-              {database.kitRequests.length === 0 ? (
-                <EmptyState
-                  title="No kit requests yet"
-                  description="Requests from /shop/team-kits land here."
-                />
-              ) : (
-                database.kitRequests.map((request) => (
-                  <KitQuoteCard key={request.id} requestId={request.id} />
-                ))
-              )}
-            </div>
-          </section>
-        ) : null}
+        {tab === "kits" ? <KitRequestList admin /> : null}
 
         {tab === "content" ? <ContentManagerPanel /> : null}
 
         {tab === "platform" ? <PlatformSettingsPanel /> : null}
 
-        {tab === "commerce" ? (
-          <section className="space-y-6">
-            <div>
-              <h2 className="font-display text-xl font-semibold text-brand-charcoal">
-                Orders and catalogue stock
-              </h2>
-              <p className="mt-1 max-w-3xl text-xs leading-relaxed text-brand-slate">
-                Simulated commerce oversight: move orders through fulfilment states and watch
-                catalogue stock levels as orders are placed.
-              </p>
-            </div>
-            <div className="overflow-x-auto rounded-lg border border-brand-border bg-white">
-              <table className="w-full min-w-[760px] text-left text-sm">
-                <thead className="border-b border-brand-border bg-brand-cream/60 text-xs uppercase tracking-[0.08em] text-brand-slate">
-                  <tr>
-                    <th className="px-4 py-3">Reference</th>
-                    <th className="px-4 py-3">Customer</th>
-                    <th className="px-4 py-3">Placed</th>
-                    <th className="px-4 py-3 text-right">Total</th>
-                    <th className="px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-brand-border">
-                  {database.orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-brand-cream/40">
-                      <td className="px-4 py-3 font-mono text-xs font-semibold text-brand-charcoal">
-                        {order.reference}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-brand-slate">
-                        {order.address.fullName}
-                        <span className="block text-[11px]">{order.email}</span>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-brand-slate">
-                        {formatDate(order.placedAt)}
-                      </td>
-                      <td className="px-4 py-3 text-right text-xs tabular-nums">
-                        {formatCurrency(order.total)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <select
-                          className="rounded-md border border-brand-border bg-white px-2 py-1 text-xs"
-                          value={order.status}
-                          aria-label={`Order status for ${order.reference}`}
-                          onChange={async (event) => {
-                            const next = event.target.value as (typeof ORDER_STATUSES)[number];
-                            await api.orders.updateStatus(order.id, next);
-                            toast.success(`${order.reference} → ${next.replace(/_/g, " ")}`);
-                          }}
-                        >
-                          {ORDER_STATUSES.map((status) => (
-                            <option key={status} value={status}>
-                              {status.replace(/_/g, " ")}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="rounded-lg border border-brand-border bg-white p-6">
-              <h3 className="font-display text-base font-semibold text-brand-charcoal">
-                Catalogue stock
-              </h3>
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {database.products.map((product) => (
-                  <li
-                    key={product.id}
-                    className="flex items-center justify-between gap-2 rounded-md border border-brand-border px-3 py-2 text-xs"
-                  >
-                    <span className="min-w-0">
-                      <span className="block truncate font-semibold text-brand-charcoal">
-                        {product.name}
-                      </span>
-                      <span className="block text-[11px] text-brand-slate">
-                        {product.sku} · {formatCurrency(product.price)}
-                      </span>
-                    </span>
-                    <Badge
-                      tone={
-                        product.stockLevel === 0
-                          ? "danger"
-                          : product.stockLevel < 50
-                            ? "warning"
-                            : "success"
-                      }
-                    >
-                      {product.stockLevel} in stock
-                    </Badge>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        ) : null}
+        {tab === "commerce" ? <section className="space-y-4"><h2 className="font-display text-xl font-semibold text-brand-charcoal">Merchandise</h2><p className="text-sm text-brand-slate">Online sales are not open yet. Team kit requests are saved in Kit quote requests.</p><Button asChild variant="outline"><Link to="/admin" search={{ tab: "kits" }}>View kit requests</Link></Button></section> : null}
 
         {tab === "audience" ? (
           <section className="space-y-6">
@@ -1265,92 +1147,6 @@ export function AdminPage() {
 }
 
 export default AdminPage;
-
-/** One club kit request with its roster and a quote reply form. */
-function KitQuoteCard({ requestId }: { requestId: string }) {
-  const database = useDatabase();
-  const [quoteNaira, setQuoteNaira] = useState("");
-  const [note, setNote] = useState("");
-  const request = database.kitRequests.find((candidate) => candidate.id === requestId);
-  if (!request) return null;
-
-  return (
-    <article className="rounded-lg border border-brand-border bg-white p-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-semibold text-brand-charcoal">
-          {request.clubName} · {request.sport} · {request.quantity} kits
-        </h3>
-        <Badge tone={request.status === "quoted" ? "success" : "warning"}>
-          {request.status === "quoted"
-            ? `Quoted ₦${(request.quoteNaira ?? 0).toLocaleString()}`
-            : "Awaiting quote"}
-        </Badge>
-      </div>
-      <p className="mt-1 text-xs text-brand-slate">
-        Colours {request.primaryColor} / {request.secondaryColor}
-        {request.crestFileName ? ` · crest ${request.crestFileName}` : ""} · deliver{" "}
-        {request.deliveryDate || "TBC"} to {request.deliveryAddress || "address TBC"}
-      </p>
-      {request.roster.length > 0 ? (
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[360px] text-left text-xs">
-            <thead>
-              <tr className="border-b border-brand-border text-brand-slate">
-                <th className="py-1 pr-4 font-semibold">Player</th>
-                <th className="py-1 pr-4 font-semibold">Number</th>
-                <th className="py-1 font-semibold">Size</th>
-              </tr>
-            </thead>
-            <tbody>
-              {request.roster.map((row, index) => (
-                <tr key={index} className="border-b border-brand-border/60 text-brand-charcoal">
-                  <td className="py-1 pr-4">{row.name}</td>
-                  <td className="py-1 pr-4">{row.number}</td>
-                  <td className="py-1">{row.size}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : null}
-      {request.notes ? (
-        <p className="mt-2 text-xs italic text-brand-slate">“{request.notes}”</p>
-      ) : null}
-      {request.status === "quoted" ? (
-        request.quoteNote ? (
-          <p className="mt-2 text-xs text-brand-slate">Quote note: {request.quoteNote}</p>
-        ) : null
-      ) : (
-        <div className="mt-3 grid gap-2 sm:grid-cols-[160px_1fr_auto]">
-          <input
-            className={inputClass}
-            type="number"
-            placeholder="Quote ₦"
-            value={quoteNaira}
-            onChange={(event) => setQuoteNaira(event.target.value)}
-          />
-          <input
-            className={inputClass}
-            placeholder="Quote note (fabric, splits, delivery)"
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-          />
-          <Button
-            size="sm"
-            className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-            onClick={() => {
-              void api.kits
-                .quote(request.id, Number(quoteNaira || 0), note)
-                .then(() => toast.success(`Quote sent for ${request.clubName}.`));
-            }}
-          >
-            Send quote
-          </Button>
-        </div>
-      )}
-    </article>
-  );
-}
 
 /** Homepage video manager + survey economy settings (admin configurable). */
 function PlatformSettingsPanel() {
