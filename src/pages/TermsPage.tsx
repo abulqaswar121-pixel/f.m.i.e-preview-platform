@@ -151,9 +151,6 @@ export function TermsPage() {
                 {contactEmail.general}
               </a>
             </address>
-            <p className="mt-4 border-t border-brand-border pt-3 text-[11px] text-brand-slate">
-              {site.companyNumber} · {site.vatNumber}
-            </p>
           </div>
         </div>
 
