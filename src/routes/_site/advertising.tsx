@@ -8,6 +8,10 @@ export const Route = createFileRoute("/_site/advertising")({
   head: () => ({
     meta: [
       { title: `Advertising & Sponsorship | ${site.name}` },
+      { property: "og:title", content: `Advertising & Sponsorship | ${site.name}` },
+      { property: "og:description", content: "What can be bought, what cannot, how commercial content is labelled, and the published rate card." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

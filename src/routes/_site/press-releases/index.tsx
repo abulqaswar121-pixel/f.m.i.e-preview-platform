@@ -8,6 +8,10 @@ export const Route = createFileRoute("/_site/press-releases/")({
   head: () => ({
     meta: [
       { title: `Global Press Releases | ${site.name}` },
+      { property: "og:title", content: `Global Press Releases | ${site.name}` },
+      { property: "og:description", content: "Three distribution tiers, a twelve-state tracked workflow and an administrator-verified channel catalogue. No placement is ever guaranteed." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

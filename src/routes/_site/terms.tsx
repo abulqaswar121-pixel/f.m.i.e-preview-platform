@@ -8,6 +8,10 @@ export const Route = createFileRoute("/_site/terms")({
   head: () => ({
     meta: [
       { title: `Terms & Conditions | ${site.name}` },
+      { property: "og:title", content: `Terms & Conditions | ${site.name}` },
+      { property: "og:description", content: "Terms covering accounts, editorial content, surveys, distribution, services and commerce." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

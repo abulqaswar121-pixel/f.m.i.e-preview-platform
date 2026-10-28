@@ -15,9 +15,13 @@ export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
       { title: `Contact | ${site.name}` },
+      { property: "og:title", content: `Contact | ${site.name}` },
+      { property: "og:description", content: "Contact F.M.I.E at our Lagos head office or find our international offices." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
-        content: "Four accountable desks, London head office and expected response times.",
+        content: "Contact F.M.I.E at our Lagos head office or find our international offices.",
       },
     ],
   }),

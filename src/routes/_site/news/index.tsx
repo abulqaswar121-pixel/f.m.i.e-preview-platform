@@ -15,6 +15,10 @@ export const Route = createFileRoute("/_site/news/")({
   head: () => ({
     meta: [
       { title: `News & Insights | ${site.name}` },
+      { property: "og:title", content: `News & Insights | ${site.name}` },
+      { property: "og:description", content: "Independent business reporting across ten editorial desks — global economy, markets, technology, governance and emerging markets." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

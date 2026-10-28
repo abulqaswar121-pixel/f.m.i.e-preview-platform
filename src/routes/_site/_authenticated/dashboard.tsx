@@ -15,6 +15,10 @@ export const Route = createFileRoute("/_site/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: `My Dashboard | ${site.name}` },
+      { property: "og:title", content: `My Dashboard | ${site.name}` },
+      { property: "og:description", content: "Surveys, press campaigns, orders and account settings in one member view." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content: "Surveys, press campaigns, orders and account settings in one member view.",

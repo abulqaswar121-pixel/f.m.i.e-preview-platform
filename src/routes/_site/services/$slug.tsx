@@ -6,6 +6,11 @@ import { ServiceDetailPage } from "@/pages/ServiceDetailPage";
 export const Route = createFileRoute("/_site/services/$slug")({
   component: ServiceDetailPage,
   head: () => ({
-    meta: [{ title: `Service | ${site.name}` }],
+    meta: [{ title: `Service | ${site.name}` },
+      { name: "description", content: "Explore F.M.I.E professional services and request a quote." },
+      { property: "og:title", content: `Service | ${site.name}` },
+      { property: "og:description", content: "Explore F.M.I.E professional services and request a quote." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },],
   }),
 });
