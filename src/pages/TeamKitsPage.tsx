@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { submitKitRequest } from "@/lib/kit-quotes.functions";
 import { kitRequestSchema } from "@/lib/kit-quotes";
 import { KitRequestList } from "@/components/shop/KitRequestList";
+import { FileDropzone } from "@/components/common/FileDropzone";
 import type { KitRosterRow } from "@/types";
 
 const SIZES = ["S", "M", "L", "XL", "XXL"] as const;
@@ -24,6 +25,7 @@ export function TeamKitsPage() {
   const saveRequest = useServerFn(submitKitRequest);
   const queryClient = useQueryClient();
   const [crest, setCrest] = useState<File | null>(null);
+  const [crestPreview, setCrestPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -111,16 +113,28 @@ export function TeamKitsPage() {
                   <option>Corporate</option>
                 </select>
               </label>
-              <label className="block text-xs font-semibold text-brand-slate">
-                Team crest (optional)
-                <input
-                  className={`${inputClass} mt-1`}
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
+              <div className="sm:col-span-2">
+                <FileDropzone
+                  label="Team crest or logo (optional)"
+                  hint="PNG, JPG or WebP · up to 5 MB"
+                  accept={["image/png", "image/jpeg", "image/webp"]}
+                  maxSizeMb={5}
                   disabled={busy || !isSignedIn}
-                  onChange={(e) => setCrest(e.target.files?.[0] ?? null)}
+                  disabledText={!isSignedIn ? "Sign in to add your crest" : undefined}
+                  items={crest ? [{ id: "crest", name: crest.name, size: crest.size, type: crest.type, previewUrl: crestPreview ?? undefined }] : []}
+                  onAdd={([file]) => {
+                    if (!file) return;
+                    if (crestPreview) URL.revokeObjectURL(crestPreview);
+                    setCrest(file);
+                    setCrestPreview(URL.createObjectURL(file));
+                  }}
+                  onRemove={() => {
+                    if (crestPreview) URL.revokeObjectURL(crestPreview);
+                    setCrest(null);
+                    setCrestPreview(null);
+                  }}
                 />
-              </label>
+              </div>
               <div className="grid grid-cols-2 gap-3">
                 <label className="block text-xs font-semibold text-brand-slate">
                   Primary colour
