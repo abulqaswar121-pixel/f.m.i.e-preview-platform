@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import "@lovable.dev/cloud-auth-js/styles.css";
 
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
 
-type Provider = "google" | "lovable";
+type Provider = "google";
 
 function GoogleMark() {
   return (
@@ -61,14 +60,6 @@ export function SocialSignInButtons() {
         <GoogleMark />
         {busy === "google" ? "Opening Google…" : "Continue with Google"}
       </Button>
-      <button
-        type="button"
-        className="lovable-auth-button w-full"
-        disabled={busy !== null}
-        onClick={() => void start("lovable")}
-      >
-        Continue with Lovable
-      </button>
     </div>
   );
 }
