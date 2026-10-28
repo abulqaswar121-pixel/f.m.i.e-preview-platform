@@ -4,46 +4,15 @@ import { PageHeader } from "@/components/common/Primitives";
 import { contactEmail, headquarters, legal, site } from "@/config/site";
 
 const SECTIONS = [
-  {
-    title: "What this preview collects",
-    body: "This build is a design and workflow demonstration. It has no server, no analytics provider and no third-party tracking. Anything you type — an account name, a survey response, a booking, a delivery address — is written to your browser's local storage on your own device and is never transmitted anywhere.",
-  },
-  {
-    title: "Local storage and session data",
-    body: "The platform stores a single versioned data object containing the sample records plus anything you create, together with your basket and your current session identifier. Clearing your browser storage, or using the administrator reset action, removes it permanently and restores the shipped sample data.",
-  },
-  {
-    title: "Account and profile data",
-    body: "Registration accepts any valid-looking email address and does not verify it. A profile record holds your name, email, organisation, job title, location and notification preferences. Because no email is sent, no confirmation, password reset or marketing message is ever generated from that address.",
-  },
-  {
-    title: "Survey responses",
-    body: "Responses are stored with the answers given, a respondent segment, a country, a completion flag and a duration. Surveys on this platform are configured as anonymous by default: no response is linked to an identifiable account unless a survey explicitly states that it collects identifying information in its consent notice.",
-  },
-  {
-    title: "Press release and commercial records",
-    body: "Bookings retain the company profile you supply, contact details, a content draft, the chosen tier and add-ons, quotations, payment states and a dated workflow log naming the actor for each event. Completion dossiers record only confirmed placements.",
-  },
-  {
-    title: "Commerce records",
-    body: "Orders retain the delivery address, contact email, line items, totals, a promo code if applied, a payment method and a generated simulated payment reference. No card data is requested, captured or stored, and no payment processor is involved.",
-  },
-  {
-    title: "Cookies",
-    body: "No cookies are set by this preview. Session continuity is achieved entirely through local storage on your device.",
-  },
-  {
-    title: "Your rights in a live deployment",
-    body: "A production deployment of this platform would give you the right to access, rectify, erase, restrict and port personal data, and to object to processing, in line with UK data protection law. Requests would be acknowledged within one month. This preview implements none of that machinery because it processes no real personal data.",
-  },
-  {
-    title: "Children and restricted audiences",
-    body: "The platform is intended for business and professional users. No survey instrument in the sample set is directed at children, and any live survey aimed at under-18 respondents would require documented guardian consent and an ethical review record before publication.",
-  },
-  {
-    title: "Data retention in this preview",
-    body: "Records persist until you clear your browser storage or reset the preview. There is no automated deletion schedule, no backup and no export to any external system.",
-  },
+  { title: "Accounts and profiles", body: "Lovable Cloud stores your account and saved profile, including your name, email, country, job and any survey profile details you provide. Your profile helps match you with suitable surveys. Sign-in providers also handle your login." },
+  { title: "Browser storage", body: "Your browser keeps sign-in information, unfinished drafts and some preview content. Clearing browser storage does not delete your saved Cloud account, bookings, kit requests or wallet records." },
+  { title: "Survey answers and rewards", body: "Completed answers and reward records are saved in Lovable Cloud. An account link is needed to prevent repeat rewards. Read each survey's consent notice before answering; do not assume your answers are fully anonymous." },
+  { title: "Press bookings and team kits", body: "We save the contact details, story, selected outlets, payment status and request details you submit. Team kit requests can include delivery details, a crest and player names. Approved administrators can review these records to handle your request." },
+  { title: "Student IDs and private uploads", body: "Student IDs and team crests are stored privately under your account. Approved administrators can view them when needed to check a purchase or prepare a quote. Do not upload documents belonging to someone else without permission." },
+  { title: "Payments", body: "Paystack handles checkout in test mode. The site saves payment references, amounts and verification status, not your card details. No real charges are made while test mode is active." },
+  { title: "Email and contact forms", body: "Email briefings are not open yet. The preview contact form saves messages in this browser; it does not send them to the team. Use the listed phone number for help while official email boxes are being set up." },
+  { title: "Data requests and retention", body: "You can edit your profile from your dashboard. Contact F.M.I.E by phone for help with access, corrections or deletion. Clearing browser storage does not erase Cloud records. The team must confirm a retention schedule and the full data-request process before live launch." },
+  { title: "Children and sensitive details", body: "This platform is for adult business and research users. Only share details needed for the survey or request. Research involving children or sensitive health information needs proper consent and review before it opens." },
 ];
 
 export function PrivacyPage() {
@@ -51,8 +20,8 @@ export function PrivacyPage() {
     <div>
       <PageHeader
         eyebrow="Privacy notice"
-        title="How this preview handles the data you enter"
-        description="Plain-language summary of what is stored, where it lives and what a production deployment would be required to do. Nothing you submit here leaves your device."
+        title="How we handle your information"
+        description="What we save, where we save it, and what is still being prepared before launch."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Privacy Notice" }]}
       />
 
@@ -83,8 +52,7 @@ export function PrivacyPage() {
               >
                 {contactEmail.privacy}
               </a>{" "}
-              or to the head office. In this preview your message is stored locally and shown in the
-              administrator panel rather than being sent.
+              or call the listed phone number. Official email boxes are still being set up; the preview contact form does not send a message to the team.
             </p>
             <address className="mt-4 not-italic text-xs leading-relaxed text-brand-slate">
               {site.legalName}
