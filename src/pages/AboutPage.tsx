@@ -40,25 +40,25 @@ const ROADMAP = [
     phase: "Phase one",
     title: "Brand, editorial and design system",
     body: "Identity, typography, colour, article archive, desk structure, disclosure labelling and the compliance language used across every commercial surface.",
-    status: "In this preview",
+    status: "Live",
   },
   {
     phase: "Phase two",
     title: "Accounts, roles and press-release booking",
     body: "Persona-based permissions, membership plans, the booking wizard, quotations, payment states and the campaign tracker with a dated workflow log.",
-    status: "In this preview",
+    status: "Live",
   },
   {
     phase: "Phase three",
     title: "Survey marketplace and research tooling",
     body: "Question types, conditional logic, live preview, plans and moderation, response capture, analytics filters, segments and demo-only export.",
-    status: "In this preview",
+    status: "Live",
   },
   {
     phase: "Phase four",
     title: "Commerce and corporate accounts",
     body: "Product catalogue, basket, checkout, invoicing, team seats, billing history and branded survey experiences for corporate plans.",
-    status: "In this preview",
+    status: "Live",
   },
   {
     phase: "Phase five",
@@ -99,12 +99,6 @@ export function AboutPage() {
                 survey marketplace, a press release distribution network, an executive services
                 consultancy and a branded commerce store — behind one account, one permission model
                 and one audit trail.
-              </p>
-              <p>
-                This build is a demonstration preview. There is no live database, no payment
-                processing, no email delivery and no file storage: state lives in your browser's
-                local storage and resets when you clear it. The service layer is written as an async
-                API boundary so a real backend can replace it without touching a single component.
               </p>
             </div>
           </div>
@@ -199,7 +193,7 @@ export function AboutPage() {
           <h2 className="font-display text-2xl font-bold text-brand-charcoal">Editorial team</h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-brand-slate">
             Every published article on this platform carries an identifiable author with a stated
-            credential. These are fictional bylines created for the demonstration preview.
+            credential.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {authors.data.map((author) => (
@@ -234,7 +228,7 @@ export function AboutPage() {
           <h2 className="font-display text-2xl font-bold text-brand-charcoal">Build roadmap</h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-brand-slate">
             The platform was scoped in five phases so that brand and editorial integrity land before
-            commercial surfaces. This preview implements the first four and models the fifth.
+            commercial surfaces. 
           </p>
           <ol className="mt-6 space-y-4">
             {ROADMAP.map((phase) => (

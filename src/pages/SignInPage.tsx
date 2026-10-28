@@ -221,11 +221,6 @@ export function SignInPage() {
               <li>· Keep your profile, orders and bookings in one place on any device.</li>
             </ul>
           </div>
-          <p className="flex items-start gap-2 rounded-lg border border-brand-border bg-white px-4 py-3 text-xs leading-relaxed text-brand-slate">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-navy" />
-            Your password is never shown to F.M.I.E staff. Administrator access is given only to
-            approved F.M.I.E team accounts.
-          </p>
         </div>
       </div>
     </div>

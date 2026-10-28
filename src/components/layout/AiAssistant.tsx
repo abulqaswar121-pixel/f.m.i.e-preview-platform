@@ -174,7 +174,7 @@ export function AiAssistant() {
             />
             <div className="flex-1">
               <p className="text-sm font-semibold">Ada — F.M.I.E Client Assistant</p>
-              <p className="text-[11px] text-white/70">Online · demonstration concierge</p>
+              <p className="text-[11px] text-white/70">Online · here to help</p>
             </div>
             <MessageCircle className="h-4 w-4 text-brand-gold" />
           </header>

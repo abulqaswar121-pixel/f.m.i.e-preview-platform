@@ -442,7 +442,6 @@ export function DashboardPage() {
                       ))}
                   </ul>
                 </div>
-                <ComplianceBanner variant="sample" className="text-xs" />
               </div>
             </section>
           </>

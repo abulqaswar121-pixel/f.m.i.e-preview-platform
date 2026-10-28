@@ -78,7 +78,6 @@ export function NotFoundPage() {
               </SiteLink>
             ))}
           </div>
-          <p className="mt-6 text-[11px] leading-relaxed text-brand-slate">{site.previewNotice}</p>
         </div>
       </div>
     </div>

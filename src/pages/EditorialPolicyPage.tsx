@@ -196,8 +196,7 @@ export function EditorialPolicyPage() {
             ))}
           </ul>
           <p className="mt-5 border-t border-brand-border pt-4 text-xs leading-relaxed text-brand-slate">
-            {legal.copyright} {legal.registeredOffice} This build is a demonstration preview:{" "}
-            {site.previewNotice}
+            {legal.copyright} {legal.registeredOffice}
           </p>
         </section>
       </div>

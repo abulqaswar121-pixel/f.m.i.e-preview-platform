@@ -85,7 +85,7 @@ export function ContactPage() {
     setSending(false);
     setSent(true);
     toast.success(`Message routed to ${route.label}`, {
-      description: `Logged as ${message.id}. Expected response: ${route.responseTime}. No email is sent in this preview.`,
+      description: `Logged as ${message.id}. Expected response: ${route.responseTime}.`,
     });
   };
 
