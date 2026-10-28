@@ -147,8 +147,7 @@ export function ContactPage() {
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-brand-slate">
                   Your enquiry was recorded against {route.label} with an expected response time of{" "}
-                  {route.responseTime}. This preview does not send email — the record is stored
-                  locally and appears in the administrator panel.
+                  {route.responseTime}.
                 </p>
                 <Button
                   type="button"
@@ -329,8 +328,7 @@ export function ContactPage() {
               ))}
             </ul>
             <p className="mt-3 text-[11px] leading-relaxed text-brand-slate">
-              {site.legalName} · {site.domain}. This preview does not post to social platforms; the
-              links open the platform home pages only.
+              {site.legalName} · {site.domain}.
             </p>
           </div>
         </aside>

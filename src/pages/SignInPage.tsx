@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { KeyRound, MailCheck, ShieldCheck } from "lucide-react";
+import { KeyRound, MailCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { OrDivider, SocialSignInButtons } from "@/components/auth/SocialSignInButtons";

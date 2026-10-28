@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 
-import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { PageHeader } from "@/components/common/Primitives";
 import { commerce, contactEmail, headquarters, legal, site } from "@/config/site";
 
