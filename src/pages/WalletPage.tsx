@@ -135,44 +135,65 @@ export function WalletPage() {
     }
   }
 
-  const [studentIdUploaded, setStudentIdUploaded] = useState(false);
-  const [uploadingId, setUploadingId] = useState(false);
+  const [studentId, setStudentId] = useState<DropzoneItem | null>(null);
+  const [studentIdPath, setStudentIdPath] = useState<string | null>(null);
+  const studentIdUploaded = studentId?.status === "done";
+  const uploadingId = studentId?.status === "uploading";
 
   useEffect(() => {
     if (!user) return;
     void supabase.auth.getUser().then(async ({ data: auth }) => {
       if (!auth.user) return;
+      const folder = `${auth.user.id}/${STUDENT_ID_FOLDER}`;
       const { data } = await supabase.storage
         .from("member-files")
-        .list(`${auth.user.id}/${STUDENT_ID_FOLDER}`, { limit: 1 });
-      setStudentIdUploaded(Boolean(data && data.length > 0));
+        .list(folder, { limit: 1, sortBy: { column: "created_at", order: "desc" } });
+      const file = data?.[0];
+      if (!file) return;
+      const path = `${folder}/${file.name}`;
+      const meta = (file.metadata ?? {}) as { size?: number; mimetype?: string };
+      const { data: signed } = await supabase.storage.from("member-files").createSignedUrl(path, 3600);
+      setStudentIdPath(path);
+      setStudentId({
+        id: path,
+        name: file.name.replace(/^\d+-/, ""),
+        size: meta.size ?? 0,
+        type: meta.mimetype ?? "application/octet-stream",
+        previewUrl: signed?.signedUrl,
+        status: "done",
+      });
     });
   }, [user]);
 
   async function uploadStudentId(file: File): Promise<void> {
     if (!user) return;
-    if (file.size > 10 * 1024 * 1024) {
-      setNotice("Your ID file is too big. Please use a file under 10 MB.");
-      return;
-    }
-    setUploadingId(true);
     const { data: auth } = await supabase.auth.getUser();
     if (!auth.user) {
-      setUploadingId(false);
       setNotice("Please sign in again to upload your ID.");
       return;
     }
+    const previewUrl = URL.createObjectURL(file);
+    const item: DropzoneItem = { id: "new", name: file.name, size: file.size, type: file.type, previewUrl, status: "uploading" };
+    const previous = studentIdPath;
+    setStudentId(item);
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
-    const { error } = await supabase.storage
-      .from("member-files")
-      .upload(`${auth.user.id}/${STUDENT_ID_FOLDER}/${Date.now()}-${safeName}`, file);
-    setUploadingId(false);
+    const path = `${auth.user.id}/${STUDENT_ID_FOLDER}/${Date.now()}-${safeName}`;
+    const { error } = await supabase.storage.from("member-files").upload(path, file);
     if (error) {
+      setStudentId({ ...item, status: "error" });
       setNotice("Your ID could not be uploaded. Please try again.");
       return;
     }
-    setStudentIdUploaded(true);
-    setNotice("Student ID uploaded. You can now buy the academic pack.");
+    if (previous) await supabase.storage.from("member-files").remove([previous]);
+    setStudentIdPath(path);
+    setStudentId({ ...item, id: path, status: "done" });
+    setNotice("Student ID saved. You can now buy the academic pack.");
+  }
+
+  async function removeStudentId(): Promise<void> {
+    if (studentIdPath) await supabase.storage.from("member-files").remove([studentIdPath]);
+    setStudentIdPath(null);
+    setStudentId(null);
   }
 
   async function buyPack(packId: string): Promise<void> {
@@ -184,7 +205,6 @@ export function WalletPage() {
       window.location.assign(result.authorizationUrl);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Purchase failed.");
-    } finally {
       setBuying(null);
     }
   }
@@ -199,6 +219,46 @@ export function WalletPage() {
       />
 
       <div className="fmie-container py-10 sm:py-14">
+        {receipt ? (
+          <div
+            role="status"
+            className={
+              receipt.state === "succeeded"
+                ? "mb-4 flex items-start gap-3 rounded-lg border border-success/40 bg-success/10 px-4 py-4 text-sm text-brand-charcoal"
+                : "mb-4 flex items-start gap-3 rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-4 text-sm text-brand-charcoal"
+            }
+          >
+            {receipt.state === "checking" ? (
+              <Loader2 className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-brand-slate" />
+            ) : receipt.state === "succeeded" ? (
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+            ) : (
+              <Clock className="mt-0.5 h-5 w-5 shrink-0 text-brand-gold-dark" />
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold">
+                {receipt.state === "checking"
+                  ? "Checking your payment…"
+                  : receipt.state === "succeeded"
+                    ? "Payment successful"
+                    : "Payment received — still confirming"}
+              </p>
+              <p className="mt-0.5 text-xs text-brand-slate">
+                {receipt.state === "checking"
+                  ? "This takes a few seconds. Please don't close the page."
+                  : receipt.state === "succeeded"
+                    ? `${receipt.points.toLocaleString()} points have been added to your wallet.`
+                    : "Your points will appear here as soon as the bank confirms. Please don't pay twice."}
+              </p>
+              <p className="mt-1 break-all text-[11px] text-brand-slate">Payment ref: {receipt.reference}</p>
+            </div>
+            {receipt.state !== "checking" ? (
+              <button type="button" onClick={() => setReceipt(null)} className="shrink-0 text-xs font-semibold text-brand-navy underline">
+                Close
+              </button>
+            ) : null}
+          </div>
+        ) : null}
         {notice ? (
           <p className="rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-3 text-sm text-brand-charcoal">
             {notice}
