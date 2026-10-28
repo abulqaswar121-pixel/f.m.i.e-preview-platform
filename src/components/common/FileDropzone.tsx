@@ -8,8 +8,8 @@ export interface DropzoneItem {
   name: string;
   size: number;
   type: string;
-  previewUrl?: string;
-  status?: "uploading" | "done" | "error";
+  previewUrl?: string | undefined;
+  status?: "uploading" | "done" | "error" | undefined;
 }
 
 interface FileDropzoneProps {
@@ -23,7 +23,7 @@ interface FileDropzoneProps {
   onAdd: (files: File[]) => void;
   onRemove: (id: string) => void;
   disabled?: boolean;
-  disabledText?: string;
+  disabledText?: string | undefined;
 }
 
 export function formatFileSize(bytes: number): string {
