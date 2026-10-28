@@ -17,7 +17,6 @@ export const Route = createFileRoute("/_site/signin")({
       { title: `Sign in | ${site.name}` },
       { property: "og:title", content: `Sign in | ${site.name}` },
       { property: "og:description", content: "Sign in to your F.M.I.E account with email, Google or Lovable." },
-    ] },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "description", content: "Sign in to your F.M.I.E account with email, Google or Lovable." },
