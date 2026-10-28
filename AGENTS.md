@@ -21,3 +21,6 @@
 - Survey point packs and spending rules live only in `surveyPointPacks`/`surveyPointRules` in the site config with math in `src/lib/survey-points.ts`, so prices change in one place; packs show in USD and Paystack charges the naira equivalent at the price-sheet rate.
 - Press booking prices are recomputed on the server from the outlet catalogue (`src/lib/press-booking-rules.ts`) and bookings become paid only through the service-only settle function after Paystack verification (return page or webhook), so a browser can never set a price or mark itself paid.
 - Signed-in members see the portal-only header only on portal paths (`isPortalPath` in `AppLayout`); public pages show the normal site header with their account menu, so members can read the site without signing out.
+
+- Team kit requests and admin quote replies use authenticated Cloud functions, never the legacy kit store; quote_minor remains NGN minor units converted to dollars for display, and only a verified administrator can set quotes.
+- The shop stays quote-led until real merchandise is approved; sample product and checkout URLs redirect to the shop so fake purchases cannot appear live.

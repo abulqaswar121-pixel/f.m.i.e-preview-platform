@@ -1,11 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-import { site } from "@/config/site";
-import { ProductDetailPage } from "@/pages/ProductDetailPage";
-
+import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/_site/shop/$slug")({
-  component: ProductDetailPage,
-  head: () => ({
-    meta: [{ title: `Product | ${site.name}` }],
-  }),
+  beforeLoad: () => { throw redirect({ to: "/shop", replace: true }); },
 });
