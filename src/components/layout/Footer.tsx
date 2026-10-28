@@ -99,16 +99,6 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="fmie-container space-y-3 py-6">
-          <p
-            className={cn(
-              "rounded-md border border-brand-gold/40 bg-brand-gold/10 px-4 py-3 text-[11px] leading-relaxed text-white/85",
-            )}
-          >
-            <span className="font-semibold text-brand-gold">
-              {database.settings.footerDisclaimer}.{" "}
-            </span>
-            {site.previewNotice}
-          </p>
           <ul className="space-y-1.5">
             {legal.notices.map((notice) => (
               <li key={notice} className="text-[11px] leading-relaxed text-white/55">

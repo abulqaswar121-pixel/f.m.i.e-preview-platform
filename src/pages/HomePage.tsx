@@ -130,9 +130,6 @@ export function HomePage() {
                 </div>
               ))}
             </dl>
-            <p className="pointer-events-none absolute bottom-2 right-3 text-[10px] text-white/45">
-              {livePositioning.heroCredit}
-            </p>
           </div>
         </section>
       ) : null}

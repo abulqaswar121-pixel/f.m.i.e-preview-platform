@@ -1,25 +1,24 @@
 import { Link } from "@tanstack/react-router";
 
-import { ComplianceBanner } from "@/components/common/ComplianceBanner";
 import { PageHeader } from "@/components/common/Primitives";
 import { commerce, contactEmail, headquarters, legal, site } from "@/config/site";
 
 const SECTIONS = [
   {
     title: "1. About these terms",
-    body: `These terms cover the ${site.legalName} preview at ${site.domain}. Accounts, saved requests and private uploads use Lovable Cloud. Payments are in test mode. These preview terms need a final business and legal review before live sales begin.`,
+    body: `These terms cover the ${site.legalName} website at ${site.domain}, including member accounts, saved requests, uploads and payments.`,
   },
   {
-    title: "2. Nature of the preview",
-    body: site.previewNotice,
+    title: "2. Our services",
+    body: "F.M.I.E offers business news, paid surveys, press release booking, professional services and team kits. Prices are shown before you pay.",
   },
   {
     title: "3. Accounts",
-    body: "You need an account to create surveys, earn rewards, book press releases and place orders. Keep your password private: you are responsible for activity under your account. Administrator access is granted only to approved F.M.I.E team members.",
+    body: "You need an account to create surveys, earn rewards, book press releases and place orders. Keep your password private: you are responsible for activity under your account.",
   },
   {
     title: "4. Editorial content",
-    body: "Editorial content in the preview is sample material written for demonstration. In a live service, article text, photography, charts and the F.M.I.E marks would remain the property of the publisher, licensed for personal reading and internal reference only, with republication requiring written permission and an accompanying attribution and methodology note.",
+    body: "Article text, photography, charts and the F.M.I.E marks remain the property of the publisher, licensed for personal reading and internal reference only, with republication requiring written permission and an accompanying attribution and methodology note.",
   },
   {
     title: "5. Survey marketplace",
@@ -43,11 +42,11 @@ const SECTIONS = [
   },
   {
     title: "10. Intellectual property",
-    body: "The F.M.I.E name, wordmark, monogram, design system and all interface artwork in this build are original work created for the demonstration. The platform copies no third-party publisher's identity, and no third-party trade mark is used to suggest endorsement or affiliation.",
+    body: "The F.M.I.E name, wordmark, monogram, design system and all interface artwork are original F.M.I.E work. The platform copies no third-party publisher's identity, and no third-party trade mark is used to suggest endorsement or affiliation.",
   },
   {
     title: "11. Disclaimers and liability",
-    body: "The preview is supplied as-is for evaluation. No warranty is given as to fitness for a particular purpose, and no liability arises from reliance on sample data. In a live service, liability for commercial engagements would be limited to the fees paid for the engagement in question.",
+    body: "The service is supplied as-is. Liability for commercial engagements is limited to the fees paid for the engagement in question.",
   },
   {
     title: "12. Governing law",
@@ -65,12 +64,11 @@ export function TermsPage() {
       <PageHeader
         eyebrow="Terms & conditions"
         title="The terms that would govern this platform"
-        description="Written for the live service, presented inside a demonstration preview. Read together with the privacy notice, the editorial policy and the survey ethics standard."
+        description="Read together with the privacy notice, the editorial policy and the survey ethics standard."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Terms & Conditions" }]}
       />
 
       <div className="fmie-container space-y-8 py-10">
-        <ComplianceBanner variant="sample" />
 
         <div className="rounded-lg border border-brand-border bg-white p-6 sm:p-8">
           <div className="fmie-prose">
@@ -153,9 +151,6 @@ export function TermsPage() {
                 {contactEmail.general}
               </a>
             </address>
-            <p className="mt-4 border-t border-brand-border pt-3 text-[11px] text-brand-slate">
-              {site.companyNumber} · {site.vatNumber}
-            </p>
           </div>
         </div>
 

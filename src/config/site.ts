@@ -29,8 +29,8 @@ export const site = {
   description:
     "F.M.I.E is an international business media platform, independent survey marketplace, press release booking and distribution network, executive professional services consultancy and branded digital commerce platform.",
   founded: 2019,
-  companyNumber: "Sample registration — demonstration preview",
-  vatNumber: "Sample VAT registration — demonstration preview",
+  companyNumber: "",
+  vatNumber: "",
   previewNotice:
     "Demonstration preview. Sample news, polls and figures are for review, not live reporting. Member accounts and saved requests use real records. Payments are in test mode; no real charges or bank transfers are made.",
 } as const;
@@ -216,14 +216,14 @@ export const livePositioning: {
   bandBody:
     "We send your story to trusted news outlets at a clear price. Editors decide what gets published.",
   photoCredit:
-    "Sample photography: public-domain stock supplied with the client's live site, labelled for demonstration only.",
+    "",
   heroRotatingLines: [
     "Unlock Your Story. Amplify Your Impact.",
     "Feature Local. Impact Global.",
     "Connecting Ideas, Insights & Global Opportunities.",
   ],
   heroCredit:
-    "Background: sample stock photography supplied with the client's former site, labelled for demonstration only.",
+    "",
   pillars: [
     {
       title: "PR and Media Placement",
@@ -544,7 +544,7 @@ export const surveyEconomyDefaults = {
   assistantEnabled: true,
   heroHeadline: "Where Global Business, Ideas & Opportunities Meet",
   heroRotatingLines: livePositioning.heroRotatingLines.map((line) => line),
-  footerDisclaimer: "F.M.I.E Demonstration Preview — Sample Editorial & Media Services",
+  footerDisclaimer: "",
 } as const;
 
 /** Exact disclaimer line required on the demonstration preview. */
