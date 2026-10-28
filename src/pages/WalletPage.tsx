@@ -36,17 +36,22 @@ function localNaira(value: number): string {
  */
 export function WalletPage() {
   const { user } = useAuth();
-  const search = useSearch({ strict: false }) as { payment?: string; reference?: string };
+  const search = useSearch({ strict: false }) as Record<string, unknown>;
+  const returnReference = isPaymentReturn(search) ? paymentReferenceFromSearch(search) : undefined;
   const getSummary = useServerFn(getWalletSummary);
   const beginPurchase = useServerFn(initializePointPurchase);
   const confirmPurchase = useServerFn(confirmPointPurchase);
+  const reconcilePurchases = useServerFn(reconcileMyPointPurchases);
   const makeWithdrawal = useServerFn(requestWalletWithdrawal);
+  const navigate = useNavigate();
   const [summary, setSummary] = useState<Awaited<ReturnType<typeof getWalletSummary>> | null>(null);
   const [loading, setLoading] = useState(true);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [buying, setBuying] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<{ state: "checking" | "succeeded" | "pending"; points: number; reference: string } | null>(null);
   const confirmedReference = useRef<string | null>(null);
+  const reconciled = useRef(false);
   const [form, setForm] = useState({
     bankName: "",
     accountNumber: "",
@@ -69,30 +74,42 @@ export function WalletPage() {
     if (user) void refresh();
   }, [user, refresh]);
 
+  // Coming back from the payment page: confirm it, show a receipt, then tidy the link.
   useEffect(() => {
-    if (
-      search.payment !== "return" ||
-      !search.reference ||
-      !user ||
-      confirmedReference.current === search.reference
-    )
+    if (!returnReference || !user || confirmedReference.current === returnReference) return;
+    confirmedReference.current = returnReference;
+    if (!/^fmie_points_[a-f0-9]{32}$/.test(returnReference)) {
+      setNotice("We could not read that payment link. If you paid, your points will appear here shortly.");
       return;
-    confirmedReference.current = search.reference;
-    void confirmPurchase({ data: { reference: search.reference } })
+    }
+    setReceipt({ state: "checking", points: 0, reference: returnReference });
+    void confirmPurchase({ data: { reference: returnReference } })
       .then(async (result) => {
-        setNotice(
-          result.status === "succeeded"
-            ? "Payment confirmed. Points have been added to your research wallet."
-            : "Payment is still being confirmed. Your wallet will update once it is verified.",
-        );
+        setReceipt({ state: result.status, points: result.points, reference: returnReference });
         await refresh();
       })
       .catch((error: unknown) => {
-        setNotice(
-          error instanceof Error ? error.message : "Payment confirmation is still pending.",
-        );
+        setReceipt(null);
+        setNotice(error instanceof Error ? error.message : "We could not check your payment yet.");
+      })
+      .finally(() => {
+        void navigate({ to: "/wallet", search: {}, replace: true });
       });
-  }, [confirmPurchase, refresh, search.payment, search.reference, user]);
+  }, [confirmPurchase, navigate, refresh, returnReference, user]);
+
+  // Safety net: credit any earlier payment that went through but was never confirmed.
+  useEffect(() => {
+    if (!user || returnReference || reconciled.current) return;
+    reconciled.current = true;
+    void reconcilePurchases()
+      .then(async (result) => {
+        if (result.credited > 0) {
+          setNotice(`Good news: ${result.points.toLocaleString()} points from an earlier payment were added to your wallet.`);
+          await refresh();
+        }
+      })
+      .catch(() => undefined);
+  }, [reconcilePurchases, refresh, returnReference, user]);
 
   const cashMinor = summary?.cashMinor ?? 0;
   const pointsBalance = summary?.points ?? 0;
