@@ -98,6 +98,7 @@ export function VideoShowcaseCard({ className }: { className?: string }) {
         {/* Clean picture — nothing overlaps it */}
         {hasVideo ? (
           <video
+            key={showcaseVideoUrl}
             ref={videoRef}
             autoPlay
             loop
@@ -120,7 +121,9 @@ export function VideoShowcaseCard({ className }: { className?: string }) {
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
           >
-            <source src={showcaseVideoUrl.replace(/\.mp4(?:\?.*)?$/i, ".webm")} type="video/webm" />
+            {showcaseVideoUrl.startsWith("/") ? (
+              <source src={showcaseVideoUrl.replace(/\.mp4(?:\?.*)?$/i, ".webm")} type="video/webm" />
+            ) : null}
             <source src={showcaseVideoUrl} type="video/mp4" />
           </video>
         ) : (

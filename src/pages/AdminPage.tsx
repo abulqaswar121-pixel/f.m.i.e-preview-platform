@@ -51,7 +51,8 @@ export type AdminTab =
   | "content"
   | "platform"
   | "commerce"
-  | "audience";
+  | "audience"
+  | "team";
 
 const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "overview", label: "Platform overview", icon: Gauge },
@@ -65,9 +66,14 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
   { id: "platform", label: "Homepage video & settings", icon: Clapperboard },
   { id: "commerce", label: "Commerce & orders", icon: Boxes },
   { id: "audience", label: "Audience & enquiries", icon: Users },
+  { id: "team", label: "Admin team", icon: Users },
 ];
 
 import { ContentManagerPanel } from "@/components/admin/ContentManager";
+import { NewsroomPanel } from "@/components/admin/NewsroomPanel";
+import { VideoLibraryPanel } from "@/components/admin/VideoLibraryPanel";
+import { AdminTeamPanel } from "@/components/admin/AdminTeamPanel";
+import { useSuperAdmin } from "@/hooks/useSuperAdmin";
 import { CloudPayoutQueue } from "@/components/admin/CloudPayoutQueue";
 import { KitRequestList } from "@/components/shop/KitRequestList";
 import { CloudPressQueue } from "@/components/admin/CloudPressQueue";
@@ -91,6 +97,7 @@ export function AdminPage() {
     ? (search.tab as AdminTab)
     : "overview";
   const { user, isAdmin } = useAuth();
+  const isSuperAdmin = useSuperAdmin();
   const database = useDatabase();
   useEffectSync(() => {
     void api.surveys.syncCloud();
@@ -769,7 +776,8 @@ export function AdminPage() {
 
         {tab === "kits" ? <KitRequestList admin /> : null}
 
-        {tab === "content" ? <ContentManagerPanel /> : null}
+        {tab === "content" ? <div className="space-y-8"><NewsroomPanel /><ContentManagerPanel /></div> : null}
+        {tab === "team" ? (isSuperAdmin ? <AdminTeamPanel /> : <p className="text-sm text-brand-slate">Only the super admin can manage the admin team.</p>) : null}
 
         {tab === "platform" ? <PlatformSettingsPanel /> : null}
 
@@ -1141,6 +1149,7 @@ function PlatformSettingsPanel() {
 
   return (
     <section className="space-y-6">
+      <VideoLibraryPanel />
       <div>
         <h2 className="font-display text-xl font-semibold text-brand-charcoal">
           Showcase film manager

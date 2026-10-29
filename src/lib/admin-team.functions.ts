@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -10,10 +12,7 @@ export interface TeamMember {
   isSuperAdmin: boolean;
 }
 
-async function assertSuperAdmin(context: {
-  supabase: { rpc: (fn: "is_super_admin", args: { _user_id: string }) => PromiseLike<{ data: boolean | null }> };
-  userId: string;
-}): Promise<void> {
+async function assertSuperAdmin(context: { supabase: SupabaseClient<Database>; userId: string }): Promise<void> {
   const { data } = await context.supabase.rpc("is_super_admin", { _user_id: context.userId });
   if (!data) throw new Error("Only the super admin can manage admin access.");
 }
