@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
 import { countries, industries } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
-import { AGE_RANGES, GENDERS, LIFE_STAGES } from "@/lib/audience";
+import { AGE_RANGES, GENDERS, LIFE_STAGES, OCCUPATIONS } from "@/lib/audience";
 import { supabase } from "@/integrations/supabase/client";
 
 const inputClass =
@@ -58,6 +58,7 @@ export function RegisterPage() {
     country: string;
     industry: string;
     gender: string;
+    occupation: string;
     ageRange: string;
     lifeStage: string;
     consent: boolean;
@@ -72,6 +73,7 @@ export function RegisterPage() {
     country: countries[0] ?? "United Kingdom",
     industry: industries[0] ?? "Technology",
     gender: "",
+    occupation: "",
     ageRange: "",
     lifeStage: "",
     consent: false,
@@ -123,6 +125,7 @@ export function RegisterPage() {
             joinedFor: intent,
             audience: {
               gender: form.gender,
+              occupation: form.occupation,
               ageRange: form.ageRange,
               lifeStage: form.lifeStage,
             },
@@ -294,6 +297,7 @@ export function RegisterPage() {
             </label>
             {(
               [
+                ["occupation", "Occupation", OCCUPATIONS],
                 ["gender", "Gender", GENDERS],
                 ["ageRange", "Age range", AGE_RANGES],
                 ["lifeStage", "Life stage", LIFE_STAGES],

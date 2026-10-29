@@ -11,6 +11,9 @@ import { primaryRole } from "@/lib/roles";
 import { api, useDatabase } from "@/services/api";
 import type { NotificationPreferences, User, UserRole } from "@/types";
 
+/** Set before leaving for Google; read when the member comes back signed in. */
+export const POST_SIGN_IN_KEY = "fmie:post-sign-in";
+
 type ProfileUpdate = Database["public"]["Tables"]["profiles"]["Update"];
 
 interface MemberAccount {
@@ -120,6 +123,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSessionKnown(true);
       if (event === "USER_UPDATED") setReloadKey((key) => key + 1);
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      if (event === "SIGNED_IN" && next) {
+        const target = window.sessionStorage.getItem(POST_SIGN_IN_KEY);
+        if (target) {
+          window.sessionStorage.removeItem(POST_SIGN_IN_KEY);
+          void router.navigate({ to: target, replace: true } as unknown as Parameters<typeof router.navigate>[0]);
+        }
+      }
       void router.invalidate();
       if (event !== "SIGNED_OUT") void queryClient.invalidateQueries();
     });
@@ -172,6 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       lifeStage: (asRecord(account.preferences["audience"])["lifeStage"] as string | undefined) || undefined,
       gender: (asRecord(account.preferences["audience"])["gender"] as string | undefined) || undefined,
       ageRange: (asRecord(account.preferences["audience"])["ageRange"] as string | undefined) || undefined,
+      occupation: (asRecord(account.preferences["audience"])["occupation"] as string | undefined) || undefined,
       joinedAt: account.joinedAt,
       notificationPreferences: readNotifications(account.preferences),
     };
@@ -209,9 +220,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         next.preferences = { ...next.preferences, notifications: patch.notificationPreferences };
         update.preferences = next.preferences as Json;
       }
-      if (patch.gender !== undefined || patch.ageRange !== undefined || patch.lifeStage !== undefined) {
+      if (patch.gender !== undefined || patch.occupation !== undefined || patch.ageRange !== undefined || patch.lifeStage !== undefined) {
         const audience = { ...asRecord(next.preferences["audience"]) };
         if (patch.gender !== undefined) audience["gender"] = (patch.gender ?? "").slice(0, 40);
+        if (patch.occupation !== undefined) audience["occupation"] = (patch.occupation ?? "").slice(0, 60);
         if (patch.ageRange !== undefined) audience["ageRange"] = (patch.ageRange ?? "").slice(0, 40);
         if (patch.lifeStage !== undefined) audience["lifeStage"] = (patch.lifeStage ?? "").slice(0, 60);
         next.preferences = { ...next.preferences, audience };
