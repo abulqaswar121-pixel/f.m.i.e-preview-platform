@@ -114,7 +114,7 @@ export function RegisterPage() {
       email,
       password: form.password,
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: `${window.location.origin}/signin`,
         data: {
           name: form.name.trim(),
           organization: form.organization.trim(),
