@@ -212,7 +212,7 @@ export const getPaidPressQueue = createServerFn({ method: "GET" })
     await requireAdmin(context);
     const { data, error } = await context.supabase
       .from("press_releases")
-      .select(`${BOOKING_COLUMNS}, content_draft, contact_name, contact_email, contact_phone`)
+      .select(`${BOOKING_COLUMNS}, content_draft, contact_name, contact_email, contact_phone, attachments`)
       .not("paid_at", "is", null)
       .order("paid_at", { ascending: false })
       .limit(100);
@@ -223,6 +223,7 @@ export const getPaidPressQueue = createServerFn({ method: "GET" })
       contactName: row.contact_name,
       contactEmail: row.contact_email,
       contactPhone: row.contact_phone,
+      attachments: Array.isArray(row.attachments) ? row.attachments.filter((path): path is string => typeof path === "string") : [],
     }));
   });
 
