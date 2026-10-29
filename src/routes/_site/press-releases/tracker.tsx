@@ -13,6 +13,8 @@ export const Route = createFileRoute("/_site/press-releases/tracker")({
       { property: "og:description", content: "See where each of your press releases is, from payment to published." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
     ],
   }),
 });

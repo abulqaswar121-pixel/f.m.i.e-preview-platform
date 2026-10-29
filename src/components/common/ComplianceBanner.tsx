@@ -72,10 +72,10 @@ export function ComplianceBanner({
 
   return (
     <aside
-      className={cn("rounded-lg border-l-4 border p-5 sm:p-6", definition.tone, className)}
+      className={cn("min-w-0 max-w-full break-words rounded-lg border-l-4 border p-4 sm:p-6", definition.tone, className)}
       aria-label={definition.title}
     >
-      <div className="flex gap-4">
+      <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 sm:gap-4">
         <Icon className="mt-0.5 h-5 w-5 shrink-0 text-brand-navy" aria-hidden="true" />
         <div className="min-w-0">
           <h3 className="font-display text-base font-semibold text-brand-charcoal">

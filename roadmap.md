@@ -54,3 +54,7 @@
 - [x] Real AI writer on press booking: "Write with AI" and "Polish with AI" (fresh version each time, shows a done tag).
 - [x] Payment return reads the payment code correctly for points and press bookings; buttons say "Pay $X securely".
 - [x] Contact bar and price ticker scroll away; only the main menu bar stays fixed; tidier signed-in account button.
+
+# Phone layout and link sharing (29 Oct)
+- [x] Fix overflowing dashboard, campaign details and admin controls; check other pages at phone widths.
+- [x] Add the existing F.M.I.E share artwork to each content page and verify its tags.

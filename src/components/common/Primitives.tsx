@@ -219,11 +219,11 @@ export function KeyedList({ items }: { items: { label: string; value: ReactNode 
   return (
     <dl className="divide-y divide-brand-border rounded-lg border border-brand-border bg-white">
       {items.map((item) => (
-        <div key={item.label} className="grid gap-1 px-4 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4">
+        <div key={item.label} className="grid gap-1 px-4 py-3 sm:grid-cols-[minmax(0,10rem)_minmax(0,1fr)] sm:gap-4">
           <dt className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-slate">
             {item.label}
           </dt>
-          <dd className="text-sm text-brand-charcoal">{item.value}</dd>
+          <dd className="min-w-0 break-words text-sm text-brand-charcoal">{item.value}</dd>
         </div>
       ))}
     </dl>

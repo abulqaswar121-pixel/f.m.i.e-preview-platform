@@ -25,3 +25,6 @@
 - Team kit requests and admin quote replies use authenticated Cloud functions, never the legacy kit store; quote_minor remains NGN minor units converted to dollars for display, and only a verified administrator can set quotes.
 - The shop stays quote-led until real merchandise is approved; sample product and checkout URLs redirect to the shop so fake purchases cannot appear live.
 - Preview notices must distinguish sample editorial/local demo content from Cloud-backed member records and test payments, so connected flows are not falsely described as browser-only or live-paid.
+
+- Shared containers allow text to wrap and grid/flex children to shrink; keep wide tables inside their own scroll area so they never widen the page.
+- Content routes carry the approved shared social artwork in leaf metadata, never the root, so page-specific titles remain intact.

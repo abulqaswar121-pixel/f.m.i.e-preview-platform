@@ -607,7 +607,7 @@ export function AdminPage() {
                           </p>
                         ) : null}
                       </div>
-                      <div className="flex shrink-0 flex-wrap gap-2">
+                      <div className="grid w-full min-w-0 grid-cols-1 gap-2 sm:flex sm:w-auto sm:flex-wrap">
                         <Button
                           size="sm"
                           variant="outline"
@@ -619,7 +619,7 @@ export function AdminPage() {
                           Issue / amend quote
                         </Button>
                         <select
-                          className="rounded-md border border-brand-border bg-white px-2 py-1.5 text-xs text-brand-charcoal"
+                          className="w-full min-w-0 max-w-full rounded-md border border-brand-border bg-white px-2 py-1.5 text-xs text-brand-charcoal sm:w-auto sm:max-w-64"
                           defaultValue=""
                           aria-label={`Change status for ${booking.referenceNumber}`}
                           onChange={(event) => {

@@ -307,7 +307,7 @@ export function DashboardPage() {
 
             {user.role === "earner" ? <EarnerPortalPanel userId={user.id} /> : null}
 
-            <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+            <section className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
               <div className="rounded-lg border border-brand-border bg-white p-6">
                 <h2 className="font-display text-lg font-semibold text-brand-charcoal">
                   Recent activity
@@ -341,16 +341,16 @@ export function DashboardPage() {
                     .map((entry) => {
                       const inner = (
                         <>
-                          <p className="truncate text-sm font-semibold text-brand-charcoal">
+                          <p className="break-words text-sm font-semibold text-brand-charcoal">
                             {entry.label}
                           </p>
-                          <p className="mt-0.5 truncate text-xs text-brand-slate">{entry.meta}</p>
+                          <p className="mt-0.5 break-words text-xs text-brand-slate">{entry.meta}</p>
                         </>
                       );
                       return (
                         <li
                           key={`${entry.kind}-${entry.id}`}
-                          className="flex items-center justify-between gap-4 py-3"
+                          className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 py-3"
                         >
                           {entry.kind === "survey" ? (
                             <Link

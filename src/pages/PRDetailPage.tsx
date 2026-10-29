@@ -180,7 +180,7 @@ export function PRDetailPage() {
       <div className="fmie-container max-w-6xl space-y-8 py-10">
         <PRTimeline booking={data} />
 
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <div className="space-y-6">
             <section className="rounded-lg border border-brand-border bg-white p-6">
               <h2 className="font-display text-lg font-semibold text-brand-charcoal">
@@ -283,19 +283,19 @@ export function PRDetailPage() {
                 Commercial summary
               </h3>
               <dl className="mt-3 space-y-1.5 text-sm">
-                <div className="flex justify-between text-brand-slate">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 text-brand-slate">
                   <dt>{tier?.shortName} tier (from)</dt>
                   <dd className="tabular-nums">{formatCurrency(tier?.priceFrom ?? 0)}</dd>
                 </div>
                 {data.addOns
                   .filter((addOn) => addOn.selected)
                   .map((addOn) => (
-                    <div key={addOn.id} className="flex justify-between text-brand-slate">
+                    <div key={addOn.id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 text-brand-slate">
                       <dt className="truncate pr-2">{addOn.label}</dt>
                       <dd className="tabular-nums">{formatCurrency(addOn.price)}</dd>
                     </div>
                   ))}
-                <div className="flex justify-between border-t border-brand-border pt-2 font-semibold text-brand-charcoal">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-brand-border pt-2 font-semibold text-brand-charcoal">
                   <dt>Quoted total (excl. VAT)</dt>
                   <dd className="tabular-nums">
                     {data.quoteAmount !== undefined
@@ -334,7 +334,7 @@ export function PRDetailPage() {
         title={`Quotation for ${data.referenceNumber}`}
         description="Priced after editorial and compliance review. Valid for fourteen days."
         footer={
-          <div className="flex justify-end gap-2">
+          <div className="flex flex-wrap justify-end gap-2">
             <Button variant="outline" onClick={() => setQuoteOpen(false)}>
               Not now
             </Button>
@@ -348,19 +348,19 @@ export function PRDetailPage() {
         }
       >
         <dl className="space-y-1.5 text-sm">
-          <div className="flex justify-between text-brand-slate">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 text-brand-slate">
             <dt>{tier?.name} — preparation and coordination</dt>
             <dd className="tabular-nums">{formatCurrency(tier?.priceFrom ?? 0)}</dd>
           </div>
           {data.addOns
             .filter((addOn) => addOn.selected)
             .map((addOn) => (
-              <div key={addOn.id} className="flex justify-between text-brand-slate">
+              <div key={addOn.id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 text-brand-slate">
                 <dt>{addOn.label}</dt>
                 <dd className="tabular-nums">{formatCurrency(addOn.price)}</dd>
               </div>
             ))}
-          <div className="flex justify-between border-t border-brand-border pt-2 text-base font-semibold text-brand-charcoal">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-brand-border pt-2 text-base font-semibold text-brand-charcoal">
             <dt>Total excluding VAT</dt>
             <dd className="tabular-nums">
               {formatCurrency(data.quoteAmount ?? (tier?.priceFrom ?? 0) + addOnTotal)}

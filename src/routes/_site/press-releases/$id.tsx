@@ -11,6 +11,8 @@ export const Route = createFileRoute("/_site/press-releases/$id")({
       { property: "og:title", content: `Campaign Tracker | ${site.name}` },
       { property: "og:description", content: "Review press campaign details and status." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },],
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },],
   }),
 });
