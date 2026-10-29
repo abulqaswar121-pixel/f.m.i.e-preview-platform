@@ -128,7 +128,7 @@ export function PressReleaseTrackerPage() {
                 )}
                 {booking.status === "awaiting_payment" ? (
                   <p className="mt-3 text-xs text-brand-slate">
-                    Not paid yet. If you already paid, it will update here once Paystack confirms.
+                    Not paid yet. If you already paid, it will update here once the payment is confirmed.
                   </p>
                 ) : null}
                 {publishedUrl ? (

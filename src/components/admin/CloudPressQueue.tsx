@@ -4,11 +4,22 @@ import { useServerFn } from "@tanstack/react-start";
 
 import { Badge } from "@/components/common/Badge";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { formatUsd } from "@/lib/outlet-pricing";
 import { PRESS_DESK_STAGES, getPaidPressQueue, updatePressStage } from "@/lib/press-bookings.functions";
 
 type Booking = Awaited<ReturnType<typeof getPaidPressQueue>>[number];
 type Stage = (typeof PRESS_DESK_STAGES)[number];
+
+/** Opens a member's private press file for the team with a short-lived link. */
+async function openFile(path: string): Promise<void> {
+  const { data, error } = await supabase.storage.from("member-files").createSignedUrl(path, 300);
+  if (error || !data) {
+    toast.error("This file could not be opened.");
+    return;
+  }
+  window.open(data.signedUrl, "_blank", "noopener");
+}
 
 const STAGE_LABELS: Record<Stage, string> = {
   under_review: "In review",
@@ -106,6 +117,15 @@ export function CloudPressQueue() {
                 <p className="max-h-64 overflow-y-auto whitespace-pre-line break-words rounded-md bg-brand-cream p-3 text-xs leading-relaxed text-brand-charcoal">
                   {item.contentDraft}
                 </p>
+                {item.attachments.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {item.attachments.map((path, index) => (
+                      <Button key={path} size="sm" variant="outline" onClick={() => void openFile(path)}>
+                        Open file {index + 1}
+                      </Button>
+                    ))}
+                  </div>
+                ) : null}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block text-xs font-semibold text-brand-slate">
                     Move to

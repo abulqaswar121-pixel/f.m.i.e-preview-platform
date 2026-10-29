@@ -13,7 +13,7 @@ const steps = [
   {
     icon: WalletIcon,
     title: "1. Buy points",
-    text: "Pick a pack in your wallet and pay with Paystack. No yearly plan.",
+    text: "Pick a pack in your wallet and pay securely online. No yearly plan.",
   },
   {
     icon: Coins,

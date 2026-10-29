@@ -15,7 +15,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Modal } from "@/components/common/Modal";
 import { MarketTicker } from "@/components/layout/MarketTicker";
 import { AccountMenu } from "@/components/layout/AccountMenu";
-import { NotificationBell, WalletChip } from "@/components/layout/MemberBar";
+import { useAuth } from "@/hooks/useAuth";
 import { SocialIconLinks } from "@/components/layout/SocialIconLinks";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -194,13 +194,40 @@ function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void })
   );
 }
 
+/** Plain account links for the phone menu, so nothing opens a second pop-up. */
+function MobileAccountLinks() {
+  const { user, signOut } = useAuth();
+  if (!user) {
+    return (
+      <Button asChild variant="outline" className="w-full">
+        <Link to="/signin">Sign in</Link>
+      </Button>
+    );
+  }
+  const linkClass = "block rounded-md px-3 py-2 text-sm text-brand-charcoal hover:bg-brand-cream";
+  return (
+    <div className="space-y-1">
+      <p className="truncate px-3 text-xs text-brand-slate">{user.email}</p>
+      <Link to="/dashboard" className={linkClass}>My dashboard</Link>
+      <Link to="/wallet" className={linkClass}>My wallet</Link>
+      <button
+        type="button"
+        onClick={() => void signOut().then(() => window.location.assign("/"))}
+        className="block w-full rounded-md px-3 py-2 text-left text-sm text-danger hover:bg-brand-cream"
+      >
+        Sign out
+      </button>
+    </div>
+  );
+}
+
 export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-brand-border bg-white/95 backdrop-blur">
-      {/* Utility bar */}
+    <>
+      {/* Utility bar and ticker scroll away; only the main menu bar stays fixed. */}
       <div className="hidden bg-brand-navy-dark text-white/80 lg:block">
         <div className="fmie-container flex h-9 items-center justify-between text-[11px]">
           <p className="tracking-[0.08em]">{site.mission}</p>
@@ -219,8 +246,8 @@ export function Header() {
 
       <MarketTicker />
 
-      {/* Main bar */}
-      <div className="fmie-container flex h-16 items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 w-full border-b border-brand-border bg-white/95 backdrop-blur">
+      <div className="fmie-container flex h-16 items-center justify-between gap-3">
         <Link to="/" className="shrink-0" aria-label="F.M.I.E home">
           <Logo compact />
         </Link>
@@ -288,9 +315,7 @@ export function Header() {
           >
             <Search />
           </Button>
-          <div className="hidden items-center gap-2 md:flex">
-            <WalletChip />
-            <NotificationBell />
+          <div className="hidden items-center md:flex">
             <AccountMenu />
           </div>
           <Button
@@ -379,9 +404,7 @@ export function Header() {
                 </div>
                 <div className="mt-4 border-t border-brand-border pt-4">
                   <p className="fmie-eyebrow mb-2">Your account</p>
-                  <WalletChip />
-                  <NotificationBell />
-                  <AccountMenu />
+                  <MobileAccountLinks />
                 </div>
                 <div className="mt-4 space-y-1 border-t border-brand-border pt-4 text-xs text-brand-slate">
                   {contactRoutes.map((route) => (
@@ -400,8 +423,9 @@ export function Header() {
         </div>
       </div>
 
+      </header>
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
-    </header>
+    </>
   );
 }
 
