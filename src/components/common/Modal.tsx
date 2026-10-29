@@ -62,22 +62,22 @@ export function Modal({
         aria-label={title}
         tabIndex={-1}
         className={cn(
-          "relative z-10 flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl outline-none sm:rounded-xl",
+          "relative z-10 flex min-w-0 break-words max-h-[90vh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl outline-none sm:rounded-xl",
           size === "sm" && "sm:max-w-md",
           size === "md" && "sm:max-w-2xl",
           size === "lg" && "sm:max-w-4xl",
         )}
       >
         <header className="flex items-start justify-between gap-4 border-b border-brand-border px-6 py-4">
-          <div>
+          <div className="min-w-0">
             <h2 className="font-display text-xl font-semibold text-brand-charcoal">{title}</h2>
             {description ? <p className="mt-1 text-sm text-brand-slate">{description}</p> : null}
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close">
+          <Button variant="ghost" size="icon" className="shrink-0" onClick={onClose} aria-label="Close">
             <X />
           </Button>
         </header>
-        <div className="overflow-y-auto px-6 py-5">{children}</div>
+        <div className="min-w-0 overflow-y-auto px-6 py-5">{children}</div>
         {footer ? (
           <footer className="border-t border-brand-border bg-brand-cream px-6 py-4">
             {footer}

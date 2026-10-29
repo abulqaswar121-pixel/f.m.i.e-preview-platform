@@ -10,6 +10,8 @@ export const Route = createFileRoute("/_site/_authenticated/wallet")({
     { property: "og:title", content: "Wallet | F.M.I.E" },
     { property: "og:description", content: "View your dollar balance, buy survey points and request a withdrawal." },
     { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary" },
+    { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
   ] }),
 });

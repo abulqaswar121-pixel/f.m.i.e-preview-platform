@@ -18,7 +18,9 @@ export const Route = createFileRoute("/_site/_authenticated/dashboard")({
       { property: "og:title", content: `My Dashboard | ${site.name}` },
       { property: "og:description", content: "Surveys, press campaigns, orders and account settings in one member view." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
       {
         name: "description",
         content: "Surveys, press campaigns, orders and account settings in one member view.",

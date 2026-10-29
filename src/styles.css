@@ -259,6 +259,17 @@
     margin-inline: auto;
     padding-inline: 1rem;
     max-width: 84rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* Let text and controls shrink inside grid and flex tracks, not widen the page. */
+  .fmie-container :where(.grid > *, .flex > *) {
+    min-width: 0;
+  }
+
+  .fmie-container :where(input, select, textarea, video, img) {
+    max-width: 100%;
   }
 
   @media (min-width: 768px) {

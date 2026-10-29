@@ -11,6 +11,8 @@ export const Route = createFileRoute("/_site/services/$slug")({
       { property: "og:title", content: `Service | ${site.name}` },
       { property: "og:description", content: "Explore F.M.I.E professional services and request a quote." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },],
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },],
   }),
 });

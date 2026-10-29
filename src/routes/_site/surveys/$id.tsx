@@ -18,6 +18,8 @@ export const Route = createFileRoute("/_site/surveys/$id")({
       { property: "og:title", content: `Survey | ${site.name}` },
       { property: "og:description", content: "Read the survey details, reward and consent notice before answering." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },],
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },],
   }),
 });

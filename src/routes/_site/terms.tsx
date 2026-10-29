@@ -11,7 +11,9 @@ export const Route = createFileRoute("/_site/terms")({
       { property: "og:title", content: `Terms & Conditions | ${site.name}` },
       { property: "og:description", content: "Terms covering accounts, editorial content, surveys, distribution, services and commerce." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
       {
         name: "description",
         content:

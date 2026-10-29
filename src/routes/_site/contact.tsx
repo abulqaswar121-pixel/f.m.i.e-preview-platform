@@ -18,7 +18,9 @@ export const Route = createFileRoute("/_site/contact")({
       { property: "og:title", content: `Contact | ${site.name}` },
       { property: "og:description", content: "Contact F.M.I.E at our Lagos head office or find our international offices." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
       {
         name: "description",
         content: "Contact F.M.I.E at our Lagos head office or find our international offices.",

@@ -11,7 +11,9 @@ export const Route = createFileRoute("/_site/press-releases/")({
       { property: "og:title", content: `Global Press Releases | ${site.name}` },
       { property: "og:description", content: "Three distribution tiers, a twelve-state tracked workflow and an administrator-verified channel catalogue. No placement is ever guaranteed." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://fmie.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://fmie.lovable.app/og-image.jpg" },
       {
         name: "description",
         content:
