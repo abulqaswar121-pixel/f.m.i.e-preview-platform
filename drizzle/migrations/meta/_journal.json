@@ -64,6 +64,13 @@
       "when": 1793252369708,
       "tag": "0008_lock_super_admins",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793252378297,
+      "tag": "0009_lock_site_content_anon",
+      "breakpoints": true
     }
   ]
 }
