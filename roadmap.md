@@ -48,3 +48,9 @@
 - [ ] Receive live Paystack credentials before switching out of test mode.
 - [ ] Connect fmie.co.uk when the owner is ready; official email boxes are not active yet.
 - [ ] Replace sample editorial content and review privacy/terms for the live service before public launch.
+
+# Final fixes (29 Oct)
+- [x] One standard upload box with previews on press booking, team kits and student ID; team can open press files.
+- [x] Real AI writer on press booking: "Write with AI" and "Polish with AI" (fresh version each time, shows a done tag).
+- [x] Payment return reads the payment code correctly for points and press bookings; buttons say "Pay $X securely".
+- [x] Contact bar and price ticker scroll away; only the main menu bar stays fixed; tidier signed-in account button.
