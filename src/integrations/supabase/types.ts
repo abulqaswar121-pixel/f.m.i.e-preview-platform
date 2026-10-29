@@ -260,6 +260,105 @@ export type Database = {
         }
         Relationships: []
       }
+      site_articles: {
+        Row: {
+          author_name: string
+          category: string
+          content: string
+          cover_url: string
+          created_by: string
+          id: string
+          is_featured: boolean
+          newsletter: boolean
+          published: boolean
+          published_at: string
+          slug: string
+          subtitle: string
+          tags: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string
+          category?: string
+          content?: string
+          cover_url?: string
+          created_by?: string
+          id?: string
+          is_featured?: boolean
+          newsletter?: boolean
+          published?: boolean
+          published_at?: string
+          slug: string
+          subtitle?: string
+          tags?: Json
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          category?: string
+          content?: string
+          cover_url?: string
+          created_by?: string
+          id?: string
+          is_featured?: boolean
+          newsletter?: boolean
+          published?: boolean
+          published_at?: string
+          slug?: string
+          subtitle?: string
+          tags?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_videos: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string
+          id: string
+          storage_path: string | null
+          title: string
+          video_url: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string
+          id?: string
+          storage_path?: string | null
+          title?: string
+          video_url: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string
+          id?: string
+          storage_path?: string | null
+          title?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
+      super_admins: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       survey_answers: {
         Row: {
           answers: Json
@@ -586,6 +685,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       moderate_cloud_survey: {
         Args: { _decision: string; _note: string; _survey_id: string }
         Returns: boolean
