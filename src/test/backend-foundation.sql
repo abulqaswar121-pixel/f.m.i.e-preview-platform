@@ -1,5 +1,8 @@
 SELECT rule, passed FROM (
  SELECT 'Members cannot assign their own roles' AS rule, NOT has_table_privilege('authenticated','public.user_roles','INSERT') AS passed
+ UNION ALL SELECT 'Members cannot make themselves super admin', NOT has_table_privilege('authenticated','public.super_admins','INSERT')
+ UNION ALL SELECT 'Francis is the only super admin', (SELECT count(*) = 1 AND bool_and(u.email = 'franciserazua59@gmail.com') FROM public.super_admins s JOIN auth.users u ON u.id = s.user_id)
+ UNION ALL SELECT 'Only admins can upload site media', EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='storage' AND policyname='site_media_admin_insert' AND with_check LIKE '%has_role%')
  UNION ALL SELECT 'Visitors cannot read member profiles', NOT has_table_privilege('anon','public.profiles','SELECT')
  UNION ALL SELECT 'Members can change their display name', has_column_privilege('authenticated','public.profiles','display_name','UPDATE')
  UNION ALL SELECT 'Members cannot change wallet balances', NOT has_table_privilege('authenticated','public.wallet_accounts','UPDATE')
