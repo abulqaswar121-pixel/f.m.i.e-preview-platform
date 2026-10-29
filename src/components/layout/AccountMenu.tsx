@@ -46,7 +46,7 @@ export function AccountMenu() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="flex items-center gap-2 rounded-md border border-brand-border bg-white px-2.5 py-1.5 text-left hover:border-brand-navy/40"
+          className="flex h-9 items-center gap-2 rounded-full border border-brand-border bg-white pl-1 pr-1 text-left hover:border-brand-navy/40 2xl:pr-3"
           aria-label="Open account menu"
         >
           <Avatar className="h-7 w-7 border border-brand-border">
@@ -55,11 +55,8 @@ export function AccountMenu() {
               {initials(user.name)}
             </AvatarFallback>
           </Avatar>
-          <span className="hidden flex-col leading-tight lg:flex">
-            <span className="text-xs font-semibold text-brand-charcoal">{user.name}</span>
-            <span className="text-[10px] uppercase tracking-[0.1em] text-brand-slate">
-              {roleLabel}
-            </span>
+          <span className="hidden max-w-[8rem] truncate text-xs font-semibold text-brand-charcoal 2xl:inline">
+            {user.name.split(" ")[0]}
           </span>
         </button>
       </DropdownMenuTrigger>
@@ -68,6 +65,9 @@ export function AccountMenu() {
           <span className="block text-sm font-semibold text-brand-charcoal">{user.name}</span>
           <span className="block truncate text-[11px] font-normal text-brand-slate">
             {user.email}
+          </span>
+          <span className="mt-1 block text-[10px] font-medium uppercase tracking-[0.1em] text-brand-slate">
+            {roleLabel}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
