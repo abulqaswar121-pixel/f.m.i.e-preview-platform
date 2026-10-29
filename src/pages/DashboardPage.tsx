@@ -744,7 +744,7 @@ export function DashboardPage() {
                 <p className="mt-4 text-xs text-brand-slate">
                   These help us show you surveys meant for people like you. All are optional.
                 </p>
-                <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                <div className="mt-2 grid gap-3 sm:grid-cols-2">
                   {(
                     [
                       ["occupation", "Occupation", OCCUPATIONS],
