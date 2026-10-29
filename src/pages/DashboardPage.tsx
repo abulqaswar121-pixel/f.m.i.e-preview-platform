@@ -34,7 +34,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { api, downloadTextFile, useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
 import { KitRequestList } from "@/components/shop/KitRequestList";
-import { AGE_RANGES, GENDERS, LIFE_STAGES } from "@/lib/audience";
+import { AGE_RANGES, GENDERS, LIFE_STAGES, OCCUPATIONS } from "@/lib/audience";
 import type { PayoutRequest, WalletTransaction } from "@/types";
 import type { Survey, SurveyStatus } from "@/types";
 
@@ -77,6 +77,7 @@ export function DashboardPage() {
     location: user?.location ?? "",
     organization: user?.organization ?? "",
     gender: user?.gender ?? "",
+    occupation: user?.occupation ?? "",
     ageRange: user?.ageRange ?? "",
     lifeStage: user?.lifeStage ?? "",
   });
@@ -170,6 +171,7 @@ export function DashboardPage() {
         location: profile.location.trim(),
         organization: profile.organization.trim(),
         gender: profile.gender,
+        occupation: profile.occupation,
         ageRange: profile.ageRange,
         lifeStage: profile.lifeStage,
       });
@@ -254,6 +256,19 @@ export function DashboardPage() {
       </header>
 
       <div className="fmie-container space-y-8 py-10">
+        {tab !== "account" && (!user.occupation || !user.gender || !user.ageRange || !user.lifeStage) ? (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-brand-navy/30 bg-brand-navy/5 p-4">
+            <div>
+              <p className="text-sm font-semibold text-brand-charcoal">Finish your profile</p>
+              <p className="text-xs text-brand-slate">
+                Add your occupation, gender, age and life stage so we can send you surveys meant for you.
+              </p>
+            </div>
+            <Button asChild size="sm" className="bg-brand-navy text-white hover:bg-brand-navy-light">
+              <Link to="/dashboard" search={{ tab: "account" }}>Complete profile</Link>
+            </Button>
+          </div>
+        ) : null}
         {tab === "overview" ? (
           <>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -732,6 +747,7 @@ export function DashboardPage() {
                 <div className="mt-2 grid gap-3 sm:grid-cols-3">
                   {(
                     [
+                      ["occupation", "Occupation", OCCUPATIONS],
                       ["gender", "Gender", GENDERS],
                       ["ageRange", "Age range", AGE_RANGES],
                       ["lifeStage", "Life stage", LIFE_STAGES],

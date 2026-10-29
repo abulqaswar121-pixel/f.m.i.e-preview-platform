@@ -166,6 +166,7 @@ export interface User {
   location?: string | undefined;
   lifeStage?: string | undefined;
   gender?: string | undefined;
+  occupation?: string | undefined;
   ageRange?: string | undefined;
   joinedAt?: string | undefined;
   notificationPreferences?: NotificationPreferences | undefined;

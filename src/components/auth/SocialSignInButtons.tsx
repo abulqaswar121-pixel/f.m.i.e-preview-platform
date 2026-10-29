@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
+import { POST_SIGN_IN_KEY } from "@/components/providers/AuthProvider";
 
 type Provider = "google";
 
@@ -35,11 +36,16 @@ export function SocialSignInButtons() {
 
   const start = async (provider: Provider) => {
     setBusy(provider);
+    // Members always land inside their portal after Google sign-in.
+    const next = new URLSearchParams(window.location.search).get("next");
+    const target = next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+    window.sessionStorage.setItem(POST_SIGN_IN_KEY, target);
     const result = await lovable.auth.signInWithOAuth(provider, {
       redirect_uri: window.location.origin,
     });
     if (result.redirected) return;
     setBusy(null);
+    window.sessionStorage.removeItem(POST_SIGN_IN_KEY);
     if (result.error) {
       toast.error("Sign-in didn't finish", {
         description: "Please try again, or use your email and password.",
