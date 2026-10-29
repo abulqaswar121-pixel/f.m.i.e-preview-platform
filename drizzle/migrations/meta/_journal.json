@@ -57,6 +57,13 @@
       "when": 1793252011226,
       "tag": "0007_admin_news_video_superadmin",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793252369708,
+      "tag": "0008_lock_super_admins",
+      "breakpoints": true
     }
   ]
 }
