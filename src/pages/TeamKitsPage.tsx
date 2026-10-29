@@ -81,7 +81,7 @@ export function TeamKitsPage() {
         ]}
       />
 
-      <div className="fmie-container grid grid-cols-1 gap-8 py-10 lg:grid-cols-[1.5fr_1fr]">
+      <div className="fmie-container grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <div className="space-y-6">
           {submitted ? (
             <p className="rounded-lg border border-brand-gold/60 bg-brand-gold/10 px-4 py-3 text-sm text-brand-charcoal">
@@ -89,7 +89,7 @@ export function TeamKitsPage() {
             </p>
           ) : null}
 
-          <section className="rounded-lg border border-brand-border bg-white p-6 shadow-sm">
+          <section className="rounded-lg border border-brand-border bg-white p-4 shadow-sm sm:p-6">
             <h2 className="font-display text-lg font-bold text-brand-charcoal">Team details</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <label className="block text-xs font-semibold text-brand-slate">
@@ -158,8 +158,8 @@ export function TeamKitsPage() {
             </div>
           </section>
 
-          <section className="rounded-lg border border-brand-border bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
+          <section className="rounded-lg border border-brand-border bg-white p-4 shadow-sm sm:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="font-display text-lg font-bold text-brand-charcoal">Player roster</h2>
               <Button
                 variant="outline"
@@ -178,10 +178,10 @@ export function TeamKitsPage() {
               {roster.map((row, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-[minmax(0,1fr)_3rem_4.25rem_2.25rem] gap-1.5 sm:grid-cols-[minmax(0,1fr)_4.5rem_5.5rem_2.5rem] sm:gap-2"
+                  className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2 sm:grid-cols-[minmax(0,1fr)_4.5rem_5.5rem_2.5rem]"
                 >
                   <input
-                    className={inputClass}
+                    className={`${inputClass} col-span-3 sm:col-span-1`}
                     value={row.name}
                     onChange={(e) => setRow(index, { name: e.target.value })}
                     placeholder="Player name"
@@ -218,7 +218,7 @@ export function TeamKitsPage() {
             </div>
           </section>
 
-          <section className="rounded-lg border border-brand-border bg-white p-6 shadow-sm">
+          <section className="rounded-lg border border-brand-border bg-white p-4 shadow-sm sm:p-6">
             <h2 className="font-display text-lg font-bold text-brand-charcoal">
               Order specifications
             </h2>
