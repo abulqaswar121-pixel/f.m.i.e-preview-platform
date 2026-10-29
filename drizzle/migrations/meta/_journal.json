@@ -50,6 +50,13 @@
       "when": 1792994317257,
       "tag": "0006_paid_press_bookings",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793252011226,
+      "tag": "0007_admin_news_video_superadmin",
+      "breakpoints": true
     }
   ]
 }
