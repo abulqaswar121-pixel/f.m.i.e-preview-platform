@@ -2311,3 +2311,21 @@ export const api = {
 };
 
 export type Api = typeof api;
+
+/**
+ * Merge saved newsroom articles and the current homepage film from Lovable
+ * Cloud into the shared site data, so every page that lists news sees them.
+ * Cloud articles use ids prefixed "cloud-" and replace earlier copies.
+ */
+export function applyCloudContent(input: { articles: Article[]; videoUrl: string | null }): void {
+  hydrateDatabase();
+  const local = database.articles.filter((article) => !article.id.startsWith("cloud-"));
+  database = {
+    ...database,
+    articles: [...input.articles, ...local],
+    settings: input.videoUrl
+      ? { ...database.settings, showcaseVideoUrl: input.videoUrl }
+      : database.settings,
+  };
+  emit();
+}
