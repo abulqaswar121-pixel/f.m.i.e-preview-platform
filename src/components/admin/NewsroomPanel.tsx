@@ -90,8 +90,8 @@ export function NewsroomPanel() {
 
   async function save(publish: boolean) {
     if (!draft) return;
-    if (draft.title.trim().length < 6) return toast.error("Add a headline (at least 6 letters).");
-    if (draft.body.trim().length < 40) return toast.error("Write the story (at least a few sentences).");
+    if (draft.title.trim().length < 6) { toast.error("Add a headline (at least 6 letters)."); return; }
+    if (draft.body.trim().length < 40) { toast.error("Write the story (at least a few sentences)."); return; }
     setSaving(true);
     try {
       let coverUrl = cover.length ? draft.coverUrl : "";
@@ -125,7 +125,7 @@ export function NewsroomPanel() {
 
   async function togglePublished(row: CloudArticleRow) {
     const { error } = await supabase.from("site_articles").update({ published: !row.published }).eq("id", row.id);
-    if (error) return toast.error("Could not update the story.");
+    if (error) { toast.error("Could not update the story."); return; }
     toast.success(row.published ? "Story hidden from the site." : "Story is live again.");
     await reload();
     notifyCloudContentChanged();
@@ -134,7 +134,7 @@ export function NewsroomPanel() {
   async function remove(row: CloudArticleRow) {
     if (!window.confirm(`Delete “${row.title}” for good?`)) return;
     const { error } = await supabase.from("site_articles").delete().eq("id", row.id);
-    if (error) return toast.error("Could not delete the story.");
+    if (error) { toast.error("Could not delete the story."); return; }
     toast.success("Story deleted.");
     await reload();
     notifyCloudContentChanged();

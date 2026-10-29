@@ -1,0 +1,1 @@
+REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON public.site_articles, public.site_videos FROM anon;

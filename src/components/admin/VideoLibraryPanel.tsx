@@ -28,7 +28,7 @@ export function VideoLibraryPanel() {
   }, []);
 
   async function upload() {
-    if (!file) return toast.error("Choose a video first.");
+    if (!file) { toast.error("Choose a video first."); return; }
     setBusy(true);
     try {
       const { path, url } = await uploadSiteMedia(file, "videos");
@@ -51,7 +51,7 @@ export function VideoLibraryPanel() {
 
   async function toggle(video: CloudVideoRow) {
     const { error } = await supabase.from("site_videos").update({ active: !video.active }).eq("id", video.id);
-    if (error) return toast.error("Could not update the video.");
+    if (error) { toast.error("Could not update the video."); return; }
     await reload();
     notifyCloudContentChanged();
   }
@@ -60,7 +60,7 @@ export function VideoLibraryPanel() {
     if (!window.confirm("Delete this video for good?")) return;
     if (video.storage_path) await supabase.storage.from(SITE_MEDIA_BUCKET).remove([video.storage_path]);
     const { error } = await supabase.from("site_videos").delete().eq("id", video.id);
-    if (error) return toast.error("Could not delete the video.");
+    if (error) { toast.error("Could not delete the video."); return; }
     toast.success("Video deleted.");
     await reload();
     notifyCloudContentChanged();

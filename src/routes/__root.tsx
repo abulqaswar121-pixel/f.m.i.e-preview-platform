@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { CloudContentSync } from "@/components/providers/CloudContentSync";
 import { CartProvider } from "@/components/providers/CartProvider";
 import { site } from "@/config/site";
 
@@ -113,6 +114,7 @@ function RootComponent() {
       <AuthProvider>
         <CartProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <CloudContentSync />
           <Outlet />
           <Toaster
             position="top-center"
