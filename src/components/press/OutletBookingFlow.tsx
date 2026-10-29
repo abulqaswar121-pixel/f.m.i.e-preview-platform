@@ -6,7 +6,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, CreditCard, Loader2, PenLine, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { contactEmail } from "@/config/site";
+import { FileDropzone, type DropzoneItem } from "@/components/common/FileDropzone";
+import { supabase } from "@/integrations/supabase/client";
+import { paymentReferenceFromSearch, isPaymentReturn } from "@/lib/payment-return";
+import { writePressRelease } from "@/lib/press-writer.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { confirmPressBooking, startPressBooking } from "@/lib/press-bookings.functions";
 import { api } from "@/services/api";
@@ -33,105 +36,6 @@ const ANNOUNCEMENTS = [
 ] as const;
 
 
-function hash(text: string): number {
-  let h = 0;
-  for (let i = 0; i < text.length; i += 1) h = (h * 31 + text.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
-
-interface Brief {
-  companyName: string;
-  industry: string;
-  country: string;
-  announcementType: string;
-  keyPoints: string;
-  quote: string;
-  quoteAttribution: string;
-}
-
-/**
- * Simulated AI drafting assistant: turns the client's brief into a full
- * professional release (dateline, lead, detail, quote, boilerplate, media
- * contact) which the client then edits freely. Clearly labelled as a demo.
- */
-function aiDraft(
-  brief: Brief,
-  contactName: string,
-  contactMail: string,
-): {
-  headline: string;
-  subhead: string;
-  body: string;
-} {
-  const company = brief.companyName.trim() || "The company";
-  const industry = brief.industry.trim() || "its sector";
-  const ann =
-    ANNOUNCEMENTS.find((entry) => entry.id === brief.announcementType) ?? ANNOUNCEMENTS[0];
-  const points = brief.keyPoints
-    .split(/\n|;/)
-    .map((entry) => entry.trim())
-    .filter(Boolean);
-  const topic = points[0] ?? `a ${ann.noun}`;
-  const seed = hash(company + topic);
-  const significance = [
-    "a decisive step in its growth strategy",
-    "the culmination of eighteen months of internal development",
-    "its most significant announcement of the year",
-    "a response to sustained demand from institutional clients",
-  ][seed % 4];
-  const benefit = [
-    "with availability confirmed for the coming quarter",
-    "backed by a dedicated delivery and support team",
-    "alongside a published implementation timeline",
-    "with independent audit coverage planned",
-  ][seed % 4];
-  const dateLong = new Date().toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const city = brief.country.trim() === "Nigeria" ? "Lagos" : "London";
-
-  const headline = `${company} Announces ${topic.charAt(0).toUpperCase() + topic.slice(1)}`;
-  const subhead = `${company} confirms ${topic}${points[1] ? `, alongside ${points[1]}` : ""} — ${benefit}.`;
-  const detail = points.length
-    ? `The announcement covers: ${points.join("; ")}.`
-    : `The announcement sets out the scope, timeline and accountability structure for the ${ann.noun}.`;
-  const quote =
-    brief.quote.trim() ||
-    `This ${ann.noun} reflects what our clients have asked us for: clarity, speed and accountability. We are publishing our commitments so they can be measured.`;
-  const attribution = brief.quoteAttribution.trim() || `Spokesperson, ${company}`;
-
-  const body = [
-    `${city.toUpperCase()}, ${brief.country || "United Kingdom"} — ${dateLong}. ${company}, an organisation operating in ${industry}, today announced ${topic}, marking ${significance}.`,
-    detail,
-    `“${quote}” — ${attribution}.`,
-    `About ${company}: ${company} operates in ${industry}, serving clients across the United Kingdom, Nigeria and wider international markets.`,
-    `Media contact: ${contactName || "Press Office"}, ${contactMail}.`,
-  ].join("\n\n");
-
-  return { headline, subhead, body };
-}
-
-/** Simulated tone-and-clarity refinement — clearly labelled as a demo assistant. */
-function aiPolish(
-  headline: string,
-  subhead: string,
-  body: string,
-): { headline: string; subhead: string; body: string } {
-  const tidy = (text: string): string =>
-    text
-      .replace(/\s+/g, " ")
-      .trim()
-      .replace(/(^|[—.!?]\s+)([a-z])/g, (_m, p1, p2) => p1 + (p2.toUpperCase() as string));
-  const head = tidy(headline).replace(/\.$/, "");
-  return {
-    headline: head ? head.charAt(0).toUpperCase() + head.slice(1) : head,
-    subhead: tidy(subhead),
-    body: tidy(body),
-  };
-}
-
 const inputClass = "mt-1 w-full rounded-md border border-brand-border px-3 py-2 text-sm";
 
 /**
@@ -142,7 +46,11 @@ const inputClass = "mt-1 w-full rounded-md border border-brand-border px-3 py-2 
  */
 export function OutletBookingFlow() {
   const { user, isSignedIn } = useAuth();
-  const search = useSearch({ strict: false }) as { payment?: string; reference?: string };
+  const search = useSearch({ strict: false }) as Record<string, unknown>;
+  const returnReference = isPaymentReturn(search) ? paymentReferenceFromSearch(search) : undefined;
+  const writePress = useServerFn(writePressRelease);
+  const [media, setMedia] = useState<{ item: DropzoneItem; file: File }[]>([]);
+  const [aiUsed, setAiUsed] = useState<"drafted" | "polished" | null>(null);
   const startBooking = useServerFn(startPressBooking);
   const confirmBooking = useServerFn(confirmPressBooking);
   const [channels, setChannels] = useState<DistributionChannel[]>([]);
@@ -170,7 +78,6 @@ export function OutletBookingFlow() {
     country: "United Kingdom",
     websiteUrl: "",
     targetDate: "",
-    images: "",
     announcementType: "launch",
     keyPoints: "",
     quote: "",
@@ -211,19 +118,20 @@ export function OutletBookingFlow() {
 
   // Coming back from Paystack: check the payment, then show the reference.
   useEffect(() => {
-    if (search.payment !== "return" || !search.reference || !user) return;
-    if (confirmedReference.current === search.reference) return;
-    confirmedReference.current = search.reference;
+    if (!returnReference || !user) return;
+    if (confirmedReference.current === returnReference) return;
+    confirmedReference.current = returnReference;
     setChecking(true);
-    void confirmBooking({ data: { reference: search.reference } })
+    void confirmBooking({ data: { reference: returnReference } })
       .then((result) => {
         if (result.status === "succeeded") {
           window.localStorage.removeItem(DRAFT_KEY);
+          window.history.replaceState(null, "", window.location.pathname);
           setReference(result.referenceNumber);
         } else {
           setStep(3);
           setNotice(
-            `We are still waiting for Paystack to confirm your payment (booking ${result.referenceNumber}). It will show in My requests once confirmed. Please don't pay twice.`,
+            `We are still waiting for the payment to be confirmed (booking ${result.referenceNumber}). It will show in My requests once confirmed. Please don't pay twice.`,
           );
         }
       })
@@ -232,7 +140,7 @@ export function OutletBookingFlow() {
         setNotice(error instanceof Error ? error.message : "We could not check your payment yet.");
       })
       .finally(() => setChecking(false));
-  }, [confirmBooking, search.payment, search.reference, user]);
+  }, [confirmBooking, returnReference, user]);
 
   // Moving between steps starts the new step from its top, not mid-page.
   useEffect(() => {
@@ -253,22 +161,72 @@ export function OutletBookingFlow() {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   }
 
-  function draftWithAi(): void {
-    setDrafting(true);
+  async function runWriter(mode: "draft" | "polish"): Promise<void> {
+    if (!isSignedIn) {
+      setNotice("Please sign in to use the AI writer. Your text stays saved on this device.");
+      return;
+    }
+    if (mode === "draft") setDrafting(true);
+    else setPolishing(true);
     setNotice(null);
-    setTimeout(() => {
-      const draft = aiDraft(form, form.contactName, form.contactEmail || contactEmail.press);
-      setForm((prev) => ({
-        ...prev,
-        headline: prev.headline.trim() ? prev.headline : draft.headline,
-        subhead: prev.subhead.trim() ? prev.subhead : draft.subhead,
-        body: prev.body.trim() ? `${prev.body}\n\n${draft.body}` : draft.body,
-      }));
-      setDrafting(false);
+    try {
+      const result =
+        mode === "draft"
+          ? await writePress({
+              data: {
+                mode: "draft",
+                companyName: form.companyName,
+                industry: form.industry,
+                country: form.country,
+                announcementType:
+                  ANNOUNCEMENTS.find((entry) => entry.id === form.announcementType)?.label ?? form.announcementType,
+                keyPoints: form.keyPoints,
+                quote: form.quote,
+                quoteAttribution: form.quoteAttribution,
+                contactName: form.contactName,
+                contactEmail: form.contactEmail,
+              },
+            })
+          : await writePress({
+              data: { mode: "polish", headline: form.headline, subhead: form.subhead, body: form.body },
+            });
+      setForm((prev) => ({ ...prev, ...result }));
+      setAiUsed(mode === "draft" ? "drafted" : "polished");
       setNotice(
-        "AI Drafting Assistant (simulated): a full release draft was written from your brief — edit every line before continuing.",
+        mode === "draft"
+          ? "Done — the AI wrote a new draft below. Read it and change anything you like."
+          : "Done — your article was polished. You can polish again for another version.",
       );
-    }, 900);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "The AI writer could not finish. Please try again.");
+    } finally {
+      setDrafting(false);
+      setPolishing(false);
+    }
+  }
+
+  function addMedia(files: File[]): void {
+    setMedia((prev) => [
+      ...prev,
+      ...files.map((file) => ({
+        file,
+        item: {
+          id: crypto.randomUUID(),
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          previewUrl: URL.createObjectURL(file),
+        },
+      })),
+    ]);
+  }
+
+  function removeMedia(id: string): void {
+    setMedia((prev) => {
+      const gone = prev.find((entry) => entry.item.id === id);
+      if (gone?.item.previewUrl) URL.revokeObjectURL(gone.item.previewUrl);
+      return prev.filter((entry) => entry.item.id !== id);
+    });
   }
 
   async function pay(): Promise<void> {
@@ -278,7 +236,18 @@ export function OutletBookingFlow() {
     }
     setPaying(true);
     setNotice(null);
+    const uploaded: string[] = [];
     try {
+      if (media.length && user) {
+        setMedia((prev) => prev.map((entry) => ({ ...entry, item: { ...entry.item, status: "uploading" } })));
+        for (const entry of media) {
+          const path = `${user.id}/press/${crypto.randomUUID()}-${entry.file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80)}`;
+          const { error: uploadError } = await supabase.storage.from("member-files").upload(path, entry.file);
+          if (uploadError) throw new Error(`"${entry.file.name}" could not be uploaded. Please try again.`);
+          uploaded.push(path);
+        }
+        setMedia((prev) => prev.map((entry) => ({ ...entry, item: { ...entry.item, status: "done" } })));
+      }
       const result = await startBooking({
         data: {
           outletIds: chosen.map((channel) => channel.id),
@@ -293,14 +262,14 @@ export function OutletBookingFlow() {
           contactPhone: form.contactPhone,
           websiteUrl: form.websiteUrl,
           targetDate: form.targetDate,
-          images: form.images
-            ? form.images.split(",").map((entry) => entry.trim()).filter(Boolean).slice(0, 20)
-            : [],
+          images: uploaded,
           editorialAccepted: true,
         },
       });
       window.location.assign(result.authorizationUrl);
     } catch (error) {
+      if (uploaded.length) await supabase.storage.from("member-files").remove(uploaded);
+      setMedia((prev) => prev.map((entry) => ({ ...entry, item: { ...entry.item, status: undefined } })));
       setNotice(error instanceof Error ? error.message : "The payment could not be started. Please try again.");
       setPaying(false);
     }
@@ -377,8 +346,8 @@ export function OutletBookingFlow() {
               </h3>
             </div>
             <p className="text-xs leading-relaxed text-brand-slate">
-              Tell the assistant what you want to announce and it drafts a full release for you to
-              edit. Nothing is paid or sent at this step — you pay only after you check everything.
+              Give the AI a few key points and it writes a full release for you. It never adds facts
+              you did not give. Nothing is paid at this step.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-xs font-semibold text-brand-slate">
@@ -454,12 +423,12 @@ export function OutletBookingFlow() {
               </label>
             </div>
             <Button
-              onClick={draftWithAi}
-              disabled={drafting}
+              onClick={() => void runWriter("draft")}
+              disabled={drafting || polishing || form.keyPoints.trim().length < 3}
               className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
             >
               <Sparkles className="mr-2 h-4 w-4" />
-              {drafting ? "Drafting your release…" : "Draft my release with AI help"}
+              {drafting ? "Writing your release…" : form.body.trim() ? "Write a new draft with AI" : "Write my release with AI"}
             </Button>
           </div>
 
@@ -492,23 +461,24 @@ export function OutletBookingFlow() {
                 onChange={(e) => setForm((p) => ({ ...p, body: e.target.value }))}
               />
             </label>
-            <Button
-              variant="outline"
-              disabled={polishing}
-              onClick={() => {
-                setPolishing(true);
-                setTimeout(() => {
-                  setForm((p) => ({ ...p, ...aiPolish(p.headline, p.subhead, p.body) }));
-                  setPolishing(false);
-                  setNotice(
-                    "AI Polish Assistant (simulated): tone and clarity refinements applied.",
-                  );
-                }, 700);
-              }}
-            >
-              <Sparkles className="mr-2 h-4 w-4 text-brand-gold-dark" />
-              {polishing ? "Polishing…" : "AI Polish Assistant"}
-            </Button>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                variant="outline"
+                disabled={polishing || drafting || form.body.trim().length < 80}
+                onClick={() => void runWriter("polish")}
+              >
+                {polishing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4 text-brand-gold-dark" />}
+                {polishing ? "Polishing…" : aiUsed === "polished" ? "Polish again" : "Polish my article with AI"}
+              </Button>
+              {aiUsed ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-brand-gold/15 px-3 py-1 text-[11px] font-semibold text-brand-navy">
+                  <CheckCircle2 className="h-3.5 w-3.5" /> {aiUsed === "drafted" ? "Written with AI" : "Polished with AI"}
+                </span>
+              ) : null}
+            </div>
+            <p className="text-[11px] text-brand-slate">
+              Polish keeps your facts and makes the wording clearer. Each tap gives a fresh version.
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-xs font-semibold text-brand-slate">
                 Contact name
@@ -543,17 +513,20 @@ export function OutletBookingFlow() {
                   onChange={(e) => setForm((p) => ({ ...p, websiteUrl: e.target.value }))}
                 />
               </label>
-              <label className="block text-xs font-semibold text-brand-slate">
-                Press images (filenames, comma separated)
-                <input
-                  className={inputClass}
-                  value={form.images}
-                  onChange={(e) => setForm((p) => ({ ...p, images: e.target.value }))}
-                  placeholder="logo.png, team.jpg"
-                />
-              </label>
+
             </div>
-            {notice ? <p className="text-xs text-brand-slate">{notice}</p> : null}
+            <FileDropzone
+              label="Photos or short video (optional)"
+              hint="JPG, PNG, WebP, MP4 or MOV · up to 50 MB each · up to 6 files. Sent when you pay."
+              accept={["image/jpeg", "image/png", "image/webp", "video/mp4", "video/quicktime", "video/webm"]}
+              maxSizeMb={50}
+              maxFiles={6}
+              items={media.map((entry) => entry.item)}
+              onAdd={addMedia}
+              onRemove={removeMedia}
+              disabled={paying}
+            />
+            {notice ? <p className="rounded-md bg-brand-cream px-3 py-2 text-xs text-brand-charcoal">{notice}</p> : null}
             <p className="text-[11px] text-brand-slate">
               {form.body.trim().length} characters written · no payment taken on this step
             </p>
@@ -574,8 +547,8 @@ export function OutletBookingFlow() {
             </div>
             {!form.headline.trim() || form.body.trim().length < 80 ? (
               <p className="text-[11px] text-brand-slate">
-                Add a headline and a short story (80+ characters) to continue — or use the AI
-                draft button to start from a full draft.
+                Add a headline and a short story (80+ characters) to continue — or let the AI
+                write it from your key points.
               </p>
             ) : null}
           </div>
@@ -682,7 +655,7 @@ export function OutletBookingFlow() {
             </li>
           </ul>
           <p className="text-[11px] text-brand-slate">
-            Paystack charges the same amount in naira: ₦
+            You are charged the same amount in naira: ₦
             {Math.round(totalUsd * NGN_PER_USD).toLocaleString("en-NG")} (₦{NGN_PER_USD.toLocaleString("en-NG")} = $1).
           </p>
           <label className="flex items-start gap-3 rounded-md border border-brand-gold/60 bg-brand-gold/10 p-4 text-xs leading-relaxed text-brand-charcoal">
@@ -706,7 +679,7 @@ export function OutletBookingFlow() {
                 className="bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
               >
                 <CreditCard className="mr-2 h-4 w-4" />
-                {paying ? "Opening Paystack…" : `Pay ${formatUsd(totalUsd)} with Paystack`}
+                {paying ? (media.length ? "Sending your files…" : "Opening secure payment…") : `Pay ${formatUsd(totalUsd)} securely`}
               </Button>
             ) : (
               <Button asChild className="bg-brand-navy text-white hover:bg-brand-navy-dark">
@@ -716,7 +689,7 @@ export function OutletBookingFlow() {
           </div>
           <p className="text-[11px] text-brand-slate">
             {isSignedIn
-              ? "You will go to Paystack to pay, then come straight back here."
+              ? "You pay on a secure payment page, then come straight back here."
               : "Your release is kept on this device while you sign in."}{" "}
             Publication is always the editor's choice and is never guaranteed.
           </p>
