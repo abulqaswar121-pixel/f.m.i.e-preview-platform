@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -54,7 +55,7 @@ export function KitRequestList({ admin = false }: { admin?: boolean }) {
   const getQueue = useServerFn(getKitQueue);
   const query = useQuery({ queryKey: ["kit-requests", admin ? "admin" : "mine", user?.id], queryFn: () => admin ? getQueue() : getMine(), enabled: Boolean(user) });
   return <section className="space-y-4">
-    <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-display text-xl font-semibold text-foreground">{admin ? "Kit quote requests" : "My kit requests"}</h2><Button size="sm" variant="outline" onClick={() => void query.refetch()} disabled={query.isFetching}>Refresh</Button></div>
+    <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-display text-xl font-semibold text-foreground">{admin ? "Kit quote requests" : "My kit requests"}</h2><div className="flex flex-wrap gap-2">{!admin && <><Button size="sm" asChild><Link to="/shop/team-kits">Request a kit quote</Link></Button><Button size="sm" variant="outline" asChild><Link to="/shop">Browse shop</Link></Button></>}<Button size="sm" variant="outline" onClick={() => void query.refetch()} disabled={query.isFetching}>Refresh</Button></div></div>
     {query.isLoading && <p className="text-sm text-muted-foreground">Loading requests…</p>}
     {query.isError && <p role="alert" className="text-sm text-destructive">Requests could not be loaded. Please try again.</p>}
     {query.data?.length === 0 && <p className="py-4 text-sm text-muted-foreground">{admin ? "No kit requests yet." : "No kit requests yet. Your saved requests and quotes will appear here."}</p>}

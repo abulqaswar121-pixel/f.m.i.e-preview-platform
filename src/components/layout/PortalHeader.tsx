@@ -10,6 +10,7 @@ import {
   Megaphone,
   Menu,
   ShieldCheck,
+  Shirt,
   Wallet,
   X,
 } from "lucide-react";
@@ -34,6 +35,7 @@ export function PortalHeader() {
     { to: "/surveys/create", label: "Create survey", icon: FilePlus2 },
     { to: "/press-releases/book", label: "Book press release", icon: Megaphone },
     { to: "/press-releases/tracker", label: "My requests", icon: ClipboardList },
+    { to: "/shop", label: "Sportswear shop", icon: Shirt },
     ...(isAdmin ? [{ to: "/admin", label: "Admin", icon: ShieldCheck }] : []),
   ] as const;
 
