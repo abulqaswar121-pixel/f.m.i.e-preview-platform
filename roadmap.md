@@ -58,3 +58,7 @@
 # Phone layout and link sharing (29 Oct)
 - [x] Fix overflowing dashboard, campaign details and admin controls; check other pages at phone widths.
 - [x] Add the existing F.M.I.E share artwork to each content page and verify its tags.
+
+# Branded sportswear shop (30 Oct)
+- [x] Nike/Adidas-style shop page with F.M.I.E-branded kit photos; sport tiles open the kit form with that sport chosen. Stays quote-led (no online checkout).
+- [ ] Client to approve the design-idea photos or send real product photos.
