@@ -260,6 +260,45 @@ export type Database = {
         }
         Relationships: []
       }
+      shop_products: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          created_by: string
+          description: string
+          details: Json
+          id: string
+          images: Json
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          details?: Json
+          id?: string
+          images?: Json
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          details?: Json
+          id?: string
+          images?: Json
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       site_articles: {
         Row: {
           author_name: string

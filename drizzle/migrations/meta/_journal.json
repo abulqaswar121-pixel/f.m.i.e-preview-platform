@@ -71,6 +71,13 @@
       "when": 1793252378297,
       "tag": "0009_lock_site_content_anon",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793381515977,
+      "tag": "0010_shop_products",
+      "breakpoints": true
     }
   ]
 }
