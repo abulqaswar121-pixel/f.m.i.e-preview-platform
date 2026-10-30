@@ -3,7 +3,7 @@ import { TeamKitsPage } from "@/pages/TeamKitsPage";
 const SPORTS = ["Football", "Basketball", "Corporate"] as const;
 export const Route = createFileRoute("/_site/shop/team-kits")({
   validateSearch: (search: Record<string, unknown>): { sport?: (typeof SPORTS)[number] } => {
-    const sport = SPORTS.find((s) => s === search.sport);
+    const sport = SPORTS.find((s) => s === search["sport"]);
     return sport ? { sport } : {};
   },
   component: TeamKitsPage,

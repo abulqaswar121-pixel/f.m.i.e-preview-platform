@@ -35,7 +35,7 @@ const steps = [
   { icon: Truck, title: "We make & deliver", text: "Your kits are made to order and sent to your address." },
 ];
 
-function KitLink({ sport, children, className }: { sport?: KitSport; children: React.ReactNode; className?: string }) {
+function KitLink({ sport, children, className }: { sport?: KitSport | undefined; children: React.ReactNode; className?: string }) {
   return (
     <Link to="/shop/team-kits" search={sport ? { sport } : {}} className={className}>
       {children}
