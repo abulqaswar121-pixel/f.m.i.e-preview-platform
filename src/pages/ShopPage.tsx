@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchShopConcepts } from "@/lib/shop-products";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Check, Palette, Upload, MessageSquare, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,9 @@ export function ShopPage() {
   const [selected, setSelected] = useState<KitConcept | null>(null);
   const [photo, setPhoto] = useState(0);
   const showKit = (item: KitConcept) => { setPhoto(0); setSelected(item); };
-  const visible = kitConcepts.filter(item => collection === "All" || item.category === collection);
+  const [items, setItems] = useState<KitConcept[]>(kitConcepts);
+  useEffect(() => { void fetchShopConcepts().then(setItems); }, []);
+  const visible = items.filter(item => collection === "All" || item.category === collection);
 
   return (
     <div className="sportswear bg-background">
@@ -89,7 +92,7 @@ export function ShopPage() {
       <Dialog open={selected !== null} onOpenChange={open => { if (!open) setSelected(null); }}>
         <DialogContent className="sportswear max-h-[90dvh] w-[calc(100%-2rem)] max-w-4xl overflow-y-auto p-5 sm:p-7">
           {selected && <div className="grid min-w-0 gap-6 md:grid-cols-2">
-            <div className="min-w-0"><img src={selected.images[photo]?.src} alt={`${selected.name} — ${selected.images[photo]?.label}`} width={800} height={1000} className="aspect-[4/5] max-h-[48dvh] w-full bg-muted object-contain" /><div className="mt-3 flex gap-2">{selected.images.map((image, i) => <Button key={image.label} variant="outline" onClick={() => setPhoto(i)} aria-label={`Show ${image.label}`} aria-pressed={photo === i} className={`h-16 w-14 rounded-none p-0 ${photo === i ? "border-primary ring-1 ring-primary" : ""}`}><img src={image.src} alt={image.label} width={56} height={64} className="h-full w-full object-cover" /></Button>)}</div></div>
+            <div className="min-w-0"><img src={selected.images[photo]?.src} alt={`${selected.name} — ${selected.images[photo]?.label}`} width={800} height={1000} className="aspect-[4/5] max-h-[48dvh] w-full bg-muted object-contain" /><div className="mt-3 flex gap-2">{selected.images.map((image, i) => <Button key={`${image.src}-${i}`} variant="outline" onClick={() => setPhoto(i)} aria-label={`Show ${image.label}`} aria-pressed={photo === i} className={`h-16 w-14 rounded-none p-0 ${photo === i ? "border-primary ring-1 ring-primary" : ""}`}><img src={image.src} alt={image.label} width={56} height={64} className="h-full w-full object-cover" /></Button>)}</div></div>
             <div className="min-w-0 py-3"><p className="text-xs uppercase text-muted-foreground">{selected.category} / Design concept</p><DialogTitle className="mt-3 text-2xl font-black uppercase">{selected.name}</DialogTitle><DialogDescription className="mt-4 leading-relaxed">{selected.description}</DialogDescription><ul className="mt-6 space-y-3 text-sm">{selected.details.map(detail => <li key={detail} className="flex gap-2"><Check className="size-4 shrink-0 text-brand-gold-dark" />{detail}</li>)}</ul><p className="mt-6 border-t border-border pt-4 text-sm font-semibold">Made to order. Price confirmed by quote.</p><Button asChild size="lg" className="mt-5 w-full"><Link to="/shop/team-kits" search={selected.sport ? { sport: selected.sport } : {}}>Customise & request a quote <ArrowRight /></Link></Button><p className="mt-4 text-xs leading-relaxed text-muted-foreground">Each photo is a design idea. Final details are agreed with you before production.</p></div>
           </div>}
         </DialogContent>
