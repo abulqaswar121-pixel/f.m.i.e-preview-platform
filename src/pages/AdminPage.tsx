@@ -72,6 +72,7 @@ const TABS: { id: AdminTab; label: string; icon: typeof Gauge }[] = [
 import { ContentManagerPanel } from "@/components/admin/ContentManager";
 import { NewsroomPanel } from "@/components/admin/NewsroomPanel";
 import { VideoLibraryPanel } from "@/components/admin/VideoLibraryPanel";
+import { ShopProductsPanel } from "@/components/admin/ShopProductsPanel";
 import { AdminTeamPanel } from "@/components/admin/AdminTeamPanel";
 import { useSuperAdmin } from "@/hooks/useSuperAdmin";
 import { CloudPayoutQueue } from "@/components/admin/CloudPayoutQueue";
@@ -1150,6 +1151,7 @@ function PlatformSettingsPanel() {
   return (
     <section className="space-y-6">
       <VideoLibraryPanel />
+      <ShopProductsPanel />
       <div>
         <h2 className="font-display text-xl font-semibold text-brand-charcoal">
           Showcase film manager
