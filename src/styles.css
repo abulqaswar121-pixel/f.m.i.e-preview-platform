@@ -414,3 +414,6 @@
     scroll-behavior: auto;
   }
 }
+
+/* Athletic typography stays scoped to sportswear, preserving the editorial site. */
+.sportswear :is(h1, h2, h3) { font-family: var(--font-sans-stack); letter-spacing: 0; text-wrap: balance; }
