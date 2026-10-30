@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Shirt } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Badge } from "@/components/common/Badge";
 import { DisclosureBadge, Eyebrow, SectionHeading } from "@/components/common/Primitives";
@@ -23,6 +23,7 @@ import { api } from "@/services/api";
 import { SiteLink } from "@/components/common/SiteLink";
 import { PressPartnerSlider } from "@/components/press/PressPartnerSlider";
 import { seedDistributionChannels } from "@/data";
+import { ShopShowcase } from "@/components/shop/ShopShowcase";
 
 /**
  * Homepage: five deliberate blocks — film banner, positioning strip, poll +
@@ -282,7 +283,7 @@ export function HomePage() {
       {/* 6 — Visibility band: published releases + custom kits */}
       {!isHidden("visibility") ? (
         <section className="bg-brand-navy-dark text-white">
-          <div className="fmie-container grid grid-cols-1 gap-8 py-10 sm:py-12 lg:grid-cols-[1.5fr_1fr]">
+          <div className="fmie-container grid grid-cols-1 gap-8 py-10 sm:py-12 lg:grid-cols-1">
             <div>
               <p className="fmie-eyebrow text-brand-gold">Press releases</p>
               <h2 className="mt-2 font-display text-2xl font-bold">
@@ -316,24 +317,11 @@ export function HomePage() {
                 <Link to="/press-releases/book">Book a press release</Link>
               </Button>
             </div>
-            <div className="fmie-glass-dark flex flex-col justify-between rounded-3xl p-6 shadow-2xl shadow-brand-navy-dark/40 transition-transform duration-300 hover:-translate-y-1">
-              <div>
-                <Shirt className="h-6 w-6 text-brand-gold" />
-                <h2 className="mt-3 font-display text-2xl font-bold">Custom Kits & Jerseys</h2>
-                <p className="mt-2 text-sm leading-relaxed text-white/80">
-                  For clubs, academies and company teams. Add your players, pick your colours and get a price quote.
-                </p>
-              </div>
-              <Button
-                asChild
-                className="mt-5 bg-brand-gold text-brand-navy-dark hover:bg-[#d4b87e]"
-              >
-                <Link to="/shop/team-kits">Design your kit</Link>
-              </Button>
-            </div>
+
           </div>
         </section>
       ) : null}
+      {!isHidden("visibility") ? <ShopShowcase homepage /> : null}
     </div>
   );
 }
