@@ -8,11 +8,14 @@ import basketballImg from "@/assets/shop/basketball.webp";
 import trainingImg from "@/assets/shop/training.webp";
 import corporateImg from "@/assets/shop/corporate.webp";
 import accessoriesImg from "@/assets/shop/accessories.webp";
+import courtProductImg from "@/assets/shop/product-court.webp";
+import tracksuitProductImg from "@/assets/shop/product-tracksuit.webp";
+import poloProductImg from "@/assets/shop/product-polo.webp";
 
 type KitSport = "Football" | "Basketball" | "Corporate";
 
-const categories: { label: string; line: string; img: string; sport?: KitSport }[] = [
-  { label: "Football", line: "Match kits for clubs and schools", img: jerseyImg, sport: "Football" },
+const categories: { label: string; line: string; img: string; pos?: string; sport?: KitSport }[] = [
+  { label: "Football", line: "Match kits for clubs and schools", img: heroImg, pos: "object-[78%_center]", sport: "Football" },
   { label: "Basketball", line: "Vests and shorts for the court", img: basketballImg, sport: "Basketball" },
   { label: "Training", line: "Tracksuits for warm-ups and travel", img: trainingImg },
   { label: "Corporate", line: "Polos and hoodies for your staff", img: corporateImg, sport: "Corporate" },
@@ -20,9 +23,9 @@ const categories: { label: string; line: string; img: string; sport?: KitSport }
 
 const range: { name: string; tag: string; line: string; img: string; sport?: KitSport }[] = [
   { name: "Match jersey", tag: "Football", line: "Light, breathable shirt with your crest, names and numbers.", img: jerseyImg, sport: "Football" },
-  { name: "Court set", tag: "Basketball", line: "Vest and shorts with side stripes in your team colours.", img: basketballImg, sport: "Basketball" },
-  { name: "Training tracksuit", tag: "Training", line: "Zip jacket and joggers for warm-ups, travel and media days.", img: trainingImg },
-  { name: "Team polo & hoodie", tag: "Corporate", line: "Stitched logo wear for staff, events and brand days.", img: corporateImg, sport: "Corporate" },
+  { name: "Court set", tag: "Basketball", line: "Vest and shorts with side stripes in your team colours.", img: courtProductImg, sport: "Basketball" },
+  { name: "Training tracksuit", tag: "Training", line: "Zip jacket and joggers for warm-ups, travel and media days.", img: tracksuitProductImg },
+  { name: "Team polo & hoodie", tag: "Corporate", line: "Stitched logo wear for staff, events and brand days.", img: poloProductImg, sport: "Corporate" },
 ];
 
 const steps = [
@@ -92,7 +95,7 @@ export function ShopPage() {
         <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           {categories.map((c) => (
             <KitLink key={c.label} sport={c.sport} className="group relative block aspect-[4/5] overflow-hidden rounded-lg bg-muted">
-              <img src={c.img} alt={`${c.label} kit with the F.M.I.E logo`} loading="lazy" width={800} height={1000} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={c.img} alt={`${c.label} kit with the F.M.I.E logo`} loading="lazy" width={800} height={1000} className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${c.pos ?? ""}`} />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-navy-dark/90 to-transparent p-3 pt-12 md:p-4 md:pt-16">
                 <p className="font-display text-lg font-semibold text-brand-cream md:text-xl">{c.label}</p>
                 <p className="mt-1 hidden text-xs text-brand-cream/80 sm:block">{c.line}</p>
