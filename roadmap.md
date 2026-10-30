@@ -62,4 +62,4 @@
 # Branded sportswear shop (30 Oct)
 - [x] Nike/Adidas-style shop page with F.M.I.E-branded kit photos; sport tiles open the kit form with that sport chosen. Stays quote-led (no online checkout).
 - [ ] Client to approve the design-idea photos or send real product photos.
-- [ ] Add a homepage sportswear showcase linking to the shop, upgrade browsing and photo details, and test on phone and desktop.
+- [x] Add a homepage sportswear showcase linking to the shop, upgrade browsing and photo details, and test on phone and desktop.
