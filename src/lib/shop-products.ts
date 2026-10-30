@@ -22,15 +22,14 @@ export function toConcept(row: ShopProductRow): KitConcept {
   const category = (PRODUCT_CATEGORIES as readonly string[]).includes(row.category)
     ? (row.category as KitConcept["category"])
     : "Football";
-  const sport: KitSport | undefined = category === "Training" ? undefined : category;
-  return {
+  const base = {
     name: row.name,
     category,
-    sport,
     description: row.description,
     images: productImages(row).map((i) => ({ src: i.url, label: i.label || "Photo" })),
     details: Array.isArray(row.details) ? (row.details as string[]) : [],
   };
+  return category === "Training" ? base : { ...base, sport: category as KitSport };
 }
 
 export async function fetchShopProducts(): Promise<ShopProductRow[]> {
