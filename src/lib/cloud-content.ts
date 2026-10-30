@@ -119,7 +119,7 @@ export function pickVideo(videos: CloudVideoRow[]): string | null {
 /** Upload a picture or film for the public site and return a lasting link. */
 export async function uploadSiteMedia(
   file: File,
-  folder: "covers" | "videos",
+  folder: "covers" | "videos" | "products",
 ): Promise<{ path: string; url: string }> {
   const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "bin";
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
