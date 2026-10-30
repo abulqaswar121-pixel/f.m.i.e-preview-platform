@@ -3,7 +3,7 @@ import { Plus, Shirt, Trash2 } from "lucide-react";
 
 import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,6 +22,7 @@ const inputClass =
 /** Custom football & corporate kit builder with live quote summary. */
 export function TeamKitsPage() {
   const { user, isSignedIn } = useAuth();
+  const search = useSearch({ strict: false }) as { sport?: Sport };
   const saveRequest = useServerFn(submitKitRequest);
   const queryClient = useQueryClient();
   const [crest, setCrest] = useState<File | null>(null);
@@ -30,7 +31,7 @@ export function TeamKitsPage() {
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     clubName: "",
-    sport: "Football" as Sport,
+    sport: (search.sport ?? "Football") as Sport,
     primaryColor: "#0A2E68",
     secondaryColor: "#C5A869",
     quantity: 18,
