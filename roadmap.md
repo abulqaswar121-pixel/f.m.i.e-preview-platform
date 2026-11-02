@@ -1,4 +1,13 @@
 # Backend foundation
+# Client corrections (2 Nov)
+- [ ] Fix expired shop photo links and verify desktop/mobile gallery.
+- [ ] Replace office addresses everywhere with the approved presence line.
+- [ ] Add translated site controls and key pages, persistent language selection and Arabic RTL.
+- [x] Save the replacement payment secret securely; never put keys in source.
+- [ ] Restrict point credit to verified webhooks; check withdrawal approval and tests.
+- [ ] Run tests and check the automatic build; verify public/member flows where possible.
+
+# Backend foundation
 - [x] Create protected member profiles and separate account roles.
 - [x] Create storage for surveys, answers, press releases, orders, kit requests, and wallet records.
 - [x] Set up private file storage.
