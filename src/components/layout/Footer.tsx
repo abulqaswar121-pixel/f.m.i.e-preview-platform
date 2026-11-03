@@ -8,8 +8,8 @@ import {
   compliance,
   contactRoutes,
   footerNavigation,
-  headquarters,
-  offices,
+  presenceLine,
+  contactPhone,
   legal,
   site,
   socialLinks,
@@ -37,14 +37,11 @@ export function Footer() {
           <address className="mt-5 space-y-2 text-xs not-italic text-white/70">
             <p className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-gold" />
-              <span>{headquarters.addressOneLine}</span>
-            </p>
-            <p className="pl-5.5 text-white/60">
-              Also in {offices.slice(1).map((item) => item.city).join(", ")}.
+              <span>Our presence: {presenceLine}</span>
             </p>
             <p className="flex items-center gap-2">
               <Phone className="h-3.5 w-3.5 text-brand-gold" />
-              {headquarters.telephone}
+              {contactPhone}
             </p>
             {contactRoutes.map((route) => (
               <p key={route.id} className="flex items-center gap-2">

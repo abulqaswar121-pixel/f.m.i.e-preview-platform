@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { PageHeader } from "@/components/common/Primitives";
 import { Button } from "@/components/ui/button";
-import { contactRoutes, headquarters, site, socialLinks } from "@/config/site";
+import { contactRoutes, presenceLine, contactPhone, site, socialLinks } from "@/config/site";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/services/api";
 import { cn } from "@/lib/utils";
@@ -250,34 +250,19 @@ export function ContactPage() {
         <aside className="space-y-4">
           <div className="rounded-lg border border-brand-border bg-white p-6">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold-dark">
-              <MapPin className="h-4 w-4" /> {headquarters.label} · {headquarters.country}
+              <MapPin className="h-4 w-4" /> Our presence
             </p>
             <address className="mt-3 not-italic text-sm leading-relaxed text-brand-charcoal">
-              {headquarters.lines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              {presenceLine}
             </address>
             <p className="mt-4 flex items-center gap-2 text-sm text-brand-slate">
-              <Phone className="h-3.5 w-3.5 text-brand-navy" /> {headquarters.telephone}
+              <Phone className="h-3.5 w-3.5 text-brand-navy" /> {contactPhone}
             </p>
             <p className="mt-1 flex items-center gap-2 text-sm text-brand-slate">
               <Mail className="h-3.5 w-3.5 text-brand-navy" /> {route.email}
             </p>
-            <p className="mt-4 flex items-start gap-2 border-t border-brand-border pt-3 text-xs text-brand-slate">
-              <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-navy" /> {headquarters.hours}
-            </p>
-            <a
-              href={headquarters.mapUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-navy hover:underline"
-            >
-              <Building2 className="h-3.5 w-3.5" /> View on map
-            </a>
           </div>
-          <OfficeList />
+
 
           <div className="rounded-lg border border-brand-border bg-white p-6">
             <h3 className="font-display text-base font-semibold text-brand-charcoal">

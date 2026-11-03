@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/common/Primitives";
-import { contactEmail, headquarters, legal, site } from "@/config/site";
+import { contactEmail, presenceLine, contactPhone, legal, site } from "@/config/site";
 
 const SECTIONS = [
   { title: "Accounts and profiles", body: "Lovable Cloud stores your account and saved profile, including your name, email, country, job and any survey profile details you provide. Your profile helps match you with suitable surveys. Sign-in providers also handle your login." },
@@ -9,7 +9,7 @@ const SECTIONS = [
   { title: "Survey answers and rewards", body: "Completed answers and reward records are saved in Lovable Cloud. An account link is needed to prevent repeat rewards. Read each survey's consent notice before answering; do not assume your answers are fully anonymous." },
   { title: "Press bookings and team kits", body: "We save the contact details, story, selected outlets, payment status and request details you submit. Team kit requests can include delivery details, a crest and player names. Approved administrators can review these records to handle your request." },
   { title: "Student IDs and private uploads", body: "Student IDs and team crests are stored privately under your account. Approved administrators can view them when needed to check a purchase or prepare a quote. Do not upload documents belonging to someone else without permission." },
-  { title: "Payments", body: "Paystack handles checkout in test mode. The site saves payment references, amounts and verification status, not your card details. No real charges are made while test mode is active." },
+  { title: "Payments", body: "Our payment provider handles checkout securely. We save payment references, amounts and confirmation status, not your card details. Points are added automatically after verified payment confirmation." },
   { title: "Email and contact forms", body: "Email briefings are not open yet. The preview contact form saves messages in this browser; it does not send them to the team. Use the listed phone number for help while official email boxes are being set up." },
   { title: "Data requests and retention", body: "You can edit your profile from your dashboard. Contact F.M.I.E by phone for help with access, corrections or deletion. Clearing browser storage does not erase Cloud records. The team must confirm a retention schedule and the full data-request process before live launch." },
   { title: "Children and sensitive details", body: "This platform is for adult business and research users. Only share details needed for the survey or request. Research involving children or sensitive health information needs proper consent and review before it opens." },
@@ -57,13 +57,9 @@ export function PrivacyPage() {
             <address className="mt-4 not-italic text-xs leading-relaxed text-brand-slate">
               {site.legalName}
               <br />
-              {headquarters.lines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              {presenceLine}
               <br />
-              {headquarters.telephone}
+              {contactPhone}
             </address>
             <Link
               to="/contact"
