@@ -14,8 +14,21 @@ export interface ShopProductRow {
   sort_order: number;
 }
 
+/** Old seeded Vite asset paths expire on each deploy; resolve them from current imports. */
+export function resolveProductImage(url: string): string {
+  if (!url.startsWith("/assets/") && !url.startsWith("/src/assets/shop/")) return url;
+  const filename = url.split("/").pop()?.split("?")[0] ?? "";
+  const stem = filename.replace(/\.(webp|jpg|png)$/, "").replace(/-[A-Za-z0-9_-]{8}$/, "");
+  const assets = import.meta.glob("/src/assets/shop/*", { eager: true, query: "?url", import: "default" });
+  for (const [path, current] of Object.entries(assets)) {
+    const name = path.split("/").pop()?.replace(/\.(webp|jpg|png)$/, "");
+    if (name === stem && typeof current === "string") return current;
+  }
+  return url;
+}
+
 export function productImages(row: ShopProductRow): ProductImage[] {
-  return Array.isArray(row.images) ? (row.images as ProductImage[]).filter((i) => i && typeof i.url === "string") : [];
+  return Array.isArray(row.images) ? (row.images as ProductImage[]).filter((i) => i && typeof i.url === "string").map((i) => ({ ...i, url: resolveProductImage(i.url) })) : [];
 }
 
 export function toConcept(row: ShopProductRow): KitConcept {

@@ -18,7 +18,6 @@ import {
   confirmPointPurchase,
   getWalletSummary,
   initializePointPurchase,
-  reconcileMyPointPurchases,
   requestWalletWithdrawal,
 } from "@/lib/wallet.functions";
 
@@ -44,7 +43,6 @@ export function WalletPage() {
   const getSummary = useServerFn(getWalletSummary);
   const beginPurchase = useServerFn(initializePointPurchase);
   const confirmPurchase = useServerFn(confirmPointPurchase);
-  const reconcilePurchases = useServerFn(reconcileMyPointPurchases);
   const makeWithdrawal = useServerFn(requestWalletWithdrawal);
   const navigate = useNavigate();
   const [summary, setSummary] = useState<Awaited<ReturnType<typeof getWalletSummary>> | null>(null);
@@ -54,7 +52,6 @@ export function WalletPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [receipt, setReceipt] = useState<{ state: "checking" | "succeeded" | "pending"; points: number; reference: string } | null>(null);
   const confirmedReference = useRef<string | null>(null);
-  const reconciled = useRef(false);
   const [form, setForm] = useState({
     bankName: "",
     accountNumber: "",
@@ -100,19 +97,22 @@ export function WalletPage() {
       });
   }, [confirmPurchase, navigate, refresh, returnReference, user]);
 
-  // Safety net: credit any earlier payment that went through but was never confirmed.
+  // Read-only polling waits for the signed webhook; this page never adds points.
   useEffect(() => {
-    if (!user || returnReference || reconciled.current) return;
-    reconciled.current = true;
-    void reconcilePurchases()
-      .then(async (result) => {
-        if (result.credited > 0) {
-          setNotice(`Good news: ${result.points.toLocaleString()} points from an earlier payment were added to your wallet.`);
-          await refresh();
-        }
-      })
-      .catch(() => undefined);
-  }, [reconcilePurchases, refresh, returnReference, user]);
+    if (!user || receipt?.state !== "pending") return;
+    let attempts = 0;
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      if (attempts >= 20) window.clearInterval(timer);
+      void confirmPurchase({ data: { reference: receipt.reference } }).then(async (result) => {
+        if (result.status !== "succeeded") return;
+        window.clearInterval(timer);
+        setReceipt({ state: "succeeded", points: result.points, reference: receipt.reference });
+        await refresh();
+      }).catch(() => undefined);
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [confirmPurchase, receipt?.state, receipt?.reference, refresh, user]);
 
   const cashMinor = summary?.cashMinor ?? 0;
   const pointsBalance = summary?.points ?? 0;
@@ -244,14 +244,14 @@ export function WalletPage() {
                   ? "Checking your payment…"
                   : receipt.state === "succeeded"
                     ? "Payment successful"
-                    : "Payment received — still confirming"}
+                    : "Payment confirmation pending"}
               </p>
               <p className="mt-0.5 text-xs text-brand-slate">
                 {receipt.state === "checking"
                   ? "This takes a few seconds. Please don't close the page."
                   : receipt.state === "succeeded"
                     ? `${receipt.points.toLocaleString()} points have been added to your wallet.`
-                    : "Your points will appear here as soon as the bank confirms. Please don't pay twice."}
+                    : "Points are added automatically after secure payment confirmation. Please do not pay twice."}
               </p>
               <p className="mt-1 break-all text-[11px] text-brand-slate">Payment ref: {receipt.reference}</p>
             </div>

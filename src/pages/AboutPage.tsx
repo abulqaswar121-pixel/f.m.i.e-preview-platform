@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Building2, Compass, Layers, MapPin } from "lucide-react";
 
 import { PageHeader } from "@/components/common/Primitives";
-import { coreValues, headquarters, site } from "@/config/site";
+import { coreValues, presenceLine, contactPhone, site } from "@/config/site";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { api } from "@/services/api";
 
@@ -94,7 +94,7 @@ export function AboutPage() {
                 and cannot support.
               </p>
               <p>
-                Founded in {site.founded} and headquartered in London, the platform combines five
+                Founded in {site.founded}, the platform combines five
                 modules that would normally sit in five separate vendors — an editorial archive, a
                 survey marketplace, a press release distribution network, an executive services
                 consultancy and a branded commerce store — behind one account, one permission model
@@ -105,27 +105,14 @@ export function AboutPage() {
           <aside className="space-y-4">
             <div className="rounded-lg border border-brand-border bg-white p-6">
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold-dark">
-                <MapPin className="h-4 w-4" /> {headquarters.label} · {headquarters.country}
+                <MapPin className="h-4 w-4" /> Our presence
               </p>
               <address className="mt-3 not-italic text-sm leading-relaxed text-brand-charcoal">
-                {headquarters.lines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-              <p className="mt-3 text-sm text-brand-slate">{headquarters.telephone}</p>
-              <p className="mt-1 text-xs text-brand-slate">{headquarters.hours}</p>
-              <a
-                href={headquarters.mapUrl}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-navy hover:underline"
-              >
-                <Building2 className="h-3.5 w-3.5" /> View on map
-              </a>
+                {presenceLine}
+            </address>
+              <p className="mt-3 text-sm text-brand-slate">{contactPhone}</p>
             </div>
-            <OfficeList />
+  
             <div className="rounded-lg border border-brand-border bg-brand-navy p-6 text-white">
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-gold">
                 <Compass className="h-4 w-4" /> Demonstration preview

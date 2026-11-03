@@ -11,11 +11,10 @@ import { Button } from "@/components/ui/button";
 import {
   contactEmail,
   formatDate,
-  headquarters,
+  presenceLine,
   livePositioning,
   newsCategories,
   site,
-  offices,
 } from "@/config/site";
 import { useAsyncResource } from "@/hooks/useAsync";
 import { useDatabase } from "@/services/api";
@@ -105,10 +104,9 @@ export function HomePage() {
               </dl>
             </div>
             <VideoShowcaseCard className="w-full" />
-            <dl className="fmie-glass-dark col-span-full grid gap-x-6 gap-y-4 rounded-2xl px-5 py-4 sm:grid-cols-2 lg:grid-cols-4">
+            <dl className="fmie-glass-dark col-span-full grid gap-x-6 gap-y-4 rounded-2xl px-5 py-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { label: headquarters.label, value: headquarters.addressOneLine },
-                { label: "Our offices", value: offices.map((item) => item.country).join(" · ") },
+                { label: "Our presence", value: presenceLine },
                 {
                   label: "Survey rewards",
                   value: "Kept safe and paid when you finish",

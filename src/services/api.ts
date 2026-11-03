@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 
 import {
   contactEmail,
-  headquarters,
+  presenceLine,
   marketIndicesSeed,
   prAddOns,
   prStatuses,
@@ -1610,7 +1610,7 @@ const orders = {
     await delay();
     const lines = [
       "F.M.I.E MEDIA & RESEARCH LTD",
-      headquarters.addressOneLine,
+      presenceLine,
       contactEmail.general,
       "",
       `INVOICE ${order.reference}`,

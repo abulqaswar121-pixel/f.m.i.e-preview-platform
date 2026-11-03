@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
-import { contactEmail, headquarters, offices, socialLinks } from "@/config/site";
+import { contactEmail, presenceLine, socialLinks } from "@/config/site";
 import { formatUsd, NGN_PER_USD } from "@/lib/outlet-pricing";
 import { useDatabase } from "@/services/api";
 import { cn } from "@/lib/utils";
@@ -41,7 +41,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(press|release|outlet|newspaper|publish|media|distribution)/i,
       answer:
-        "Choose outlets and see the dollar prices first. Write your story with AI help if you want, then review and pay last. Payments are in test mode. Editors decide what gets published.",
+        "Choose outlets and see the dollar prices first. Write your story with AI help if you want, then review and pay last. Editors decide what gets published.",
       link: { href: "/press-releases/book", label: "Book distribution" },
     },
     {
@@ -70,7 +70,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     },
     {
       match: /(contact|email|phone|office|address|social|instagram|facebook|linkedin|tiktok)/i,
-      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Head office in ${headquarters.city}, ${headquarters.country}; also in ${offices.slice(1).map((item) => item.city).join(", ")}. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
+      answer: `Email ${contactEmail.general} (or the press, survey and services desks). Our presence: ${presenceLine}. We're on ${socialLinks.map((entry) => entry.label).join(", ")}.`,
       link: { href: "/contact", label: "Contact page" },
     },
     {
@@ -82,7 +82,7 @@ function buildKnowledge(minWithdrawal: number): KnowledgeEntry[] {
     {
       match: /(demo|sample|real|preview|disclaimer)/i,
       answer:
-        "Sample news, polls and figures are for review, not live reporting. Accounts and saved requests use real records. Payments are in test mode, with no real charges.",
+        "Sample news, polls and figures are for review, not live reporting. Accounts and saved requests use real records. Payments are handled securely.",
     },
   ];
 }

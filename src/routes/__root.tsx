@@ -16,6 +16,7 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { CloudContentSync } from "@/components/providers/CloudContentSync";
 import { CartProvider } from "@/components/providers/CartProvider";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { site } from "@/config/site";
 
 const GOOGLE_FONTS =
@@ -111,6 +112,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
       <AuthProvider>
         <CartProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
@@ -126,6 +128,7 @@ function RootComponent() {
           />
         </CartProvider>
       </AuthProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

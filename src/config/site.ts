@@ -32,41 +32,12 @@ export const site = {
   companyNumber: "",
   vatNumber: "",
   previewNotice:
-    "Demonstration preview. Sample news, polls and figures are for review, not live reporting. Member accounts and saved requests use real records. Payments are in test mode; no real charges or bank transfers are made.",
+    "Demonstration preview. Sample news, polls and figures are for review, not live reporting. Member accounts and saved requests use real records. Payments are handled securely. Withdrawal requests need team approval.",
 } as const;
 
-function mapLink(address: string): string {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
-
-export interface Office {
-  label: string;
-  country: string;
-  city: string;
-  lines: readonly string[];
-  addressOneLine: string;
-  mapUrl: string;
-}
-
-function office(label: string, country: string, city: string, lines: string[]): Office {
-  const addressOneLine = lines.join(", ");
-  return { label, country, city, lines, addressOneLine, mapUrl: mapLink(addressOneLine) };
-}
-
-/** Official F.M.I.E office locations, supplied by the client. Head office first. */
-export const offices: readonly Office[] = [
-  office("Head Office", "Nigeria", "Lagos", ["Enterprise Hubs, Trinity Avenue", "Near Landmark, Oniru", "Victoria Island, Lagos", "Nigeria"]),
-  office("United Kingdom", "United Kingdom", "Manchester", ["Linley House, Dickinson Street", "Manchester", "United Kingdom"]),
-  office("United States", "United States", "New York", ["3737 Timber Trail", "Liverpool, New York 13090", "United States"]),
-  office("Australia", "Australia", "Sydney", ["WeWork Australia, 100 Harris Street", "Pyrmont, NSW", "Australia"]),
-  office("South Africa", "South Africa", "East London", ["Stewart Drive", "East London, Eastern Cape", "South Africa"]),
-];
-
-export const headquarters = {
-  ...offices[0]!,
-  telephone: "+234 810 395 4351",
-  hours: "Monday to Friday, 09:00–18:00 WAT",
-} as const;
+export const presenceRegions = ["Nigeria", "UK", "Canada", "Australia", "US", "Asia", "Africa"] as const;
+export const presenceLine = "Nigeria, UK, Canada, Australia, US, Asia and Africa";
+export const contactPhone = "+234 810 395 4351";
 
 export interface ContactRoute {
   id: ContactDepartment;
@@ -877,7 +848,7 @@ export const coreValues = [
   {
     id: "global-collaboration",
     title: "Global Collaboration",
-    body: "London-headquartered with desks focused on Africa, the Gulf and European emerging markets, working with local researchers and regional distribution partners.",
+    body: "Our presence covers Nigeria, UK, Canada, Australia, US, Asia and Africa.",
   },
 ] as const;
 
@@ -1092,12 +1063,12 @@ export const budgetBands = [
 
 export const legal = {
   copyright: `© ${site.legalName}. All rights reserved.`,
-  registeredOffice: `Registered office: ${headquarters.addressOneLine}.`,
+  registeredOffice: `Our presence: ${presenceLine}.`,
   notices: [
     "F.M.I.E is an independent business media and research platform. It is not affiliated with, endorsed by, or sponsored by any third-party publisher, broadcaster, newswire or social platform.",
     "Press release distribution is a paid commercial service. Paid content is labelled at the point of publication and is produced separately from the editorial newsroom.",
     "Survey results published on this platform are self-selected and are not presented as statistically representative of any population.",
-    "Payments are in test mode. Email briefings and online merchandise sales are not open yet. Approved withdrawal requests do not send bank transfers automatically.",
+    "Email briefings and online merchandise sales are not open yet. Approved withdrawal requests do not send bank transfers automatically.",
   ],
 } as const;
 

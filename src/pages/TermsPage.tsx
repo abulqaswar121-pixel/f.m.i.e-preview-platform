@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/common/Primitives";
-import { commerce, contactEmail, headquarters, legal, site } from "@/config/site";
+import { commerce, contactEmail, presenceLine, contactPhone, legal, site } from "@/config/site";
 
 const SECTIONS = [
   {
@@ -50,7 +50,7 @@ const SECTIONS = [
   },
   {
     title: "12. Governing law",
-    body: "These terms and any dispute arising from them would be governed by the laws of England and Wales, with the courts of England and Wales having exclusive jurisdiction. The registered office is the address below.",
+    body: "These terms and any dispute arising from them would be governed by the laws of England and Wales, with the courts of England and Wales having exclusive jurisdiction.",
   },
   {
     title: "13. Changes",
@@ -131,18 +131,14 @@ export function TermsPage() {
 
           <div className="rounded-lg border border-brand-border bg-brand-cream p-6">
             <h2 className="font-display text-base font-semibold text-brand-charcoal">
-              Registered office
+              Our presence
             </h2>
             <address className="mt-3 not-italic text-xs leading-relaxed text-brand-slate">
               {site.legalName}
               <br />
-              {headquarters.lines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              {presenceLine}
               <br />
-              {headquarters.telephone}
+              {contactPhone}
               <br />
               <a
                 href={`mailto:${contactEmail.general}`}

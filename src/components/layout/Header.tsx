@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -252,7 +253,7 @@ export function Header() {
           <Logo compact />
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden items-center gap-1 xl:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-1 2xl:flex">
           {mainNavigation.map((item) =>
             item.children ? (
               <div key={item.to} className="group relative">
@@ -307,6 +308,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <Button
             variant="ghost"
             size="icon"
@@ -327,7 +329,7 @@ export function Header() {
           </Button>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="xl:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="2xl:hidden" aria-label="Open menu">
                 <Menu />
               </Button>
             </SheetTrigger>
