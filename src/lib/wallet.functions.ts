@@ -169,10 +169,7 @@ export const confirmPointPurchase = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ reference: z.string().regex(/^fmie_points_[a-f0-9]{32}$/) }).parse(input))
   .handler(async ({ data, context }) => {
-    const secret = process.env["PAYSTACK_SECRET_KEY"];
-    if (!secret) return { status: "pending" as const, points: 0 };
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: purchase, error: purchaseError } = await supabaseAdmin
+    const { data: purchase, error: purchaseError } = await context.supabase
       .from("wallet_point_purchases")
       .select("reference, amount_minor, currency, points, status")
       .eq("reference", data.reference)
@@ -180,54 +177,7 @@ export const confirmPointPurchase = createServerFn({ method: "POST" })
       .maybeSingle();
     if (purchaseError || !purchase) throw new Error("This payment was not found on your account.");
     if (purchase.status === "succeeded") return { status: "succeeded" as const, points: purchase.points };
-    const payment = await verifyPaystackReference(data.reference, secret);
-    if (!payment || !matchesPurchase(payment, purchase)) return { status: "pending" as const, points: purchase.points };
-    const { data: settled, error } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
-      _reference: purchase.reference,
-      _amount_minor: purchase.amount_minor,
-      _currency: purchase.currency,
-      _provider_transaction_id: String(payment.id),
-    });
-    if (error || !settled) return { status: "pending" as const, points: purchase.points };
-    return { status: "succeeded" as const, points: purchase.points };
-  });
-
-/**
- * Safety net: re-checks the member's own recent unconfirmed point payments, so
- * a payment that went through is credited even if the return link failed.
- */
-export const reconcileMyPointPurchases = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const secret = process.env["PAYSTACK_SECRET_KEY"];
-    if (!secret) return { credited: 0, points: 0 };
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const since = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
-    const { data: pending } = await supabaseAdmin
-      .from("wallet_point_purchases")
-      .select("reference, amount_minor, currency, points")
-      .eq("user_id", context.userId)
-      .eq("status", "pending")
-      .gte("created_at", since)
-      .order("created_at", { ascending: false })
-      .limit(5);
-    let credited = 0;
-    let points = 0;
-    for (const purchase of pending ?? []) {
-      const payment = await verifyPaystackReference(purchase.reference, secret);
-      if (!payment || !matchesPurchase(payment, purchase)) continue;
-      const { data: settled } = await supabaseAdmin.rpc("settle_wallet_point_purchase", {
-        _reference: purchase.reference,
-        _amount_minor: purchase.amount_minor,
-        _currency: purchase.currency,
-        _provider_transaction_id: String(payment.id),
-      });
-      if (settled) {
-        credited += 1;
-        points += purchase.points;
-      }
-    }
-    return { credited, points };
+    return { status: "pending" as const, points: purchase.points };
   });
 
 export const getWithdrawalQueue = createServerFn({ method: "GET" })
@@ -293,38 +243,6 @@ export const resolveWithdrawal = createServerFn({ method: "POST" })
     if (error || !updated) throw new Error("This request has already been handled or could not be updated.");
     return { updated: true };
   });
-
-async function verifyPaystackReference(reference: string, secret: string): Promise<VerifiedPaystackPayment | null> {
-  try {
-    const response = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`, {
-      headers: { Authorization: `Bearer ${secret}` },
-    });
-    if (!response.ok) return null;
-    const payload: unknown = await response.json();
-    if (!isVerifiedPaystackPayment(payload)) return null;
-    return payload.data;
-  } catch {
-    return null;
-  }
-}
-
-interface VerifiedPaystackPayment {
-  id: number | string;
-  status: string;
-  reference: string;
-  amount: number;
-  currency: string;
-}
-
-function isVerifiedPaystackPayment(value: unknown): value is { data: VerifiedPaystackPayment } {
-  if (!value || typeof value !== "object" || !("data" in value)) return false;
-  const data = value.data;
-  return !!data && typeof data === "object" && "reference" in data && "amount" in data && "currency" in data && "status" in data && "id" in data && typeof data.reference === "string" && typeof data.amount === "number" && typeof data.currency === "string" && typeof data.status === "string" && (typeof data.id === "number" || typeof data.id === "string");
-}
-
-function matchesPurchase(payment: VerifiedPaystackPayment, purchase: { reference: string; amount_minor: number; currency: string }): boolean {
-  return payment.status === "success" && payment.reference === purchase.reference && payment.amount === purchase.amount_minor && payment.currency === purchase.currency;
-}
 
 function isPaystackAuthorization(value: unknown): value is { data: { authorization_url: string } } {
   return !!value && typeof value === "object" && "status" in value && value.status === true && "data" in value && !!value.data && typeof value.data === "object" && "authorization_url" in value.data && typeof value.data.authorization_url === "string";

@@ -29,3 +29,7 @@
 - Shared containers allow text to wrap and grid/flex children to shrink; keep wide tables inside their own scroll area so they never widen the page.
 - Content routes carry the approved shared social artwork in leaf metadata, never the root, so page-specific titles remain intact.
 - Sportswear concepts share one catalogue and campaign component across the shop and homepage; concept galleries lead to the existing quote request, not a stock checkout.
+
+- Language selection uses a shared React context and local dictionaries; persisted choices load after hydration, and Arabic sets document RTL without changing stored form values.
+- Wallet return pages only read payment status; only the signed and verified Paystack webhook settles point purchases, so browser retries cannot credit wallets.
+- Seed shop image links are resolved from current bundled assets before display, avoiding expired deployment hashes while preserving admin-uploaded media.

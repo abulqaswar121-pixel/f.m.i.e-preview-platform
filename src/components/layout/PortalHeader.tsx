@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -53,7 +54,7 @@ export function PortalHeader() {
         <Link to="/" className="shrink-0" aria-label="F.M.I.E home">
           <Logo compact />
         </Link>
-        <nav aria-label="Portal navigation" className="hidden items-center gap-1 xl:flex">
+        <nav aria-label="Portal navigation" className="hidden items-center gap-1 2xl:flex">
           {links.map((item) => (
             <Link
               key={item.to}
@@ -67,16 +68,17 @@ export function PortalHeader() {
           ))}
         </nav>
         <div className="flex min-w-0 items-center gap-2">
+          <LanguageSwitcher />
           <div className="hidden items-center gap-2 md:flex">
             <WalletChip />
             <NotificationBell />
           </div>
-          <Button variant="outline" size="sm" className="hidden xl:inline-flex" onClick={handleSignOut}>
+          <Button variant="outline" size="sm" className="hidden 2xl:inline-flex" onClick={handleSignOut}>
             <LogOut /> Sign out
           </Button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="xl:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="2xl:hidden" aria-label="Open menu">
                 <Menu />
               </Button>
             </SheetTrigger>
